@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T23 · Patología Orbitaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --inf:#1a5e86;--infbg:#e3eff7;--infl:#9a4d12;--inflbg:#f6ecde;--tum:#7a3a8f;--tumbg:#f1e6f4;--vasc:#1f6f4a;--vascbg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.inf{color:var(--inf);background:var(--infbg)}.chip.infl{color:var(--infl);background:var(--inflbg)}
+  .chip.tum{color:var(--tum);background:var(--tumbg)}.chip.vasc{color:var(--vasc);background:var(--vascbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.inf{color:var(--inf);background:var(--infbg)}.pill.infl{color:var(--infl);background:var(--inflbg)}.pill.tum{color:var(--tum);background:var(--tumbg)}.pill.vasc{color:var(--vasc);background:var(--vascbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 23</p>
+  <h1>Patología Orbitaria</h1>
+  <p>Resumen del síndrome orbitario y sus causas: <b>infecciosa</b> (celulitis preseptal vs orbitaria), <b>inflamatoria</b> (orbitopatía tiroidea, pseudotumor), <b>tumoral</b> y <b>vascular</b>. El hilo conductor es el <b>exoftalmos</b> y su diagnóstico diferencial. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#sindrome">0 · Síndrome orbitario</a>
+    <a href="#celulitis">I · Celulitis preseptal vs orbitaria</a>
+    <a href="#tiroidea">II · Orbitopatía tiroidea</a>
+    <a href="#pseudotumor">III · Pseudotumor / inflamación inespecífica</a>
+    <a href="#tumores">IV · Tumores orbitarios</a>
+    <a href="#vascular">V · Patología vascular</a>
+    <a href="#ddx">VI · DDx del exoftalmos</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="sindrome">
+  <h2><span class="romnum">0</span> Síndrome orbitario</h2>
+  <p class="lead">La órbita es un espacio óseo cerrado: cualquier aumento de volumen empuja el globo hacia delante (<b>exoftalmos/proptosis</b>).</p>
+  <ul>
+    <li><b>Exoftalmos (proptosis):</b> protrusión del globo. La <b>dirección</b> orienta a la causa: axial (cono muscular), o desplazado (masa fuera del cono).</li>
+    <li>Otros signos: limitación de la motilidad (diplopía), congestión vascular, alteración de la AV (neuropatía óptica compresiva), dolor.</li>
+    <li><b>Pruebas clave:</b> <b>TAC/RM</b> de órbitas (la TAC ve bien el hueso; la RM, partes blandas).</li>
+  </ul>
+  <div class="key"><span class="lbl">Pista por dirección</span> Exoftalmos <b>inferomedial</b> → tumor de la <b>glándula lagrimal</b> (superotemporal). Exoftalmos <b>axial pulsátil</b> tras traumatismo → <b>fístula carótido-cavernosa</b>. Exoftalmos <b>instantáneo</b> → <b>hemorragia orbitaria</b>.</div>
+</section>
+
+<section id="celulitis">
+  <h2><span class="romnum">I</span> Celulitis preseptal vs orbitaria <span class="chip inf">DDx clave</span></h2>
+  <p class="lead">La diferencia está en el <b>septum orbitario</b>: por delante (preseptal) o por detrás (orbitaria).</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Celulitis PRESEPTAL</th><th>Celulitis ORBITARIA</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Localización</td><td>Anterior al septum</td><td><b>Posterior al septum</b></td></tr>
+      <tr><td class="h">Origen</td><td>Traumatismo, orzuelo, dacriocistitis</td><td><b>Senos paranasales (sobre todo etmoidal)</b></td></tr>
+      <tr><td class="h">AV y motilidad (MOE)</td><td><b>Normales</b></td><td><b>Alteradas</b> (↓AV, oftalmoplejía)</td></tr>
+      <tr><td class="h">Proptosis</td><td>NO</td><td><b>SÍ (exoftalmos unilateral NO reductible)</b></td></tr>
+      <tr><td class="h">Estado general</td><td>Bueno</td><td>Fiebre, malestar (afectación moderada)</td></tr>
+      <tr><td class="h">Diagnóstico</td><td>Clínico</td><td><b>TAC</b> + leucocitosis</td></tr>
+      <tr><td class="h">Tratamiento</td><td>Amoxicilina-clavulánico / cloxacilina <b>oral</b></td><td><b>Ingreso + antibióticos IV</b> (cefalosporina 3ª gen.) + drenaje de senos si sinusitis</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">No confundir</span> Lo que distingue la <b>celulitis orbitaria</b> (grave) de la preseptal: <b>alteración de la motilidad y de la AV, exoftalmos NO reductible y afectación general</b>. En el niño hay que descartar el <b>rabdomiosarcoma</b>. La celulitis orbitaria es la causa más frecuente de exoftalmos en el <b>niño</b>.</div>
+  <figure>
+    <svg width="100%" viewBox="0 0 340 140" role="img" aria-label="Celulitis preseptal frente a orbitaria">
+      <g><text x="85" y="16" text-anchor="middle" style="font:600 11px Spectral,serif;fill:#1a5e86">Preseptal</text>
+      <rect x="40" y="40" width="90" height="70" rx="10" fill="#eef3f5" stroke="#7fa6b5"/>
+      <circle cx="85" cy="78" r="20" fill="#9a6a3c"/><circle cx="85" cy="78" r="9" fill="#1a1a1a"/>
+      <rect x="40" y="34" width="90" height="12" rx="5" fill="#d65a4a"/></g>
+      <g><text x="255" y="16" text-anchor="middle" style="font:600 11px Spectral,serif;fill:#b23a32">Orbitaria (proptosis)</text>
+      <rect x="210" y="40" width="90" height="70" rx="10" fill="#f6dcd6" stroke="#c77"/>
+      <circle cx="262" cy="78" r="22" fill="#9a6a3c"/><circle cx="262" cy="78" r="10" fill="#1a1a1a"/>
+      <path d="M236 110 q26 14 52 0" stroke="#b23a32" stroke-width="3" fill="none"/></g>
+    </svg>
+    <figcaption>Preseptal: inflamación anterior, ojo normal. Orbitaria: <b>proptosis</b>, limitación de la motilidad y afectación de la AV.</figcaption>
+  </figure>
+</section>
+
+<section id="tiroidea">
+  <h2><span class="romnum">II</span> Orbitopatía tiroidea <span class="chip infl">la nº 1 del adulto</span></h2>
+  <p class="lead">Enfermedad <b>autoinmune</b> que afecta a la glándula tiroides y a los músculos y la grasa orbitarios. Mujeres/hombres 5/1, 3ª-6ª década.</p>
+  <ul>
+    <li><b>Causa más frecuente de exoftalmos en el adulto</b> (uni o bilateral). Se asocia a Graves-Basedow, Hashimoto y tiroiditis destructiva/mixedema; el paciente puede ser <b>hipo, eu o hipertiroideo</b>.</li>
+    <li><b>Clínica:</b> <b>retracción palpebral</b> (signo de Dalrymple, por hiperfunción del músculo de Müller), <b>proptosis</b>, hipertrofia de los músculos extraoculares (sobre todo RI y RM) → fibrosis → <b>diplopía/estrabismo restrictivo</b>, bolsas grasas, hiperemia, quemosis, ojo seco, <b>queratopatía por exposición</b>, <b>neuropatía óptica compresiva</b> y glaucoma.</li>
+    <li><b>Diagnóstico:</b> hormonas tiroideas (T4, TSH) y anticuerpos (antiperoxidasa, antitiroglobulina); <b>TSI</b> para el grado de actividad; imagen <b>TAC &gt; RM</b>.</li>
+    <li><b>Tratamiento:</b> casos moderados/graves → <b>corticoides</b>; cirugía (descompresión orbitaria si neuropatía óptica o exposición grave, cirugía de estrabismo, mullerectomía).</li>
+  </ul>
+  <div class="key"><span class="lbl">Recuerda</span> La orbitopatía tiroidea engrosa los músculos <b>respetando la inserción tendinosa</b> (a diferencia del pseudotumor, que sí afecta al tendón). La neuropatía óptica compresiva es la urgencia que justifica la descompresión.</div>
+</section>
+
+<section id="pseudotumor">
+  <h2><span class="romnum">III</span> Pseudotumor / inflamación orbitaria inespecífica <span class="chip infl">la nº 2</span></h2>
+  <ul>
+    <li>Antiguo "pseudotumor orbitario": inflamación orbitaria <b>idiopática</b>. Es la <b>2ª causa de exoftalmos</b> en niños y adultos (tras la tiroidea).</li>
+    <li><b>Clínica:</b> subaguda, <b>inflamatoria, dolorosa</b>; según la estructura afectada: miositis, dacrioadenitis, perineuritis…</li>
+    <li><b>Diagnóstico de exclusión</b> + imagen (TAC/RM); biopsia si es accesible o no responde.</li>
+    <li><b>Tratamiento:</b> responde <b>espectacularmente a los corticoides</b>.</li>
+  </ul>
+  <div class="key"><span class="lbl">Pista de examen</span> Exoftalmos <b>doloroso</b> que <b>responde dramáticamente a corticoides</b> = <b>pseudotumor inflamatorio</b> (diagnóstico de exclusión).</div>
+</section>
+
+<section id="tumores">
+  <h2><span class="romnum">IV</span> Tumores orbitarios <span class="chip tum">benignos / malignos</span></h2>
+  <ul>
+    <li><b>Niño:</b> el tumor maligno orbitario más frecuente es el <b>rabdomiosarcoma</b> (exoftalmos de evolución rápida → urgencia; DDx con celulitis orbitaria). Benignos frecuentes: hemangioma capilar, quiste dermoide, glioma del nervio óptico.</li>
+    <li><b>Adulto:</b> hemangioma cavernoso (tumor orbitario benigno más frecuente del adulto), linfoma, metástasis, tumores de la glándula lagrimal.</li>
+    <li>Un exoftalmos de dirección <b>inferomedial</b> orienta a un <b>tumor de la glándula lagrimal</b> (situada en la región superotemporal).</li>
+  </ul>
+</section>
+
+<section id="vascular">
+  <h2><span class="romnum">V</span> Patología vascular</h2>
+  <ul>
+    <li><b>Fístula carótido-cavernosa:</b> tras traumatismo, <b>exoftalmos axial pulsátil</b>, ojo congestivo "en cabeza de medusa", soplo, ↑PIO; angioRMN; tratamiento: <b>embolización</b>.</li>
+    <li><b>Hemorragia orbitaria:</b> <b>exoftalmos instantáneo</b> (traumatismo, cirugía); puede comprometer el nervio óptico (urgencia: cantotomía).</li>
+    <li><b>Trombosis del seno cavernoso:</b> complicación grave de infecciones; afectación de varios pares craneales.</li>
+  </ul>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VI</span> Esquema del exoftalmos (DDx)</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Pista</th><th>Sospecha</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Adulto, bilateral, retracción palpebral</td><td><b>Orbitopatía tiroidea</b> (la más frecuente del adulto)</td></tr>
+      <tr><td class="h">Niño con fiebre y exoftalmos no reductible tras sinusitis</td><td><b>Celulitis orbitaria</b> (la más frecuente del niño)</td></tr>
+      <tr><td class="h">Exoftalmos doloroso que responde a corticoides</td><td><b>Pseudotumor inflamatorio</b> (2ª causa)</td></tr>
+      <tr><td class="h">Niño, exoftalmos de crecimiento rápido</td><td><b>Rabdomiosarcoma</b></td></tr>
+      <tr><td class="h">Axial pulsátil + "cabeza de medusa" + ↑PIO tras trauma</td><td><b>Fístula carótido-cavernosa</b></td></tr>
+      <tr><td class="h">Instantáneo</td><td><b>Hemorragia orbitaria</b></td></tr>
+      <tr><td class="h">Dirección inferomedial</td><td><b>Tumor de la glándula lagrimal</b></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de la patología orbitaria.</p>
+  <div class="trap"><span class="t">1 · Orbitopatía tiroidea = causa más frecuente de exoftalmos del ADULTO (uni y bilateral)</span> En el <b>niño</b>, la causa más frecuente es la <b>celulitis orbitaria</b>.</div>
+  <div class="trap"><span class="t">2 · Celulitis orbitaria vs preseptal: la orbitaria tiene ↓AV, alteración de la MOE, exoftalmos NO reductible y afectación general</b></span> La preseptal tiene AV y motilidad normales y se trata por vía oral.</div>
+  <div class="trap"><span class="t">3 · La celulitis orbitaria procede sobre todo de los senos (etmoidal)</span> Diagnóstico con TAC + leucocitosis; tratamiento con <b>ingreso + antibióticos IV</b>.</div>
+  <div class="trap"><span class="t">4 · En un niño con celulitis/exoftalmos rápido → descartar rabdomiosarcoma</span> Es el tumor maligno orbitario más frecuente de la infancia.</div>
+  <div class="trap"><span class="t">5 · Orbitopatía tiroidea: el paciente puede ser hipo, eu o hipertiroideo</span> Casos moderados/graves → <b>corticoides</b>; neuropatía óptica compresiva → descompresión.</div>
+  <div class="trap"><span class="t">6 · Retracción palpebral (signo de Dalrymple) = orbitopatía tiroidea</span> Por hiperfunción del músculo de Müller.</div>
+  <div class="trap"><span class="t">7 · Pseudotumor inflamatorio = 2ª causa de exoftalmos; doloroso y responde a corticoides</span> Diagnóstico de exclusión.</div>
+  <div class="trap"><span class="t">8 · Exoftalmos axial PULSÁTIL tras trauma + "cabeza de medusa" + ↑PIO = fístula carótido-cavernosa</span> Tratamiento: embolización.</div>
+  <div class="trap"><span class="t">9 · Exoftalmos INSTANTÁNEO = hemorragia orbitaria</span> Puede comprometer el nervio óptico (urgencia).</div>
+  <div class="trap"><span class="t">10 · Exoftalmos de dirección INFEROMEDIAL = tumor de la glándula lagrimal</span> (la glándula está en la región superotemporal).</div>
+  <div class="trap"><span class="t">11 · La tiroidea engrosa los músculos respetando el tendón; el pseudotumor afecta al tendón</span> Dato radiológico de DDx.</div>
+  <div class="trap"><span class="t">12 · Prueba de imagen orbitaria: TAC (hueso) y RM (partes blandas)</span> En la tiroidea, TAC &gt; RM.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 23. Ilustraciones esquemáticas originales (no fotografías). La orbitopatía tiroidea se solapa con el T20 (sistémicas) y los traumatismos orbitarios con el T24.</p></section>
+
+</div>
+</body>
+</html>
