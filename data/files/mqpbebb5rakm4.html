@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T26 · Urgencias Oftalmológicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --tra:#b23a32;--trabg:#fbe7e4;--rojo:#9a4d12;--rojobg:#f6ecde;--vis:#1a5e86;--visbg:#e3eff7;--prot:#1f6f4a;--protbg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:31px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.tra{color:var(--tra);background:var(--trabg)}.chip.rojo{color:var(--rojo);background:var(--rojobg)}
+  .chip.vis{color:var(--vis);background:var(--visbg)}.chip.prot{color:var(--prot);background:var(--protbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.tra{color:var(--tra);background:var(--trabg)}.pill.rojo{color:var(--rojo);background:var(--rojobg)}.pill.vis{color:var(--vis);background:var(--visbg)}.pill.prot{color:var(--prot);background:var(--protbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 26 (cierre)</p>
+  <h1>Urgencias Oftalmológicas</h1>
+  <p>Tema integrador: los <b>tres grandes síndromes</b> de urgencia (ojo rojo traumático, ojo rojo NO traumático y pérdida aguda de visión), el <b>factor tiempo</b> (emergencia vs urgencia) y los algoritmos de diagnóstico diferencial. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#sindromes">0 · Tres grandes síndromes</a>
+    <a href="#tiempo">I · El factor tiempo</a>
+    <a href="#anamnesis">II · Anamnesis y exploración</a>
+    <a href="#rojodol">III · Ojo rojo doloroso (DDx)</a>
+    <a href="#rojonotrauma">IV · Ojo rojo no traumático</a>
+    <a href="#perdida">V · Pérdida aguda de visión</a>
+    <a href="#transitoria">VI · Pérdida transitoria</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="sindromes">
+  <h2><span class="romnum">0</span> Los tres grandes síndromes de urgencia</h2>
+  <p class="lead">Un correcto diagnóstico, el inicio del tratamiento y la derivación adecuada pueden marcar la diferencia entre <b>salvar la visión o la ceguera</b>. Síntomas similares (ojo rojo, dolor, alteración visual) pueden venir de causas banales o graves.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Síndrome</th><th>Definición</th></tr></thead>
+    <tbody>
+      <tr><td class="h"><span class="pill tra">1 · Ojo rojo traumático</span></td><td>Inflamación del globo/anejos con antecedente de traumatismo físico, químico o mecánico (T24)</td></tr>
+      <tr><td class="h"><span class="pill rojo">2 · Ojo rojo NO traumático</span></td><td>Inflamación del globo/anejos <b>sin</b> antecedente de traumatismo</td></tr>
+      <tr><td class="h"><span class="pill vis">3 · Pérdida aguda de visión</span></td><td>Trastorno de la visión (también diplopía, miodesopsias)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="tiempo">
+  <h2><span class="romnum">I</span> El factor tiempo <span class="chip r">prioridad</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Prioridad</th><th>Cuadros</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Emergencia INMEDIATA (minutos)</td><td><b>Causticación química</b>, <b>oclusión de la arteria central de la retina</b>, hemorragia orbitaria a tensión</td></tr>
+      <tr><td class="h">Urgente (horas)</td><td>Herida perforante ± CEIO, <b>endoftalmitis</b>, <b>celulitis orbitaria</b>, fractura con afectación del NO, <b>hipema con ↑PIO</b>, <b>conjuntivitis gonocócica</b>, úlcera/perforación corneal, <b>NOIA arterítica</b>, <b>glaucoma agudo</b>, DR superior/temporal con mácula ON, heridas de párpado/vía lagrimal</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Las 3 emergencias de minutos</span> <b>Causticación</b> (lavar ya), <b>oclusión de arteria central de la retina</b> y <b>hemorragia orbitaria a tensión</b>. El resto son urgencias de horas.</div>
+</section>
+
+<section id="anamnesis">
+  <h2><span class="romnum">II</span> Anamnesis y exploración dirigidas</h2>
+  <ul>
+    <li><b>Anamnesis:</b> lateralidad; presentación (gradual/brusca) y tiempo; <b>antecedente de traumatismo</b>; cirugía ocular reciente; <b>uso de lentes de contacto</b>; colirios (¿hipotensores?); <b>miopía magna</b>; antecedentes sistémicos (DM, HTA, inmunodepresión); atopia.</li>
+    <li><b>Síntomas visuales:</b> pérdida central/periférica, metamorfopsia, miodesopsias/fotopsias, escotoma (fijo/móvil), dolor, ojo rojo, secreción, halos, cefalea.</li>
+    <li><b>Exploración:</b> AV de cada ojo, campo por confrontación, pupilas y reflejos (DPAR), MOE, aspecto externo (tipo de inyección), <b>tinción con fluoresceína</b>, tonometría y funduscopia.</li>
+  </ul>
+  <div class="key"><span class="lbl">Antecedentes que orientan</span> Lente de contacto/nadador → <b>Pseudomonas/Acanthamoeba</b>; traumatismo vegetal → <b>Aspergillus</b>; inmunodeprimido → <b>Candida</b>; vesículas perioculares → <b>herpes</b>; soldadura/sol → queratitis física/actínica.</div>
+</section>
+
+<section id="rojodol">
+  <h2><span class="romnum">III</span> Ojo rojo doloroso: el gran DDx <span class="chip rojo">tabla maestra</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Pupila</th><th>Dolor / AV</th><th>Clave</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Conjuntivitis</td><td><b>Normal</b></td><td>Sin dolor, AV normal</td><td>Bilateral, escozor, secreción, hiperemia conjuntival</td></tr>
+      <tr><td class="h">Uveítis anterior / iritis</td><td><b>Miosis</b></td><td>Dolor, ↓AV</td><td>Inyección ciliar, <b>Tyndall</b> en CA</td></tr>
+      <tr><td class="h">Queratitis / úlcera</td><td>Normal (o miosis si uveítis)</td><td>Dolor, ↓AV</td><td>Inyección ciliar, <b>lesión corneal (fluoresceína +)</b></td></tr>
+      <tr><td class="h">Glaucoma agudo</td><td><b>Midriasis</b> (media)</td><td>Dolor intenso, ↓AV</td><td><b>Edema corneal, PIO muy alta</b>, halos, cefalea, vómitos</td></tr>
+      <tr><td class="h">Epiescleritis / escleritis</td><td>Normal</td><td>Dolor variable (intenso en escleritis)</td><td>Hiperemia difusa o nodular (escleritis = profunda)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Algoritmo rápido del ojo rojo</h3>
+  <p><b>¿Dolor?</b> No → <b>conjuntivitis</b> (pupila normal, secreción, buena AV). Sí → mira la <b>pupila</b>: <b>midriasis</b> → <b>glaucoma agudo</b>; <b>miosis</b> → <b>uveítis</b> (Tyndall); pupila normal → <b>fluoresceína</b>: positiva → <b>queratitis/úlcera</b>; negativa → <b>epiescleritis/escleritis</b>.</p>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 200" role="img" aria-label="Algoritmo del ojo rojo doloroso">
+      <rect x="130" y="6" width="100" height="26" rx="8" fill="#0f4d57"/><text x="180" y="23" text-anchor="middle" style="font:600 12px Inter;fill:#fff">OJO ROJO</text>
+      <line x1="180" y1="32" x2="180" y2="46" stroke="#7fa6b5" stroke-width="2"/>
+      <text x="180" y="44" text-anchor="middle" style="font:600 11px Inter;fill:#4a5b62">¿dolor?</text>
+      <line x1="180" y1="46" x2="70" y2="70" stroke="#7fa6b5" stroke-width="2"/><line x1="180" y1="46" x2="180" y2="70" stroke="#7fa6b5" stroke-width="2"/>
+      <rect x="22" y="70" width="96" height="24" rx="7" fill="#f6ecde"/><text x="70" y="86" text-anchor="middle" style="font:600 10px Inter;fill:#9a4d12">NO: conjuntivitis</text>
+      <text x="200" y="66" style="font:600 10px Inter;fill:#4a5b62">SÍ → pupila</text>
+      <line x1="180" y1="70" x2="110" y2="104" stroke="#7fa6b5" stroke-width="2"/><line x1="180" y1="70" x2="250" y2="104" stroke="#7fa6b5" stroke-width="2"/>
+      <rect x="58" y="104" width="104" height="24" rx="7" fill="#fbe7e4"/><text x="110" y="120" text-anchor="middle" style="font:600 10px Inter;fill:#b23a32">midriasis: glaucoma</text>
+      <rect x="200" y="104" width="104" height="24" rx="7" fill="#f1e6f4"/><text x="252" y="120" text-anchor="middle" style="font:600 10px Inter;fill:#7a3a8f">miosis: uveítis</text>
+      <line x1="252" y1="128" x2="252" y2="150" stroke="#7fa6b5" stroke-width="2"/>
+      <text x="252" y="146" text-anchor="middle" style="font:600 9px Inter;fill:#4a5b62">pupila normal → fluoresceína</text>
+      <rect x="150" y="160" width="92" height="24" rx="7" fill="#e3eff7"/><text x="196" y="176" text-anchor="middle" style="font:600 10px Inter;fill:#1a5e86">+ queratitis</text>
+      <rect x="250" y="160" width="100" height="24" rx="7" fill="#e4f3ea"/><text x="300" y="176" text-anchor="middle" style="font:600 10px Inter;fill:#1f6f4a">− (epi)escleritis</text>
+    </svg>
+    <figcaption>Algoritmo del <b>ojo rojo</b>: dolor → pupila → fluoresceína. Pupila <b>midriasis = glaucoma</b>, <b>miosis = uveítis</b>.</figcaption>
+  </figure>
+</section>
+
+<section id="rojonotrauma">
+  <h2><span class="romnum">IV</span> Ojo rojo no traumático: por estructuras <span class="chip rojo">mapa</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Estructura</th><th>Cuadros</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Vía lagrimal</td><td>Dacriocistitis aguda</td></tr>
+      <tr><td class="h">Párpados</td><td>Blefaritis, orzuelo, dermatitis (HZV/HSV), dermatitis de contacto</td></tr>
+      <tr><td class="h">Conjuntiva</td><td>Conjuntivitis (bacteriana, vírica, alérgica, tóxica), hemorragia subconjuntival</td></tr>
+      <tr><td class="h">Esclera/epiesclera</td><td>Epiescleritis / escleritis</td></tr>
+      <tr><td class="h">Córnea</td><td>Queratitis / úlcera corneal infecciosa</td></tr>
+      <tr><td class="h">Úvea</td><td>Uveítis anterior/intermedia/posterior</td></tr>
+      <tr><td class="h">Presión</td><td>Glaucoma agudo de ángulo cerrado</td></tr>
+      <tr><td class="h">Órbita</td><td>Celulitis preseptal / orbitaria</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Banderas rojas del ojo rojo</span> Dolor intenso, <b>↓AV</b>, fotofobia marcada, edema corneal, pupila anormal, antecedente de <b>lente de contacto</b> o cirugía reciente → derivar al oftalmólogo (no es una conjuntivitis banal).</div>
+</section>
+
+<section id="perdida">
+  <h2><span class="romnum">V</span> Pérdida aguda de visión <span class="chip vis">¿dolor?</span></h2>
+  <p class="lead">El primer eje es el <b>dolor</b>: la pérdida visual aguda <b>indolora</b> suele ser vascular/retiniana; la <b>dolorosa</b>, inflamatoria o por glaucoma.</p>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Pérdida aguda INDOLORA <span class="pill vis">vascular/retina</span></h4>
+      <ul>
+        <li><b>Desprendimiento de retina</b> (miodesopsias, fotopsias, "cortina").</li>
+        <li><b>Oclusión arterial retiniana (OACR)</b>: pérdida profunda y brusca; <b>mancha rojo-cereza</b>; descartar <b>ACG</b>. Es una <b>emergencia</b>.</li>
+        <li><b>Oclusión venosa retiniana (OVCR)</b>: hemorragias difusas "en llamarada"; FRCV.</li>
+        <li><b>Maculopatías agudas:</b> DMAE húmeda, agujero macular, NVC miópica, coriorretinopatía central serosa.</li>
+        <li><b>Neuropatías ópticas</b> (incluida la NOIA), <b>hemorragia vítrea</b>, hipema, edema corneal súbito.</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Pérdida aguda DOLOROSA <span class="pill tra">inflamatoria</span></h4>
+      <ul>
+        <li><b>Uveítis</b>.</li>
+        <li><b>Lesión corneal</b> (queratitis/úlcera).</li>
+        <li><b>Endoftalmitis</b>.</li>
+        <li><b>Glaucoma agudo</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="key"><span class="lbl">DDx maculopatía aguda</span> Anciano con metamorfopsia + drusas en el otro ojo + desprendimiento seroso macular = <b>DMAE húmeda</b> (tratamiento: antiVEGF intravítreo).</div>
+</section>
+
+<section id="transitoria">
+  <h2><span class="romnum">VI</span> Pérdida transitoria de visión</h2>
+  <ul>
+    <li><b>Amaurosis fugax</b> (accidente isquémico transitorio): pérdida monocular transitoria "como un telón"; estudiar la carótida y descartar émbolos.</li>
+    <li><b>Aura migrañosa</b>: fenómeno visual positivo (escotoma centelleante) que migra, seguido de cefalea.</li>
+  </ul>
+  <div class="key"><span class="lbl">La diferencia</span> La <b>amaurosis fugax</b> es un aviso vascular (carótida) que precede a una posible OACR/ictus; el <b>aura migrañosa</b> es un fenómeno cortical benigno con escotoma centelleante.</div>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VII</span> Esquemas rápidos</h2>
+  <h3>1 · Pérdida aguda indolora</h3>
+  <p>DR · OACR (rojo-cereza, descartar ACG) · OVCR (FRCV) · DMAE húmeda · hemorragia vítrea · NOIA.</p>
+  <h3>2 · Pérdida aguda dolorosa</h3>
+  <p>Uveítis · queratitis/úlcera · endoftalmitis · glaucoma agudo.</p>
+  <h3>3 · Ojo rojo</h3>
+  <p>¿Dolor? No → conjuntivitis. Sí → pupila (midriasis = glaucoma; miosis = uveítis) → fluoresceína (+ queratitis / − escleritis).</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de las urgencias (resumen integrador de toda la asignatura).</p>
+  <div class="trap"><span class="t">1 · Las 3 emergencias de MINUTOS: causticación, OACR y hemorragia orbitaria a tensión</span> Todo lo demás (perforante, endoftalmitis, glaucoma agudo, NOIA) es urgencia de horas.</div>
+  <div class="trap"><span class="t">2 · Ojo rojo SIN dolor, buena AV, secreción y pupila normal = conjuntivitis</span> Si hay dolor, ↓AV o pupila anormal, NO es una conjuntivitis banal.</div>
+  <div class="trap"><span class="t">3 · Ojo rojo doloroso: midriasis = glaucoma agudo; miosis = uveítis</span> La pupila es la clave del DDx; el glaucoma agudo añade edema corneal, PIO altísima, halos y vómitos.</div>
+  <div class="trap"><span class="t">4 · Queratitis/úlcera = fluoresceína POSITIVA</span> Pupila normal o miosis, inyección ciliar, dolor; en portadores de lentes pensar en Pseudomonas/Acanthamoeba.</div>
+  <div class="trap"><span class="t">5 · Pérdida aguda INDOLORA = vascular/retiniana</span> DR, OACR, OVCR, DMAE húmeda, hemorragia vítrea, NOIA.</div>
+  <div class="trap"><span class="t">6 · Pérdida aguda DOLOROSA = inflamatoria</span> Uveítis, queratitis/úlcera, endoftalmitis, glaucoma agudo.</div>
+  <div class="trap"><span class="t">7 · OACR = mancha rojo-cereza + pérdida profunda brusca indolora → descartar ACG</span> Es una emergencia (ventana de minutos).</div>
+  <div class="trap"><span class="t">8 · Amaurosis fugax = aviso vascular (carótida); aura migrañosa = escotoma centelleante cortical</span> No confundir el transitorio vascular con el migrañoso.</div>
+  <div class="trap"><span class="t">9 · El anestésico tópico SOLO se usa para explorar, nunca como tratamiento</span> El dolor corneal se calma con midriáticos (reducen el espasmo) y analgesia oral.</div>
+  <div class="trap"><span class="t">10 · La conjuntivitis gonocócica es una urgencia (hiperaguda, riesgo de perforación)</span> Igual que la úlcera/perforación corneal no traumática.</div>
+  <div class="trap"><span class="t">11 · DR superior/temporal con mácula ON = urgencia (salvar la mácula)</span> Cuanto antes se reaplique, mejor pronóstico visual.</div>
+  <div class="trap"><span class="t">12 · Antecedentes que orientan la queratitis</span> Lente de contacto/nadador → Pseudomonas/Acanthamoeba; vegetal → Aspergillus; inmunodeprimido → Candida; vesículas → herpes; soldadura/sol → actínica.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 26 (urgencias), que integra y repasa Traumatología (T24), Conjuntiva (T02), Córnea (T03), Uveítis (T19), Glaucoma (T17), Patología vascular (T08-T09), Mácula (T07) y Órbita (T23). Ilustración esquemática original (no fotografías).</p></section>
+
+</div>
+</body>
+</html>
