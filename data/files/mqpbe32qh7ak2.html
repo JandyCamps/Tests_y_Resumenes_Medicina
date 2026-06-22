@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T18 · Oftalmología Pediátrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --lag:#1a5e86;--lagbg:#e3eff7;--leu:#9a4d12;--leubg:#f6ecde;--rop:#7a3a8f;--ropbg:#f1e6f4;--gla:#1f6f4a;--glabg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.lag{color:var(--lag);background:var(--lagbg)}.chip.leu{color:var(--leu);background:var(--leubg)}
+  .chip.rop{color:var(--rop);background:var(--ropbg)}.chip.gla{color:var(--gla);background:var(--glabg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.lag{color:var(--lag);background:var(--lagbg)}.pill.leu{color:var(--leu);background:var(--leubg)}.pill.rop{color:var(--rop);background:var(--ropbg)}.pill.gla{color:var(--gla);background:var(--glabg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 18</p>
+  <h1>Oftalmología Pediátrica</h1>
+  <p>Resumen de los cuatro bloques del tema: <b>obstrucción congénita de la vía lagrimal</b>, <b>glaucoma congénito</b>, <b>leucocoria</b> (catarata congénita, retinoblastoma…) y <b>retinopatía de la prematuridad</b>. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#frec">0 · ¿Qué vemos en el niño?</a>
+    <a href="#lagrimal">I · Obstrucción congénita de la vía lagrimal</a>
+    <a href="#glaucoma">II · Glaucoma congénito</a>
+    <a href="#leuco">III · Leucocoria (DDx)</a>
+    <a href="#catarata">IV · Catarata congénita</a>
+    <a href="#rb">V · Retinoblastoma</a>
+    <a href="#rop">VI · Retinopatía de la prematuridad (ROP)</a>
+    <a href="#ddx">VII · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="frec">
+  <h2><span class="romnum">0</span> ¿Qué vemos en el niño?</h2>
+  <p class="lead">La distribución de la patología pediátrica: lo banal es lo frecuente, pero hay que detectar lo grave.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Frecuencia</th><th>Patología</th></tr></thead>
+    <tbody>
+      <tr><td class="h">85%</td><td><b>Ametropías</b> y <b>estrabismo</b></td></tr>
+      <tr><td class="h">10%</td><td><b>Obstrucción congénita de la vía lagrimal</b></td></tr>
+      <tr><td class="h">5%</td><td>Glaucoma congénito, uveítis, <b>catarata congénita</b>, tumores, neuropatías ópticas, asociación a enfermedades sistémicas</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="lagrimal">
+  <h2><span class="romnum">I</span> Obstrucción congénita de la vía lagrimal <span class="chip lag">10%</span></h2>
+  <p class="lead">Obstrucción <b>baja</b> de la vía lagrimal por falta de apertura de la <b>válvula de Hasner</b> (meato inferior).</p>
+  <ul>
+    <li><b>Clínica:</b> <b>epífora</b>, <b>conjuntivitis de repetición</b> y <b>mucocele</b> (dacriocistocele).</li>
+  </ul>
+  <h3>Tratamiento <span class="chip lag">escalonado</span></h3>
+  <ol>
+    <li><b>Conservador:</b> &gt;90% se resuelve <b>espontáneamente</b> en los primeros 6 meses.</li>
+    <li><b>Masaje del saco lagrimal</b> (masaje de Crigler) hasta los 10–12 meses.</li>
+    <li><b>Sondaje</b> de la vía lagrimal (a partir de los 6–12 meses; tasa de éxito ~90% hasta los 3 años).</li>
+    <li><b>Intubación bicanalicular</b> con silicona (2–4 años).</li>
+    <li><b>Dacriocistorrinostomía (DCR)</b> (&gt;4 años / fracaso de lo anterior).</li>
+  </ol>
+  <div class="key"><span class="lbl">Secuencia</span> Masaje → sondaje → intubación → DCR. Pero la gran mayoría se resuelve <b>sola</b> en los primeros meses.</div>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 170" role="img" aria-label="Esquema de la vía lagrimal con obstrucción en la válvula de Hasner">
+      <ellipse cx="120" cy="55" rx="70" ry="26" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <circle cx="86" cy="55" r="5" fill="#1a5e86"/><circle cx="154" cy="55" r="5" fill="#1a5e86"/>
+      <path d="M86 60 Q70 90 78 120" stroke="#1a5e86" stroke-width="6" fill="none"/>
+      <path d="M154 60 Q170 90 162 120" stroke="#1a5e86" stroke-width="6" fill="none"/>
+      <rect x="70" y="118" width="30" height="34" rx="8" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <path d="M85 152 L85 168" stroke="#1a5e86" stroke-width="9" fill="none"/>
+      <path d="M78 166 l14 0" stroke="#b23a32" stroke-width="5"/>
+      <text x="118" y="150" style="font:600 11px Inter;fill:#b23a32">válvula de Hasner (obstruida)</text>
+    </svg>
+    <figcaption>La obstrucción está en la <b>parte baja</b> (válvula de Hasner): la lágrima no drena a la nariz → epífora.</figcaption>
+  </figure>
+</section>
+
+<section id="glaucoma">
+  <h2><span class="romnum">II</span> Glaucoma congénito <span class="chip gla">no olvidar</span></h2>
+  <p class="lead">Raro (1/10.000), esporádico, bilateral asimétrico, en el <b>primer año de vida</b>. Disgenesia del <b>trabeculum</b>.</p>
+  <ul>
+    <li><b>Clínica:</b> <b>epífora + fotofobia + blefarospasmo</b>; turbidez corneal (ojos azulados), <b>buftalmos</b> (córnea &gt;12 mm), <b>estrías de Haab</b>.</li>
+    <li><b>Tratamiento:</b> quirúrgico → <b>goniotomía</b>.</li>
+  </ul>
+  <div class="alarm"><span class="lbl">Clave</span> Ante un lactante con <b>epífora</b>, no asumas que es solo obstrucción lagrimal: si hay <b>fotofobia + buftalmos + turbidez corneal</b>, sospecha <b>glaucoma congénito</b>.</div>
+</section>
+
+<section id="leuco">
+  <h2><span class="romnum">III</span> Leucocoria: diagnóstico diferencial <span class="chip leu">★ del tema</span></h2>
+  <p class="lead">Reflejo pupilar blanco. "Cuando una foto salva una vida": el flash de una foto puede revelar la leucocoria.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Causa</th><th>Matiz</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Catarata congénita</td><td><b>LA MÁS FRECUENTE</b></td></tr>
+      <tr><td class="h">Retinoblastoma</td><td><b>LA MÁS GRAVE</b> (maligna)</td></tr>
+      <tr><td class="h">Retinopatía de la prematuridad</td><td>Estadío 5 (DR total)</td></tr>
+      <tr><td class="h">Enfermedad de Coats</td><td>Telangiectasias + exudación</td></tr>
+      <tr><td class="h">Persistencia de vítreo primario</td><td>Congénita</td></tr>
+      <tr><td class="h">Toxocariasis</td><td>Granuloma</td></tr>
+    </tbody>
+  </table></div>
+  <figure>
+    <svg width="100%" viewBox="0 0 260 150" role="img" aria-label="Pupila blanca (leucocoria) en un ojo">
+      <ellipse cx="130" cy="70" rx="118" ry="58" fill="#f7f1ec" stroke="#cfc8bb"/>
+      <circle cx="130" cy="70" r="46" fill="#7a5a36"/>
+      <circle cx="130" cy="70" r="24" fill="#eee"/>
+      <text x="130" y="140" text-anchor="middle" style="font:400 11px Inter;fill:#46585f">reflejo pupilar blanco (leucocoria)</text>
+    </svg>
+    <figcaption>Toda leucocoria infantil debe estudiarse con prioridad para descartar <b>retinoblastoma</b>.</figcaption>
+  </figure>
+</section>
+
+<section id="catarata">
+  <h2><span class="romnum">IV</span> Catarata congénita <span class="chip leu">la más frecuente</span></h2>
+  <ul>
+    <li><b>Etiología:</b> hereditaria <b>HAD</b>, infecciones intrauterinas (<b>TORCHS</b>), cromosomopatías (<b>Down, Patau, Edward</b>), metabólicas (<b>galactosemia</b>).</li>
+    <li><b>Clínica:</b> uni o bilateral; reducción de AV (según el tipo y la cantidad de opacidad); <b>ambliopía</b>. Sospechar ante <b>leucocoria, estrabismo, nistagmo o retraso psicomotor</b>.</li>
+    <li><b>Diagnóstico:</b> oftalmoscopio directo (pérdida del <b>reflejo rojo</b> / opacidades negras), lámpara de hendidura.</li>
+    <li><b>Tratamiento:</b> <b>cirugía</b> + <b>tratamiento de la ambliopía</b>. (La de la <b>galactosemia</b> puede revertir con dieta.)</li>
+  </ul>
+</section>
+
+<section id="rb">
+  <h2><span class="romnum">V</span> Retinoblastoma <span class="chip r">la más grave</span></h2>
+  <ul>
+    <li><b>Tumor intraocular maligno más frecuente de la infancia</b>; aparece en los <b>primeros 2 años</b> de vida.</li>
+    <li><b>Clínica:</b> lo más frecuente es la <b>leucocoria</b>; también estrabismo, glaucoma, mala visión, inflamación ocular u orbitaria. <b>Masa intraocular con calcificaciones</b>.</li>
+    <li><b>Crecimiento:</b> endofítico, exofítico (DR), siembras tumorales, infiltración difusa e <b>invasión del nervio óptico</b> con diseminación al encéfalo. <b>Metastatiza</b> a ganglios, pulmón, cerebro y hueso.</li>
+    <li><b>Genética:</b> formas <b>hereditarias</b> (mutación del alelo <b>RB1</b>, <b>HAD</b>, suelen ser <b>bilaterales</b> y se asocian a otros tumores) y formas <b>no hereditarias</b> (esporádicas, unilaterales).</li>
+    <li><b>Tratamiento:</b> quimioterapia, crioterapia, braquiterapia o <b>enucleación</b> según el caso.</li>
+  </ul>
+</section>
+
+<section id="rop">
+  <h2><span class="romnum">VI</span> Retinopatía de la prematuridad (ROP) <span class="chip rop">prematuro</span></h2>
+  <p class="lead">Antes "fibroplasia retrolental". Vasculopatía proliferativa del prematuro; causa de <b>DR traccional</b> y de leucocoria.</p>
+  <h3>Prevención / cribado</h3>
+  <ul>
+    <li>Revisión a las <b>5 semanas del parto</b>.</li>
+    <li>Examinar a todo bebé <b>&lt;30 semanas o &lt;1300 g</b> (o &lt;35 semanas/&lt;1800 g si recibieron oxígeno).</li>
+  </ul>
+  <h3>Estadiaje</h3>
+  <ol>
+    <li>Línea de demarcación.</li>
+    <li>Cresta monticular.</li>
+    <li>Proliferación fibrovascular extrarretiniana.</li>
+    <li>Desprendimiento de retina <b>parcial</b>.</li>
+    <li>Desprendimiento de retina <b>total</b> (<b>leucocoria</b>).</li>
+  </ol>
+  <p><b>Enfermedad "plus":</b> dilatación y tortuosidad de los vasos → indica <b>actividad</b>.</p>
+  <p><b>Tratamiento:</b> según zona y estadío → <b>fotocoagulación con láser</b> o <b>antiVEGF</b>.</p>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Epífora del lactante</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Obstrucción congénita vía lagrimal</th><th>Glaucoma congénito</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Frecuencia</td><td><b>La más frecuente</b> (10%)</td><td>Raro (1/10.000)</td></tr>
+      <tr><td class="h">Síntomas extra</td><td>Conjuntivitis de repetición, mucocele</td><td><b>Fotofobia, blefarospasmo, buftalmos, turbidez corneal</b></td></tr>
+      <tr><td class="h">Tratamiento</td><td>Masaje → sondaje → DCR</td><td>Goniotomía (urgente)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · Leucocoria</h3>
+  <p><b>La más frecuente = catarata congénita</b>; <b>la más grave = retinoblastoma</b>. Otras: ROP, Coats, persistencia de vítreo primario, toxocariasis.</p>
+  <h3>3 · Retinoblastoma hereditario vs esporádico</h3>
+  <p><b>Hereditario</b> (RB1, HAD): suele ser <b>bilateral</b> y se asocia a otros tumores. <b>Esporádico</b>: unilateral.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de la oftalmología pediátrica.</p>
+  <div class="trap"><span class="t">1 · Leucocoria: la más frecuente = catarata congénita; la más grave = retinoblastoma</span> Toda leucocoria infantil se estudia con prioridad para descartar <b>retinoblastoma</b>.</div>
+  <div class="trap"><span class="t">2 · Retinoblastoma = tumor intraocular maligno más frecuente de la infancia</span> Gen <b>RB1</b>, &lt;2 años, masa con <b>calcificaciones</b>; hereditario (bilateral, otros tumores) vs esporádico (unilateral).</div>
+  <div class="trap"><span class="t">3 · Obstrucción congénita de la vía lagrimal = válvula de Hasner</span> Epífora + conjuntivitis de repetición; &gt;90% se resuelve solo; masaje → sondaje → intubación → DCR.</div>
+  <div class="trap"><span class="t">4 · Epífora del lactante → descartar SIEMPRE glaucoma congénito</span> Si hay <b>fotofobia + buftalmos + turbidez corneal</b>, no es una simple obstrucción lagrimal.</div>
+  <div class="trap"><span class="t">5 · Glaucoma congénito = buftalmos + epífora + fotofobia + estrías de Haab</span> Disgenesia del trabeculum; tratamiento con <b>goniotomía</b>.</div>
+  <div class="trap"><span class="t">6 · Catarata congénita = TORCHS / galactosemia / cromosomopatías / HAD</span> Riesgo de <b>ambliopía</b>; tratamiento: cirugía + tratar la ambliopía; la de la galactosemia revierte con dieta.</div>
+  <div class="trap"><span class="t">7 · ROP: cribado a las 5 semanas; <30 sem o <1300 g</span> <b>Enfermedad plus</b> = actividad; estadío 5 = DR total (leucocoria); tratamiento con láser o antiVEGF.</div>
+  <div class="trap"><span class="t">8 · El 85% de la patología pediátrica son ametropías y estrabismo</span> Lo frecuente es lo banal; pero hay que detectar la leucocoria y el glaucoma congénito.</div>
+  <div class="trap"><span class="t">9 · "Cuando una foto salva una vida"</span> Un reflejo blanco o la ausencia del reflejo rojo en una foto con flash puede ser el primer signo de un retinoblastoma.</div>
+  <div class="trap"><span class="t">10 · ROP es causa de DR traccional</span> (igual que la RDP): por la proliferación fibrovascular extrarretiniana.</div>
+  <div class="trap"><span class="t">11 · Pérdida del reflejo rojo = catarata congénita (u otra leucocoria)</span> El oftalmoscopio directo es la herramienta de cribado en el recién nacido.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 18. Ilustraciones esquemáticas originales (no fotografías). Para reconocer la leucocoria, el buftalmos o los estadios de la ROP reales, repasa las imágenes del tema.</p></section>
+
+</div>
+</body>
+</html>
