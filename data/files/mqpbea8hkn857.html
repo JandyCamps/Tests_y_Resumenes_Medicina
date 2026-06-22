@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T25 · Farmacología y Preventiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --via:#1a5e86;--viabg:#e3eff7;--glau:#9a4d12;--glaubg:#f6ecde;--iat:#7a3a8f;--iatbg:#f1e6f4;--prev:#1f6f4a;--prevbg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:31px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.via{color:var(--via);background:var(--viabg)}.chip.glau{color:var(--glau);background:var(--glaubg)}
+  .chip.iat{color:var(--iat);background:var(--iatbg)}.chip.prev{color:var(--prev);background:var(--prevbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.via{color:var(--via);background:var(--viabg)}.pill.glau{color:var(--glau);background:var(--glaubg)}.pill.iat{color:var(--iat);background:var(--iatbg)}.pill.prev{color:var(--prev);background:var(--prevbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 25</p>
+  <h1>Farmacología Ocular y Oftalmología Preventiva</h1>
+  <p>Resumen en dos bloques: los <b>fármacos de uso oftalmológico</b> (vías, midriáticos/ciclopléjicos, antiglaucomatosos, corticoides, intravítreos) y la <b>iatrogenia ocular</b> por medicación sistémica. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#vias">I · Vías de administración</a>
+    <a href="#midriaticos">II · Midriáticos y ciclopléjicos</a>
+    <a href="#glaucoma">III · Antiglaucomatosos</a>
+    <a href="#otros">IV · Otros fármacos tópicos</a>
+    <a href="#intravitreos">V · Intravítreos</a>
+    <a href="#iatrogenia">VI · Iatrogenia por fármaco sistémico</a>
+    <a href="#preventiva">VII · Oftalmología preventiva</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="vias">
+  <h2><span class="romnum">I</span> Vías de administración <span class="chip via">5 vías</span></h2>
+  <ul>
+    <li><b>Tópica</b> (colirios, pomadas): la más usada; pasa poco a la circulación, pero puede dar efectos sistémicos (p. ej. betabloqueantes).</li>
+    <li><b>Periocular</b> (subconjuntival, subtenoniana, retrobulbar).</li>
+    <li><b>Intracamerular</b> (en la cámara anterior; p. ej. cefuroxima en cirugía de catarata).</li>
+    <li><b>Intravítrea</b> (antibióticos, corticoides, antiVEGF).</li>
+    <li><b>Sistémica</b> (oral/IV).</li>
+  </ul>
+</section>
+
+<section id="midriaticos">
+  <h2><span class="romnum">II</span> Midriáticos y ciclopléjicos <span class="chip via">pupila</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo</th><th>Mecanismo</th><th>Ejemplos</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Simpaticomiméticos</td><td>Contraen el <b>músculo dilatador</b> del iris (solo midriasis, sin cicloplejía)</td><td><b>Fenilefrina</b></td></tr>
+      <tr><td class="h">Parasimpaticolíticos</td><td>Paralizan el <b>esfínter pupilar y el músculo ciliar</b> (midriasis + <b>cicloplejía</b>)</td><td><b>Atropina, ciclopentolato, tropicamida</b></td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Indicaciones:</b> el efecto <b>ciclopléjico</b> alivia el dolor del espasmo ciliar (queratitis, uveítis) y permite la <b>refracción en niños e hipermétropes</b>; ambos tipos combinados <b>potencian la dilatación</b> para explorar el fondo.</p>
+  <div class="key"><span class="lbl">Duración</span> La <b>tropicamida</b> es de acción corta (exploración del fondo); la <b>atropina</b> es la más potente y prolongada (días) y la de elección para la refracción ciclopléjica en niños y la uveítis.</div>
+</section>
+
+<section id="glaucoma">
+  <h2><span class="romnum">III</span> Antiglaucomatosos <span class="chip glau">bajar la PIO</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Grupo</th><th>Mecanismo</th><th>Efectos adversos</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Betabloqueantes (timolol)</td><td>↓ secreción de humor acuoso</td><td><b>Sistémicos potencialmente graves</b>: bradicardia, hipotensión, <b>broncoespasmo</b>; contraindicado en <b>ICC, asma, bloqueo cardíaco</b></td></tr>
+      <tr><td class="h">Prostaglandinas (latanoprost)</td><td>↑ flujo uveoescleral (muy potentes)</td><td><b>Locales</b>: hiperpigmentación del iris, <b>hipertricosis</b> (pestañas), hiperemia</td></tr>
+      <tr><td class="h">Mióticos (pilocarpina)</td><td>↑ salida por la malla trabecular (vía clásica)</td><td>Locales: <b>miopización</b>; sistémicos colinérgicos (sudoración, GI)</td></tr>
+      <tr><td class="h">Alfa-agonistas (brimonidina, apraclonidina)</td><td>↓ secreción y ↑ flujo uveoescleral</td><td>Somnolencia, fatiga, conjuntivitis alérgica (apraclonidina: taquifilaxia)</td></tr>
+      <tr><td class="h">Inhibidores de la anhidrasa carbónica</td><td>↓ secreción de humor acuoso</td><td>Tópicos (dorzolamida, brinzolamida): conjuntivitis alérgica. Sistémico (<b>acetazolamida</b>): parestesias, malestar, alteraciones GI</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Primera elección</span> Los grupos de <b>primera elección</b> en el glaucoma crónico son los <b>betabloqueantes</b> y las <b>prostaglandinas</b> (estas, las más potentes; efectos secundarios locales).</div>
+  <div class="alarm"><span class="lbl">No olvidar</span> El <b>timolol</b> (betabloqueante) puede dar <b>broncoespasmo y bradicardia</b>: contraindicado en asma, ICC y bloqueo cardíaco. La <b>acetazolamida</b> es una sulfamida (parestesias).</div>
+</section>
+
+<section id="otros">
+  <h2><span class="romnum">IV</span> Otros fármacos tópicos</h2>
+  <ul>
+    <li><b>Corticoides tópicos</b> (dexametasona, prednisolona, fluorometolona): antiinflamatorios; ojo a sus efectos adversos (ver iatrogenia: <b>glaucoma corticoideo</b> y <b>catarata subcapsular posterior</b>).</li>
+    <li><b>Antibióticos tópicos</b> (quinolonas, aminoglucósidos, eritromicina): conjuntivitis, profilaxis.</li>
+    <li><b>Anestésicos tópicos</b> (tetracaína, oxibuprocaína): solo para exploración; <b>nunca pautarlos para uso domiciliario</b> (son tóxicos para el epitelio corneal).</li>
+    <li><b>Lágrimas artificiales</b>: ojo seco.</li>
+  </ul>
+</section>
+
+<section id="intravitreos">
+  <h2><span class="romnum">V</span> Fármacos intravítreos <span class="chip via">inyección</span></h2>
+  <ul>
+    <li><b>Antibióticos/antifúngicos:</b> preparación en farmacia; indicación principal: <b>endoftalmitis</b>.</li>
+    <li><b>Corticoides:</b> preparados <b>depot</b> de liberación prolongada; uso en uveítis, endoftalmitis y <b>edema macular</b> (retinopatía diabética, oclusiones venosas).</li>
+    <li><b>AntiVEGF</b> (no detallados aquí): DMAE húmeda, edema macular diabético, oclusiones.</li>
+  </ul>
+</section>
+
+<section id="iatrogenia">
+  <h2><span class="romnum">VI</span> Iatrogenia ocular por fármaco sistémico <span class="chip iat">muy preguntable</span></h2>
+  <p class="lead">Tabla maestra del tema: qué estructura se afecta y qué fármaco la daña.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Efecto ocular</th><th>Fármacos responsables</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Glaucoma de ángulo ABIERTO</td><td><b>Corticoides</b></td></tr>
+      <tr><td class="h">Glaucoma de ángulo CERRADO</td><td>Los que dilatan la pupila: <b>simpaticomiméticos, anticolinérgicos, adrenalina, topiramato</b></td></tr>
+      <tr><td class="h">Catarata subcapsular posterior</td><td><b>Corticoides</b>, busulfán, radiaciones ionizantes</td></tr>
+      <tr><td class="h">Depósito corneal (córnea verticillata)</td><td><b>Amiodarona</b>, sales de oro, cloroquina (también enf. de Fabry)</td></tr>
+      <tr><td class="h">Maculopatía "en ojo de buey"</td><td><b>Hidroxicloroquina</b> (malaria, AR, LES) — dosis-dependiente; FO y CV periódicos</td></tr>
+      <tr><td class="h">Pseudo-retinosis pigmentaria</td><td><b>Clorpromazina y tioridazina</b></td></tr>
+      <tr><td class="h">Neuropatía óptica</td><td><b>Etambutol</b> (&gt;15 mg/kg/día, a los 2-8 meses; escotoma central, alt. de colores), isoniazida (menor, reversible)</td></tr>
+      <tr><td class="h">Uveítis</td><td><b>Rifabutina, bifosfonatos</b></td></tr>
+      <tr><td class="h">IFIS (iris flácido intraoperatorio)</td><td><b>Bloqueadores α-1</b> (tamsulosina, doxazosina) — se maneja con fenilefrina intraoperatoria</td></tr>
+      <tr><td class="h">Ojo seco</td><td>Anticolinérgicos, antidepresivos tricíclicos, antihistamínicos, diuréticos, retinoides (isotretinoína), tamoxifeno, anticonceptivos</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Estrella del MIR</span> <b>Etambutol → neuropatía óptica</b>; <b>hidroxicloroquina → maculopatía en ojo de buey</b>; <b>amiodarona → córnea verticillata</b>; <b>tamsulosina → IFIS</b>; <b>corticoides → glaucoma y catarata subcapsular posterior</b>.</div>
+</section>
+
+<section id="preventiva">
+  <h2><span class="romnum">VII</span> Oftalmología preventiva <span class="chip prev">cribado</span></h2>
+  <p class="lead">La prevención de la ceguera evitable se basa en el <b>cribado</b> de las patologías frecuentes y tratables.</p>
+  <ul>
+    <li><b>Ambliopía / estrabismo</b> en la infancia: detección y tratamiento precoces (periodo plástico).</li>
+    <li><b>Retinopatía diabética:</b> cribado periódico del fondo de ojo en todo diabético (causa importante de ceguera evitable).</li>
+    <li><b>Retinopatía del prematuro (ROP):</b> cribado de los recién nacidos de riesgo (bajo peso/prematuridad/oxígeno).</li>
+    <li><b>Glaucoma:</b> cribado de PIO/papila en mayores y grupos de riesgo (es asintomático hasta fases avanzadas).</li>
+    <li><b>Maculopatía por antipalúdicos</b> y otras toxicidades: controles periódicos en pacientes en tratamiento crónico.</li>
+  </ul>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de farmacología y preventiva.</p>
+  <div class="trap"><span class="t">1 · Etambutol → neuropatía óptica</span> Dosis &gt;15 mg/kg/día; escotoma central, alteración de los colores; puede progresar tras suspenderlo. La isoniazida da una toxicidad menor y reversible.</div>
+  <div class="trap"><span class="t">2 · Hidroxicloroquina → maculopatía "en ojo de buey"</span> Dosis-dependiente (malaria, AR, LES); requiere FO y campo visual periódicos.</div>
+  <div class="trap"><span class="t">3 · Amiodarona → córnea verticillata (depósitos corneales)</span> También sales de oro y cloroquina (la enfermedad de Fabry da el mismo patrón).</div>
+  <div class="trap"><span class="t">4 · Corticoides → glaucoma de ángulo abierto + catarata subcapsular posterior</span> El glaucoma corticoideo es reversible al suspenderlos; más frecuente en miopes, diabéticos y familiares de glaucoma.</div>
+  <div class="trap"><span class="t">5 · Tamsulosina (α-bloqueante) → IFIS (síndrome del iris flácido intraoperatorio)</span> Se maneja con fenilefrina intraoperatoria; preguntar por su uso antes de operar cataratas.</div>
+  <div class="trap"><span class="t">6 · Topiramato (y midriáticos) → glaucoma de ángulo CERRADO</span> Todo lo que dilata la pupila puede cerrar el ángulo.</div>
+  <div class="trap"><span class="t">7 · Timolol (betabloqueante) → broncoespasmo y bradicardia</span> Contraindicado en asma, ICC y bloqueo cardíaco (aunque sea tópico, pasa a la sangre).</div>
+  <div class="trap"><span class="t">8 · Prostaglandinas (latanoprost) → hiperpigmentación del iris e hipertricosis</span> Muy potentes; efectos secundarios sobre todo locales.</div>
+  <div class="trap"><span class="t">9 · Fenilefrina = midriático SIN cicloplejía; atropina/ciclopentolato/tropicamida = CON cicloplejía</span> La tropicamida es de acción corta; la atropina, la más prolongada.</div>
+  <div class="trap"><span class="t">10 · Los anestésicos tópicos NO se pautan para casa</span> Son tóxicos para el epitelio corneal (uso solo exploratorio).</div>
+  <div class="trap"><span class="t">11 · Clorpromazina/tioridazina → pseudo-retinosis pigmentaria</span> Antipsicóticos con toxicidad retiniana.</div>
+  <div class="trap"><span class="t">12 · Prevención = cribado: ambliopía, retinopatía diabética, ROP, glaucoma</span> La ceguera evitable se combate detectando precozmente lo tratable.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 25. Sin fotografías clínicas. Los antiglaucomatosos se amplían en el T17 (glaucoma), la maculopatía por antipalúdicos en el T20 y la profilaxis de la endoftalmitis (cefuroxima intracamerular) en el T19.</p></section>
+
+</div>
+</body>
+</html>
