@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T05 · Dioptrio Ocular y Ametropías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T05</p>
+    <h1>Dioptrio Ocular y Ametropías</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+/* ---- Figuras ---- */
+const figMiopia=`<svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo en el que los rayos enfocan delante de la retina">
+<text x="150" y="16" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Trazado de rayos (signo a identificar)</text>
+<ellipse cx="150" cy="95" rx="92" ry="64" fill="#e3eff7" stroke="#a8cbe2"/>
+<path d="M58 60 Q150 95 196 95 M58 130 Q150 95 196 95" stroke="#1a5e86" stroke-width="2.2" fill="none"/>
+<circle cx="196" cy="95" r="5" fill="#1a5e86"/>
+<line x1="242" y1="40" x2="242" y2="150" stroke="#888" stroke-dasharray="3 3"/><text x="246" y="150" style="font:400 9px Inter;fill:#666">retina</text>
+</svg>`;
+const figHiper=`<svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo en el que los rayos enfocarían detrás de la retina">
+<text x="150" y="16" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Trazado de rayos (signo a identificar)</text>
+<ellipse cx="150" cy="95" rx="80" ry="64" fill="#e4f3ea" stroke="#9ccdb1"/>
+<path d="M70 62 Q150 95 270 95 M70 128 Q150 95 270 95" stroke="#1f6f4a" stroke-width="2.2" fill="none"/>
+<circle cx="270" cy="95" r="5" fill="#1f6f4a"/>
+<line x1="230" y1="40" x2="230" y2="150" stroke="#888" stroke-dasharray="3 3"/><text x="200" y="36" style="font:400 9px Inter;fill:#666">retina</text>
+</svg>`;
+const figLente=`<svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lente bicóncava divergente que separa los rayos">
+<text x="150" y="16" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Lente (signo a identificar)</text>
+<path d="M132 40 Q150 75 132 110 L150 110 Q140 75 150 40Z" fill="#bcdcea" stroke="#5f95ad"/>
+<path d="M168 40 Q150 75 168 110 L150 110 Q160 75 150 40Z" fill="#bcdcea" stroke="#5f95ad"/>
+<g stroke="#444" stroke-width="1.6"><line x1="40" y1="60" x2="135" y2="60"/><line x1="40" y1="90" x2="135" y2="90"/>
+<line x1="165" y1="62" x2="270" y2="46"/><line x1="165" y1="88" x2="270" y2="104"/></g>
+</svg>`;
+const figEsten=`<svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Disco oclusor con un pequeño orificio central">
+<text x="150" y="16" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Instrumento de exploración</text>
+<circle cx="150" cy="82" r="54" fill="#3a3f45" stroke="#222"/>
+<circle cx="150" cy="82" r="7" fill="#fff"/>
+<rect x="150" y="78" width="120" height="8" rx="4" fill="#6b7178"/>
+</svg>`;
+
+/* ---- Banco T05 ---- */
+const Q=[
+{cat:"Óptica",c:1,q:"Las dos lentes del sistema óptico del ojo son:",
+ o:["Iris y retina","Córnea y cristalino","Esclera y coroides","Humor acuoso y vítreo"],
+ e:"Las <b>lentes dióptricas</b> del ojo son la <b>córnea</b> y el <b>cristalino</b>; juntas enfocan la imagen en la retina."},
+{cat:"Óptica",c:2,q:"Una lente convergente:",
+ o:["Es negativa y corrige la miopía","Separa los rayos","Es positiva y junta los rayos en un punto focal","No tiene poder dióptrico"],
+ e:"La <b>convergente</b> es <b>positiva (+)</b> y junta los rayos en un punto focal (corrige hipermetropía y presbicia). La divergente (−) los separa (miopía)."},
+{cat:"Óptica",c:3,q:"Las lentes que convergen los rayos en una LÍNEA focal y se usan para corregir el astigmatismo son:",
+ o:["Esféricas positivas","Esféricas negativas","Prismas","Cilíndricas"],
+ e:"Las <b>lentes cilíndricas</b> generan una <b>línea focal</b> y compensan la diferencia de curvatura de los meridianos en el <b>astigmatismo</b>."},
+{cat:"Óptica",c:0,q:"Una lente cuyo punto focal está a 0,5 metros tiene una potencia de:",
+ o:["2 dioptrías","0,5 dioptrías","5 dioptrías","1 dioptría"],
+ e:"<b>D = 1 m / distancia focal</b>. Si la distancia focal es 0,5 m → 1/0,5 = <b>2 D</b>."},
+{cat:"Óptica",c:1,q:"La potencia de una lente aumenta cuando:",
+ o:["Disminuye su curvatura","Aumenta su curvatura o la diferencia de índice de refracción","Aumenta su diámetro","Se reduce su grosor"],
+ e:"A <b>mayor curvatura</b> y mayor <b>diferencia de índice de refracción</b>, mayor poder de convergencia (más dioptrías)."},
+{cat:"Óptica",c:2,q:"La imagen que forma la lente del ojo sobre la retina es:",
+ o:["Aumentada y derecha","Reducida pero derecha","Invertida (réplica punto por punto)","Especular lateral"],
+ e:"La lente convexa forma una <b>imagen invertida</b>; el cerebro la reinterpreta. Es una réplica punto por punto del objeto."},
+{cat:"Acomodación",c:3,q:"Durante la acomodación para enfocar de cerca:",
+ o:["El músculo ciliar se relaja y el cristalino se aplana","La pupila se dilata","La córnea cambia de curvatura","El músculo ciliar se contrae y el cristalino aumenta grosor y curvatura (↑potencia)"],
+ e:"Al acomodar, el <b>músculo ciliar se contrae</b>, la zónula se relaja y el <b>cristalino se abomba</b> (↑potencia) para enfocar de cerca."},
+{cat:"Acomodación",c:0,q:"El punto próximo es:",
+ o:["El objeto más cercano que puede enfocarse (máxima acomodación)","El objeto más lejano enfocable","El punto de fijación lejana","El centro óptico de la córnea"],
+ e:"El <b>punto próximo</b> es el objeto más cercano que se enfoca (máxima acomodación); el <b>remoto</b> es el más lejano (acomodación relajada)."},
+{cat:"Acomodación",c:1,q:"La amplitud de acomodación con la edad:",
+ o:["Aumenta con los años","Disminuye (de ~14 D en niños a 0–1 D a los 60 años)","Se mantiene constante","Solo cambia en miopes"],
+ e:"La <b>amplitud de acomodación disminuye con la edad</b> (niños ~14 D, 60 años 0–1 D); su agotamiento explica la presbicia."},
+{cat:"Pupila",c:2,q:"Respecto al diámetro pupilar y la profundidad de foco:",
+ o:["Pupila grande = más nitidez","El tamaño pupilar no influye","Pupila pequeña = mayor profundidad de foco y más nitidez","Pupila pequeña = más borrosidad"],
+ e:"Una <b>pupila pequeña</b> aumenta la <b>profundidad de foco</b> y la nitidez (menor círculo de confusión); la grande aumenta la borrosidad."},
+{cat:"Caso clínico · Imagen",c:3,case:true,figSrc:"figEsten",figcap:"Instrumento usado en la toma de agudeza visual.",
+ lead:"A un paciente con baja agudeza visual se le hace mirar la escala a través de este disco con un pequeño orificio central, y su visión mejora claramente.",
+ q:"¿Qué significa esa mejoría?",
+ o:["Tiene una catarata densa","Tiene una lesión macular","Tiene atrofia óptica","El déficit se debe a un defecto refractivo (de graduación)"],
+ e:"Si la visión <b>mejora con el agujero estenopeico</b>, el déficit es un <b>defecto refractivo</b> (corregible con gafas); si no mejora, hay que pensar en causa orgánica."},
+{cat:"Agudeza visual",c:0,q:"La agudeza visual NO informa directamente de:",
+ o:["La presión arterial del paciente","La precisión del enfoque retiniano","La integridad de la mácula y la vía óptica","La transparencia de los medios"],
+ e:"La AV evalúa el enfoque, la integridad del eje visual/medios, la mácula y la vía óptica y la interpretación cerebral; no mide la presión arterial."},
+{cat:"Estados refractivos",c:1,q:"En la emetropía:",
+ o:["La imagen se enfoca por delante de la retina","La longitud axial y el poder óptico están equilibrados y la imagen del infinito enfoca en la retina","El globo es siempre largo","Falta poder de acomodación"],
+ e:"En <b>emetropía</b>, la relación entre longitud axial (~24 mm) y poder óptico es óptima, y los rayos del infinito (&gt;6 m) <b>enfocan en la retina</b>."},
+{cat:"Caso clínico · Imagen",c:2,case:true,figSrc:"figMiopia",figcap:"Trazado de rayos del ojo del paciente.",
+ lead:"Joven que ve mal de lejos pero lee perfectamente de cerca; el trazado de rayos muestra el foco por delante de la retina.",
+ q:"El defecto refractivo y su corrección son:",
+ o:["Hipermetropía; lente positiva","Presbicia; adición positiva","Miopía; lente divergente (negativa)","Astigmatismo; lente cilíndrica"],
+ e:"Foco <b>delante de la retina</b> + mala visión de lejos = <b>miopía</b>; se corrige con <b>lente divergente (negativa)</b>."},
+{cat:"Miopía",c:3,q:"La principal causa de miopía es:",
+ o:["Un cristalino aplanado","Una córnea plana","Un globo ocular pequeño","Un globo ocular demasiado grande (longitud axial aumentada)"],
+ e:"La causa más frecuente es la <b>miopía axial</b>: globo grande con <b>longitud axial aumentada</b>, lo que hace al ojo hiperconvergente."},
+{cat:"Miopía",c:0,q:"El síntoma principal de la miopía es:",
+ o:["Mala visión de lejos con buena visión de cerca","Mala visión de cerca con buena visión de lejos","Halos y dolor","Visión doble"],
+ e:"En la miopía el foco cae delante de la retina: <b>mala visión de lejos, buena de cerca</b>."},
+{cat:"Caso clínico · Miopía",c:1,case:true,
+ lead:"Madre que consulta porque su hijo de 9 años se acerca mucho al cuaderno, se sienta pegado a la pizarra y entorna los ojos para ver de lejos.",
+ q:"El defecto más probable es:",
+ o:["Hipermetropía","Miopía","Presbicia","Anisometropía sin más"],
+ e:"Acercarse a los objetos y <b>entornar los ojos (efecto estenopeico)</b> para ver de lejos es típico de la <b>miopía</b>."},
+{cat:"Miopía",c:2,q:"La miopía magna (degenerativa) se define a partir de:",
+ o:["−1 D","−3 D","−8 D (>−8 D), progresiva y con cambios estructurales","−20 D obligatoriamente"],
+ e:"La <b>miopía magna</b> es &gt; −8 D, progresiva, más en asiáticos, con cambios estructurales (DR, maculopatía, estafiloma, catarata precoz, glaucoma)."},
+{cat:"Miopía",c:3,q:"La forma de miopía más frecuente, por aumento de la longitud anteroposterior, es la:",
+ o:["De curvatura","De índice","Nuclear","Axial"],
+ e:"La <b>miopía axial</b> (↑longitud AP) es la más frecuente. La de curvatura (queratocono) y la de índice (catarata nuclear) son menos habituales."},
+{cat:"Caso clínico · DDx",c:0,case:true,ddx:true,
+ lead:"Varón de 68 años présbita que nota que desde hace meses vuelve a leer sin gafas, aunque ve cada vez peor de lejos y con halos.",
+ q:"¿Qué fenómeno está ocurriendo?",
+ o:["Miopía de índice por catarata nuclear ('miopización')","Hipermetropía progresiva","Espasmo de acomodación","Astigmatismo irregular"],
+ e:"Una <b>catarata nuclear</b> aumenta el índice del cristalino → <b>miopía de índice</b> ('miopización'): el présbita 'recupera' la visión cercana (segunda visión)."},
+{cat:"Miopía",c:1,q:"¿Con qué tipo de glaucoma se asocia la miopía?",
+ o:["Glaucoma de ángulo estrecho","Glaucoma primario de ángulo ABIERTO","Glaucoma congénito","No se asocia a glaucoma"],
+ e:"La <b>miopía</b> predispone al <b>glaucoma primario de ángulo abierto</b> (la hipermetropía, en cambio, al de ángulo estrecho)."},
+{cat:"Caso clínico · Miopía",c:2,case:true,
+ lead:"Miope magno de 40 años que acude por ver una 'cortina' negra que asciende en su campo visual, precedida de moscas volantes y destellos.",
+ q:"La complicación que hay que descartar urgentemente es:",
+ o:["Presbicia","Astigmatismo","Desprendimiento de retina","Conjuntivitis"],
+ e:"Miopía magna + <b>miodesopsias/fotopsias + cortina</b> = sospecha de <b>desprendimiento de retina</b> (urgencia). Por eso la magna se revisa periódicamente."},
+{cat:"Miopía",c:3,q:"¿Cuál de estas NO es una complicación típica de la miopía magna?",
+ o:["Maculopatía miópica","Estafiloma","Catarata subcapsular posterior presenil","Estrabismo convergente por acomodación"],
+ e:"El <b>estrabismo convergente acomodativo</b> es propio de la <b>hipermetropía</b>. La miopía magna asocia maculopatía, estafiloma, catarata SCP y glaucoma de ángulo abierto."},
+{cat:"DDx miopía",c:0,ddx:true,q:"Diferencia clave entre miopía simple y miopía magna:",
+ o:["La simple es <6–8 D con estructuras normales; la magna es >−8 D, progresiva y con cambios estructurales","La simple es más grave","La magna no necesita corrección","Ambas son iguales"],
+ e:"<b>Simple</b>: &lt; 6–8 D, escolar, estructuras normales. <b>Magna</b>: &gt; −8 D, progresiva, con desprendimiento de retina, maculopatía, estafiloma, etc."},
+{cat:"Caso clínico · Imagen",c:1,case:true,figSrc:"figHiper",figcap:"Trazado de rayos del ojo del paciente.",
+ lead:"El trazado de rayos muestra que el foco caería por DETRÁS de la retina.",
+ q:"El defecto y su corrección son:",
+ o:["Miopía; lente divergente","Hipermetropía; lente convergente (positiva)","Astigmatismo; lente cilíndrica","Emetropía; ninguna"],
+ e:"Foco <b>detrás de la retina</b> = <b>hipermetropía</b> (ojo hipoconvergente); se corrige con <b>lente convergente (positiva)</b>."},
+{cat:"Hipermetropía",c:2,q:"La causa de la hipermetropía suele ser:",
+ o:["Un globo demasiado largo","Una córnea muy curva","Un globo pequeño (longitud axial corta) o un sistema poco convergente","Un cristalino opaco"],
+ e:"La <b>hipermetropía</b> se debe a un <b>globo corto</b> o a un sistema de lentes hipoconvergente: la imagen enfoca detrás de la retina."},
+{cat:"Hipermetropía",c:0,q:"La hipermetropía se asocia clásicamente a:",
+ o:["Estrabismo convergente por sincinesia acomodación-convergencia","Estrabismo divergente","Desprendimiento de retina","Estafiloma"],
+ e:"La hipermetropía obliga a acomodar, y por la <b>sincinesia acomodación-convergencia</b> favorece el <b>estrabismo convergente (endotropía)</b>."},
+{cat:"Caso clínico · Hipermetropía",c:3,case:true,
+ lead:"Niño de 5 años con un ojo desviado hacia dentro que mejora al ponerle gafas con lentes positivas potentes.",
+ q:"El mecanismo de la desviación es:",
+ o:["Miopía no corregida","Astigmatismo irregular","Catarata congénita","Endotropía acomodativa por hipermetropía (sincinesia acomodación-convergencia)"],
+ e:"La <b>hipermetropía</b> no corregida fuerza la acomodación y, por la sincinesia, produce <b>endotropía acomodativa</b>, que mejora con la corrección positiva."},
+{cat:"Hipermetropía",c:1,q:"La hipermetropía predispone al glaucoma de ángulo:",
+ o:["Abierto","Estrecho/cerrado (cámara anterior estrecha)","Congénito","Neovascular"],
+ e:"El ojo hipermétrope es pequeño, con <b>cámara anterior estrecha</b> → mayor riesgo de <b>glaucoma de ángulo estrecho/cerrado</b>."},
+{cat:"Hipermetropía",c:2,q:"El 'pseudopapiledema' que puede verse en la hipermetropía consiste en:",
+ o:["Un edema de papila verdadero por HTIC","Una hemorragia papilar","Papilas de bordes borrosos y congestivos sin edema real","Una excavación aumentada"],
+ e:"En la hipermetropía la papila puede aparecer con <b>bordes borrosos y congestivos (pseudopapiledema)</b>, sin ser un edema real."},
+{cat:"Caso clínico · Hipermetropía",c:0,case:true,
+ lead:"Estudiante de 16 años con buena agudeza visual pero que, tras horas de lectura, refiere dolor ocular, frotamiento y enrojecimiento; mejora al descansar.",
+ q:"El cuadro más probable es:",
+ o:["Astenopia acomodativa por hipermetropía (o astigmatismo) no corregida","Glaucoma agudo","Conjuntivitis bacteriana","Desprendimiento de retina"],
+ e:"El esfuerzo acomodativo mantenido en una <b>hipermetropía/astigmatismo</b> no corregidos produce <b>astenopia acomodativa</b> (fatiga, dolor, frotamiento)."},
+{cat:"DDx glaucoma",c:3,ddx:true,q:"Asocie correctamente ametropía y tipo de glaucoma:",
+ o:["Miopía → ángulo estrecho; hipermetropía → ángulo abierto","Ambas → ángulo abierto","Ambas → ángulo estrecho","Miopía → ángulo abierto; hipermetropía → ángulo estrecho/cerrado"],
+ e:"<b>Miopía → ángulo ABIERTO</b>; <b>hipermetropía → ángulo ESTRECHO/cerrado</b>. Es una de las trampas más frecuentes."},
+{cat:"Hipermetropía",c:1,q:"Respecto a la visión en la hipermetropía:",
+ o:["Solo se afecta la visión de lejos","Hay dificultad de cerca, y si es elevada también desenfoca lejos e intermedia","La visión es perfecta a todas las distancias","Solo afecta a la visión nocturna"],
+ e:"La hipermetropía da <b>dificultad de cerca</b>; si es elevada, también desenfoca lejos e intermedia (gafas de uso constante)."},
+{cat:"DDx miopía/hiper",c:2,ddx:true,q:"¿Qué par lente–defecto es CORRECTO?",
+ o:["Miopía → convergente","Hipermetropía → divergente","Miopía → divergente (negativa); hipermetropía → convergente (positiva)","Astigmatismo → esférica"],
+ e:"<b>Miopía → divergente (−)</b> y <b>hipermetropía → convergente (+)</b>. El astigmatismo se corrige con cilíndricas."},
+{cat:"Caso clínico · DDx",c:0,case:true,ddx:true,
+ lead:"Dos pacientes consultan por mala visión de cerca: uno tiene 50 años y antes veía bien; el otro, 18 años, siempre ha forzado la vista de cerca y tiene buena AV de lejos sin gafas.",
+ q:"Los diagnósticos más probables son, respectivamente:",
+ o:["Presbicia y hipermetropía","Miopía y presbicia","Ambos presbicia","Ambos miopía"],
+ e:"El de 50 años con pérdida nueva de visión cercana = <b>presbicia</b> (fisiológica). El joven que fuerza de cerca con buena AV de lejos = <b>hipermetropía</b> latente."},
+{cat:"Astigmatismo",c:3,q:"En el astigmatismo, a diferencia de la miopía o la hipermetropía:",
+ o:["Hay un único foco puntual","No se afecta la visión","Solo afecta a la visión de cerca","La luz no se refracta igual en todos los meridianos → dos líneas focales"],
+ e:"En el <b>astigmatismo</b> no hay un foco puntual, sino <b>dos líneas focales</b>, porque la luz se refracta de forma distinta según el meridiano."},
+{cat:"Astigmatismo",c:0,q:"La causa más frecuente de astigmatismo es:",
+ o:["Una alteración de la curvatura corneal (de nacimiento, bastante estable)","Una catarata","Un globo largo","La edad"],
+ e:"La causa habitual es la <b>diferencia de curvatura de los meridianos corneales</b>, normalmente congénita y estable."},
+{cat:"Astigmatismo",c:1,q:"El astigmatismo se corrige con:",
+ o:["Lentes esféricas positivas","Lentes cilíndricas","Lentes esféricas negativas","Prismas"],
+ e:"El astigmatismo regular se corrige con <b>lentes cilíndricas</b>, que compensan la diferencia de curvatura entre meridianos."},
+{cat:"DDx astigmatismo",c:2,ddx:true,q:"La diferencia entre astigmatismo regular e irregular es que el irregular:",
+ o:["Se corrige bien con gafas","Es siempre miópico","Se debe a irregularidad anatómica de la córnea y NO se corrige con gafas (precisa LC rígida o cirugía)","No afecta a la visión"],
+ e:"El <b>regular</b> se corrige con lentes; el <b>irregular</b> (córnea irregular, p. ej. queratocono) <b>no se corrige con gafas</b>: requiere LC rígida o cirugía."},
+{cat:"Astigmatismo",c:3,q:"Un astigmatismo en el que los dos focos quedan por delante de la retina es un astigmatismo:",
+ o:["Hipermetrópico simple","Mixto","Miópico simple","Miópico compuesto"],
+ e:"Si <b>los dos focos</b> caen por delante de la retina, es un <b>astigmatismo miópico compuesto</b>. El simple tiene un foco en la retina; el mixto, uno delante y otro detrás."},
+{cat:"Caso clínico · Astigmatismo",c:0,case:true,
+ lead:"Paciente que ve los objetos 'con reborde' o ligeramente deformados a todas las distancias, inclina la cabeza para leer y entorna los párpados.",
+ q:"El defecto refractivo más probable es:",
+ o:["Astigmatismo","Miopía simple","Presbicia","Hipermetropía pura"],
+ e:"Visión 'con reborde'/deformada a todas las distancias, inclinación de cabeza y estrechamiento palpebral son típicos del <b>astigmatismo</b>."},
+{cat:"Astigmatismo",c:1,q:"Según la orientación del meridiano más curvo, los astigmatismos se clasifican en:",
+ o:["Simples y mixtos","A favor y en contra de la regla","Axiales y de índice","Esféricos y cilíndricos"],
+ e:"Según la localización de los meridianos plano/curvo se habla de astigmatismo <b>a favor</b> y <b>en contra de la regla</b>."},
+{cat:"Caso clínico · DDx",c:2,case:true,ddx:true,
+ lead:"Adolescente con queratocono y mala visión que ya no mejora con gafas; la topografía muestra una córnea muy irregular.",
+ q:"¿Qué tipo de astigmatismo tiene y cómo se corrige mejor?",
+ o:["Regular; con gafas cilíndricas","Hipermetrópico simple; con positivas","Irregular; con lente de contacto rígida o cirugía","No tiene astigmatismo"],
+ e:"El queratocono produce <b>astigmatismo irregular</b>, que <b>no se corrige con gafas</b>; mejora con <b>LC rígida</b> (y según el caso, cirugía)."},
+{cat:"Exploración",c:3,q:"En el autorrefractómetro, una refracción de '−2,00 −1,25 a 90º' indica:",
+ o:["Hipermetropía de 2 D","Solo astigmatismo","Presbicia","Miopía de 2 D con astigmatismo de 1,25 D en el eje de 90º"],
+ e:"La <b>esfera negativa (−2,00)</b> = miopía; el <b>cilindro (−1,25) con su eje (90º)</b> = astigmatismo asociado."},
+{cat:"Presbicia",c:0,q:"La presbicia es:",
+ o:["Una condición fisiológica (no patológica) por pérdida irreversible de acomodación con la edad","Una enfermedad inflamatoria","Un tipo de miopía","Una distrofia corneal"],
+ e:"La <b>presbicia</b> es <b>fisiológica, no patológica</b>: pérdida irreversible del poder de acomodación con la edad."},
+{cat:"Presbicia",c:1,q:"La presbicia comienza habitualmente hacia los:",
+ o:["20 años","45 años","65 años","10 años"],
+ e:"La presbicia comienza hacia los <b>45 años</b> por pérdida de elasticidad de la cápsula, rigidez de las fibras, engrosamiento del cristalino y menor contracción del músculo ciliar."},
+{cat:"Presbicia",c:2,q:"La presbicia se corrige con:",
+ o:["Lentes divergentes","Lentes cilíndricas","Lentes convergentes (positivas, de adición para cerca)","No tiene corrección"],
+ e:"Se corrige con <b>lentes positivas (adición)</b> para la visión cercana: +1/+1,5 D a los 40–45, +2 a los 50, +2,5 a los 55, +3 a los 60."},
+{cat:"Caso clínico · Presbicia",c:3,case:true,
+ lead:"Hombre de 48 años, emétrope toda la vida, que desde hace meses aleja el móvil y el periódico para poder leerlos, aunque ve perfectamente de lejos.",
+ q:"El diagnóstico es:",
+ o:["Miopía","Hipermetropía nueva","Catarata","Presbicia"],
+ e:"Pérdida progresiva de la visión cercana a partir de los ~45 años, con buena visión de lejos = <b>presbicia</b> (alejar los objetos compensa la falta de acomodación)."},
+{cat:"Presbicia",c:0,q:"La adición aproximada que precisa un présbita de 50 años es:",
+ o:["+2 D","+0,25 D","+5 D","−2 D"],
+ e:"Adición orientativa por edad: 40–45 a → +1/+1,5; <b>50 a → +2</b>; 55 a → +2,5; 60 a → +3 D."},
+{cat:"DDx presbicia",c:1,ddx:true,q:"¿Qué distingue la presbicia de la hipermetropía?",
+ o:["La presbicia aparece en niños","La presbicia es fisiológica (pérdida de acomodación con la edad), no un error refractivo del globo como la hipermetropía","Ambas se corrigen con lentes negativas","La hipermetropía solo afecta de lejos"],
+ e:"La <b>presbicia</b> es una <b>pérdida fisiológica de acomodación con la edad</b>; la <b>hipermetropía</b> es un error refractivo (globo corto). Ambas dan mala visión de cerca y se corrigen con positivas."},
+{cat:"Anisometropía",c:2,q:"Se habla de anisometropía cuando la diferencia de refracción entre ambos ojos es:",
+ o:["De 0,25 D","De 0,5 D","≥ 2 D","Indiferente"],
+ e:"La <b>anisometropía</b> es una diferencia <b>≥ 2 D</b> entre ojos; la causa más frecuente es la diferencia de longitud axial."},
+{cat:"Anisometropía",c:3,q:"La causa más frecuente de anisometropía es:",
+ o:["Catarata unilateral","Astigmatismo corneal","Presbicia asimétrica","Diferencia de longitud axial entre los dos ojos"],
+ e:"La causa más frecuente es la <b>diferencia de longitud axial</b> entre los dos ojos; suele aparecer en la infancia."},
+{cat:"Caso clínico · Anisometropía",c:0,case:true,
+ lead:"Niño de 4 años en el que se detecta −1 D en un ojo y −4 D en el otro. Está asintomático.",
+ q:"¿Cuál es el principal riesgo si no se corrige?",
+ o:["Ambliopía anisometrópica (ojo vago) y pérdida de fusión binocular","Glaucoma agudo","Desprendimiento de retina","Catarata"],
+ e:"Una anisometropía ≥ 2 D no corregida en un niño puede causar <b>ambliopía anisometrópica (ojo vago)</b> y pérdida de la fusión binocular: hay que detectarla y tratarla pronto."},
+{cat:"Anisometropía",c:1,q:"Entre los síntomas de la anisometropía NO se incluye:",
+ o:["Síntomas astenópicos","Halos de colores y dolor ocular agudo","Pérdida de estereopsis o diplopía","Supresión"],
+ e:"La anisometropía da astenopia, pérdida de estereopsis/diplopía y supresión; los <b>halos y el dolor agudo</b> no son propios (orientan a glaucoma agudo)."},
+{cat:"Exploración",c:2,q:"En el autorrefractómetro, una esfera POSITIVA indica:",
+ o:["Miopía","Astigmatismo","Hipermetropía","Presbicia"],
+ e:"<b>Esfera positiva = hipermetropía</b>; esfera negativa = miopía. El cilindro con su eje refleja el astigmatismo."},
+{cat:"Exploración",c:3,q:"¿Por qué es imprescindible la cicloplejia al medir la refracción en niños?",
+ o:["Para dilatar la pupila y ver la retina","Para anestesiar la córnea","Para medir la PIO","Para relajar la acomodación y no infravalorar la hipermetropía"],
+ e:"Los niños 'esconden' la hipermetropía acomodando; el <b>ciclopléjico relaja la acomodación</b> y permite medir la refracción real."},
+{cat:"Exploración",c:0,ddx:true,q:"Si la visión de un paciente NO mejora con el agujero estenopeico, hay que sospechar:",
+ o:["Una causa orgánica (medios, mácula o vía óptica), no un simple defecto de graduación","Una miopía elevada","Una hipermetropía","Un astigmatismo regular"],
+ e:"Si <b>no mejora con estenopeico</b>, el problema no es refractivo: hay que buscar una <b>causa orgánica</b> (catarata densa, maculopatía, neuropatía óptica...)."},
+{cat:"Caso clínico · DDx",c:1,case:true,ddx:true,
+ lead:"Paciente de 70 años con baja visión; al mirar por el estenopeico NO mejora, y a la exploración tiene el cristalino opacificado.",
+ q:"La causa de la baja visión es:",
+ o:["Un defecto refractivo corregible con gafas","Orgánica: catarata (medios no transparentes)","Presbicia","Anisometropía"],
+ e:"Si <b>no mejora con estenopeico</b>, no es refractivo; con un <b>cristalino opaco</b>, la causa es <b>orgánica (catarata)</b>."},
+{cat:"Cirugía refractiva",c:2,q:"El LASIK y la PRK son técnicas de cirugía refractiva que actúan sobre:",
+ o:["El cristalino","La retina","La córnea (láser excímer)","La esclera"],
+ e:"<b>LASIK y PRK/LASEK</b> son técnicas con <b>láser excímer sobre la córnea</b>; el SMILE usa femtosegundo para extraer una lentícula corneal."},
+{cat:"Cirugía refractiva",c:0,q:"La diferencia básica entre LASIK y PRK es que:",
+ o:["El LASIK crea un flap (lamela) y la PRK es una técnica de superficie","La PRK usa láser y el LASIK no","El LASIK es intraocular","La PRK trata el cristalino"],
+ e:"El <b>LASIK</b> crea un <b>flap</b> (microqueratomo o femtosegundo) y aplica el láser debajo; la <b>PRK/LASEK</b> es una <b>técnica de superficie</b> (sin flap)."},
+{cat:"Cirugía refractiva",c:3,q:"Las lentes intraoculares fáquicas están indicadas sobre todo en:",
+ o:["Presbicia leve","Cualquier miopía mínima","Cataratas","Defectos refractivos altos en jóvenes (o como 2ª línea cuando no procede la cirugía corneal)"],
+ e:"Las <b>lentes fáquicas</b> (se implantan conservando el cristalino) se usan en <b>defectos altos en jóvenes</b> o cuando no está indicada la cirugía corneal."},
+{cat:"Cirugía refractiva",c:1,q:"Para corregir la presbicia mediante cirugía intraocular se emplean:",
+ o:["Lentes divergentes externas","Lentes intraoculares multifocales (recambio del cristalino)","Queratotomía radial","Toxina botulínica"],
+ e:"El recambio del cristalino por una <b>lente intraocular multifocal</b> permite enfocar a varias distancias y corregir la presbicia."},
+{cat:"DDx cirugía",c:2,ddx:true,q:"Entre la cirugía corneal (LASIK/PRK/SMILE) y la intraocular (LIO/fáquicas), ¿cuál es cierto?",
+ o:["La corneal trata el cristalino","La intraocular usa láser excímer sobre la córnea","La corneal remodela la córnea con láser; la intraocular añade/sustituye una lente dentro del ojo","Ambas son lo mismo"],
+ e:"La <b>corneal</b> remodela la córnea con láser; la <b>intraocular</b> implanta una lente (fáquica) o sustituye el cristalino por una LIO."},
+{cat:"OJO CUIDADO · acomodación",c:0,ddx:true,q:"La parálisis de la acomodación (p. ej. por afectación del núcleo de Edinger-Westphal en botulismo/difteria) cursa con:",
+ o:["Oftalmoplejía interna: midriasis + pérdida de acomodación","Miosis y espasmo de acomodación","Falsa miopía","Aumento de la amplitud de acomodación"],
+ e:"La <b>parálisis</b> (vía eferente, Edinger-Westphal) da <b>oftalmoplejía interna</b>: <b>midriasis + pérdida de acomodación</b> (dificultad de cerca)."},
+{cat:"OJO CUIDADO · acomodación",c:1,q:"El espasmo de acomodación (fijación prolongada, parasimpaticomiméticos) produce:",
+ o:["Midriasis","Una 'falsa miopía' (ve mal de lejos por exceso de convergencia)","Presbicia","Hipermetropía"],
+ e:"El <b>espasmo de acomodación</b> (típico en niños o por parasimpaticomiméticos del glaucoma) genera exceso de convergencia → <b>falsa miopía</b> (mala visión de lejos)."},
+{cat:"DDx estrabismo",c:2,ddx:true,q:"¿Qué ametropía se asocia típicamente a estrabismo convergente (endotropía)?",
+ o:["Miopía","Astigmatismo irregular","Hipermetropía (sincinesia acomodación-convergencia)","Presbicia"],
+ e:"La <b>hipermetropía</b> obliga a acomodar y, por la <b>sincinesia acomodación-convergencia</b>, favorece la <b>endotropía acomodativa</b>."},
+{cat:"Caso clínico · Imagen",c:3,case:true,figSrc:"figLente",figcap:"Lente de la gafa del paciente.",
+ lead:"Un paciente trae unas gafas cuyas lentes, al mirar a través de ellas, separan (divergen) los rayos y son más finas en el centro que en los bordes.",
+ q:"¿Qué defecto refractivo corrigen estas lentes?",
+ o:["Hipermetropía","Presbicia","Astigmatismo","Miopía"],
+ e:"Una lente <b>divergente (negativa, bicóncava)</b> separa los rayos y corrige la <b>miopía</b>."},
+{cat:"Take-home",c:0,q:"Indique la afirmación CORRECTA sobre la dioptría:",
+ o:["1 D enfoca a 1 m; la esfera negativa indica miopía y la positiva hipermetropía","1 D enfoca a 2 m","La esfera positiva indica miopía","La dioptría mide la PIO"],
+ e:"<b>D = 1/distancia focal</b> (1 D → 1 m). En la refracción, <b>esfera negativa = miopía</b> y <b>positiva = hipermetropía</b>."},
+{cat:"OJO CUIDADO · miopía",c:1,q:"En relación con la retinopatía diabética, la miopía magna se comporta como:",
+ o:["Factor de riesgo de progresión","Factor protector (por la atrofia coriorretiniana)","No tiene ninguna relación","Causa directa de retinopatía"],
+ e:"La <b>atrofia coriorretiniana</b> de la miopía magna actúa como <b>factor protector</b> frente a la retinopatía diabética (dato curioso pero preguntable)."},
+{cat:"DDx miopía índice",c:2,ddx:true,q:"La 'segunda visión' del anciano (vuelve a leer sin gafas) se debe a:",
+ o:["Curación de la presbicia","Hipermetropía nueva","Miopización por catarata nuclear (miopía de índice)","Astigmatismo regular"],
+ e:"La <b>catarata nuclear</b> aumenta el índice del cristalino → <b>miopía de índice</b>, que acerca el foco y permite leer de cerca ('segunda visión')."},
+{cat:"Take-home",c:3,q:"Empareje correctamente defecto y lente correctora:",
+ o:["Miopía → positiva; hipermetropía → negativa","Astigmatismo → esférica; presbicia → cilíndrica","Miopía → cilíndrica; hipermetropía → cilíndrica","Miopía → divergente (−); hipermetropía y presbicia → convergente (+); astigmatismo → cilíndrica"],
+ e:"<b>Miopía → divergente (−)</b>; <b>hipermetropía y presbicia → convergente (+)</b>; <b>astigmatismo → cilíndrica</b>."},
+{cat:"Óptica",c:0,q:"Cuanto más potente es una lente convergente:",
+ o:["Menor es su distancia focal","Mayor es su distancia focal","No cambia la distancia focal","Mayor es su diámetro"],
+ e:"A mayor potencia (más dioptrías), <b>menor distancia focal</b> (los rayos convergen antes)."},
+{cat:"Miopía",c:1,q:"La miopía de curvatura se debe a:",
+ o:["Un globo largo","Un aumento de la curvatura corneal (p. ej. queratocono)","Una catarata nuclear","Un cristalino aplanado"],
+ e:"La <b>miopía de curvatura</b> se produce por <b>aumento de la curvatura corneal</b> (queratocono); la de índice, por la catarata nuclear; la axial, por globo largo."},
+{cat:"Caso clínico · DDx ojo rojo/astenopia",c:2,case:true,ddx:true,
+ lead:"Joven sin corrección óptica que tras estudiar mucho tiene los ojos rojos, le duelen y le cuesta enfocar de cerca, sin secreción ni defecto corneal.",
+ q:"La causa más probable de esta 'astenopia' es:",
+ o:["Conjuntivitis","Queratitis","Defecto refractivo no corregido (hipermetropía/astigmatismo) que fatiga la acomodación","Glaucoma agudo"],
+ e:"La <b>astenopia acomodativa</b> por un <b>defecto refractivo no corregido</b> (hipermetropía o astigmatismo) explica la fatiga, el dolor y el enrojecimiento sin signos infecciosos."},
+{cat:"Take-home",c:3,q:"Señale la afirmación FALSA:",
+ o:["La miopía se corrige con lentes negativas","La presbicia es fisiológica y se corrige con positivas","El astigmatismo irregular no se corrige con gafas","La hipermetropía se asocia a glaucoma de ángulo abierto"],
+ e:"FALSA: la <b>hipermetropía se asocia a glaucoma de ángulo ESTRECHO/cerrado</b> (no abierto); el ángulo abierto se asocia a la miopía."},
+{cat:"Estados refractivos",c:0,q:"Las ametropías esféricas son:",
+ o:["Miopía e hipermetropía","Astigmatismo y presbicia","Solo el astigmatismo","Solo la anisometropía"],
+ e:"Las <b>ametropías esféricas</b> son la <b>miopía y la hipermetropía</b>; el <b>astigmatismo</b> es la ametropía no esférica."},
+{cat:"Caso clínico · DDx",c:1,case:true,ddx:true,
+ lead:"Paciente que ve mal de lejos. Con el estenopeico mejora; el autorrefractómetro da −3,00 esféricas sin cilindro.",
+ q:"El diagnóstico y la corrección son:",
+ o:["Hipermetropía; lente positiva","Miopía de 3 D; lente divergente (negativa)","Astigmatismo; lente cilíndrica","Presbicia; adición"],
+ e:"Mejora con estenopeico (defecto refractivo) + <b>esfera −3,00</b> = <b>miopía de 3 D</b>; se corrige con <b>lente divergente (negativa)</b>."},
+{cat:"Take-home",c:2,q:"Sobre la presbicia y la acomodación, ¿qué es CORRECTO?",
+ o:["La amplitud de acomodación aumenta con la edad","La presbicia es una enfermedad inflamatoria","La amplitud de acomodación disminuye con la edad y por eso aparece la presbicia (~45 años)","La presbicia se corrige con lentes negativas"],
+ e:"La <b>amplitud de acomodación disminuye con la edad</b>; al agotarse hacia los 45 años aparece la <b>presbicia</b>, que se corrige con <b>positivas</b>."}
+];
+
+/* ---- Engine ---- */
+const figMap={figMiopia,figHiper,figLente,figEsten};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el dioptrio ocular y las ametropías. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo las trampas de OJO CUIDADO (lente↔defecto, glaucoma miopía/hiper).";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza miopía vs hipermetropía y la corrección de cada defecto.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T05 (sobre todo OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
