@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T13–14 · Neuroftalmología</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --pup:#1a5e86;--pupbg:#e3eff7;--via:#7a3a8f;--viabg:#f1e6f4;--no:#9a4d12;--nobg:#f6ecde;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.pup{color:var(--pup);background:var(--pupbg)}.chip.via{color:var(--via);background:var(--viabg)}
+  .chip.no{color:var(--no);background:var(--nobg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.pup{color:var(--pup);background:var(--pupbg)}.pill.via{color:var(--via);background:var(--viabg)}.pill.no{color:var(--no);background:var(--nobg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Temas 13 y 14</p>
+  <h1>Neuroftalmología</h1>
+  <p>Resumen combinado (los dos temas vienen en el mismo documento). Eje: <b>pupila</b>, <b>campo/vía visual</b> y <b>neuropatías ópticas</b>. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#intro">0 · Qué es la neuroftalmología</a>
+    <a href="#horner">I · Pupila: síndrome de Horner</a>
+    <a href="#pupilas">II · Otras pupilas (Adie, Argyll-Robertson)</a>
+    <a href="#via">III · Campo visual y vía visual</a>
+    <a href="#papiledema">IV · Papiledema</a>
+    <a href="#neuritis">V · Neuritis óptica</a>
+    <a href="#noia">VI · Neuropatía óptica isquémica anterior (NOIA)</a>
+    <a href="#ddx">VII · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="intro">
+  <h2><span class="romnum">0</span> Qué es la neuroftalmología</h2>
+  <p class="lead">Patología que afecta al <b>sistema nervioso</b> produciendo <b>síntomas visuales</b>: pares craneales <b>II, III, IV, V, VI y VII</b>, vía visual y corteza occipital.</p>
+  <p>Tres ejes de examen: <b>la pupila</b> (Horner, Adie, Argyll-Robertson, DPAR), <b>el campo/vía visual</b> (localizar la lesión) y <b>las neuropatías ópticas</b> (papiledema, neuritis, NOIA).</p>
+</section>
+
+<section id="horner">
+  <h2><span class="romnum">I</span> Pupila: síndrome de Horner <span class="chip pup">simpático</span></h2>
+  <p class="lead">Lesión de la vía <b>simpática</b> oculosimpática.</p>
+  <ul>
+    <li><b>Miosis</b>, <b>ptosis</b> (afectación del músculo de <b>Müller</b>) y <b>aparente enoftalmos</b>.</li>
+    <li>En <b>niños</b>: <b>hipocromía de iris</b> (heterocromía).</li>
+    <li><b>Déficit de sudación (anhidrosis)</b> de esa hemicara si la lesión es <b>previa a la bifurcación carotídea</b>.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 130" role="img" aria-label="Síndrome de Horner con ptosis y miosis del ojo izquierdo">
+      <g><text x="90" y="20" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Ojo normal</text>
+      <path d="M40 60 Q90 36 140 60 Q90 84 40 60Z" fill="#fff" stroke="#7a8b90"/><circle cx="90" cy="60" r="20" fill="#9a6a3c"/><circle cx="90" cy="60" r="9" fill="#1a1a1a"/></g>
+      <g><text x="270" y="20" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#b23a32">Horner</text>
+      <path d="M220 64 Q270 48 320 64 Q270 80 220 64Z" fill="#fff" stroke="#7a8b90"/>
+      <path d="M220 64 Q270 48 320 64" fill="#e8d9c8" stroke="#a98"/>
+      <circle cx="270" cy="64" r="20" fill="#9a6a3c"/><circle cx="270" cy="64" r="5" fill="#1a1a1a"/>
+      <text x="270" y="108" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">ptosis leve + miosis</text></g>
+    </svg>
+    <figcaption><b>Horner</b> = <b>miosis + ptosis + enoftalmos aparente</b> (± anhidrosis; en niños, hipocromía de iris).</figcaption>
+  </figure>
+</section>
+
+<section id="pupilas">
+  <h2><span class="romnum">II</span> Otras pupilas <span class="chip pup">DDx</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Pupila</th><th>Clave</th></tr></thead>
+    <tbody>
+      <tr><td class="h">DPAR (Marcus Gunn)</td><td>Defecto pupilar <b>aferente</b>: lesión del <b>nervio óptico</b> o retiniana extensa (test de la luz oscilante)</td></tr>
+      <tr><td class="h">Pupila de Adie (tónica)</td><td>Midriasis con <b>respuesta lenta</b>; mujer joven; lesión del ganglio ciliar</td></tr>
+      <tr><td class="h">Argyll-Robertson</td><td><b>Sífilis</b>: <b>disociación luz-acomodación</b> (mala respuesta a la luz, buena a la acomodación), miosis</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Pista clásica</span> <b>Argyll-Robertson</b> = "acomoda pero no reacciona a la luz" → piensa en <b>sífilis</b>. <b>DPAR</b> = lesión del nervio óptico.</div>
+</section>
+
+<section id="via">
+  <h2><span class="romnum">III</span> Campo visual y vía visual <span class="chip via">localizar la lesión</span></h2>
+  <p class="lead">El árbol de decisión: ¿el defecto es <b>monocular</b> o <b>binocular</b>?</p>
+  <ul>
+    <li><b>Monocular</b> → lesión <b>delante del quiasma</b> (retina o nervio óptico).</li>
+    <li><b>Binocular</b> → lesión en el <b>quiasma o retroquiasmática</b>.
+      <ul>
+        <li><b>Heterónima (bitemporal)</b> → <b>quiasma</b> (compresión, p. ej. <b>adenoma hipofisario</b>).</li>
+        <li><b>Homónima</b> (hemianopsia/cuadrantanopsia contralateral) → <b>retroquiasmática</b> (cintilla, radiaciones, corteza occipital).</li>
+      </ul>
+    </li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 420 160" role="img" aria-label="Esquema de la vía visual con niveles de lesión">
+      <circle cx="40" cy="50" r="14" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="40" cy="110" r="14" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <line x1="54" y1="50" x2="150" y2="74" stroke="#444"/><line x1="54" y1="110" x2="150" y2="86" stroke="#444"/>
+      <path d="M150 74 L150 86 L170 80Z" fill="#7a3a8f"/><text x="160" y="104" style="font:600 10px Inter;fill:#7a3a8f">quiasma</text>
+      <line x1="170" y1="80" x2="260" y2="60" stroke="#444"/><line x1="170" y1="80" x2="260" y2="100" stroke="#444"/>
+      <rect x="260" y="50" width="26" height="60" rx="6" fill="#e8d3a8" stroke="#caa24e"/><text x="273" y="130" text-anchor="middle" style="font:600 10px Inter;fill:#8a5a2a">CGL</text>
+      <line x1="286" y1="60" x2="370" y2="60" stroke="#444"/><line x1="286" y1="100" x2="370" y2="100" stroke="#444"/>
+      <rect x="370" y="55" width="22" height="50" rx="5" fill="#d7c0e0" stroke="#9a6aa8"/><text x="381" y="125" text-anchor="middle" style="font:600 10px Inter;fill:#7a3a8f">corteza</text>
+      <text x="40" y="18" text-anchor="middle" style="font:400 10px Inter;fill:#46585f">monocular → pre-quiasma</text>
+      <text x="160" y="36" text-anchor="middle" style="font:400 10px Inter;fill:#7a3a8f">bitemporal → quiasma</text>
+    </svg>
+    <figcaption>Localización: <b>monocular</b> = pre-quiasma; <b>bitemporal</b> = quiasma (hipófisis); <b>homónima</b> = retroquiasmática.</figcaption>
+  </figure>
+</section>
+
+<section id="papiledema">
+  <h2><span class="romnum">IV</span> Papiledema <span class="chip no">HIC</span></h2>
+  <p class="lead">Edema de papila <b>bilateral</b> por <b>hipertensión intracraneal (HIC)</b>. Causas: <b>tumores</b>, malformaciones e <b>HTIC idiopática</b> (pseudotumor cerebri).</p>
+  <ul>
+    <li><b>HTIC idiopática:</b> <b>mujeres, edad media, obesas</b>; se cree que por aumento de la presión venosa.</li>
+    <li><b>Clínica:</b> cefalea, tinnitus, <b>oscurecimientos visuales transitorios</b>, aumento de la mancha ciega y <b>parálisis del VI par</b> (falso localizador: compresión contra el peñasco/canal de Dorello). <b>Buena AV al inicio</b>; la pérdida visual aparece tarde, con la atrofia óptica.</li>
+  </ul>
+  <div class="key"><span class="lbl">La diferencia</span> El <b>papiledema</b> es <b>bilateral</b> y conserva la AV al inicio; la neuritis y la NOIA suelen ser <b>unilaterales</b> con pérdida visual precoz.</div>
+</section>
+
+<section id="neuritis">
+  <h2><span class="romnum">V</span> Neuritis óptica <span class="chip via">esclerosis múltiple</span></h2>
+  <p class="lead">Inflamación del nervio óptico, generalmente <b>desmielinizante</b>.</p>
+  <ul>
+    <li>Perfil: <b>mujeres jóvenes</b>; asociación muy clara con <b>esclerosis múltiple</b>.</li>
+    <li><b>Clínica:</b> pérdida visual <b>monocular</b> con <b>dolor con los movimientos oculares</b>; <b>DPAR</b>. Habitualmente <b>retrobulbar</b> (sin edema de papila): "el paciente no ve y el médico tampoco ve nada en el fondo". Puede ser papilitis (anterior, con edema).</li>
+    <li><b>Pronóstico:</b> visual <b>bueno</b>; vital no tan bueno (riesgo de EM).</li>
+    <li><b>Tratamiento:</b> <b>megadosis de corticoides IV</b> (aceleran la recuperación visual pero <b>no cambian el pronóstico</b>). Valoración por neurología (RM, PEV, PL).</li>
+  </ul>
+</section>
+
+<section id="noia">
+  <h2><span class="romnum">VI</span> Neuropatía óptica isquémica anterior (NOIA)</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>NOIA no arterítica (NOIANA)</th><th>NOIA arterítica (NOIAA)</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Edad/causa</td><td>Factor anatómico (<b>"disk at risk"</b>); desencadenante: <b>hipotensión nocturna</b></td><td><b>&gt;80 años</b>; <b>arteritis de células gigantes</b> (PAN, LES, VHZ)</td></tr>
+      <tr><td class="h">Clínica</td><td>Pérdida visual <b>al despertar</b>; DPAR; <b>defecto altitudinal</b> en el campo</td><td>Isquemia <b>muy severa</b>; edema de papila blanquecino; defectos campimétricos severos</td></tr>
+      <tr><td class="h">Fondo</td><td>Papila elevada/borrada con hemorragias; ojo adelfo "disk at risk"</td><td>Edema pálido</td></tr>
+      <tr><td class="h">Diagnóstico</td><td>Clínico</td><td><b>VSG/PCR altas</b>; biopsia de arteria temporal confirma</td></tr>
+      <tr><td class="h">Tratamiento</td><td>Control de factores de riesgo</td><td><b>Megadosis de corticoides IV</b> + reducción progresiva (urgente)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">No fallar</span> Ante una <b>NOIA en el anciano</b>, descarta <b>arteritis de células gigantes</b> (VSG/PCR) e inicia <b>corticoides urgentes</b> para salvar el otro ojo.</div>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 170" role="img" aria-label="Papila edematosa con hemorragias">
+      <circle cx="160" cy="85" r="78" fill="#dd9a45" stroke="#b8752f"/>
+      <circle cx="160" cy="85" r="30" fill="#f0d9a0" stroke="#caa24e" stroke-width="3"/>
+      <circle cx="160" cy="85" r="30" fill="none" stroke="#e6c98a" stroke-width="8" opacity=".6"/>
+      <g fill="#9c2b22"><path d="M188 70 l8 -3 -2 9z"/><path d="M134 98 l8 -3 -2 9z"/><path d="M180 102 l8 -3 -2 9z"/></g>
+      <text x="160" y="172" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">papila elevada/borrada con hemorragias (NOIA)</text>
+    </svg>
+    <figcaption>NOIA: papila <b>edematosa</b> (elevada, bordes borrados) con hemorragias; el campo muestra un <b>defecto altitudinal</b>.</figcaption>
+  </figure>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Neuropatías ópticas</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Neuritis óptica</th><th>NOIANA</th><th>NOIAA</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Perfil</td><td>Mujer joven (EM)</td><td>Adulto con disk at risk</td><td>Anciano (&gt;80) con ACG</td></tr>
+      <tr><td class="h">Dolor</td><td><b>Sí</b> (con los movimientos)</td><td>No</td><td>No (puede haber cefalea/claudicación)</td></tr>
+      <tr><td class="h">Campo</td><td>Escotoma central</td><td><b>Altitudinal</b></td><td>Severo</td></tr>
+      <tr><td class="h">Tratamiento</td><td>Corticoides IV (no cambian pronóstico)</td><td>Factores de riesgo</td><td><b>Corticoides IV urgentes</b></td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · Localización por el campo visual</h3>
+  <p><b>Monocular</b> → pre-quiasma. <b>Bitemporal (heterónima)</b> → quiasma (hipófisis). <b>Homónima</b> → retroquiasmática.</p>
+  <h3>3 · Pupilas</h3>
+  <p><b>Horner</b> = miosis+ptosis (simpático). <b>DPAR</b> = nervio óptico (aferente). <b>Argyll-Robertson</b> = sífilis (disociación luz-acomodación). <b>Adie</b> = midriasis tónica (mujer joven).</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de neuroftalmología.</p>
+  <div class="trap"><span class="t">1 · Horner = miosis + ptosis + enoftalmos aparente</span> Ptosis por el músculo de <b>Müller</b> (simpático); en niños, <b>hipocromía de iris</b>; anhidrosis si la lesión es preganglionar.</div>
+  <div class="trap"><span class="t">2 · Argyll-Robertson (sífilis) = disociación luz-acomodación</span> Mala respuesta a la luz, buena a la acomodación. Pista directa de <b>sífilis</b>.</div>
+  <div class="trap"><span class="t">3 · DPAR (Marcus Gunn) = lesión del nervio óptico</span> Defecto pupilar aferente (luz oscilante); aparece en neuritis, NOIA y lesiones retinianas extensas.</div>
+  <div class="trap"><span class="t">4 · Localización por el campo</span> <b>Monocular</b> = pre-quiasma; <b>bitemporal</b> = quiasma (hipófisis); <b>homónima</b> = retroquiasmática.</div>
+  <div class="trap"><span class="t">5 · Neuritis óptica = mujer joven + dolor con los movimientos + EM</span> Suele ser <b>retrobulbar</b> (fondo normal); corticoides IV aceleran la recuperación pero <b>no cambian el pronóstico</b>.</div>
+  <div class="trap"><span class="t">6 · NOIANA = "disk at risk", pérdida al despertar, defecto altitudinal</span> Desencadenante: hipotensión nocturna.</div>
+  <div class="trap"><span class="t">7 · NOIAA = anciano + ACG → corticoides urgentes</span> Pedir <b>VSG/PCR</b>; el tratamiento precoz salva el otro ojo.</div>
+  <div class="trap"><span class="t">8 · Papiledema = edema BILATERAL por HIC; AV buena al inicio</span> HTIC idiopática: <b>mujer joven obesa</b>, cefalea, tinnitus, parálisis del VI par.</div>
+  <div class="trap"><span class="t">9 · Parálisis del VI por HIC = falso localizador</span> Compresión del VI par contra el peñasco (canal de Dorello); no indica el lugar de la lesión.</div>
+  <div class="trap"><span class="t">10 · Neuritis vs NOIA vs papiledema</span> Joven con dolor = neuritis; anciano indoloro con altitudinal = NOIANA; anciano con ACG/VSG alta = NOIAA; bilateral con buena AV = papiledema.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir de los Temas 13 y 14 (vienen en un mismo documento). Ilustraciones esquemáticas originales (no fotografías). Para reconocer el Horner, el papiledema o el defecto altitudinal reales, repasa las imágenes del tema.</p></section>
+
+</div>
+</body>
+</html>
