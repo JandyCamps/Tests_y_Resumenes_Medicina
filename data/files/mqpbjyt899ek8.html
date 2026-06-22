@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T01 · Anatomofisiología del globo ocular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eaeef0;
+    --paper:#ffffff;
+    --ink:#13232a;
+    --ink-soft:#46585f;
+    --teal:#0f4d57;
+    --teal-deep:#0a3037;
+    --amber:#cf8327;
+    --amber-soft:#f6ecdc;
+    --good:#1f7a4d;
+    --good-bg:#e3f3ea;
+    --bad:#b23a32;
+    --bad-bg:#fbe7e4;
+    --line:#d9e0e3;
+    --shadow:0 10px 30px -16px rgba(10,48,55,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding:18px 14px 60px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+
+  /* Header */
+  header.top{
+    background:linear-gradient(135deg,var(--teal) 0%,var(--teal-deep) 100%);
+    color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  header.top::after{
+    content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+    border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76 0%,#0a3037 70%);
+    box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55;
+  }
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+
+  /* Stat bar */
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}
+  .stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}
+  .stat.bad .n{color:#ffb3ab}
+
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s ease}
+
+  /* Question card */
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}
+  .figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+
+  /* Options */
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}
+  .opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+  .opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+
+  /* Explanation */
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s ease}
+  .explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}
+  .verdict.ok{color:var(--good)}
+  .verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  /* Nav */
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}
+  .btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;border-color:var(--teal);margin-left:auto}
+  .btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* Jump grid */
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}
+  .cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+  .cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+
+  /* Results */
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}
+  .scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}
+  .results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){
+    .grid{grid-template-columns:repeat(8,1fr)}
+    .stem{font-size:16.5px}
+    header.top h1{font-size:21px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T01</p>
+    <h1>Recuerdo anatomofisiológico del globo ocular y anejos</h1>
+    <p class="sub">80 preguntas tipo test · casos clínicos · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+
+  <section class="jumpwrap">
+    <h3>Navegación rápida</h3>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<script>
+/* ---------- Banco de preguntas (basado en T01) ----------
+   correct: índice 0=a,1=b,2=c,3=d  (posición variada a lo largo del test) */
+const svgCornea = `<svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema de las 5 capas de la córnea">
+<defs><style>.t{font:600 11px Inter,sans-serif;fill:#13232a}.s{font:600 12px Spectral,serif;fill:#0f4d57}</style></defs>
+<text x="180" y="14" text-anchor="middle" class="s">CÓRNEA — corte anteroposterior</text>
+<rect x="60" y="26" width="240" height="14" fill="#bfe0e4"/><text x="310" y="36" class="t">1</text>
+<rect x="60" y="40" width="240" height="9" fill="#8fc3c7"/><text x="310" y="48" class="t">2</text>
+<rect x="60" y="49" width="240" height="58" fill="#dff0f1"/><text x="310" y="82" class="t">3</text>
+<rect x="60" y="107" width="240" height="9" fill="#8fc3c7"/><text x="310" y="115" class="t">4</text>
+<rect x="60" y="116" width="240" height="13" fill="#cf8327" opacity=".6"/><text x="310" y="127" class="t">5</text>
+<text x="30" y="36" class="t" text-anchor="end">ANT</text><text x="30" y="125" class="t" text-anchor="end">POST</text>
+</svg>`;
+
+const svgFondo = `<svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema del fondo de ojo">
+<defs><style>.s{font:600 12px Spectral,serif;fill:#0f4d57}.t{font:600 11px Inter,sans-serif;fill:#13232a}</style></defs>
+<circle cx="140" cy="100" r="92" fill="#e9a86a"/>
+<circle cx="195" cy="100" r="20" fill="#f6e7c8" stroke="#d6b87f"/>
+<circle cx="195" cy="100" r="7" fill="#e9c98f"/>
+<circle cx="120" cy="105" r="9" fill="#b86b3a"/>
+<path d="M195 100 Q150 60 90 55 M195 100 Q150 140 90 150 M195 100 Q160 95 120 105" stroke="#9c3b2e" stroke-width="3" fill="none"/>
+<text x="195" y="138" text-anchor="middle" class="t">A</text>
+<text x="120" y="132" text-anchor="middle" class="t">B</text>
+</svg>`;
+
+const svgChambers = `<svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema de las cámaras del ojo">
+<defs><style>.s{font:600 12px Spectral,serif;fill:#0f4d57}.t{font:600 11px Inter,sans-serif;fill:#13232a}</style></defs>
+<text x="160" y="14" text-anchor="middle" class="s">Segmento anterior</text>
+<path d="M40 95 Q30 50 90 40 Q150 33 150 95 Q150 157 90 150 Q30 140 40 95Z" fill="#dff0f1" stroke="#7fb0b6" stroke-width="2"/>
+<path d="M150 60 L150 130 Q175 130 185 95 Q175 60 150 60Z" fill="#cf8327" opacity=".55" stroke="#a9701f"/>
+<rect x="150" y="86" width="60" height="18" fill="#9c3b2e" opacity=".5"/>
+<text x="90" y="60" class="t" text-anchor="middle">1</text>
+<text x="120" y="110" class="t" text-anchor="middle">2</text>
+<text x="178" y="80" class="t">3</text>
+<line x1="178" y1="60" x2="178" y2="40" stroke="#13232a"/><text x="178" y="34" class="t" text-anchor="middle">3</text>
+</svg>`;
+
+const Q = [
+{cat:"Visión",c:2,
+ q:"Respecto a las tres etapas de la visión, ¿cuál de las siguientes afirmaciones es CORRECTA?",
+ o:["La etapa óptica traduce la energía lumínica en señal eléctrica",
+    "La etapa procesal ocurre en los fotorreceptores de la retina",
+    "La fototransducción es propia de la etapa sensora y se realiza en los fotorreceptores",
+    "La etapa óptica se desarrolla en la corteza visual"],
+ e:"La visión consta de la <b>etapa óptica</b> (la luz es enfocada en la retina por las lentes oculares), la <b>etapa sensora</b> (los fotorreceptores traducen la energía lumínica en señal eléctrica = <b>fototransducción</b>) y la <b>etapa procesal y perceptiva</b> (vías neurales y corteza)."},
+
+{cat:"Anatomía general",c:3,
+ q:"Sobre los diámetros del globo ocular, ¿cuál es el correcto?",
+ o:["Anteroposterior = 24 mm","Vertical = 24 mm","Todos miden 23 mm","El horizontal (24 mm) es el mayor; AP y vertical = 23 mm"],
+ e:"Diámetros aproximados: <b>anteroposterior 23 mm</b>, <b>vertical 23 mm</b> y <b>horizontal 24 mm</b> (el mayor)."},
+
+{cat:"Anatomía general",c:1,
+ q:"La túnica media o vascular del globo ocular (úvea) está compuesta por:",
+ o:["Esclera y córnea","Iris, cuerpo ciliar y coroides","Únicamente la retina","Coroides y retina"],
+ e:"Las tres túnicas son: <b>externa/fibrosa</b> (esclera y córnea), <b>media/vascular = úvea</b> (iris, cuerpo ciliar y coroides) e <b>interna/nerviosa</b> (retina)."},
+
+{cat:"Óptica ocular",c:0,
+ q:"Las dos lentes dióptricas del ojo son:",
+ o:["Córnea y cristalino","Cristalino y humor vítreo","Córnea y esclera","Iris y cristalino"],
+ e:"Las <b>lentes dióptricas</b> son la <b>córnea</b> y el <b>cristalino</b>. El conjunto del sistema óptico se comporta como una única lente positiva convergente."},
+
+{cat:"Esclera",c:2,
+ q:"¿Qué proporción del globo ocular recubre la esclera?",
+ o:["50%","65%","80%","100%"],
+ e:"La esclera, el “blanco de los ojos”, recubre el <b>80%</b> del globo y constituye el verdadero esqueleto fibroso del ojo (naturaleza colágena, opaca)."},
+
+{cat:"Esclera",c:1,
+ q:"La porción posterior de la esclera se relaciona con el nervio óptico formando:",
+ o:["El limbo esclerocorneal","La lámina cribosa","La ora serrata","La cápsula de Tenon"],
+ e:"Anteriormente la esclera se continúa con la córnea por el <b>limbo esclerocorneal</b>; posteriormente se une a la vaina dural del nervio óptico formando la <b>lámina cribosa</b>, por donde sale el nervio óptico."},
+
+{cat:"Esclera",c:3,
+ q:"La esclera está mínimamente vascularizada. Su nutrición depende de:",
+ o:["La arteria central de la retina","El humor acuoso","La película lagrimal","La epiesclera (por fuera) y la coroides (por dentro)"],
+ e:"Al estar muy poco vascularizada, la esclera se nutre de las <b>capas vasculares que la envuelven</b>: epiesclera externamente y coroides internamente (lámina fusca)."},
+
+{cat:"Córnea",c:0,
+ q:"El espesor medio de la córnea es de aproximadamente:",
+ o:["550 micras","250 micras","1 mm","100 micras"],
+ e:"Espesor medio ≈ <b>550 µm</b>. Es elíptica (12 mm horizontal × 11 mm vertical) y la capa más anterior de la túnica externa."},
+
+{cat:"Córnea",c:2,
+ q:"¿Por qué la córnea es transparente?",
+ o:["Por su rica vascularización","Por la queratinización del epitelio","Por ser avascular y por la disposición ordenada del colágeno del estroma","Por la abundante melanina"],
+ e:"La transparencia se debe a que la córnea es <b>avascular</b> (sin vasos sanguíneos ni linfáticos) y a la <b>disposición en orden perfecto</b> de 200-250 láminas de colágeno paralelas en el estroma."},
+
+{cat:"Córnea",c:1,
+ q:"De anterior a posterior, las 5 capas de la córnea son:",
+ o:["Endotelio, Descemet, estroma, Bowman, epitelio","Epitelio, Bowman, estroma, Descemet, endotelio","Epitelio, estroma, Bowman, endotelio, Descemet","Bowman, epitelio, estroma, endotelio, Descemet"],
+ e:"Orden anteroposterior: <b>1) Epitelio · 2) Membrana de Bowman · 3) Estroma · 4) Membrana de Descemet · 5) Endotelio</b>."},
+
+{cat:"Córnea",c:3,
+ q:"En la imagen, ¿qué capa corneal representa la nº 3 (la más gruesa)?",
+ svg:svgCornea, figcap:"Corte anteroposterior de la córnea (5 capas).",
+ o:["Epitelio","Membrana de Bowman","Endotelio","Estroma (≈90% del grosor)"],
+ e:"La capa 3 es el <b>estroma</b>, que supone alrededor del <b>90% del grosor</b> corneal, compuesto por colágeno tipo I y V y queratocitos."},
+
+{cat:"Córnea",c:2,
+ q:"La membrana de Bowman se caracteriza por ser:",
+ o:["Una monocapa de células cuboideas","La membrana basal del endotelio","Acelular, de 10-12 µm, de fibras de colágeno","La capa más interna en contacto con el humor acuoso"],
+ e:"La <b>membrana de Bowman</b> es <b>acelular</b> (10-12 µm de fibras de colágeno) y no se regenera. La membrana basal del endotelio es la Descemet."},
+
+{cat:"Córnea",c:0,
+ q:"Sobre el endotelio corneal, señale la afirmación CORRECTA:",
+ o:["Es una monocapa hexagonal que no se divide y deshidrata el estroma","Es un epitelio escamoso que se renueva constantemente","Aporta vascularización a la córnea","Se localiza en contacto con la película lagrimal"],
+ e:"El <b>endotelio</b> es una monocapa de células cuboideas en mosaico hexagonal, <b>sin capacidad de renovación</b>; su bomba iónica <b>deshidrata el estroma</b> manteniendo la transparencia."},
+
+{cat:"Córnea",c:1,
+ q:"La inervación sensitiva de la córnea procede de:",
+ o:["El nervio facial (VII par)","La rama oftálmica del trigémino (nervios ciliares largos)","El nervio óptico (II par)","El simpático cervical"],
+ e:"Inervación <b>sensitiva</b> riquísima: rama <b>oftálmica del trigémino</b> a través de los nervios ciliares largos (del nasociliar). Las terminaciones son 300-600 veces más densas que en la piel."},
+
+{cat:"Caso clínico · Córnea",c:3, case:true,
+ lead:"Paciente con dolor ocular, halos y visión borrosa; en lámpara de hendidura se observa córnea engrosada con bullas epiteliales que se rompen.",
+ q:"¿Cuál es el mecanismo fisiopatológico más probable?",
+ o:["Exceso de vascularización corneal","Hipertrofia del epitelio","Aumento de queratocitos","Fallo de la bomba endotelial → entrada de agua y edema corneal (queratopatía bullosa)"],
+ e:"El <b>fallo del endotelio</b> (o un aumento de PIO) permite la entrada de agua al estroma, con pérdida de transparencia y aumento de grosor → <b>queratopatía bullosa</b>, con bullas epiteliales dolorosas."},
+
+{cat:"Úvea · Iris",c:2,
+ q:"El diámetro del iris es de aproximadamente:",
+ o:["6-7 mm","9-10 mm","12-13 mm","20 mm"],
+ e:"El iris es una membrana elástica de <b>12-13 mm</b> de diámetro, perforada centralmente por la pupila; separa la cámara anterior de la posterior."},
+
+{cat:"Úvea · Iris",c:0,
+ q:"El diámetro pupilar normal en condiciones fisiológicas es de:",
+ o:["2-4 mm","0,5 mm","6-8 mm","10 mm"],
+ e:"Pupila normal <b>2-4 mm</b>. En midriasis máxima alcanza ~8 mm y en miosis máxima ~0,5 mm."},
+
+{cat:"Úvea · Iris",c:1,
+ q:"El músculo esfínter de la pupila (miosis) está inervado por el sistema:",
+ o:["Simpático","Parasimpático","Somático voluntario","No tiene inervación"],
+ e:"El <b>esfínter</b> de la pupila es un músculo anular peripupilar inervado por el <b>parasimpático</b> (miosis). El <b>dilatador</b> (fibras radiales) lo inerva el <b>simpático</b> (midriasis)."},
+
+{cat:"Úvea · Iris",c:3,
+ q:"El músculo dilatador de la pupila se dispone de forma:",
+ o:["Anular, en la región peripupilar","Circular, en la cara anterior","Longitudinal, en el estroma","Radial, en la cara posterior, inervado por el simpático"],
+ e:"El <b>dilatador</b> son fibras lisas dispuestas de forma <b>radial</b> en la cara posterior del iris, inervadas por el <b>simpático</b> (produce midriasis)."},
+
+{cat:"Úvea · Cuerpo ciliar",c:1,
+ q:"El cuerpo ciliar está compuesto por:",
+ o:["Coroides y retina","Músculo ciliar y procesos ciliares","Iris y zónula","Esclera y úvea posterior"],
+ e:"El cuerpo ciliar consta del <b>músculo ciliar</b> (liso, en 3 haces) y los <b>procesos ciliares</b> (~80 rebordes radiales muy vascularizados)."},
+
+{cat:"Úvea · Cuerpo ciliar",c:2,
+ q:"¿Cuál NO es una función del cuerpo ciliar?",
+ o:["Formación del humor acuoso","Sujeción del cristalino por la zónula","Captación de la luz mediante fotorreceptores","Intervención en la acomodación"],
+ e:"El cuerpo ciliar forma el humor acuoso, sujeta el cristalino por la zónula, interviene en la acomodación y participa en la vascularización. La <b>captación de luz</b> es función de los fotorreceptores de la retina."},
+
+{cat:"Úvea · Coroides",c:0,
+ q:"La coroides representa qué proporción de la úvea:",
+ o:["Los 2/3","La mitad","1/4","La totalidad"],
+ e:"La coroides representa los <b>2/3</b> de la úvea; es la capa vascular oscura situada entre retina y esclera."},
+
+{cat:"Úvea · Coroides",c:3,
+ q:"Las dos funciones principales de la coroides son:",
+ o:["Refracción y acomodación","Drenaje del humor acuoso y soporte","Producción de lágrima y protección mecánica","Pantalla a la luz (células pigmentarias) y nutricia (vascular)"],
+ e:"La coroides actúa como <b>pantalla a la luz</b> por su riqueza en células pigmentarias y como <b>membrana nutricia</b> por su naturaleza vascular."},
+
+{cat:"Úvea · Coroides",c:2,
+ q:"De fuera (esclera) a dentro (retina), las capas de la coroides son:",
+ o:["Coriocapilar, Sattler, Haller","Bruch, Haller, lámina fusca","Lámina fusca (supracoroides), estroma con vasos y membrana de Bruch","Epiesclera, estroma, Descemet"],
+ e:"La coroides tiene, de fuera a dentro: <b>lámina fusca/supracoroides</b>, <b>estroma con vasos coroideos</b> y <b>membrana de Bruch</b>. Los vasos se ordenan en grandes (Haller), medianos (Sattler) y coriocapilar."},
+
+{cat:"Retina",c:1,
+ q:"La retina se extiende anatómicamente:",
+ o:["Desde la córnea hasta el cristalino","Desde la papila hasta la ora serrata","Desde el limbo hasta el fórnix","Sólo en el polo posterior"],
+ e:"La retina recubre el interior del globo extendiéndose desde la <b>papila</b> (posterior) hasta la <b>ora serrata</b> (anterior, límite con la pars plana del cuerpo ciliar)."},
+
+{cat:"Retina",c:3,
+ q:"¿Cuántas capas tiene la retina?",
+ o:["3 capas","6 capas","9 capas (sólo neuroepitelio)","10 capas (EPR + 9 del neuroepitelio)"],
+ e:"La retina tiene <b>10 capas</b>: el <b>EPR</b> más las <b>9 capas del neuroepitelio</b> (de fotorreceptores a membrana limitante interna)."},
+
+{cat:"Retina · Fóvea",c:2,
+ q:"Respecto a la fóvea, señale la afirmación CORRECTA:",
+ o:["Predominan los bastones","Es la zona más vascularizada de la retina","Es AVASCULAR, con predominio de conos y ausencia de bastones; máxima agudeza visual","Se nutre de la arteria central de la retina"],
+ e:"La fóvea es la región de <b>máxima agudeza visual</b>: predominio de <b>conos</b>, ausencia de bastones y es <b>avascular</b>. Se irriga desde la <b>coriocapilar</b> de la coroides a través de la membrana de Bruch y el EPR."},
+
+{cat:"Retina",c:0,
+ q:"Los bastones, abundantes en la retina periférica, son responsables de:",
+ o:["La visión de campo en blanco y negro","La visión de los colores","La máxima agudeza visual central","La acomodación"],
+ e:"Los <b>bastones</b> predominan en la <b>periferia</b> y captan imágenes en <b>blanco y negro</b> (visión de campo). Los <b>conos</b> de la mácula dan la visión discriminativa y de los colores."},
+
+{cat:"Retina · Fisiología",c:1,
+ q:"En el circuito vertical de la retina, la primera y segunda sinapsis ocurren respectivamente en:",
+ o:["Célula horizontal y amacrina","Célula bipolar y célula ganglionar","Célula ganglionar y CGL","Célula amacrina y bipolar"],
+ e:"Flujo vertical: fotorreceptor → <b>célula bipolar</b> (1ª sinapsis) → <b>célula ganglionar</b> (2ª sinapsis). Horizontales y amacrinas son de asociación (flujo horizontal regulador)."},
+
+{cat:"Retina · EPR",c:3,
+ q:"¿Cuál de las siguientes NO es una función del epitelio pigmentario de la retina (EPR)?",
+ o:["Fagocitosis de segmentos externos de los fotorreceptores","Almacenar vitamina A para los pigmentos visuales","Formar la barrera hematorretiniana externa","Producir el humor acuoso"],
+ e:"El EPR absorbe luz dispersa (melanina), almacena vitamina A, transporta metabolitos por Bruch, forma la <b>barrera hematorretiniana externa</b> (zónula occludens) y fagocita los segmentos externos. El <b>humor acuoso</b> lo produce el epitelio ciliar."},
+
+{cat:"Retina · Vascularización",c:2,
+ q:"Las capas internas de la retina son nutridas por la arteria central de la retina; las capas externas (EPR y fotorreceptores) lo son por:",
+ o:["Las venas vorticosas","La arteria lagrimal","La coriocapilar de la coroides","El humor vítreo"],
+ e:"Doble irrigación: <b>arteria central de la retina</b> (capas internas) y <b>coriocapilar de la coroides</b> (capas externas: EPR y capa de fotorreceptores)."},
+
+{cat:"Papila óptica",c:0,
+ q:"La papila óptica se corresponde funcionalmente con:",
+ o:["La mancha ciega del campo visual","El punto de máxima agudeza","La fóvea","La ora serrata"],
+ e:"En la papila <b>no hay fotorreceptores</b> (es la salida de los axones que forman el II par), por lo que se corresponde con la <b>mancha ciega</b> del campo visual."},
+
+{cat:"Papila óptica",c:1,
+ q:"La excavación fisiológica normal de la papila es:",
+ o:["Mayor de 0,9","Menor de 0,3","Exactamente 0,5","No existe excavación"],
+ e:"La papila normal tiene bordes netos, coloración rosada y <b>excavación < 0,3</b>. Excavaciones aumentadas (p.ej. 0,9) sugieren glaucoma."},
+
+{cat:"Papila óptica",c:2,
+ q:"La papila óptica se sitúa, respecto a la fóvea:",
+ o:["3,5 mm temporal","Justo encima","≈3,5 mm en posición nasal","En el centro de la mácula"],
+ e:"La papila es un disco oval de ~1-1,5 mm, situada aproximadamente <b>3,5 mm nasal</b> a la fóvea."},
+
+{cat:"Papila · Fondo de ojo",c:3,
+ q:"En el esquema del fondo de ojo, ¿qué estructura señala la letra A (zona pálida con salida de vasos)?",
+ svg:svgFondo, figcap:"Esquema de fondo de ojo.",
+ o:["La fóvea","La ora serrata","Una hemorragia","La papila óptica (cabeza del nervio óptico)"],
+ e:"La letra <b>A</b> marca la <b>papila</b>: disco más pálido que la retina, punto de entrada/salida de los vasos y nacimiento del nervio óptico. La letra B sería la mácula/fóvea."},
+
+{cat:"Caso clínico · Papila",c:0, case:true,
+ lead:"En la funduscopia de un paciente con cefalea se observan: bordes papilares borrosos, papila sobreelevada y hemorragias peripapilares.",
+ q:"¿Qué cuadro describe el fondo de ojo?",
+ o:["Edema de papila","Excavación glaucomatosa terminal","Atrofia papilar","Fondo de ojo normal"],
+ e:"<b>Edema de papila</b>: borrosidad de bordes, papila sobreelevada y hemorragias. La atrofia se ve pálida y el glaucoma terminal con gran excavación."},
+
+{cat:"Segmento anterior",c:1,
+ q:"La cámara anterior es el espacio comprendido entre:",
+ o:["El iris y el cristalino","La cara posterior de la córnea y la cara anterior del iris","La retina y la coroides","El cristalino y el vítreo"],
+ e:"La <b>cámara anterior</b> (≈3-4 mm) está entre la <b>cara posterior de la córnea</b> y la <b>cara anterior del iris</b>, ocupada por humor acuoso."},
+
+{cat:"Humor acuoso",c:2,
+ q:"El humor acuoso es producido por:",
+ o:["El endotelio corneal","Las células caliciformes","El epitelio ciliar de los procesos ciliares, en la cámara posterior","La glándula lagrimal principal"],
+ e:"El humor acuoso (líquido incoloro, ~0,4 cc, semejante al LCR) es producido por el <b>epitelio ciliar de los procesos ciliares</b> a nivel de la <b>cámara posterior</b>."},
+
+{cat:"Humor acuoso · PIO",c:3,
+ q:"El rango normal de presión intraocular (PIO) es:",
+ o:["0-5 mmHg","30-40 mmHg","5-8 mmHg","10-21 mmHg"],
+ e:"El humor acuoso genera la <b>PIO</b>, cuyo rango normal es <b>10-21 mmHg</b>, dependiente del equilibrio entre producción (procesos ciliares) y reabsorción (trabéculo)."},
+
+{cat:"Humor acuoso",c:0,
+ q:"El circuito de drenaje del humor acuoso sigue el orden:",
+ o:["Procesos ciliares (cámara post.) → pupila → cámara ant. → ángulo iridocorneal → malla trabecular → canal de Schlemm","Cámara anterior → vítreo → retina → vena central","Glándula lagrimal → córnea → vítreo","Coroides → esclera → venas vorticosas"],
+ e:"Circuito: producido en los <b>procesos ciliares</b> (cámara posterior) → pasa por la <b>pupila</b> a la <b>cámara anterior</b> → escapa por el <b>ángulo iridocorneal</b> (malla trabecular → canal de Schlemm) a la circulación venosa epiescleral."},
+
+{cat:"Segmento anterior",c:1,
+ q:"El ángulo iridocorneal, lugar de drenaje del humor acuoso, se explora mediante:",
+ o:["Oftalmoscopia directa","Gonioscopia","Tonometría de aire","Campimetría"],
+ e:"El <b>ángulo iridocorneal</b> (unión de córnea periférica posterior e iris anterior en 360º) se explora con <b>gonioscopia</b>; alberga la malla trabecular y el canal de Schlemm."},
+
+{cat:"Segmento anterior",c:2,
+ q:"En el esquema, ¿qué número señala el humor acuoso de la cámara anterior?",
+ svg:svgChambers, figcap:"1: cara post. córnea–CA · 2: cámara · 3: iris/pupila.",
+ o:["El nº 3","El cristalino del fondo","El nº 1 (entre córnea e iris)","La esclera externa"],
+ e:"El espacio <b>1</b>, entre la cara posterior de la córnea y la cara anterior del iris, es la <b>cámara anterior</b> rellena de humor acuoso. El nº 3 corresponde al iris/pupila."},
+
+{cat:"Cristalino",c:3,
+ q:"Señale la característica CORRECTA del cristalino:",
+ o:["Está ricamente vascularizado","Posee abundante inervación sensitiva","Mide 20 mm de diámetro","Es avascular y carece de inervación"],
+ e:"El cristalino es una lente biconvexa <b>avascular</b> y <b>sin inervación</b>; mide 9-10 mm de diámetro y ~5 mm de espesor. Sus funciones: refracción, acomodación, transparencia y absorción de UV."},
+
+{cat:"Cristalino",c:0,
+ q:"El ligamento suspensorio del cristalino (zónula) se extiende desde:",
+ o:["Los procesos ciliares hasta el ecuador del cristalino","La córnea hasta el iris","La retina hasta la coroides","La papila hasta la mácula"],
+ e:"La <b>zónula</b> va de los <b>procesos ciliares</b> al <b>ecuador del cristalino</b>, manteniéndolo en su lugar y transmitiéndole las contracciones del músculo ciliar (acomodación)."},
+
+{cat:"Cristalino",c:2,
+ q:"La capa del cristalino formada por una sola hilera de células cúbicas germinativas que originan nuevas fibras durante toda la vida es:",
+ o:["La cápsula (cristaloides)","El núcleo","El epitelio subcapsular","La zónula"],
+ e:"El <b>epitelio subcapsular</b> es una monocapa de células cúbicas germinativas que originan continuamente fibras (citodiferenciación). La cápsula es la membrana elástica externa."},
+
+{cat:"Humor vítreo",c:1,
+ q:"El humor vítreo representa qué proporción del volumen ocular:",
+ o:["1/5","4/5","La mitad","1/10"],
+ e:"El humor vítreo es un gel transparente que representa las <b>4/5 partes</b> del volumen ocular; es avascular, 99% agua, con colágeno y ácido hialurónico."},
+
+{cat:"Humor vítreo",c:2,
+ q:"Las zonas de adherencia firme del vítreo son:",
+ o:["A la esclera y a la córnea","Al iris y al cristalino anterior","A la cara posterior del cristalino/base del vítreo (anterior) y a los márgenes de la papila (posterior)","A la mácula y a la ora serrata exclusivamente"],
+ e:"Adherencias del vítreo: <b>anterior</b> a la cara posterior del cristalino y periferia del cuerpo ciliar (<b>base del vítreo</b>) y <b>posterior</b> a los márgenes de la <b>papila</b>."},
+
+{cat:"Embriología",c:0,
+ q:"El desarrollo del globo ocular se inicia:",
+ o:["En la 4ª semana (~22 días), a partir del neuroectodermo y el ectodermo del prosencéfalo","En el 5º mes de gestación","Tras el nacimiento","En la 2ª semana, del endodermo"],
+ e:"El desarrollo comienza en la <b>4ª semana (≈22 días)</b> con los surcos ópticos del <b>neuroectodermo</b> y el ectodermo del prosencéfalo → vesícula óptica → copa óptica."},
+
+{cat:"Embriología",c:3,
+ q:"La fisura coroidea (hendidura embrionaria), por la que discurren los vasos hialoideos, se cierra normalmente en:",
+ o:["La 12ª semana","El 3er mes","El nacimiento","La 7ª semana"],
+ e:"La <b>fisura coroidea</b> se cierra en la <b>7ª semana</b>. Si no se cierra correctamente puede dar lugar a colobomas."},
+
+{cat:"Embriología",c:1,
+ q:"En la copa óptica, la capa interna y la externa darán lugar respectivamente a:",
+ o:["EPR y retina neurosensorial","Retina neurosensorial y EPR","Cristalino y córnea","Coroides y esclera"],
+ e:"En la copa óptica: la <b>capa interna</b> (gruesa) forma la <b>retina neurosensorial</b> y la <b>capa externa</b> (fina) forma el <b>EPR</b>; al fusionarse desaparece el espacio intrarretiniano."},
+
+{cat:"Embriología",c:2,
+ q:"El cristalino deriva embriológicamente de:",
+ o:["El neuroectodermo de la copa óptica","La cresta neural","El ectodermo superficial (placoda del cristalino)","El mesodermo"],
+ e:"El <b>cristalino</b> deriva del <b>ectodermo superficial</b> (placoda → vesícula del cristalino), al igual que el epitelio corneal, conjuntiva y epitelios glandulares."},
+
+{cat:"Embriología",c:3,
+ q:"El endotelio corneal y el endotelio del trabéculo derivan de:",
+ o:["El ectodermo superficial","El neuroectodermo","El endodermo","El mesodermo inducido por células de la cresta neural (ectomesénquima)"],
+ e:"El <b>endotelio corneal</b>, el endotelio del trabéculo, el tejido conectivo del iris, el músculo ciliar, la coroides y la esclera derivan del <b>ectomesénquima</b> (cresta neural)."},
+
+{cat:"Embriología",c:0,
+ q:"El humor acuoso, que rellena las cámaras anterior y posterior durante el desarrollo, es semejante a:",
+ o:["El líquido cefalorraquídeo (LCR)","La bilis","El humor vítreo","El plasma sin agua"],
+ e:"Durante el desarrollo se forman las cámaras anterior y posterior rellenas de <b>humor acuoso</b>, descrito como <b>semejante al LCR</b>."},
+
+{cat:"Caso clínico · Embriología",c:1, case:true,
+ lead:"Recién nacido con una hendidura en el iris en posición inferonasal, que en la exploración se extiende afectando también a la coroides.",
+ q:"¿Cuál es el origen embriológico más probable de este defecto?",
+ o:["Fusión precoz de los párpados","Cierre incompleto de la fisura coroidea (coloboma)","Persistencia de la membrana iridopupilar","Ausencia de cresta neural"],
+ e:"El <b>coloboma</b> resulta del <b>cierre incompleto de la fisura/hendidura coroidea</b> (que normalmente se cierra en la 7ª semana), explicando su localización típica inferonasal y la posible afectación de iris, coroides y retina."},
+
+{cat:"Órbita",c:2,
+ q:"El vértice de la órbita está constituido por:",
+ o:["El reborde orbitario","El hueso lagrimal","El agujero óptico (ala menor del esfenoides)","El hueso malar"],
+ e:"La órbita tiene forma de pirámide de base anterior (reborde orbitario) y <b>vértice posterior</b>, ocupado por el <b>agujero óptico</b> en el ala menor del esfenoides."},
+
+{cat:"Órbita",c:0,
+ q:"La pared medial de la órbita está formada, entre otros, por el hueso lagrimal (unguis), el etmoides y el maxilar. En ella se localiza:",
+ o:["La fosa lagrimal y el canal nasolagrimal","El agujero óptico","El surco infraorbitario","La fisura orbitaria superior"],
+ e:"En la <b>pared medial</b> (maxilar, lagrimal/unguis, etmoides) se sitúan la <b>fosa lagrimal</b> y el <b>canal nasolagrimal</b>."},
+
+{cat:"Músculos extraoculares",c:3,
+ q:"¿Cuántos músculos extraoculares hay y dónde se originan la mayoría?",
+ o:["4 músculos, en la esclera","6 músculos, en la córnea","5 músculos, en el reborde orbitario","7 músculos; la mayoría en el tendón/anillo de Zinn (excepto el oblicuo inferior)"],
+ e:"Son <b>7 músculos</b> (elevador del párpado, 4 rectos y 2 oblicuos). Todos se originan en el <b>anillo de Zinn</b> excepto el <b>oblicuo inferior</b>."},
+
+{cat:"Músculos · Inervación",c:1,
+ q:"¿Qué grupo de músculos NO está inervado por el III par craneal?",
+ o:["Recto superior y recto medial","Oblicuo superior y recto lateral","Recto inferior y oblicuo inferior","Elevador del párpado superior"],
+ e:"El <b>III par</b> inerva RS, RI, RM, OI y elevador del párpado. El <b>oblicuo superior</b> lo inerva el <b>IV par (troclear)</b> y el <b>recto lateral</b> el <b>VI par (abducens)</b>."},
+
+{cat:"Músculos · Inervación",c:2,
+ q:"El nervio troclear (IV par) inerva al músculo:",
+ o:["Recto lateral","Recto medial","Oblicuo superior","Elevador del párpado"],
+ e:"El <b>IV par o troclear (patético)</b> inerva exclusivamente al <b>oblicuo superior</b>."},
+
+{cat:"Músculos · Inervación",c:0,
+ q:"El recto lateral está inervado por:",
+ o:["El VI par (abducens)","El III par","El IV par","El VII par"],
+ e:"El <b>recto lateral</b> (abducción) lo inerva el <b>VI par o abducens</b>."},
+
+{cat:"Pares craneales",c:3,
+ q:"De los nervios que penetran por la fisura orbitaria superior, ¿cuál lo hace FUERA del anillo de Zinn?",
+ o:["El VI par (recto lateral)","La rama inferior del III par","El nervio nasociliar","El IV par (troclear)"],
+ e:"El <b>IV par (troclear)</b> entra por la fisura orbitaria superior pero <b>fuera del anillo de Zinn</b>; el III y el VI par lo hacen dentro del anillo."},
+
+{cat:"Inervación neurovegetativa",c:0,
+ q:"La vía parasimpática del esfínter del iris y el músculo ciliar sigue el trayecto:",
+ o:["Núcleo de Edinger-Westphal → III par → ganglio ciliar → nervios ciliares cortos","Ganglio cervical superior → nervios ciliares largos","Ganglio de Gasser → nervio oftálmico","Núcleo de la protuberancia → VI par"],
+ e:"Parasimpático ocular: <b>núcleo de Edinger-Westphal</b> → III par → <b>ganglio ciliar</b> → nervios ciliares cortos → <b>esfínter del iris</b> y <b>músculo ciliar</b>."},
+
+{cat:"Inervación neurovegetativa",c:2,
+ q:"El músculo dilatador del iris y el músculo de Müller están inervados por la vía simpática que parte del:",
+ o:["Núcleo de Edinger-Westphal","Ganglio ciliar","Ganglio cervical superior (cadena simpática laterovertebral)","Ganglio de Gasser"],
+ e:"El <b>simpático</b> (cadena laterovertebral → <b>ganglio cervical superior</b> → nervios ciliares largos/cortos) inerva el <b>dilatador del iris</b> y el <b>músculo de Müller</b> del párpado."},
+
+{cat:"Pares craneales",c:1,
+ q:"El cierre palpebral (músculo orbicular) depende del:",
+ o:["III par (oculomotor)","VII par (facial)","V par (trigémino)","VI par (abducens)"],
+ e:"El <b>VII par (facial)</b> inerva el <b>músculo orbicular</b>, responsable del cierre palpebral. El elevador del párpado lo inerva el III par y el músculo de Müller el simpático."},
+
+{cat:"Conjuntiva",c:3,
+ q:"Las tres porciones de la conjuntiva son:",
+ o:["Lipídica, acuosa y mucosa","Epitelio, estroma y Tenon","Superior, media e inferior","Palpebral, bulbar y de fondo de saco (fórnix)"],
+ e:"La conjuntiva (capa mucosa transparente) tiene 3 partes: <b>palpebral</b>, <b>bulbar</b> y de <b>fondo de saco o fórnix</b>."},
+
+{cat:"Conjuntiva",c:0,
+ q:"Las células caliciformes de Goblet de la conjuntiva contribuyen a la película lagrimal con secreción:",
+ o:["Mucosa","Acuosa","Lipídica","Serosa"],
+ e:"Las <b>células de Goblet</b> aportan la <b>secreción mucosa</b>. La acuosa la dan las glándulas de Krause y Wolfring (accesorias) y la principal; la lipídica, las de Meibomio."},
+
+{cat:"Conjuntiva",c:1,
+ q:"Las glándulas conjuntivales accesorias de secreción acuosa son:",
+ o:["Meibomio y Zeiss","Krause y Wolfring","Goblet y Manz","Moll y Zeiss"],
+ e:"Las glándulas lagrimales <b>accesorias</b> de secreción acuosa son las de <b>Krause y Wolfring</b> (en conjuntiva tarsal y fórnix)."},
+
+{cat:"Conjuntiva · Defensa",c:2,
+ q:"La acción bacteriostática de la conjuntiva y la lágrima se debe principalmente a:",
+ o:["La melanina","Las células de Goblet","La lisozima y la fagocitosis por polimorfonucleares","El colágeno tipo I"],
+ e:"La protección <b>defensiva</b> incluye barrera física, capa adenoide inmunológica y acción <b>bacteriostática por enzimas como la lisozima</b> y la fagocitosis de polimorfonucleares."},
+
+{cat:"Párpados",c:3,
+ q:"Los tres músculos del párpado y su inervación son:",
+ o:["Orbicular (III), elevador (VII), Müller (V)","Orbicular (simpático), elevador (VII), Müller (III)","Sólo el orbicular, inervado por el III par","Orbicular (VII facial), elevador del párpado superior (III oculomotor) y Müller (simpático)"],
+ e:"Los 3 músculos palpebrales: <b>orbicular</b> (VII facial, cierre), <b>elevador del párpado superior</b> (III oculomotor) y <b>músculo de Müller</b> (fibras lisas, inervación <b>simpática</b>)."},
+
+{cat:"Párpados · Glándulas",c:0,
+ q:"Las glándulas de Meibomio, situadas en el espesor de los tarsos, son:",
+ o:["Sebáceas (holocrinas) que aportan la capa lipídica de la lágrima","Sudoríparas anexas a las pestañas","Productoras de moco","Glándulas lagrimales accesorias acuosas"],
+ e:"Las de <b>Meibomio</b> son glándulas <b>sebáceas holocrinas</b> en el tarso que aportan la <b>capa lipídica</b>. Las de Zeiss (sebáceas) y Moll (sudoríparas) son anexas a las pestañas."},
+
+{cat:"Película lagrimal",c:2,
+ q:"De externa a interna, las tres capas de la película lagrimal son:",
+ o:["Mucosa, acuosa, lipídica","Acuosa, lipídica, mucosa","Lipídica (Meibomio), acuosa (gl. lagrimales) y mucosa (Goblet)","Serosa, mucosa, lipídica"],
+ e:"Película lagrimal: <b>lipídica</b> (externa, glándulas de Meibomio; evita evaporación), <b>acuosa</b> (media, la más gruesa, glándulas lagrimales) y <b>mucosa</b> (interna, en contacto con el epitelio corneal, células de Goblet)."},
+
+{cat:"Vías lagrimales",c:1,
+ q:"El orden correcto del drenaje de la vía lagrimal excretora es:",
+ o:["Saco → punto lagrimal → canalículo → meato nasal","Punto lagrimal → canalículos → saco lagrimal → conducto lagrimonasal → meato nasal inferior","Conducto lagrimonasal → saco → canalículo → punto","Punto lagrimal → glándula lagrimal → fórnix"],
+ e:"Drenaje desde el lago lagrimal a la fosa nasal: <b>puntos lagrimales</b> (2) → <b>canalículos</b> → <b>saco lagrimal</b> → <b>conducto lagrimonasal</b> (15-18 mm) → <b>meato nasal inferior</b>."},
+
+{cat:"Aparato lagrimal",c:3,
+ q:"La glándula lagrimal principal se sitúa en:",
+ o:["El canto interno","El fondo de saco inferior","El espesor del tarso","El ángulo superotemporal de la órbita"],
+ e:"La glándula lagrimal principal está en el <b>ángulo superotemporal orbitario</b>, con porciones orbitaria y palpebral; la inerva el <b>nervio lagrimal</b> (rama del oftálmico)."},
+
+{cat:"Vascularización",c:0,
+ q:"La arteria central de la retina es rama de la arteria oftálmica (1ª rama de la carótida interna) y:",
+ o:["Penetra en el nervio óptico y emerge por la papila para irrigar las capas internas de la retina","Irriga la coroides","Drena las venas vorticosas","Nutre el cristalino"],
+ e:"La <b>arteria central de la retina</b> entra en el ojo por la <b>lámina cribosa</b>, aparece por el centro de la <b>papila</b> y nutre las <b>capas internas</b> de la retina."},
+
+{cat:"Vascularización",c:2,
+ q:"Las arterias ciliares posteriores cortas irrigan principalmente:",
+ o:["El iris y el cuerpo ciliar","La córnea","La coroides y las capas externas de la retina","Los músculos extraoculares"],
+ e:"Las <b>ciliares posteriores cortas</b> irrigan la <b>coroides</b> y, a través de la coriocapilar, las <b>capas externas de la retina</b>. Las largas y anteriores nutren iris y cuerpo ciliar."},
+
+{cat:"Vascularización venosa",c:1,
+ q:"El drenaje venoso de la coroides se realiza fundamentalmente a través de:",
+ o:["La vena central de la retina","Las venas vorticosas","Las venas ciliares anteriores","El canal de Schlemm"],
+ e:"Drenaje venoso: <b>vena central de la retina</b> (retina neurosensorial), <b>venas vorticosas</b> (coroides) y <b>venas ciliares anteriores</b> (iris y cuerpo ciliar); todas hacia la vena oftálmica y el seno cavernoso."},
+
+{cat:"Vía óptica",c:3,
+ q:"El orden correcto de la vía visual primaria es:",
+ o:["Quiasma → nervio óptico → corteza → CGL","Nervio óptico → CGL → quiasma → radiaciones","Tracto óptico → nervio óptico → quiasma → corteza","Nervio óptico → quiasma → cintillas/tracto → cuerpo geniculado lateral → radiaciones ópticas → corteza"],
+ e:"Vía visual primaria: <b>nervio óptico → quiasma óptico → cintillas/tractos ópticos → cuerpo geniculado lateral → radiaciones ópticas → corteza visual</b>."},
+
+{cat:"Vía óptica · Corteza",c:0,
+ q:"El área visual primaria (donde proyectan las radiaciones ópticas) corresponde al área de Brodmann:",
+ o:["Área 17","Área 4","Área 44","Área 8"],
+ e:"La <b>4ª sinapsis</b> de la vía proyecta sobre el <b>área visual primaria (área 17 de Brodmann)</b>. Las áreas 18 y 19 son visuales de asociación."},
+
+{cat:"Acomodación",c:1,
+ q:"Según la teoría de Helmholtz, para enfocar de cerca (acomodación) ocurre que:",
+ o:["El músculo ciliar se relaja y la zónula se tensa","El músculo ciliar se contrae, la zónula se relaja y el cristalino se abomba","La zónula se tensa y el cristalino se aplana","El cristalino disminuye su poder dióptrico"],
+ e:"En la <b>acomodación</b> (visión cercana) el <b>músculo ciliar se contrae</b>, disminuye la tensión de la <b>zónula</b> y el <b>cristalino se abomba</b>, aumentando su poder dióptrico (mediado por el parasimpático)."},
+
+{cat:"Esclera",c:2,
+ q:"¿Cuál de estos datos anatómicos de la esclera es CORRECTO?",
+ o:["Está muy vascularizada","Es de color oscuro por la melanina","Sirve de inserción a los músculos extraoculares y deja paso a las venas vorticosas","Forma parte de la túnica media"],
+ e:"La esclera (túnica <b>externa/fibrosa</b>) da <b>inserción a los músculos extraoculares</b> y presenta orificios para los vasos/nervios ciliares y la <b>salida de las venas vorticosas</b>. Es blanca y poco vascularizada."},
+
+{cat:"Anatomía aplicada",c:0,
+ q:"El término ‘superficie ocular’ engloba a la conjuntiva, el limbo esclerocorneal, el epitelio corneal y la película lagrimal. Sus elementos centrales son:",
+ o:["El epitelio corneal y la película lagrimal","El cristalino y el vítreo","La esclera y la coroides","El iris y el cuerpo ciliar"],
+ e:"Los <b>elementos centrales</b> de la superficie ocular son el <b>epitelio corneal</b> y la <b>película lagrimal</b>; párpados, glándula lagrimal y vía de drenaje son anejos esenciales."},
+
+{cat:"Retina · Fisiología",c:3,
+ q:"Las dos células gliales de la retina son:",
+ o:["Conos y bastones","Bipolares y ganglionares","Horizontales y amacrinas","Fibras de Müller y astrocitos"],
+ e:"Entre las células de la retina, además de las 6 neuronas, hay <b>2 tipos de células gliales</b>: las <b>fibras de Müller</b> y los <b>astrocitos</b>."},
+
+{cat:"Córnea",c:1,
+ q:"El epitelio corneal se caracteriza por ser:",
+ o:["Cilíndrico simple ciliado","Escamoso estratificado no queratinizado (5-7 capas)","Cúbico monoestratificado","Glandular mucoso"],
+ e:"El <b>epitelio corneal</b> es <b>escamoso estratificado no queratinizado</b> (5-7 capas), en continua exfoliación, que se renueva desde las células madre del limbo."},
+
+{cat:"Úvea · Coroides",c:2,
+ q:"Dentro de la coroides, los canales venosos confluyen en venas que se anastomosan por cuadrantes y atraviesan la esclera. Se trata de las:",
+ o:["Venas ciliares anteriores","Venas oftálmicas","Venas vorticosas","Venas centrales de la retina"],
+ e:"Las <b>venas vorticosas</b> recogen la sangre de la coroides, atraviesan la esclera y drenan hacia la vena oftálmica."},
+
+{cat:"Caso clínico · Pupila",c:0, case:true,
+ lead:"En la exploración de las reacciones pupilares te piden razonar la vía eferente de la miosis fotomotora.",
+ q:"¿Qué músculo y qué inervación median la contracción pupilar?",
+ o:["Esfínter del iris, vía parasimpática (Edinger-Westphal → III → ganglio ciliar)","Dilatador del iris, vía simpática","Músculo de Müller, vía simpática","Músculo ciliar, vía facial"],
+ e:"La <b>miosis</b> la produce el <b>esfínter del iris</b>, inervado por el <b>parasimpático</b> (Edinger-Westphal → III par → ganglio ciliar → nervios ciliares cortos)."},
+
+{cat:"Anatomía general",c:1,
+ q:"¿Cuál de las siguientes estructuras NO pertenece al contenido intraocular?",
+ o:["Humor acuoso","Glándula lagrimal","Cristalino","Humor vítreo"],
+ e:"El contenido intraocular incluye cámaras anterior y posterior, humor acuoso, cristalino y humor vítreo. La <b>glándula lagrimal</b> es una estructura aneja extraocular."},
+
+{cat:"Embriología",c:2,
+ q:"Respecto al desarrollo de los párpados, señale la afirmación CORRECTA:",
+ o:["Nunca llegan a fusionarse","Se separan en la 4ª semana","Están fusionados hacia la 9ª semana y completan su separación entre el 7º y 8º mes","Las pestañas aparecen en el nacimiento"],
+ e:"Los párpados están <b>fusionados hacia la 9ª semana</b>; la separación se inicia en el 5º mes y se completa entre el <b>7º y 8º mes</b>. Las pestañas crecen en el 3er mes."},
+
+{cat:"Úvea · Iris",c:3,
+ q:"El color del ojo viene determinado principalmente por:",
+ o:["La cápsula del cristalino","El endotelio corneal","La coroides","El estroma iridiano (fibroblastos y melanocitos)"],
+ e:"El <b>color del ojo</b> depende del <b>estroma iridiano</b>, con fibroblastos y melanocitos en una matriz de colágeno, vasos y nervios."},
+
+{cat:"Humor acuoso",c:0,
+ q:"¿Cuál de las siguientes es función del humor acuoso?",
+ o:["Nutrir el cristalino y la córnea, y generar la PIO","Captar la luz","Producir lágrima","Dar color al iris"],
+ e:"Funciones del humor acuoso: <b>nutrición del cristalino y la córnea</b>, eliminación de desechos, generación de la <b>PIO</b> y participación en la refracción."},
+
+{cat:"Retina",c:1,
+ q:"Relaciones anatómicas de la retina: externamente se relaciona con… e internamente con…",
+ o:["El cristalino / la esclera","La coriocapilar de la coroides / el humor vítreo","El cuerpo ciliar / la córnea","El humor acuoso / el iris"],
+ e:"La retina se relaciona <b>externamente</b> con la <b>coriocapilar de la coroides</b> e <b>internamente</b> con el <b>humor vítreo</b>; por delante con el cuerpo ciliar (ora serrata) y por detrás con la papila."},
+
+{cat:"Anatomía general",c:2,
+ q:"Las estructuras anejas extraoculares incluyen todas EXCEPTO:",
+ o:["Conjuntiva y párpados","Aparato lagrimal","El cristalino","Musculatura extrínseca y órbita"],
+ e:"Anejos extraoculares: conjuntiva, párpados, aparato lagrimal, musculatura extrínseca y órbita. El <b>cristalino</b> es contenido <b>intraocular</b>."},
+
+{cat:"Pares craneales",c:3,
+ q:"El nervio oftálmico (V1), rama sensitiva del trigémino con origen en el ganglio de Gasser, se divide en tres ramas:",
+ o:["Maxilar, mandibular y frontal","Ciliar, óptico y troclear","Superior, media e inferior","Frontal, lagrimal y nasal (nasociliar)"],
+ e:"El <b>nervio oftálmico (V1)</b> se divide en sus 3 ramas: <b>frontal</b>, <b>lagrimal</b> y <b>nasal (nasociliar)</b>; recibe además fibras simpáticas del plexo carotídeo."},
+
+{cat:"Córnea",c:0,
+ q:"¿De dónde se nutre la córnea, al ser avascular?",
+ o:["Del limbo esclerocorneal, el humor acuoso y la lágrima","De la arteria central de la retina","De las venas vorticosas","De la coroides"],
+ e:"La córnea avascular se nutre de los <b>vasos del limbo esclerocorneal</b>, del <b>humor acuoso</b> (cara posterior) y de la <b>lágrima</b> (cara anterior)."},
+
+{cat:"Caso clínico · Anatomía",c:2, case:true,
+ lead:"Un compañero te pregunta qué estructura, situada entre la córnea periférica posterior y el iris anterior en los 360º, es clave para el drenaje del humor acuoso.",
+ q:"Le respondes que se trata de:",
+ o:["La ora serrata","El limbo esclerocorneal","El ángulo iridocorneal (malla trabecular y canal de Schlemm)","La cápsula de Tenon"],
+ e:"El <b>ángulo iridocorneal</b> es el lugar de unión de la córnea periférica posterior y el iris anterior; contiene la <b>malla trabecular</b> y el <b>canal de Schlemm</b>, y drena el humor acuoso. Se explora con gonioscopia."},
+
+{cat:"Embriología",c:1,
+ q:"La retina, el epitelio posterior del iris y los músculos esfínter y dilatador del iris derivan de:",
+ o:["El ectodermo superficial","El neuroectodermo (cúpula óptica)","El mesodermo paraxial","El endodermo"],
+ e:"Del <b>neuroectodermo</b> (cúpula óptica) derivan la retina, el epitelio posterior del iris, los músculos esfínter y dilatador del iris, el epitelio posterior del cuerpo ciliar y el nervio óptico."},
+
+{cat:"Úvea · Cuerpo ciliar",c:3,
+ q:"El músculo ciliar es una masa anular de músculo liso dispuesto en haces:",
+ o:["Sólo circulares","Estriados voluntarios","Únicamente longitudinales","Longitudinal, radial y circular"],
+ e:"El <b>músculo ciliar</b> es liso y se dispone en tres haces: <b>longitudinal, radial y circular</b>; su contracción modifica la tensión de la zónula (acomodación)."},
+
+{cat:"Anatomía general",c:0,
+ q:"Según la clasificación por túnicas, ¿qué afirmación es CORRECTA?",
+ o:["La esclera y la córnea forman la capa externa fibrosa","La retina forma la capa media","La úvea es la capa interna nerviosa","El cristalino es parte de la túnica externa"],
+ e:"Túnica <b>externa/fibrosa</b>: esclera + córnea; <b>media/vascular</b>: úvea; <b>interna/nerviosa</b>: retina. El cristalino es contenido intraocular, no una túnica."},
+
+{cat:"Retina",c:2,
+ q:"La capa más externa de la retina (en contacto con la coroides) es:",
+ o:["La capa de fibras nerviosas","La membrana limitante interna","El epitelio pigmentario de la retina (EPR)","La capa de células ganglionares"],
+ e:"El <b>EPR</b> es la capa más externa de la retina, en contacto con la coroides; la membrana limitante interna y la capa de fibras nerviosas son las más internas."},
+
+{cat:"Vía óptica · Fisiología",c:1,
+ q:"En la vía óptica, la 3ª sinapsis tiene lugar en:",
+ o:["La célula bipolar","Las neuronas del cuerpo geniculado lateral","La célula ganglionar","El área visual primaria"],
+ e:"Secuencia: fotorreceptor → bipolar (1ª) → ganglionar (2ª) → <b>cuerpo geniculado lateral (3ª sinapsis)</b> → corteza (área 17, 4ª sinapsis)."},
+
+{cat:"Caso clínico · Cristalino",c:0, case:true,
+ lead:"Estudias un cristalino: una lente biconvexa de unos 9-10 mm de diámetro, sin vasos ni nervios, suspendida por finas microfibrillas.",
+ q:"¿Cómo realiza sus intercambios nutricionales?",
+ o:["A través de las cápsulas, con los líquidos circundantes (humor acuoso y vítreo)","Mediante la arteria central de la retina","Por capilares del propio núcleo","A través de la coroides"],
+ e:"Al ser <b>avascular y sin inervación</b>, el cristalino realiza todos sus intercambios <b>a través de las cápsulas</b>, con los líquidos que lo rodean (humor acuoso por delante, vítreo por detrás)."},
+
+{cat:"Conjuntiva · Patología",c:2,
+ q:"La hiperemia conjuntival difusa con dilatación de los vasos superficiales es un signo típico de:",
+ o:["Catarata","Desprendimiento de retina","Conjuntivitis","Glaucoma agudo"],
+ e:"La <b>hiperemia conjuntival</b> (junto a otros signos como quemosis, papilas o hemorragia) es una forma de respuesta típica de la <b>conjuntivitis</b>; en el T01 se cita como patología básica de la conjuntiva."},
+
+{cat:"Embriología",c:3,
+ q:"Sobre el origen de las cubiertas del ojo, el mesénquima circundante se diferencia análogamente a las meninges: la coroides equivale a la piamadre y la esclera a la…",
+ o:["Aracnoides","Mucosa nasal","Conjuntiva","Duramadre"],
+ e:"El mesénquima circundante se diferencia en <b>coroides</b> (laxa, vascularizada → análoga a la <b>piamadre</b>) y <b>esclera</b> (densa → análoga a la <b>duramadre</b>)."},
+
+{cat:"Órbita",c:1,
+ q:"Los orificios de comunicación de la órbita son la fisura orbitaria superior, la fisura orbitaria inferior y:",
+ o:["El meato nasal inferior","El foramen (agujero) óptico","El canal de Schlemm","El limbo"],
+ e:"Los orificios de la órbita son la <b>fisura orbitaria superior</b> (esfenoidal), la <b>fisura orbitaria inferior</b> (esfenomaxilar) y el <b>foramen óptico</b>."},
+
+{cat:"Película lagrimal",c:0,
+ q:"La triple función de la película lagrimal es:",
+ o:["Nutritiva, protectora (lisozima) y óptica","Refractiva, motora y secretora","Vascular, nerviosa y muscular","Pigmentaria, mecánica y hormonal"],
+ e:"La película lagrimal tiene función <b>nutritiva</b> (O₂ y nutrientes), <b>protectora</b> (evita desecación, lisozima antiséptica, arrastre de cuerpos extraños) y <b>óptica</b> (regulariza la interfase aire-córnea)."},
+
+{cat:"Vascularización",c:2,
+ q:"La arteria oftálmica, de la que dependen prácticamente todas las arterias del ojo, es la primera rama de:",
+ o:["La arteria carótida externa","La arteria facial","La arteria carótida interna","La arteria maxilar"],
+ e:"La <b>arteria oftálmica</b> es la primera rama de la <b>carótida interna</b>; de ella derivan la a. central de la retina, las ciliares posteriores/anteriores, la lagrimal, etc."}
+];
+
+/* ---------- Estado y render ---------- */
+const answers = new Array(Q.length).fill(null); // null | índice elegido
+let cur = 0;
+
+const $ = id => document.getElementById(id);
+const stem=$("stem"), opts=$("opts"), explain=$("explain"), figure=$("figure"),
+      qnum=$("qnum"), qtag=$("qtag"), bar=$("bar"), grid=$("grid");
+
+function buildGrid(){
+  grid.innerHTML="";
+  Q.forEach((_,i)=>{
+    const b=document.createElement("button");
+    b.className="cell"; b.textContent=i+1;
+    b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};
+    grid.appendChild(b);
+  });
+}
+function refreshGrid(){
+  [...grid.children].forEach((c,i)=>{
+    c.classList.remove("cur","ok","no");
+    if(i===cur)c.classList.add("cur");
+    if(answers[i]!=null) c.classList.add(answers[i]===Q[i].c?"ok":"no");
+  });
+}
+function updateStats(){
+  const ok=answers.filter((a,i)=>a===Q[i].c).length;
+  const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;
+  $("sOk").textContent=ok; $("sNo").textContent=no;
+  $("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';
+  const done=answers.filter(a=>a!=null).length;
+  bar.style.width=(done/Q.length*100)+"%";
+}
+
+function render(){
+  const q=Q[cur];
+  qnum.textContent=String(cur+1).padStart(2,"0");
+  qtag.textContent=q.cat;
+  qtag.className="tag"+(q.case?" case":"");
+  // figura
+  if(q.svg){ figure.innerHTML=`<div class="figure">${q.svg}<div class="figcap">${q.figcap||""}</div></div>`; }
+  else figure.innerHTML="";
+  // stem (con lead de caso clínico)
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  // opciones
+  const keys=["a","b","c","d"];
+  opts.innerHTML="";
+  const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{
+    const b=document.createElement("button");
+    b.className="opt";
+    b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){
+      b.classList.add("locked");
+      if(i===q.c)b.classList.add("correct");
+      else if(i===chosen)b.classList.add("wrong");
+      else b.classList.add("dim");
+    } else {
+      b.onclick=()=>choose(i);
+    }
+    opts.appendChild(b);
+  });
+  // explicación
+  if(chosen!=null){
+    const ok=chosen===q.c;
+    explain.className="explain show";
+    explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;
+  } else {
+    explain.className="explain"; explain.innerHTML="";
+  }
+  $("prev").disabled=cur===0;
+  $("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";
+  updateStats(); refreshGrid();
+}
+
+function choose(i){
+  if(answers[cur]!=null)return;
+  answers[cur]=i;
+  render();
+}
+
+$("next").onclick=()=>{
+  if(cur===Q.length-1){ showResults(); }
+  else { cur++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+};
+$("prev").onclick=()=>{ if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});} };
+
+function showResults(){
+  const ok=answers.filter((a,i)=>a===Q[i].c).length;
+  const pct=Math.round(ok/Q.length*100);
+  $("rOk").textContent=ok;
+  let grade, msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la anatomofisiología del T01. Listo para clase.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos marcados en rojo para afinar.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta, pero conviene repasar los temas con más fallos.";}
+  else {grade="A reforzar";msg="Vuelve sobre el T01 y repite el test; los conceptos básicos son la clave del resto del temario.";}
+  $("rGrade").textContent=grade;
+  $("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;
+  $("results").classList.add("show");
+  $("results").scrollIntoView({behavior:"smooth"});
+}
+$("restart").onclick=()=>{
+  answers.fill(null); cur=0;
+  $("results").classList.remove("show");
+  render(); window.scrollTo({top:0,behavior:"smooth"});
+};
+
+buildGrid(); render();
+</script>
+</body>
+</html>
