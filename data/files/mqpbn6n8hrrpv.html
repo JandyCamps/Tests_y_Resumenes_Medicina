@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T07 · Patología de la Mácula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T07</p>
+    <h1>Patología de la Mácula</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figAmsler=`<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rejilla con líneas centrales onduladas">
+<rect x="50" y="20" width="120" height="120" fill="#fff" stroke="#222"/>
+<g stroke="#bbb"><line x1="80" y1="20" x2="80" y2="140"/><line x1="140" y1="20" x2="140" y2="140"/><line x1="50" y1="50" x2="170" y2="50"/><line x1="50" y1="110" x2="170" y2="110"/></g>
+<path d="M110 20 Q118 60 110 80 Q102 110 110 140" stroke="#333" fill="none"/>
+<path d="M50 80 Q90 72 110 80 Q140 88 170 80" stroke="#333" fill="none"/>
+<circle cx="110" cy="80" r="2.5" fill="#000"/>
+</svg>`;
+const figSeca=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fondo de ojo con depósitos amarillentos y atrofia central">
+<circle cx="100" cy="90" r="78" fill="#e3a866" stroke="#b8853f"/>
+<g fill="#f3e3c2" stroke="#d9bd85"><circle cx="88" cy="80" r="6"/><circle cx="112" cy="92" r="5"/><circle cx="96" cy="106" r="6"/><circle cx="76" cy="94" r="5"/><circle cx="118" cy="74" r="4"/></g>
+<circle cx="100" cy="90" r="20" fill="#cdb48c" opacity=".7"/>
+</svg>`;
+const figHumeda=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fondo de ojo con hemorragia macular">
+<circle cx="100" cy="90" r="78" fill="#e3a866" stroke="#b8853f"/>
+<path d="M68 64 Q112 48 138 80 Q142 116 100 126 Q60 112 68 64Z" fill="#9c2b22" opacity=".85"/>
+<ellipse cx="100" cy="90" rx="28" ry="20" fill="#c9722e" opacity=".5"/>
+</svg>`;
+const figBuey=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maculopatía con anillo de atrofia alrededor de un centro pigmentado">
+<circle cx="100" cy="90" r="78" fill="#d99a55" stroke="#b8853f"/>
+<circle cx="100" cy="90" r="40" fill="#efe0c4"/>
+<circle cx="100" cy="90" r="40" fill="none" stroke="#c7a86a" stroke-width="3"/>
+<circle cx="100" cy="90" r="16" fill="#8a5a2a"/>
+</svg>`;
+const figMER=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fondo de ojo con brillo celofánico y pliegues maculares">
+<circle cx="100" cy="90" r="78" fill="#e3a866" stroke="#b8853f"/>
+<g stroke="#caa46a" fill="none" stroke-width="1.4"><path d="M70 70 Q100 84 130 70"/><path d="M68 90 Q100 104 132 90"/><path d="M72 110 Q100 122 128 110"/></g>
+<ellipse cx="100" cy="90" rx="34" ry="26" fill="#f0e6cf" opacity=".35"/>
+</svg>`;
+
+const Q=[
+{cat:"Mácula",c:1,q:"El síntoma cardinal de la patología macular, junto a la pérdida de visión central, es:",
+ o:["Halos de colores","Metamorfopsia (líneas rectas que se ven onduladas)","Ojo rojo doloroso","Diplopía binocular"],
+ e:"La <b>metamorfopsia</b> (distorsión de las líneas rectas) es el síntoma macular típico, junto a la ↓ de la <b>visión central</b>; no hay dolor ni ojo rojo."},
+{cat:"Mácula · pruebas",c:2,q:"La prueba diagnóstica MÁS importante en la patología macular es:",
+ o:["La rejilla de Amsler","La angiografía con fluoresceína","La OCT (tomografía de coherencia óptica)","La tonometría"],
+ e:"La <b>OCT</b> es la prueba reina: detecta, localiza y cuantifica la lesión y guía y monitoriza el tratamiento."},
+{cat:"Imagen · pruebas",c:3,case:false,figSrc:"figAmsler",figcap:"Prueba de autocontrol del paciente.",
+ q:"Un paciente refiere que en esta prueba ve las líneas centrales onduladas. ¿Qué prueba es y qué detecta?",
+ o:["OCT; detecta edema","AFG; detecta neovasos","Tonometría; mide la PIO","Rejilla de Amsler; detecta metamorfopsia"],
+ e:"Es la <b>rejilla de Amsler</b>, que el paciente usa para autodetectar <b>metamorfopsia</b> (signo de afectación macular)."},
+{cat:"DMAE",c:0,q:"En la etiopatogenia de la DMAE, el factor que estimula la neovascularización y es la diana del tratamiento es:",
+ o:["El VEGF","La lisozima","El colágeno tipo IV","La melanina"],
+ e:"La <b>sobreexpresión de VEGF</b> estimula la neovascularización coroidea; los <b>antiVEGF</b> son el tratamiento de la forma húmeda."},
+{cat:"DMAE",c:1,q:"Las drusas son:",
+ o:["Neovasos coroideos","Depósitos de detritus/matriz extracelular bajo el EPR","Hemorragias retinianas","Exudados de fibrina"],
+ e:"Las <b>drusas</b> son acúmulos de detritus y matriz extracelular; marcador inicial de DMAE."},
+{cat:"DMAE · DDx",c:2,ddx:true,q:"¿Qué dato define la DMAE HÚMEDA frente a la seca?",
+ o:["La presencia de drusas","La edad avanzada","La presencia de FLUIDO (exudación/neovasos)","La metamorfopsia"],
+ e:"Lo que define la forma <b>húmeda/exudativa</b> es la <b>presencia de fluido</b> (sub-EPR, subretiniano o intrarretiniano) por neovascularización; la seca no tiene fluido."},
+{cat:"DMAE",c:3,q:"Respecto a la frecuencia y el pronóstico de las formas de DMAE:",
+ o:["La húmeda es más frecuente y de mejor pronóstico","Ambas son igual de frecuentes","La seca es rápida y de mal pronóstico","La seca es la más frecuente (≈80%) y de evolución más lenta; la húmeda es peor y más rápida"],
+ e:"La <b>seca</b> es la más frecuente (≈80%), lenta y de mejor pronóstico; la <b>húmeda</b> es menos frecuente pero peor y más rápida."},
+{cat:"Imagen · DMAE",c:0,figSrc:"figSeca",figcap:"Fondo de ojo del paciente.",
+ q:"Este fondo con depósitos amarillentos y atrofia central, sin sangre, corresponde a:",
+ o:["DMAE seca/atrófica","DMAE húmeda","Coroidopatía serosa central","Agujero macular"],
+ e:"Drusas + atrofia <b>sin fluido/sangre</b> = <b>DMAE seca/atrófica</b> (la avanzada es la atrofia geográfica)."},
+{cat:"Caso clínico · Imagen",c:1,case:true,figSrc:"figHumeda",figcap:"Fondo de ojo del paciente.",
+ lead:"Mujer de 78 años con pérdida brusca de visión central y metamorfopsia; en el fondo se ve esta hemorragia macular y la OCT muestra fluido subretiniano.",
+ q:"Diagnóstico y tratamiento de primera línea:",
+ o:["DMAE seca; suplementos","DMAE húmeda; antiVEGF intravítreo","MER; vitrectomía","CSC; observación"],
+ e:"Pérdida brusca + hemorragia + <b>fluido</b> en OCT en una anciana = <b>DMAE húmeda</b>; primera línea <b>antiVEGF intravítreo</b>."},
+{cat:"DMAE · tto",c:2,q:"El tratamiento de primera línea de la DMAE exudativa es:",
+ o:["Terapia fotodinámica","Fotocoagulación láser","Fármacos antiVEGF intravítreos","Cirugía submacular"],
+ e:"Los <b>antiVEGF intravítreos</b> (ranibizumab, aflibercept, etc.) son la <b>primera línea</b> de la DMAE húmeda; la TFD y el láser tienen indicaciones residuales."},
+{cat:"DMAE · tto",c:3,q:"En la DMAE seca, el tratamiento se basa en:",
+ o:["AntiVEGF mensuales","Panfotocoagulación","Vitrectomía","Suplementos antioxidantes + Zn (en intermedia/avanzada); no hay tto específico curativo"],
+ e:"La <b>seca</b> no tiene tratamiento curativo; se usan <b>suplementos antioxidantes + Zn</b> para enlentecer la progresión."},
+{cat:"DMAE · tto",c:0,q:"¿En qué pacientes están contraindicados los β-carotenos de los suplementos?",
+ o:["Fumadores/exfumadores (riesgo de cáncer de pulmón)","Diabéticos","Hipertensos","Miopes"],
+ e:"Los <b>β-carotenos</b> aumentan el riesgo de <b>cáncer de pulmón en fumadores/exfumadores</b>; se evitan en ellos."},
+{cat:"Caso clínico · CSC",c:1,case:true,
+ lead:"Varón de 38 años muy estresado, en tratamiento con corticoides orales, con visión borrosa y micropsia en un ojo; la OCT muestra líquido subretiniano y la AFG, una fuga 'en humo de chimenea'.",
+ q:"El diagnóstico y la actitud son:",
+ o:["DMAE húmeda; antiVEGF","Coroidopatía serosa central; observar y retirar corticoides","Agujero macular; cirugía","Maculopatía tóxica; suspender antipalúdicos"],
+ e:"Varón joven, estrés, <b>corticoides</b> y fuga <b>'en humo de chimenea'</b> = <b>CSC</b>; buen pronóstico, se observa y se <b>retiran los corticoides</b>."},
+{cat:"CSC",c:2,q:"La coroidopatía serosa central consiste en:",
+ o:["Una neovascularización coroidea","Una membrana fibrosa prerretiniana","Un desprendimiento seroso de la retina neurosensorial por defecto del EPR","Un agujero foveal por tracción"],
+ e:"La <b>CSC</b> es un <b>desprendimiento localizado de la retina neurosensorial</b> por un defecto del EPR ('punto de fuga') con paso de líquido desde la coriocapilar."},
+{cat:"CSC · DDx",c:3,ddx:true,q:"¿Qué hallazgo angiográfico es típico de la CSC?",
+ o:["Encaje peripapilar","Ojo de buey","Empedrado","Hiperfluorescencia 'en humo de chimenea'"],
+ e:"La <b>AFG</b> de la CSC muestra una fuga <b>'en humo de chimenea'</b>; la OCT, líquido subretiniano y coroides engrosada."},
+{cat:"MER",c:0,q:"La membrana epirretiniana (pucker macular) consiste en:",
+ o:["Una proliferación fibrosa en la superficie interna de la retina que la arruga","Una opacidad del cristalino","Drusas confluentes","Un desprendimiento de coroides"],
+ e:"La <b>MER</b> es una <b>fibrosis prerretiniana</b> que contrae y arruga la mácula ('brillo celofánico'); da ↓AV y metamorfopsia."},
+{cat:"Imagen · MER",c:1,figSrc:"figMER",figcap:"Fondo de ojo del paciente.",
+ q:"Este brillo celofánico con pliegues maculares es típico de:",
+ o:["DMAE seca","Membrana epirretiniana (MER)","Coroidopatía serosa central","Maculopatía tóxica"],
+ e:"El <b>brillo celofánico y los pliegues</b> que traccionan los vasos definen la <b>MER</b> (se confirma con OCT)."},
+{cat:"MER · tto",c:2,q:"El tratamiento de una MER sintomática es:",
+ o:["AntiVEGF","Suplementos","Quirúrgico: vitrectomía y pelado de la membrana","Observación siempre"],
+ e:"La MER sintomática se trata con <b>vitrectomía y pelado de la MER</b>."},
+{cat:"Caso clínico · agujero",c:3,case:true,
+ lead:"Mujer de 70 años con metamorfopsia y mancha central; la OCT muestra una solución de continuidad de espesor completo en la fóvea.",
+ q:"El diagnóstico y tratamiento son:",
+ o:["MER; observación","CSC; retirar corticoides","DMAE seca; suplementos","Agujero macular; vitrectomía con pelado de MLI e inyección de gas"],
+ e:"Defecto foveal de espesor completo = <b>agujero macular</b> (idiopático/senil el más frecuente); tto <b>quirúrgico</b> (vitrectomía, pelado de MLI, gas)."},
+{cat:"Agujero",c:0,q:"El agujero macular más frecuente es:",
+ o:["El idiopático (senil), por tracción vítrea","El traumático","El miópico","El inflamatorio"],
+ e:"El <b>idiopático (senil)</b>, por tracción vítrea, es el más frecuente; el <b>traumático</b> aparece en jóvenes."},
+{cat:"Caso clínico · tóxica",c:1,case:true,
+ lead:"Mujer con lupus en tratamiento crónico con hidroxicloroquina, con ↓AV; en el fondo se aprecia una lesión macular 'en ojo de buey'.",
+ q:"La causa y la conducta son:",
+ o:["DMAE húmeda; antiVEGF","Maculopatía tóxica por antipalúdicos; suspender el fármaco","CSC; observar","MER; cirugía"],
+ e:"Lesión <b>'en ojo de buey'</b> en paciente con <b>antipalúdicos</b> (cloroquina/hidroxicloroquina) = <b>maculopatía tóxica</b>; se <b>suspende el fármaco</b> (y screening previo)."},
+{cat:"Imagen · tóxica",c:2,figSrc:"figBuey",figcap:"Fondo de ojo del paciente.",
+ q:"Esta imagen 'en ojo de buey' (anillo de atrofia rodeando el centro) sugiere:",
+ o:["DMAE húmeda","CSC","Maculopatía por antipalúdicos","Agujero macular"],
+ e:"La maculopatía <b>'en ojo de buey'</b> es típica de la toxicidad por <b>cloroquina/hidroxicloroquina</b>."},
+{cat:"Tóxica",c:3,q:"Los antipalúdicos producen maculopatía porque:",
+ o:["Aumentan el VEGF","Producen neovasos","Causan tracción vítrea","Son melanotropos y se concentran en el EPR; toxicidad por dosis acumulada"],
+ e:"La cloroquina/hidroxicloroquina son <b>melanotropos</b> (se acumulan en el EPR); la toxicidad depende de la <b>dosis acumulada</b> → screening obligatorio."},
+{cat:"DDx maculopatías",c:0,ddx:true,q:"¿Cuál de estas maculopatías se trata habitualmente con cirugía (vitrectomía)?",
+ o:["MER y agujero macular","DMAE seca","CSC","Maculopatía tóxica"],
+ e:"La <b>MER y el agujero macular</b> se tratan con <b>vitrectomía</b>; la seca con suplementos, la CSC con observación y la tóxica suspendiendo el fármaco."},
+{cat:"DMAE · clasif",c:1,q:"La DMAE seca avanzada se caracteriza por:",
+ o:["Membrana neovascular","Atrofia geográfica (con afectación central)","Hemorragia subretiniana","Edema macular cistoide"],
+ e:"La forma <b>seca avanzada</b> es la <b>atrofia geográfica</b>; la avanzada húmeda es la neovascular."},
+{cat:"Caso clínico · DDx",c:2,case:true,ddx:true,
+ lead:"Dos ancianos con metamorfopsia: el primero pierde visión de forma lenta y tiene drusas y atrofia sin fluido; el segundo pierde visión de golpe y tiene hemorragia con fluido en OCT.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Húmeda y seca","CSC y MER","DMAE seca y DMAE húmeda","MER y agujero"],
+ e:"Lenta + drusas/atrofia sin fluido = <b>seca</b>; brusca + hemorragia/fluido = <b>húmeda</b> (candidata a antiVEGF)."},
+{cat:"DMAE · dx",c:3,q:"Para detectar el penacho neovascular sin inyectar contraste se usa:",
+ o:["La rejilla de Amsler","La tonometría","La autofluorescencia","La OCTA (angiografía-OCT)"],
+ e:"La <b>OCTA</b> visualiza la vascularización macular y el penacho neovascular sin contraste; útil en la DMAE húmeda."},
+{cat:"DMAE · dx",c:0,q:"En el seguimiento de la atrofia geográfica (DMAE seca) es muy útil:",
+ o:["La autofluorescencia","La gonioscopia","El test de Schirmer","La paquimetría"],
+ e:"La <b>autofluorescencia</b> es muy útil para seguir las placas de atrofia en la <b>DMAE seca</b>."},
+{cat:"CSC",c:1,q:"Respecto al pronóstico de la coroidopatía serosa central:",
+ o:["Mal pronóstico, requiere antiVEGF urgente","Buen pronóstico, suele resolverse de forma espontánea en meses","Siempre deja ceguera","Requiere vitrectomía"],
+ e:"La <b>CSC</b> tiene <b>buen pronóstico</b> y suele resolverse sola en meses (o al retirar corticoides); el láser/TFD se reserva a casos persistentes."},
+{cat:"Caso clínico · MER",c:2,case:true,
+ lead:"Paciente de 68 años con antecedente de desprendimiento de vítreo posterior, que nota visión algo distorsionada; en la OCT hay una línea hiperreflectiva en la superficie retiniana con pérdida del perfil foveal.",
+ q:"El diagnóstico es:",
+ o:["Agujero macular","CSC","Membrana epirretiniana","DMAE húmeda"],
+ e:"Línea hiperreflectiva prerretiniana + pérdida del perfil foveal en OCT, tras DVP = <b>membrana epirretiniana</b>."},
+{cat:"DDx exudativa",c:3,ddx:true,q:"¿Cuál de estas entra en el diagnóstico diferencial de la DMAE EXUDATIVA?",
+ o:["Distrofias maculares","Drusas dominantes","Atrofia areolar central","Coroidopatía serosa central"],
+ e:"La <b>CSC</b>, telangiectasias, oclusiones venosas, macroaneurismas y tumores coroideos entran en el DDx de la <b>exudativa</b>; las distrofias y la atrofia areolar, en el de la <b>seca</b>."},
+{cat:"DMAE",c:0,q:"Las drusas BLANDAS, a diferencia de las duras:",
+ o:["Tienen bordes mal definidos, están sobreelevadas y pueden confluir (DEP)","Son pequeñas y bien delimitadas","Son hemorragias","Son neovasos"],
+ e:"Las <b>blandas</b> son blanquecinas, mal definidas y sobreelevadas; al confluir forman <b>desprendimientos drusenoides del EPR (DEP)</b> y son marcador de riesgo."},
+{cat:"Caso clínico · CSC vs DMAE",c:1,case:true,ddx:true,
+ lead:"Un varón de 35 años y una mujer de 80 acuden con metamorfopsia. El joven está estresado y toma corticoides; la anciana tiene drusas y una membrana neovascular.",
+ q:"Los diagnósticos más probables son, respectivamente:",
+ o:["DMAE húmeda y CSC","CSC y DMAE húmeda","MER y agujero","Ambos CSC"],
+ e:"El <b>joven con corticoides/estrés</b> → <b>CSC</b>; la <b>anciana con drusas + MNV</b> → <b>DMAE húmeda</b>. La edad y el contexto son la clave."},
+{cat:"DMAE · tto",c:2,q:"Sobre las pautas de antiVEGF en la DMAE húmeda, es cierto que:",
+ o:["Es un tratamiento único y curativo","Se administra una sola vez","Es un tratamiento crónico (carga + PRN o 'treat and extend')","Se administra por vía oral"],
+ e:"El antiVEGF es <b>crónico</b> (inyección intravítrea), con pautas de <b>carga + PRN</b> o <b>'treat and extend'</b>; el fármaco pierde efecto y requiere retratamiento."},
+{cat:"Agujero · DDx",c:3,ddx:true,q:"¿Qué diferencia un agujero macular lamelar de uno completo?",
+ o:["El lamelar es traumático siempre","El completo es asintomático","El lamelar lleva antiVEGF","El lamelar es de espesor parcial; el completo afecta a todo el espesor foveal"],
+ e:"El <b>lamelar</b> es de <b>espesor parcial</b>; el agujero macular <b>completo</b> afecta a todo el grosor de la fóvea (se valora con OCT)."},
+{cat:"DMAE",c:0,q:"La metamorfopsia y la pérdida de visión central de la DMAE se explican por:",
+ o:["La afectación de la mácula (centro de la visión fina)","Un glaucoma asociado","Una catarata","Un defecto refractivo"],
+ e:"La <b>mácula</b> es el centro de la visión fina; su afectación da <b>↓visión central y metamorfopsia</b>, no pérdida periférica."},
+{cat:"Tóxica",c:1,q:"Ante un paciente que va a iniciar tratamiento crónico con antipalúdicos, lo correcto es:",
+ o:["No hacer nada ocular","Derivarlo al oftalmólogo para screening (basal y periódico)","Iniciar antiVEGF profiláctico","Operar de catarata"],
+ e:"Todo paciente con <b>antipalúdicos crónicos</b> debe tener <b>screening oftalmológico</b> (basal y periódico) para detectar precozmente la maculopatía."},
+{cat:"MER",c:2,q:"Entre las causas de MER NO se incluye típicamente:",
+ o:["Desprendimiento de vítreo posterior","Inflamación del segmento posterior","Drusas duras aisladas","Traumatismos o cirugías"],
+ e:"La MER se asocia a <b>DVP, inflamaciones, traumatismos y cirugías</b>; las drusas duras aisladas no la causan (son de la DMAE)."},
+{cat:"Caso clínico · tóxica",c:3,case:true,
+ lead:"Paciente con artritis reumatoide en tratamiento prolongado con hidroxicloroquina que acaba con una reducción grave de la agudeza visual por afectación macular bilateral.",
+ q:"¿Qué medida es prioritaria?",
+ o:["Aumentar la dosis","Iniciar antiVEGF","Añadir corticoides orales","Suspender el antipalúdico"],
+ e:"Ante toxicidad macular por antipalúdicos, lo prioritario es <b>suspender el fármaco</b> (el daño depende de la dosis acumulada)."},
+{cat:"DMAE · clasif",c:0,q:"En la clasificación AREDS, la presencia de muchas drusas medianas o ≥1 drusa grande define la categoría:",
+ o:["DMAE intermedia (categoría 3)","No DMAE (categoría 1)","DMAE avanzada (categoría 4)","DMAE incipiente (categoría 2)"],
+ e:"Muchas drusas medianas o ≥1 grande (&gt;125 µ) corresponden a <b>DMAE intermedia (categoría 3)</b>; la avanzada ya es atrofia geográfica central o neovascular."},
+{cat:"Mácula",c:1,q:"La rejilla de Amsler sirve sobre todo para:",
+ o:["Medir la agudeza visual exacta","Detectar y monitorizar la metamorfopsia (autocontrol del paciente)","Medir la PIO","Ver el ángulo iridocorneal"],
+ e:"La <b>rejilla de Amsler</b> permite al paciente <b>autodetectar metamorfopsia</b> y vigilar la progresión/conversión a forma húmeda."},
+{cat:"Caso clínico · DDx",c:2,case:true,ddx:true,
+ lead:"Anciana con DMAE seca conocida que de repente nota que la mancha central empeora mucho y ve más distorsión; en la OCT aparece fluido subretiniano nuevo.",
+ q:"¿Qué ha ocurrido?",
+ o:["Una catarata","Un glaucoma","Conversión a DMAE húmeda (neovascular) → iniciar antiVEGF","Una CSC"],
+ e:"La aparición de <b>fluido nuevo</b> en una DMAE seca indica <b>conversión a húmeda</b> (neovascular); se inicia <b>antiVEGF</b>."},
+{cat:"CSC",c:3,q:"La CSC se incluye dentro de las enfermedades llamadas:",
+ o:["Vitreorretinopatías","Distrofias","Retinopatías isquémicas","Paquicoroideas (coroides engrosada)"],
+ e:"La <b>CSC</b> forma parte de las <b>paquicoroideas</b> (coroides engrosada con vasos gruesos), visible en la OCT."},
+{cat:"DMAE · dx",c:0,q:"La angiografía con fluoresceína (AFG) en la mácula:",
+ o:["Es invasiva (requiere contraste IV) y útil para caracterizar ciertas MNV","Es la prueba de primera elección rutinaria","No aporta información en DMAE","Mide el grosor coroideo mejor que la OCT"],
+ e:"La <b>AFG</b> es invasiva (contraste IV) y se reserva para caracterizar determinadas membranas neovasculares; la prueba de rutina es la <b>OCT</b>."},
+{cat:"DMAE",c:1,q:"La forma de DMAE que NO tiene tratamiento farmacológico específico que la cure es:",
+ o:["La húmeda","La seca/atrófica","La neovascular","Ninguna"],
+ e:"La <b>seca/atrófica</b> no tiene tratamiento curativo (solo suplementos); la húmeda dispone de antiVEGF."},
+{cat:"Caso clínico · CSC",c:2,case:true,
+ lead:"Piloto de 40 años, sano, con visión central borrosa y sensación de que los objetos se ven más pequeños (micropsia) en un ojo, tras una etapa de mucho estrés. OCT con líquido subfoveal.",
+ q:"El diagnóstico más probable es:",
+ o:["DMAE húmeda","Agujero macular","Coroidopatía serosa central","Maculopatía tóxica"],
+ e:"Varón joven, estrés, micropsia y líquido subfoveal en OCT = <b>CSC</b> (buen pronóstico, resolución espontánea habitual)."},
+{cat:"Mácula",c:3,q:"¿Cuál de estos NO es un síntoma típicamente macular?",
+ o:["Metamorfopsia","Escotoma central","Pérdida de visión central","Pérdida brusca del campo periférico con cortina"],
+ e:"La <b>pérdida del campo periférico con cortina</b> orienta a <b>desprendimiento de retina</b>, no a mácula; lo macular es central (metamorfopsia, escotoma central)."},
+{cat:"DMAE · tto",c:0,q:"La terapia fotodinámica con verteporfina en la DMAE húmeda hoy:",
+ o:["Tiene escasas indicaciones (no es primera elección en la era antiVEGF)","Es el tratamiento de elección","Está totalmente prohibida","Se usa en la forma seca"],
+ e:"La <b>TFD</b> quedó relegada a <b>indicaciones específicas</b>; la primera línea actual es el <b>antiVEGF</b>."},
+{cat:"DDx",c:1,ddx:true,q:"Un paciente joven con desprendimiento seroso macular y 'humo de chimenea' en AFG, sin drusas, tiene más probablemente:",
+ o:["DMAE húmeda","Coroidopatía serosa central","Maculopatía tóxica","MER"],
+ e:"Joven + desprendimiento seroso + 'humo de chimenea' + <b>sin drusas</b> = <b>CSC</b> (la DMAE es del anciano y tiene drusas)."},
+{cat:"Agujero · tto",c:2,q:"El objetivo de la cirugía del agujero macular es:",
+ o:["Inyectar antiVEGF","Colocar una lente","Eliminar la tracción (pelado de MLI) e inyectar gas para favorecer el cierre","Hacer panfotocoagulación"],
+ e:"La cirugía del agujero macular busca <b>liberar la tracción</b> (vitrectomía + pelado de la <b>MLI</b>) e <b>inyectar gas</b> para favorecer el cierre foveal."},
+{cat:"DMAE · clasif",c:3,q:"La DMAE avanzada NEOVASCULAR incluye:",
+ o:["Solo drusas pequeñas","Atrofia areolar periférica","Pocas drusas medianas","Membrana neovascular, desprendimiento sero-hemorrágico y, en fases finales, cicatriz disciforme"],
+ e:"La <b>avanzada neovascular</b> incluye MNV, desprendimientos sero-hemorrágicos y la <b>cicatriz disciforme</b> fibrovascular subretiniana."},
+{cat:"Caso clínico · MER vs agujero",c:0,case:true,ddx:true,
+ lead:"Dos pacientes con metamorfopsia y OCT: en uno hay una membrana en la superficie retiniana que arruga la mácula; en el otro, un defecto de espesor completo en la fóvea.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["MER y agujero macular","Agujero macular y MER","DMAE seca y húmeda","CSC y MER"],
+ e:"Membrana que arruga = <b>MER</b>; defecto foveal de espesor completo = <b>agujero macular</b>. Ambos se operan."},
+{cat:"DMAE",c:1,q:"La afectación de qué estructuras inicia la cascada de la DMAE:",
+ o:["El cristalino y la zónula","El EPR y la coriocapilar","La córnea y el limbo","El vítreo y la esclera"],
+ e:"La DMAE se inicia por daño del <b>EPR y la coriocapilar</b>, con acúmulo de drusas, inflamación y VEGF."},
+{cat:"Tóxica · DDx",c:2,ddx:true,q:"La maculopatía 'en ojo de buey' debe hacer pensar en:",
+ o:["DMAE húmeda","CSC","Toxicidad por antipalúdicos (cloroquina/hidroxicloroquina)","MER"],
+ e:"El patrón <b>'en ojo de buey'</b> es muy sugestivo de <b>toxicidad por antipalúdicos</b>."},
+{cat:"CSC · tto",c:3,q:"En un paciente con CSC que toma corticoides, ¿qué debe hacerse?",
+ o:["Aumentar los corticoides","Iniciar antiVEGF","Operar","Suspender/retirar los corticoides"],
+ e:"Los corticoides causan/empeoran la CSC: hay que <b>retirarlos</b>. La mayoría se resuelve sola."},
+{cat:"DMAE · suplementos",c:0,q:"Los suplementos antioxidantes + Zn en la DMAE:",
+ o:["Disminuyen la velocidad de progresión en formas intermedia/avanzada","Curan la enfermedad","Se usan solo en la húmeda","Sustituyen al antiVEGF"],
+ e:"Los suplementos <b>enlentecen la progresión</b> (no curan) en la DMAE <b>intermedia y avanzada</b>; no sustituyen al antiVEGF de la húmeda."},
+{cat:"Mácula · pruebas",c:1,q:"La OCT en la patología macular permite, entre otras cosas:",
+ o:["Medir la presión intraocular","Cuantificar el grosor y el fluido macular y guiar el tratamiento","Ver el ángulo iridocorneal","Medir la longitud axial"],
+ e:"La <b>OCT</b> cuantifica el grosor retiniano y el <b>fluido</b>, localiza la lesión y guía y monitoriza el tratamiento."},
+{cat:"Caso clínico · agujero traumático",c:2,case:true,
+ lead:"Joven de 22 años que, tras un traumatismo ocular contuso, desarrolla un escotoma central; la OCT muestra un agujero macular de espesor completo.",
+ q:"En este paciente joven, la causa más probable del agujero es:",
+ o:["Senil idiopática","DMAE","Traumática","Tóxica"],
+ e:"En un <b>joven tras traumatismo</b>, el agujero macular es de causa <b>traumática</b> (el idiopático es del anciano)."},
+{cat:"DMAE",c:3,q:"La cicatriz disciforme de la DMAE corresponde a:",
+ o:["Atrofia geográfica","Drusas duras","Edema cistoide","Proliferación fibrovascular subretiniana en fase final de la forma húmeda"],
+ e:"La <b>cicatriz disciforme</b> es la <b>fibrosis subretiniana</b> final de la DMAE húmeda, con pérdida visual severa."},
+{cat:"DDx maculopatías",c:0,ddx:true,q:"Asocie entidad y rasgo más característico:",
+ o:["CSC → varón joven + corticoides + 'humo de chimenea'","DMAE húmeda → ojo de buey","MER → humo de chimenea","Agujero → drusas blandas"],
+ e:"<b>CSC</b> = varón joven, corticoides, 'humo de chimenea'. (Ojo de buey = tóxica; drusas = DMAE; MER = brillo celofánico.)"},
+{cat:"DMAE · epidemiología",c:1,q:"La DMAE es, en el mundo desarrollado:",
+ o:["Una causa rara de baja visión","La principal causa de pérdida de visión central en personas mayores","Exclusiva de jóvenes","Una enfermedad infecciosa"],
+ e:"La <b>DMAE</b> es la principal causa de pérdida de <b>visión central</b> en personas mayores en países desarrollados."},
+{cat:"Caso clínico · DMAE seca",c:2,case:true,
+ lead:"Mujer de 75 años con disminución muy lenta de la visión central a lo largo de años; en el fondo, múltiples drusas y un área de atrofia del EPR sin hemorragia.",
+ q:"El diagnóstico y el manejo son:",
+ o:["DMAE húmeda; antiVEGF","Agujero macular; cirugía","DMAE seca; suplementos y control con Amsler/autofluorescencia","CSC; retirar corticoides"],
+ e:"Pérdida lenta + drusas + atrofia sin sangre = <b>DMAE seca</b>; manejo con <b>suplementos</b> y vigilancia (Amsler, autofluorescencia)."},
+{cat:"MER · dx",c:3,q:"La mejor prueba para diagnosticar y clasificar una MER es:",
+ o:["La rejilla de Amsler","La AFG","La gonioscopia","La OCT"],
+ e:"La <b>OCT</b> es la mejor prueba para el diagnóstico, la clasificación evolutiva y la indicación/respuesta quirúrgica de la MER."},
+{cat:"DMAE · tto",c:0,q:"La cirugía en la DMAE húmeda hoy es:",
+ o:["Excepcional (su única indicación actual es la hemorragia macular masiva)","El tratamiento de elección","Imposible","Para la forma seca"],
+ e:"La <b>cirugía</b> es <b>excepcional</b> en la DMAE; su única indicación actual es la <b>hemorragia macular masiva</b>."},
+{cat:"Mácula",c:1,q:"La pérdida de visión por patología macular es típicamente:",
+ o:["Periférica con conservación central","Central, con metamorfopsia","Indolora pero con halos de colores","Transitoria de segundos"],
+ e:"La afectación macular da <b>pérdida de visión CENTRAL con metamorfopsia</b>, no periférica."},
+{cat:"Caso clínico · tóxica screening",c:2,case:true,
+ lead:"Reumatóloga deriva a una paciente que va a empezar hidroxicloroquina de forma crónica para descartar afectación ocular antes y durante el tratamiento.",
+ q:"La actitud correcta es:",
+ o:["No hace falta screening","Solo revisar si pierde visión","Realizar screening macular basal y revisiones periódicas","Iniciar antiVEGF profiláctico"],
+ e:"Los antipalúdicos crónicos requieren <b>screening macular basal y periódico</b> para detectar la toxicidad precozmente."},
+{cat:"DDx",c:3,ddx:true,q:"¿Qué entidad NO produce metamorfopsia?",
+ o:["DMAE","MER","Agujero macular","Glaucoma crónico simple"],
+ e:"El <b>glaucoma crónico</b> afecta al campo periférico (capa de fibras), no da metamorfopsia; las maculopatías (DMAE, MER, agujero) sí."},
+{cat:"CSC",c:0,q:"La CSC se relaciona con todos los siguientes EXCEPTO:",
+ o:["Diabetes mellitus como causa directa","Estrés","Niveles altos de cortisol","Ingesta de corticoides"],
+ e:"La <b>CSC</b> se relaciona con <b>estrés, cortisol elevado y corticoides</b> en varones jóvenes; la DM no es su causa directa."},
+{cat:"DMAE",c:1,q:"El desprendimiento drusenoide del EPR (DEP) se forma por:",
+ o:["Neovasos","Confluencia de drusas blandas","Hemorragia","Tracción vítrea"],
+ e:"Las <b>drusas blandas</b> confluentes pueden elevar el EPR formando un <b>DEP</b> (marcador de riesgo de progresión)."},
+{cat:"Caso clínico · DMAE húmeda",c:2,case:true,
+ lead:"Varón de 80 años con DMAE que comienza con antiVEGF; pregunta cuánto durará el tratamiento.",
+ q:"Lo correcto es explicarle que:",
+ o:["Es una sola inyección curativa","Bastan dos inyecciones","Es un tratamiento crónico con inyecciones repetidas y seguimiento indefinido","Se puede sustituir por gafas"],
+ e:"El antiVEGF de la DMAE húmeda es <b>crónico</b>: dosis de carga y retratamientos según evolución (PRN o treat & extend), con seguimiento indefinido."},
+{cat:"DMAE · DDx seca",c:3,ddx:true,q:"En el diagnóstico diferencial de la DMAE SECA se incluye:",
+ o:["Oclusión venosa","Macroaneurisma","Telangiectasias","Distrofias maculares y atrofia areolar central"],
+ e:"El DDx de la <b>seca</b> incluye <b>distrofias maculares, drusas dominantes y atrofia areolar central</b>; las vasculares entran en el de la exudativa."},
+{cat:"Mácula",c:0,q:"Una característica común a DMAE, MER, agujero macular y CSC es:",
+ o:["Producir metamorfopsia y afectar la visión central","Cursar con ojo rojo doloroso","Producir midriasis","Elevar la PIO"],
+ e:"Todas son <b>maculopatías</b>: comparten <b>metamorfopsia y afectación de la visión central</b>, sin dolor ni ojo rojo."},
+{cat:"Tóxica",c:1,q:"Los antipalúdicos que causan maculopatía se usan, entre otras, en:",
+ o:["Diabetes","Malaria y enfermedades reumatológicas (AR, LES)","Glaucoma","Cataratas"],
+ e:"La cloroquina/hidroxicloroquina se usan en <b>malaria</b> y en <b>AR/LES</b>; de ahí el riesgo de maculopatía tóxica en reumatología."},
+{cat:"DMAE · tto",c:2,q:"¿Cuál de estos es un fármaco antiVEGF usado en DMAE húmeda?",
+ o:["Verteporfina","Acetazolamida","Aflibercept","Pilocarpina"],
+ e:"<b>Aflibercept</b> (como ranibizumab, bevacizumab, brolucizumab, faricimab) es un <b>antiVEGF</b>; la verteporfina es el fotosensibilizante de la TFD."},
+{cat:"Caso clínico · DDx final",c:3,case:true,ddx:true,
+ lead:"Mujer de 76 años con metamorfopsia y pérdida central brusca; OCT con membrana neovascular y fluido subretiniano. No toma antipalúdicos ni corticoides.",
+ q:"El diagnóstico y tratamiento son:",
+ o:["CSC; retirar corticoides","Maculopatía tóxica; suspender fármaco","Agujero macular; cirugía","DMAE húmeda; antiVEGF intravítreo"],
+ e:"Anciana + MNV + fluido, sin fármacos implicados = <b>DMAE húmeda</b>; tratamiento <b>antiVEGF intravítreo</b>."},
+{cat:"DMAE",c:0,q:"Señale la afirmación CORRECTA:",
+ o:["La OCT es la prueba más importante; el antiVEGF trata la forma húmeda; la seca es la más frecuente","La seca se trata con antiVEGF","La húmeda es la más frecuente","La metamorfopsia no aparece en la DMAE"],
+ e:"Resumen: <b>OCT</b> = prueba reina, <b>antiVEGF</b> = forma húmeda, <b>seca</b> = la más frecuente y la metamorfopsia es un síntoma clave."},
+{cat:"DDx",c:1,ddx:true,q:"Señale la asociación INCORRECTA:",
+ o:["DMAE húmeda → antiVEGF","CSC → antiVEGF de primera línea","Maculopatía tóxica → suspender antipalúdico","MER → vitrectomía"],
+ e:"INCORRECTA: la <b>CSC</b> no se trata de primera línea con antiVEGF, sino con <b>observación y retirada de corticoides</b> (TFD/láser si persiste)."}
+];
+
+const figMap={figAmsler,figSeca,figHumeda,figBuey,figMER};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la patología macular. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo seca vs húmeda y CSC.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza el tratamiento de cada maculopatía.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T07 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
