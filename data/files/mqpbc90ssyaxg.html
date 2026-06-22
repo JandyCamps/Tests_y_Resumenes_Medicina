@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T22 · Párpados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T22</p>
+    <h1>Patología Palpebral</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figOrzuelo=`<svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orzuelo: nódulo rojo doloroso en el borde palpebral">
+<path d="M30 70 Q120 44 210 70 Q120 96 30 70Z" fill="#fff" stroke="#7a8b90"/><circle cx="120" cy="70" r="22" fill="#9a6a3c"/><circle cx="120" cy="70" r="10" fill="#1a1a1a"/>
+<circle cx="92" cy="50" r="11" fill="#d65a4a"/><circle cx="92" cy="50" r="11" fill="none" stroke="#a83228" stroke-width="2.5"/></svg>`;
+const figChalazion=`<svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chalazion: nódulo firme indoloro en el párpado">
+<path d="M30 70 Q120 44 210 70 Q120 96 30 70Z" fill="#fff" stroke="#7a8b90"/><circle cx="120" cy="70" r="22" fill="#9a6a3c"/><circle cx="120" cy="70" r="10" fill="#1a1a1a"/>
+<circle cx="150" cy="46" r="13" fill="#e0d3e6" stroke="#9a6aa8" stroke-width="2.5"/></svg>`;
+const figEctEnt=`<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ectropion y entropion del párpado inferior">
+<text x="80" y="16" text-anchor="middle" style="font:600 10px Spectral,serif;fill:#1a5e86">Ectropion</text>
+<path d="M20 55 Q80 38 140 55" fill="none" stroke="#7a8b90" stroke-width="2"/><path d="M20 70 Q80 96 140 70" fill="none" stroke="#d65a4a" stroke-width="3"/><circle cx="80" cy="60" r="15" fill="#9a6a3c"/><circle cx="80" cy="60" r="7" fill="#1a1a1a"/>
+<text x="250" y="16" text-anchor="middle" style="font:600 10px Spectral,serif;fill:#9a4d12">Entropion</text>
+<path d="M190 55 Q250 38 310 55" fill="none" stroke="#7a8b90" stroke-width="2"/><path d="M190 72 Q250 60 310 72" fill="none" stroke="#7a8b90" stroke-width="3"/><g stroke="#1a1a1a" stroke-width="1.5"><path d="M230 66 l-4 8"/><path d="M250 64 l-3 9"/><path d="M270 66 l-2 8"/></g><circle cx="250" cy="60" r="15" fill="#9a6a3c"/><circle cx="250" cy="60" r="7" fill="#1a1a1a"/></svg>`;
+const figBaso=`<svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carcinoma basocelular: nódulo ulcerado con telangiectasias en párpado inferior">
+<path d="M30 55 Q120 34 210 55 Q120 74 30 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="120" cy="55" r="18" fill="#9a6a3c"/><circle cx="120" cy="55" r="8" fill="#1a1a1a"/>
+<circle cx="120" cy="92" r="18" fill="#e8d9d2" stroke="#b89a8a" stroke-width="2"/><circle cx="120" cy="92" r="6" fill="#cdb3a6"/>
+<g stroke="#b23a32" stroke-width="1" fill="none"><path d="M108 86 q6 4 12 2"/><path d="M126 98 q5 -3 8 1"/></g>
+<text x="120" y="124" text-anchor="middle" style="font:400 9px Inter;fill:#7a2a25">nódulo ulcerado + telangiectasias (párpado inferior)</text></svg>`;
+
+const Q=[
+{cat:"Blefaritis",c:1,q:"La patología palpebral inflamatoria MÁS FRECUENTE es:",
+ o:["El chalazion","La blefaritis","El ectropion","El carcinoma basocelular"],
+ e:"La <b>blefaritis</b> es la patología palpebral inflamatoria más frecuente (disfunción de Meibomio + flora bacteriana)."},
+{cat:"Blefaritis",c:2,q:"La blefaritis se relaciona con la disfunción de:",
+ o:["La glándula lagrimal","El músculo elevador","Las glándulas de Meibomio","El tarso"],
+ e:"La <b>blefaritis</b> implica disfunción de las <b>glándulas de Meibomio</b> y alteración de la flora (colonización bacteriana)."},
+{cat:"Blefaritis",c:3,q:"¿Cuál de estas es una complicación de la blefaritis?",
+ o:["Catarata","Glaucoma","Desprendimiento de retina","Ojo seco evaporativo, orzuelo, chalazion, queratitis y triquiasis"],
+ e:"La <b>blefaritis</b> puede complicarse con <b>ojo seco evaporativo, conjuntivitis irritativa, queratitis, triquiasis, orzuelo y chalazion</b>."},
+{cat:"Orzuelo · DDx",c:0,ddx:true,q:"El orzuelo se diferencia del chalazion en que el orzuelo:",
+ o:["Es una infección aguda DOLOROSA de una glándula sebácea","Es un quiste indoloro","Es un tumor maligno","Es una malposición"],
+ e:"El <b>orzuelo</b> es una <b>infección aguda dolorosa</b> de una glándula sebácea (Meibomio/Zeiss); el chalazion es un quiste granulomatoso indoloro."},
+{cat:"Imagen · orzuelo",c:1,figSrc:"figOrzuelo",figcap:"Párpado del paciente.",
+ q:"Este nódulo rojo y doloroso en el borde palpebral corresponde a:",
+ o:["Chalazion","Orzuelo","Carcinoma basocelular","Xantelasma"],
+ e:"Nódulo agudo, rojo y <b>doloroso</b> = <b>orzuelo</b>."},
+{cat:"Chalazion",c:2,q:"El chalazion es:",
+ o:["Una infección aguda dolorosa","Un tumor maligno","Un quiste sebáceo de una glándula de Meibomio con reacción granulomatosa (indoloro)","Una malposición palpebral"],
+ e:"El <b>chalazion</b> es un <b>quiste granulomatoso</b> de una glándula de Meibomio, <b>indoloro</b> y sin edema."},
+{cat:"Imagen · chalazion",c:3,figSrc:"figChalazion",figcap:"Párpado del paciente.",
+ q:"Este nódulo firme, no doloroso y sin eritema agudo corresponde a:",
+ o:["Orzuelo","Dacriocistitis","Ectropion","Chalazion"],
+ e:"Nódulo firme <b>indoloro</b> sin signos inflamatorios agudos = <b>chalazion</b>."},
+{cat:"Chalazion · tto",c:0,q:"El tratamiento del chalazion incluye:",
+ o:["Observación, corticoide depot intralesional o cirugía","Antibiótico oral siempre","Enucleación","Radioterapia"],
+ e:"El <b>chalazion</b> se trata con <b>observación, corticoide depot intralesional o cirugía</b>."},
+{cat:"Orzuelo · tto",c:1,q:"El tratamiento del orzuelo incluye:",
+ o:["Solo observación","Calor local, pomada antibiótica (eritromicina) y drenaje si fluctúa","Quimioterapia","Cirugía de Mohs"],
+ e:"El <b>orzuelo</b> se trata con <b>calor local, pomada antibiótica</b> (± corticoide), drenaje si fluctúa y valorar antibiótico oral."},
+{cat:"Tumores · alarma",c:2,q:"Un chalazion recidivante en el mismo punto obliga a descartar:",
+ o:["Orzuelo","Blefaritis","Carcinoma de células sebáceas","Ectropion"],
+ e:"Un <b>chalazion recidivante</b> en el mismo sitio debe hacer descartar un <b>carcinoma de células sebáceas</b> (el gran simulador)."},
+{cat:"Malposiciones",c:3,q:"El ectropion es:",
+ o:["La caída del párpado","Una inversión del borde","Un quiste","La eversión del borde palpebral (hacia fuera)"],
+ e:"El <b>ectropion</b> es la <b>eversión</b> del borde palpebral (hacia fuera)."},
+{cat:"Malposiciones",c:0,q:"El entropion es:",
+ o:["La inversión del borde palpebral (hacia dentro)","La eversión del borde","La caída del párpado","Un tumor"],
+ e:"El <b>entropion</b> es la <b>inversión</b> del borde palpebral (hacia dentro), lo que hace que las pestañas rocen la córnea."},
+{cat:"Imagen · malposición",c:1,figSrc:"figEctEnt",figcap:"Párpados inferiores.",
+ q:"En la imagen, el ojo izquierdo muestra el borde evertido y el derecho invertido con pestañas hacia la córnea. ¿Cómo se llaman?",
+ o:["Ptosis y triquiasis","Ectropion y entropion","Chalazion y orzuelo","Epicanto y telecanto"],
+ e:"Borde evertido = <b>ectropion</b>; borde invertido con pestañas hacia la córnea = <b>entropion</b>."},
+{cat:"Malposiciones · DDx",c:2,ddx:true,q:"La clínica característica del ectropion es:",
+ o:["Sensación de cuerpo extraño por las pestañas","Visión doble","Queratinización y queratitis por EXPOSICIÓN","Ptosis"],
+ e:"El <b>ectropion</b> (eversión) da <b>queratinización y queratitis por exposición</b>, ojo rojo y epífora."},
+{cat:"Malposiciones · DDx",c:3,ddx:true,q:"La clínica característica del entropion es:",
+ o:["Exposición corneal","Ptosis","Exoftalmos","Sensación de cuerpo extraño y queratitis TRAUMÁTICA (pestañas rozan)"],
+ e:"El <b>entropion</b> (inversión) produce <b>sensación de cuerpo extraño y queratitis traumática</b> porque las pestañas rozan la córnea."},
+{cat:"Malposiciones",c:0,q:"El ectropion paralítico se asocia a la parálisis del:",
+ o:["VII par (facial), con lagoftalmos","III par","VI par","IV par"],
+ e:"El <b>ectropion paralítico</b> se asocia a la parálisis del <b>VII par (facial)</b>, con lagoftalmos (no cierra el ojo)."},
+{cat:"Caso clínico · entropion",c:1,case:true,
+ lead:"Anciano con ojo rojo, lagrimeo y sensación de cuerpo extraño; al explorarlo se ve que el borde del párpado inferior está girado hacia dentro y las pestañas rozan la córnea.",
+ q:"El diagnóstico es:",
+ o:["Ectropion","Entropion","Ptosis","Chalazion"],
+ e:"Borde invertido con pestañas rozando la córnea = <b>entropion</b> (involutivo en el anciano)."},
+{cat:"Ptosis",c:2,q:"La ptosis se define como:",
+ o:["La eversión del párpado","Una infección","La posición anormalmente baja del párpado superior","Un tumor"],
+ e:"La <b>ptosis</b> es la <b>posición anormalmente baja del párpado superior</b>."},
+{cat:"Ptosis · DDx",c:3,ddx:true,q:"Una ptosis con miosis (pupila pequeña) sugiere:",
+ o:["Parálisis del III par","Marcus Gunn","Ptosis aponeurótica","Síndrome de Horner"],
+ e:"Ptosis + <b>miosis</b> = <b>síndrome de Horner</b> (lesión simpática)."},
+{cat:"Ptosis · DDx",c:0,ddx:true,q:"Una ptosis con midriasis y ojo 'abajo y afuera' sugiere:",
+ o:["Parálisis del III par","Síndrome de Horner","Ptosis involutiva","Blefarofimosis"],
+ e:"Ptosis + <b>midriasis</b> + ojo abajo/afuera = <b>parálisis del III par</b>."},
+{cat:"Ptosis",c:1,q:"El síndrome de Marcus Gunn se caracteriza por:",
+ o:["Ptosis con miosis","Ptosis que varía con el movimiento de la mandíbula (sincinesia)","Eversión del párpado","Un tumor"],
+ e:"El <b>síndrome de Marcus Gunn</b> es una ptosis con <b>sincinesia mandibular</b> (el párpado se eleva al mover la mandíbula)."},
+{cat:"Ptosis",c:2,q:"La ptosis más frecuente en el adulto mayor es la:",
+ o:["Miogénica congénita","Neurogénica","Aponeurótica involutiva","Mecánica"],
+ e:"La <b>ptosis aponeurótica involutiva</b> (desinserción de la aponeurosis del elevador) es la más frecuente en el adulto mayor."},
+{cat:"Ptosis",c:3,q:"En la exploración de la ptosis es clave medir:",
+ o:["La PIO","El campo visual","La refracción","La función del elevador (y la hendidura/pliegue palpebral)"],
+ e:"En la <b>ptosis</b> se mide la hendidura palpebral, la altura del pliegue y, sobre todo, la <b>función del elevador</b>."},
+{cat:"Pestañas",c:0,q:"La triquiasis es:",
+ o:["Pestañas de origen normal que se dirigen hacia la conjuntiva/córnea","Una nueva fila de pestañas","Una ptosis","Un tumor"],
+ e:"La <b>triquiasis</b> son pestañas de <b>origen normal</b> mal dirigidas hacia la conjuntiva y la córnea (adquirida)."},
+{cat:"Pestañas · DDx",c:1,ddx:true,q:"La distiquiasis es:",
+ o:["Pestañas normales mal dirigidas","Una NUEVA fila de pestañas que sale de las glándulas de Meibomio (metaplasia)","Una ptosis","Un orzuelo"],
+ e:"La <b>distiquiasis</b> es una <b>fila extra</b> de pestañas que emerge de las glándulas de Meibomio (metaplasia pilosebácea)."},
+{cat:"Pestañas · tto",c:2,q:"El tratamiento de una triquiasis localizada es:",
+ o:["Observación","Antibióticos","Electrólisis o láser del folículo","Quimioterapia"],
+ e:"La <b>triquiasis localizada</b> se trata con <b>electrólisis o láser</b> del folículo; la difusa/recidivante, con extirpación o plastia."},
+{cat:"Congénitas",c:3,q:"El epicanto:",
+ o:["Es un tumor","Es una ptosis","Produce queratitis","Es un pliegue del canto interno que puede simular estrabismo y mejora con el crecimiento"],
+ e:"El <b>epicanto</b> es un pliegue del canto interno que <b>simula estrabismo</b> (pseudoestrabismo) y mejora con el crecimiento."},
+{cat:"Congénitas",c:0,q:"El síndrome de blefarofimosis incluye:",
+ o:["Epicanto inverso, telecanto y ptosis","Ectropion y entropion","Orzuelo y chalazion","Triquiasis y distiquiasis"],
+ e:"El <b>síndrome de blefarofimosis</b> asocia <b>epicanto inverso, telecanto y ptosis</b>."},
+{cat:"Congénitas",c:1,q:"El epibléfaron es un pliegue del párpado inferior que puede producir:",
+ o:["Ectropion","Entropion","Ptosis","Exoftalmos"],
+ e:"El <b>epibléfaron</b> (pliegue del párpado inferior) puede producir <b>entropion</b>; suele corregirse con el crecimiento."},
+{cat:"Tumores malignos",c:2,q:"El tumor maligno palpebral MÁS FRECUENTE es:",
+ o:["El melanoma","El carcinoma espinocelular","El carcinoma basocelular","El carcinoma sebáceo"],
+ e:"El <b>carcinoma basocelular</b> es el tumor maligno palpebral más frecuente (en blancos)."},
+{cat:"Tumores · basocelular",c:3,q:"El carcinoma basocelular se caracteriza por:",
+ o:["Metastatizar pronto","Crecer muy rápido","Afectar solo al párpado superior","Crecimiento lento, agresividad local y NO metastatizar (pero es penetrante)"],
+ e:"El <b>basocelular</b> crece lento, es <b>agresivo localmente</b> y <b>no metastatiza</b> (aunque penetra en profundidad)."},
+{cat:"Tumores · basocelular",c:0,q:"La localización más frecuente del carcinoma basocelular es:",
+ o:["El párpado inferior (70%) y el canto medio","El párpado superior","La conjuntiva","La carúncula"],
+ e:"El <b>basocelular</b> asienta sobre todo en el <b>párpado inferior (70%)</b> y el canto medio (20%)."},
+{cat:"Imagen · basocelular",c:1,figSrc:"figBaso",figcap:"Párpado inferior del paciente.",
+ q:"Este nódulo ulcerado con telangiectasias en el párpado inferior de un anciano de piel clara corresponde a:",
+ o:["Chalazion","Carcinoma basocelular","Orzuelo","Xantelasma"],
+ e:"Nódulo ulcerado con <b>telangiectasias</b> en el párpado inferior = <b>carcinoma basocelular</b>."},
+{cat:"Tumores · DDx",c:2,ddx:true,q:"El carcinoma espinocelular, frente al basocelular:",
+ o:["Es más frecuente","No se trata","Es benigno","Es más agresivo y SÍ metastatiza (ganglios y a distancia), sin telangiectasias"],
+ e:"El <b>espinocelular</b> es <b>más agresivo</b> y <b>metastatiza</b> (ganglios y a distancia); no muestra telangiectasias."},
+{cat:"Tumores · basocelular",c:3,q:"La forma esclerosante (morfea) del carcinoma basocelular es problemática porque:",
+ o:["Metastatiza","Es benigna","No existe","Tiene bordes mal delimitados y no hay seguridad de extirpación completa aunque la AP informe de bordes libres"],
+ e:"La forma <b>esclerosante (morfea)</b> tiene <b>bordes mal definidos</b>; difícil asegurar la extirpación completa → cirugía de Mohs."},
+{cat:"Tumores · tto",c:0,q:"El tratamiento del carcinoma basocelular incluye:",
+ o:["Escisión con márgenes amplios / cirugía de Mohs (± radioterapia, vismodegib)","Observación","Antibióticos","Masaje"],
+ e:"El <b>basocelular</b> se trata con <b>escisión de márgenes amplios o cirugía de Mohs</b>, reconstrucción, radioterapia y vismodegib en casos avanzados."},
+{cat:"Tumores benignos",c:1,q:"La queratosis actínica es:",
+ o:["Un tumor maligno","Una lesión PREMALIGNA (puede transformarse en carcinoma espinocelular)","Una malposición","Una infección"],
+ e:"La <b>queratosis actínica</b> es una lesión <b>premaligna</b> (pápulas/placas rugosas) con posible transformación a carcinoma <b>espinocelular</b>."},
+{cat:"Caso clínico · basocelular",c:2,case:true,
+ lead:"Varón de 70 años de piel clara con una lesión nodular en el párpado inferior de crecimiento lento, con una pequeña úlcera central y vasos finos en la superficie, que no cura.",
+ q:"El diagnóstico más probable es:",
+ o:["Chalazion","Orzuelo","Carcinoma basocelular","Xantelasma"],
+ e:"Lesión nodular ulcerada con telangiectasias que no cura en el párpado inferior de un anciano = <b>carcinoma basocelular</b>."},
+{cat:"Tumores · espinocelular",c:3,q:"El carcinoma espinocelular puede originarse:",
+ o:["Solo de novo","Solo de un nevus","Nunca","De novo o a partir de una queratosis actínica"],
+ e:"El <b>espinocelular</b> puede surgir <b>de novo o a partir de una queratosis actínica</b> (lesión premaligna)."},
+{cat:"Tumores · sebáceo",c:0,q:"El carcinoma de células sebáceas:",
+ o:["Puede simular un chalazion recidivante (DDx)","Es benigno","Nunca afecta al párpado","Es el más frecuente"],
+ e:"El <b>carcinoma sebáceo</b> es raro y puede <b>simular un chalazion recidivante</b>; tiene predilección femenina y por la raza asiática."},
+{cat:"Caso clínico · ptosis Horner",c:1,case:true,
+ lead:"Paciente con ptosis leve de un ojo y pupila pequeña (miosis) en ese mismo lado.",
+ q:"El diagnóstico más probable es:",
+ o:["Parálisis del III par","Síndrome de Horner","Marcus Gunn","Ptosis aponeurótica"],
+ e:"Ptosis + miosis = <b>síndrome de Horner</b> (afectación simpática)."},
+{cat:"Malposiciones · tto",c:2,q:"El tratamiento quirúrgico del entropion involutivo incluye:",
+ o:["Solo observación","Antibióticos","Reinserción de retractores, tira tarsal y suturas eversoras","Quimioterapia"],
+ e:"El <b>entropion involutivo</b> se corrige con <b>reinserción de retractores, tira tarsal y suturas eversoras</b>."},
+{cat:"Malposiciones · tto",c:3,q:"El tratamiento quirúrgico del ectropion involutivo incluye:",
+ o:["Suturas eversoras","Reinserción de retractores","Observación","Tira tarsal temporal y suturas inversoras"],
+ e:"El <b>ectropion involutivo</b> se corrige con <b>tira tarsal temporal y suturas inversoras</b>."},
+{cat:"Blefaritis",c:0,q:"La clínica de la blefaritis incluye:",
+ o:["Picor, escozor, lagrimeo, cuerpo extraño, fotofobia y eritema del borde palpebral","Dolor intenso y exoftalmos","Leucocoria","Visión doble"],
+ e:"La <b>blefaritis</b> da <b>picor, escozor, lagrimeo, sensación de cuerpo extraño, fotofobia y eritema</b> del borde palpebral."},
+{cat:"Caso clínico · chalazion",c:1,case:true,
+ lead:"Mujer joven con un nódulo firme e indoloro en el párpado superior de varias semanas de evolución, sin eritema ni dolor.",
+ q:"El diagnóstico y el tratamiento inicial son:",
+ o:["Orzuelo; antibiótico oral","Chalazion; observación ± corticoide intralesional o cirugía","Carcinoma; biopsia urgente","Ectropion; cirugía"],
+ e:"Nódulo firme indoloro y crónico = <b>chalazion</b>; tratamiento con observación, corticoide intralesional o cirugía."},
+{cat:"Pestañas",c:2,q:"Las alteraciones en la posición de las pestañas pueden causar:",
+ o:["Catarata","Glaucoma","Erosiones corneales, queratitis y vascularización","Desprendimiento de retina"],
+ e:"La <b>triquiasis/distiquiasis</b> pueden causar <b>erosiones corneales, queratitis infecciosa y vascularización</b>."},
+{cat:"Tumores · espinocelular",c:3,q:"El carcinoma espinocelular se localiza más en:",
+ o:["El canto interno","La conjuntiva","La carúncula","El párpado superior (45%) e inferior (31%)"],
+ e:"El <b>espinocelular</b> se localiza más en el <b>párpado superior (45%)</b> que en el inferior (31%)."},
+{cat:"Caso clínico · ectropion paralítico",c:0,case:true,
+ lead:"Paciente con parálisis facial periférica que presenta el párpado inferior caído y evertido, con imposibilidad de cerrar bien el ojo y ojo rojo por sequedad.",
+ q:"El diagnóstico es:",
+ o:["Ectropion paralítico (lagoftalmos por VII par)","Entropion","Ptosis","Chalazion"],
+ e:"Parálisis facial + párpado evertido + lagoftalmos = <b>ectropion paralítico</b> (VII par)."},
+{cat:"Tumores benignos",c:1,q:"El xantelasma es:",
+ o:["Un tumor maligno","Un depósito lipídico benigno (placas amarillentas, a menudo en el canto interno)","Una infección","Una malposición"],
+ e:"El <b>xantelasma</b> es un depósito lipídico benigno (placas amarillentas), frecuente en el canto interno."},
+{cat:"Orzuelo · DDx",c:2,ddx:true,q:"Diferencie orzuelo y chalazion:",
+ o:["Ambos son dolorosos","Ambos son indoloros","Orzuelo = infección aguda dolorosa; chalazion = quiste granulomatoso indoloro","Son lo mismo"],
+ e:"<b>Orzuelo</b> = infección aguda <b>dolorosa</b>; <b>chalazion</b> = quiste granulomatoso <b>indoloro</b>."},
+{cat:"Tumores",c:3,q:"Los párpados pueden originar tumores a partir de:",
+ o:["Solo la epidermis","Solo glándulas","Solo melanocitos","Múltiples tejidos: epidermis, melanocitos, glándulas, tejido nervioso y vascular"],
+ e:"Los párpados tienen <b>múltiples tejidos</b> (epidermis, melanocitos, glándulas, nervios, vasos) → amplio espectro de tumores."},
+{cat:"Caso clínico · Marcus Gunn",c:0,case:true,
+ lead:"Lactante con ptosis de un ojo; los padres notan que el párpado caído se eleva cuando el niño succiona o mueve la mandíbula.",
+ q:"El diagnóstico es:",
+ o:["Síndrome de Marcus Gunn (sincinesia mandibulopalpebral)","Síndrome de Horner","Parálisis del III par","Blefarofimosis"],
+ e:"Ptosis que se eleva al mover la mandíbula = <b>síndrome de Marcus Gunn</b> (sincinesia mandibulopalpebral)."},
+{cat:"Malposiciones",c:1,q:"El ectropion mecánico se debe a:",
+ o:["Una parálisis","El peso de un tumor o lesión que tira del párpado","Una cicatriz interna","Una metaplasia"],
+ e:"El <b>ectropion mecánico</b> se debe al <b>peso</b> de una lesión/tumor que evierte el párpado (el cicatricial, a una retracción de la piel)."},
+{cat:"Pestañas",c:2,q:"El tratamiento de una triquiasis difusa y recidivante es:",
+ o:["Solo observación","Antibiótico oral","Extirpación o plastia con mucosa labial","Masaje"],
+ e:"La <b>triquiasis difusa/recidivante</b> requiere <b>extirpación o plastia con mucosa labial</b> (la localizada, electrólisis/láser)."},
+{cat:"Caso clínico · DDx tumor/chalazion",c:3,case:true,ddx:true,
+ lead:"Mujer de 65 años con un 'chalazion' del párpado superior que ha recidivado tres veces en el mismo punto y deja una zona indurada con pérdida de pestañas.",
+ q:"¿Qué hay que descartar?",
+ o:["Orzuelo","Blefaritis","Ectropion","Carcinoma de células sebáceas"],
+ e:"Un 'chalazion' recidivante con induración y pérdida de pestañas obliga a descartar un <b>carcinoma de células sebáceas</b>."},
+{cat:"Ptosis",c:0,q:"La ptosis miogénica puede ser:",
+ o:["Congénita o adquirida","Solo neurógena","Solo mecánica","Solo traumática"],
+ e:"La <b>ptosis miogénica</b> puede ser <b>congénita o adquirida</b> (afectación del propio músculo elevador)."},
+{cat:"Blefaritis · tto",c:1,q:"La base del tratamiento de la blefaritis crónica es:",
+ o:["Cirugía","La higiene palpebral (y el calor local), ± antibiótico tópico","Antibiótico oral siempre","Corticoides intravítreos"],
+ e:"La base del tratamiento de la <b>blefaritis</b> es la <b>higiene palpebral</b> y el calor local (± antibiótico tópico en brotes)."},
+{cat:"Caso clínico · ptosis III par",c:2,case:true,
+ lead:"Paciente con ptosis brusca de un ojo, que además está desviado 'abajo y afuera' y con la pupila dilatada; refiere diplopía.",
+ q:"El diagnóstico y la actitud son:",
+ o:["Horner; observar","Marcus Gunn; cirugía","Parálisis del III par (con midriasis → descartar aneurisma)","Ptosis involutiva; cirugía electiva"],
+ e:"Ptosis + ojo abajo/afuera + midriasis = <b>parálisis del III par</b>; la midriasis obliga a descartar un <b>aneurisma</b>."},
+{cat:"Tumores",c:3,q:"¿Cuál de estos NO es un tumor maligno palpebral?",
+ o:["Carcinoma basocelular","Carcinoma espinocelular","Melanoma","Papiloma de células escamosas (benigno)"],
+ e:"El <b>papiloma de células escamosas</b> es <b>benigno</b>; basocelular, espinocelular y melanoma son malignos."},
+{cat:"Congénitas · DDx",c:0,ddx:true,q:"El epicanto debe diferenciarse de:",
+ o:["Un estrabismo verdadero (es un pseudoestrabismo)","Un tumor","Una ptosis","Un chalazion"],
+ e:"El <b>epicanto</b> simula un estrabismo (pseudoestrabismo); el cover test es normal y mejora con el crecimiento."},
+{cat:"Malposiciones",c:1,q:"El entropion cicatricial se debe a:",
+ o:["Una parálisis","Una retracción cicatricial de la conjuntiva tarsal (p. ej. tracoma)","El peso de un tumor","La edad"],
+ e:"El <b>entropion cicatricial</b> se debe a una <b>retracción cicatricial</b> de la conjuntiva tarsal (clásico del tracoma)."},
+{cat:"Tumores · basocelular",c:2,q:"Los tipos clínicos del carcinoma basocelular incluyen:",
+ o:["Solo nodular","Solo ulcerativo","Nodular, ulcerativo y esclerosante (morfea)","Solo pigmentado"],
+ e:"El <b>basocelular</b> puede ser <b>nodular, ulcerativo o esclerosante (morfea)</b>."},
+{cat:"Caso clínico · triquiasis",c:3,case:true,
+ lead:"Paciente con antecedente de tracoma que refiere sensación de cuerpo extraño y ojo rojo crónico; las pestañas del párpado superior rozan la córnea.",
+ q:"El diagnóstico es:",
+ o:["Distiquiasis","Ectropion","Ptosis","Triquiasis"],
+ e:"Pestañas de origen normal mal dirigidas hacia la córnea (tras tracoma) = <b>triquiasis</b>."},
+{cat:"Ptosis",c:0,q:"La ptosis aponeurótica puede aparecer en:",
+ o:["Portadores de lentes de contacto, ancianos y tiroideos","Solo en niños","Solo tras traumatismo","Solo en el Horner"],
+ e:"La <b>ptosis aponeurótica</b> aparece en la involución (ancianos), en <b>portadores de lentes de contacto</b> y en tiroideos."},
+{cat:"Tumores · melanoma",c:1,q:"El melanoma palpebral:",
+ o:["Es el tumor maligno más frecuente","Puede aparecer sobre un nevus o de novo (excisión completa difícil)","Es benigno","Nunca metastatiza"],
+ e:"El <b>melanoma</b> palpebral (raro, &lt;1%) puede surgir <b>sobre un nevus o de novo</b>; su excisión completa es difícil."},
+{cat:"Blefaritis",c:2,q:"La blefaritis produce ojo seco de tipo:",
+ o:["Acuodeficiente puro","Por obstrucción del drenaje","Evaporativo (por disfunción de Meibomio)","No produce ojo seco"],
+ e:"La <b>blefaritis</b> (disfunción de Meibomio) produce un <b>ojo seco evaporativo</b> (falta la capa lipídica)."},
+{cat:"Caso clínico · DDx malposición",c:3,case:true,ddx:true,
+ lead:"Dos ancianos: uno con el párpado inferior caído hacia fuera y queratinización conjuntival; otro con el borde girado hacia dentro y las pestañas rozando la córnea.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Entropion y ectropion","Ambos ectropion","Ambos entropion","Ectropion y entropion"],
+ e:"Borde hacia fuera con queratinización = <b>ectropion</b>; borde hacia dentro con pestañas rozando = <b>entropion</b>."},
+{cat:"Tumores · espinocelular",c:0,q:"El carcinoma espinocelular se presenta como:",
+ o:["Un nódulo/placa hiperqueratósica con costras y fisuras, SIN telangiectasias","Un nódulo con telangiectasias","Un quiste indoloro","Una placa amarillenta"],
+ e:"El <b>espinocelular</b> es un <b>nódulo/placa hiperqueratósica</b> con costras y fisuras, <b>sin telangiectasias</b> (a diferencia del basocelular)."},
+{cat:"Malposiciones",c:1,q:"Una causa de epífora por malposición palpebral es:",
+ o:["La catarata","El ectropion del punto lagrimal (la lágrima no entra en la vía)","El glaucoma","La presbicia"],
+ e:"El <b>ectropion del punto lagrimal</b> impide que la lágrima entre en la vía → <b>epífora conjuntival</b> (insuficiencia de la bomba)."},
+{cat:"Tumores benignos",c:2,q:"El papiloma de células basales (queratosis seborreica) es:",
+ o:["Maligno","Premaligno","Un tumor benigno","Una malposición"],
+ e:"El <b>papiloma de células basales / queratosis seborreica</b> es un tumor <b>benigno</b>."},
+{cat:"Caso clínico · orzuelo",c:3,case:true,
+ lead:"Joven con un bulto rojo, caliente y doloroso en el borde del párpado de 2 días de evolución, con leve edema.",
+ q:"El diagnóstico y el tratamiento son:",
+ o:["Chalazion; cirugía","Carcinoma; biopsia","Ectropion; tira tarsal","Orzuelo; calor local y pomada antibiótica (drenaje si fluctúa)"],
+ e:"Bulto rojo, doloroso y agudo del borde palpebral = <b>orzuelo</b>; calor local + pomada antibiótica, drenaje si fluctúa."},
+{cat:"Ptosis · DDx",c:0,ddx:true,q:"Resumen de la ptosis neurógena:",
+ o:["III par (midriasis, abajo/afuera); Horner (miosis); Marcus Gunn (sincinesia mandibular)","Todas con miosis","Todas con midriasis","Ninguna es neurógena"],
+ e:"<b>III par</b> = midriasis + abajo/afuera; <b>Horner</b> = miosis; <b>Marcus Gunn</b> = sincinesia mandibular."},
+{cat:"Tumores",c:1,q:"Ante una lesión palpebral sospechosa de malignidad, ¿qué dato apoya el diagnóstico de basocelular?",
+ o:["Crecimiento muy rápido","Telangiectasias, párpado inferior, crecimiento lento y no metástasis","Metástasis ganglionares","Localización en el canto externo exclusivamente"],
+ e:"El <b>basocelular</b> muestra <b>telangiectasias</b>, asienta en el párpado inferior, crece lento y <b>no metastatiza</b>."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación CORRECTA:",
+ o:["El orzuelo es indoloro","El basocelular metastatiza pronto","El entropion produce exposición corneal","Orzuelo = doloroso; chalazion = indoloro; basocelular = el maligno más frecuente (párpado inferior, no metastatiza)"],
+ e:"Resumen: <b>orzuelo</b> doloroso; <b>chalazion</b> indoloro; <b>basocelular</b> = maligno más frecuente (párpado inferior, no metastatiza)."},
+{cat:"Síntesis",c:3,q:"Señale la afirmación FALSA:",
+ o:["La blefaritis es la inflamación palpebral más frecuente","El ectropion es una eversión","El basocelular no metastatiza","El carcinoma espinocelular nunca metastatiza"],
+ e:"FALSA: el <b>carcinoma espinocelular SÍ metastatiza</b> (a ganglios y a distancia); el basocelular no."},
+{cat:"Síntesis · DDx",c:0,ddx:true,q:"Asocie correctamente:",
+ o:["Ectropion = inversión; entropion = eversión; basocelular = espinocelular","Ectropion = eversión (exposición); entropion = inversión (pestañas rozan); basocelular = el más frecuente; espinocelular = metastatiza","Orzuelo = indoloro","Chalazion = doloroso"],
+ e:"<b>Ectropion</b> = eversión (exposición); <b>entropion</b> = inversión (queratitis traumática); <b>basocelular</b> = el más frecuente; <b>espinocelular</b> = metastatiza."},
+{cat:"Síntesis · global",c:1,q:"Resumen del tema:",
+ o:["Solo tumores","Inflamatoria (blefaritis, orzuelo doloroso vs chalazion indoloro) + malposiciones (ectropion/entropion, ptosis) + tumores (basocelular el más frecuente)","Solo malposiciones","Solo blefaritis"],
+ e:"Párpados: <b>inflamatoria</b> (blefaritis; orzuelo doloroso vs chalazion indoloro), <b>malposiciones</b> (ectropion/entropion, ptosis) y <b>tumores</b> (basocelular el más frecuente)."}
+];
+
+const figMap={figOrzuelo,figChalazion,figEctEnt,figBaso};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la patología palpebral. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo los tumores y las malposiciones.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza orzuelo vs chalazion y la ptosis.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T22 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
