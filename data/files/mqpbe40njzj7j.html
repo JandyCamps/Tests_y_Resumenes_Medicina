@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T19 · Uveítis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --ant:#1a5e86;--antbg:#e3eff7;--int:#9a4d12;--intbg:#f6ecde;--post:#7a3a8f;--postbg:#f1e6f4;--end:#b23a32;--endbg:#fbe7e4;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.ant{color:var(--ant);background:var(--antbg)}.chip.int{color:var(--int);background:var(--intbg)}
+  .chip.post{color:var(--post);background:var(--postbg)}.chip.end{color:var(--end);background:var(--endbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.ant{color:var(--ant);background:var(--antbg)}.pill.int{color:var(--int);background:var(--intbg)}.pill.post{color:var(--post);background:var(--postbg)}.pill.end{color:var(--end);background:var(--endbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 19</p>
+  <h1>Uveítis y Endoftalmitis</h1>
+  <p>Resumen centrado en clasificar la uveítis por <b>localización</b> (anterior / intermedia / posterior / panuveítis), reconocer sus <b>signos guía</b> y asociar cada patrón con su <b>causa sistémica</b>. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#concepto">0 · Concepto y clasificación</a>
+    <a href="#anterior">I · Uveítis anterior</a>
+    <a href="#intermedia">II · Uveítis intermedia</a>
+    <a href="#posterior">III · Uveítis posterior</a>
+    <a href="#etiologia">IV · Etiología y asociaciones</a>
+    <a href="#endoftalmitis">V · Endoftalmitis</a>
+    <a href="#ddx">VI · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="concepto">
+  <h2><span class="romnum">0</span> Concepto y clasificación</h2>
+  <p class="lead"><b>Uveítis = inflamación que afecta a la úvea.</b> Se describe por tres ejes: <b>curso</b> (aguda/crónica/recurrente), <b>granulomatosa</b> (sí/no) y <b>lateralidad</b> (uni/bilateral).</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo (anatómico)</th><th>Localización</th></tr></thead>
+    <tbody>
+      <tr><td class="h"><span class="pill ant">Anterior</span></td><td>Iris y parte anterior del cuerpo ciliar (<b>iritis / iridociclitis</b>)</td></tr>
+      <tr><td class="h"><span class="pill int">Intermedia</span></td><td>Vítreo, parte posterior del cuerpo ciliar y pars plana (<b>vitritis / pars planitis</b>)</td></tr>
+      <tr><td class="h"><span class="pill post">Posterior</span></td><td>Coroides / retina (<b>coroiditis / retinitis</b>)</td></tr>
+      <tr><td class="h">Panuveítis</td><td>Varias de ellas</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Síntomas guía</span> <b>Anterior</b> = ojo rojo + dolor. <b>Intermedia</b> = mala visión + miodesopsias. <b>Posterior</b> = mala visión + miodesopsias + <b>FOTOPSIAS</b>.</div>
+</section>
+
+<section id="anterior">
+  <h2><span class="romnum">I</span> Uveítis anterior <span class="chip ant">ojo rojo doloroso</span></h2>
+  <p class="lead"><b>Síntomas:</b> ojo rojo y dolor.</p>
+  <h3>Signos</h3>
+  <ul>
+    <li><b>Inyección periquerática (ciliar)</b> y <b>MIOSIS</b>.</li>
+    <li><b>Células inflamatorias en cámara anterior</b> = fenómeno de <b>Tyndall</b>; <b>turbidez/flare</b> (proteínas).</li>
+    <li><b>Precipitados endoteliales/retroqueráticos</b>, <b>fibrina</b> y, en casos graves, <b>hipopión</b> (nivel de material purulento).</li>
+    <li>Puede haber <b>↑PIO</b> (glaucoma uveítico).</li>
+  </ul>
+  <h3>Tratamiento</h3>
+  <ol>
+    <li><b>Etiológico.</b></li>
+    <li><b>Midriáticos/ciclopléjicos</b> (ciclopentolato, atropina): rompen/previenen sinequias y calman el dolor ciliar.</li>
+    <li><b>Corticoides tópicos</b> (prednisolona, dexametasona).</li>
+    <li>Casos complejos: corticoides perioculares/sistémicos, antimetabolitos (metotrexato, azatioprina, micofenolato), <b>biológicos</b>.</li>
+  </ol>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 160" role="img" aria-label="Cámara anterior con fenómeno Tyndall e hipopión">
+      <ellipse cx="180" cy="80" rx="150" ry="66" fill="#f3b7ad" opacity=".5"/>
+      <circle cx="180" cy="80" r="74" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <circle cx="180" cy="80" r="26" fill="#1a1a1a"/>
+      <path d="M106 80 a74 74 0 0 0 148 0 q-74 26 -148 0Z" fill="#e9d7a0" opacity=".85"/>
+      <g fill="#7a5a2a"><circle cx="150" cy="62" r="2.5"/><circle cx="200" cy="56" r="2"/><circle cx="170" cy="70" r="2"/><circle cx="210" cy="72" r="2.5"/></g>
+      <text x="180" y="150" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">células (Tyndall) + nivel de hipopión inferior</text>
+    </svg>
+    <figcaption>Uveítis anterior: <b>Tyndall</b> (células en cámara anterior), <b>miosis</b> y, si es grave, <b>hipopión</b> (nivel inferior).</figcaption>
+  </figure>
+</section>
+
+<section id="intermedia">
+  <h2><span class="romnum">II</span> Uveítis intermedia <span class="chip int">bolas de nieve</span></h2>
+  <p class="lead"><b>Síntomas:</b> mala visión y <b>miodesopsias</b> (sin ojo rojo ni dolor llamativos).</p>
+  <h3>Signos</h3>
+  <ul>
+    <li><b>↓AV</b> y <b>turbidez vítrea</b>.</li>
+    <li>Agregados celulares en vítreo = <b>"bolas de nieve" (snow balls)</b>.</li>
+    <li>Exudados sobre la pars plana = <b>"banco de nieve" (snow bank)</b>.</li>
+    <li><b>Periflebitis</b> periférica.</li>
+  </ul>
+  <p><b>Tratamiento:</b> corticoides perioculares/intravítreos/sistémicos, citotóxicos, biológicos, <b>crioterapia o láser</b> en la retina periférica y <b>vitrectomía</b>.</p>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 160" role="img" aria-label="Vítreo con bolas de nieve y banco de nieve en la pars plana">
+      <ellipse cx="180" cy="80" rx="150" ry="70" fill="#1f2a30"/>
+      <g fill="#eef3f5"><circle cx="150" cy="62" r="6"/><circle cx="175" cy="84" r="5"/><circle cx="200" cy="66" r="6"/><circle cx="165" cy="100" r="4"/></g>
+      <path d="M40 110 Q120 130 200 124" stroke="#dfe8ea" stroke-width="9" fill="none" opacity=".85"/>
+      <text x="248" y="40" style="font:600 11px Inter;fill:#eef3f5">bolas de nieve</text>
+      <text x="60" y="146" style="font:600 11px Inter;fill:#dfe8ea">banco de nieve (pars plana)</text>
+    </svg>
+    <figcaption>Uveítis intermedia: <b>bolas de nieve</b> (agregados en vítreo) y <b>banco de nieve</b> (exudados sobre la pars plana).</figcaption>
+  </figure>
+</section>
+
+<section id="posterior">
+  <h2><span class="romnum">III</span> Uveítis posterior <span class="chip post">+ fotopsias</span></h2>
+  <p class="lead"><b>Síntomas:</b> mala visión, miodesopsias y <b>FOTOPSIAS</b> (la fotopsia diferencia la posterior de la intermedia).</p>
+  <h3>Signos</h3>
+  <ul>
+    <li><b>↓AV</b>, <b>focos coroideos inflamatorios</b>, edema macular, <b>vasculitis retiniana</b>, hemorragias, hemovítreo.</li>
+  </ul>
+  <h3>Signos específicos por causa</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Signo</th><th>Causa</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Nódulos de Dalen-Fuchs</td><td><b>Vogt-Koyanagi-Harada</b> / oftalmía simpática</td></tr>
+      <tr><td class="h">Nódulos coroideos</td><td><b>Sarcoidosis</b></td></tr>
+      <tr><td class="h">Vasculitis retiniana</td><td><b>Behçet</b></td></tr>
+      <tr><td class="h">Foco coriorretiniano</td><td><b>Toxoplasmosis</b></td></tr>
+      <tr><td class="h">Retinitis "en pizza" (exudación + hemorragias)</td><td><b>CMV</b> (inmunodeprimidos)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Causas por frecuencia (patrón clínico)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Patrón</th><th>Etiologías más probables</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Coriorretinitis UNILATERAL</td><td><b>93% TOXOPLASMOSIS</b></td></tr>
+      <tr><td class="h">Coriorretinitis bilateral</td><td>65% sdr oftalmológicos, 23% toxoplasmosis, 8% LES, 8% enmascaramiento</td></tr>
+      <tr><td class="h">Vasculitis retiniana sin clínica sistémica</td><td>57% idiopática, <b>21% Behçet</b></td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Tratamiento:</b> etiológico, corticoides, inmunosupresores/biológicos, vitrectomía y tratamiento de las complicaciones.</p>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 160" role="img" aria-label="Foco coriorretiniano activo junto a una cicatriz pigmentada (toxoplasmosis)">
+      <circle cx="180" cy="80" r="74" fill="#dd9a45" stroke="#b8752f"/>
+      <circle cx="150" cy="70" r="16" fill="#e8e0c8" stroke="#cdbf8a"/>
+      <circle cx="200" cy="92" r="14" fill="#5a3a1a"/><circle cx="200" cy="92" r="14" fill="none" stroke="#2a1a0a" stroke-width="3"/>
+      <text x="180" y="150" text-anchor="middle" style="font:400 11px Inter;fill:#5a3a1a">foco activo (claro) junto a cicatriz pigmentada</text>
+    </svg>
+    <figcaption>Toxoplasmosis: foco de coriorretinitis <b>activo</b> (blanquecino, "faro en la niebla") junto a una <b>cicatriz pigmentada</b> antigua.</figcaption>
+  </figure>
+</section>
+
+<section id="etiologia">
+  <h2><span class="romnum">IV</span> Etiología y asociaciones sistémicas</h2>
+  <p class="lead">Las uveítis pueden ser infecciosas, sistémicas/autoinmunes, de mascarada, por fármacos, síndromes oftalmológicos o idiopáticas.</p>
+  <ul>
+    <li><b>Infecciosa:</b> herpes, toxoplasma, sífilis, TBC, HIV, CMV.</li>
+    <li><b>No infecciosa/sistémica:</b> HLA-B27, espondiloartropatías, AIJ, sarcoidosis, LES, EII.</li>
+    <li><b>Síndromes de mascarada/enmascaramiento:</b> neoplasias (linfoma, melanoma).</li>
+    <li><b>Fármacos:</b> bifosfonatos, antiVEGF.</li>
+    <li><b>Síndromes oftalmológicos:</b> Posner-Schlossman, ciclitis heterocrómica de Fuchs.</li>
+    <li><b>Idiopática.</b></li>
+  </ul>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Enfermedad</th><th>Manifestación ocular típica</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Artritis idiopática juvenil (AIJ)</td><td><b>Uveítis anterior poco sintomática</b> (+ glaucoma, catarata, queratopatía en banda)</td></tr>
+      <tr><td class="h">Espondiloartropatías / EII</td><td>Uveítis anterior (HLA-B27)</td></tr>
+      <tr><td class="h">Sarcoidosis</td><td>Uveítis anterior; periflebitis con exudados <b>"en gota de cera"</b>; uveítis intermedia con <b>bolas de nieve</b></td></tr>
+      <tr><td class="h">Behçet</td><td><b>Vasculitis retiniana oclusiva</b> + uveítis anterior con <b>HIPOPIÓN</b></td></tr>
+      <tr><td class="h">LES</td><td>Vasculitis retiniana</td></tr>
+      <tr><td class="h">Toxoplasmosis</td><td>Uveítis anterior y posterior; coriorretinitis/vitritis/retinitis que deja <b>cicatrices</b> y se <b>reactiva</b></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="endoftalmitis">
+  <h2><span class="romnum">V</span> Endoftalmitis <span class="chip end">URGENCIA</span></h2>
+  <p class="lead"><b>Panuveítis infecciosa muy grave.</b> La más típica es la <b>postquirúrgica</b>.</p>
+  <ul>
+    <li><b>Germen más frecuente:</b> <b>estafilococo</b> (estreptococo en las <b>inyecciones intravítreas</b>).</li>
+    <li><b>Tratamiento de la endoftalmitis aguda:</b> <b>inyección intravítrea de antibióticos + corticoides</b> y <b>vitrectomía</b>.</li>
+    <li><b>Profilaxis quirúrgica:</b> <b>povidona yodada</b> en los fondos de saco + <b>cefuroxima intracamerular</b>.</li>
+    <li><b>Endoftalmitis lenta (larvada):</b> curso crónico por gérmenes poco virulentos como <b>Propionibacterium acnes</b>.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 150" role="img" aria-label="Ojo con hipopión severo (endoftalmitis)">
+      <ellipse cx="160" cy="75" rx="135" ry="58" fill="#f3a89c"/>
+      <circle cx="160" cy="75" r="62" fill="#bcc7cb" opacity=".8"/>
+      <path d="M98 75 a62 62 0 0 0 124 0 q-62 36 -124 0Z" fill="#f2ead6"/>
+      <circle cx="160" cy="64" r="20" fill="#2a2a2a" opacity=".5"/>
+      <text x="160" y="140" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">hipopión severo + medios turbios (endoftalmitis)</text>
+    </svg>
+    <figcaption>Endoftalmitis: ojo muy inflamado con <b>hipopión severo</b> y turbidez de los medios; es una <b>urgencia</b>.</figcaption>
+  </figure>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VI</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Localización por los síntomas</h3>
+  <p><b>Anterior</b> = ojo rojo + dolor + miosis + Tyndall. <b>Intermedia</b> = mala visión + miodesopsias + bolas de nieve. <b>Posterior</b> = + <b>fotopsias</b> + focos coroideos.</p>
+  <h3>2 · Ojo rojo doloroso</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Uveítis anterior</th><th>Glaucoma agudo</th><th>Conjuntivitis</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Pupila</td><td><b>Miosis</b></td><td><b>Midriasis media</b></td><td>Normal</td></tr>
+      <tr><td class="h">Cámara anterior</td><td><b>Tyndall</b>/hipopión</td><td>Estrecha, córnea turbia</td><td>Normal</td></tr>
+      <tr><td class="h">PIO</td><td>Normal/↑</td><td><b>Muy alta</b></td><td>Normal</td></tr>
+    </tbody>
+  </table></div>
+  <h3>3 · Uveítis posterior por causa</h3>
+  <p><b>Toxoplasmosis</b> (coriorretinitis unilateral, foco + cicatriz) · <b>CMV</b> ("en pizza", inmunodeprimido) · <b>Behçet</b> (vasculitis + hipopión) · <b>sarcoidosis</b> (bolas de nieve, gota de cera) · <b>VKH</b> (Dalen-Fuchs).</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de las uveítis.</p>
+  <div class="trap"><span class="t">1 · Uveítis anterior = ojo rojo doloroso + MIOSIS + Tyndall</span> Frente al <b>glaucoma agudo</b> (midriasis media, PIO altísima) y la conjuntivitis (pupila normal).</div>
+  <div class="trap"><span class="t">2 · Hipopión → piensa en Behçet</span> Uveítis anterior con hipopión + vasculitis retiniana oclusiva = <b>Behçet</b> (también en la endoftalmitis).</div>
+  <div class="trap"><span class="t">3 · Coriorretinitis unilateral = toxoplasmosis (93%)</span> Foco activo junto a una cicatriz pigmentada; se reactiva a lo largo de la vida.</div>
+  <div class="trap"><span class="t">4 · Bolas de nieve / banco de nieve = uveítis intermedia</span> Asociada a <b>sarcoidosis</b> (y a la pars planitis idiopática).</div>
+  <div class="trap"><span class="t">5 · Retinitis "en pizza" = CMV</span> En inmunodeprimidos (VIH, trasplantados): exudación + hemorragias.</div>
+  <div class="trap"><span class="t">6 · Tratamiento de la uveítis anterior = ciclopléjico + corticoide tópico</span> Los <b>midriáticos/ciclopléjicos</b> previenen sinequias y alivian el dolor; los corticoides controlan la inflamación.</div>
+  <div class="trap"><span class="t">7 · Endoftalmitis postquirúrgica = estafilococo</span> (estreptococo en inyecciones intravítreas). Es una <b>urgencia</b>: ATB intravítreo + corticoides + vitrectomía.</div>
+  <div class="trap"><span class="t">8 · Profilaxis de la endoftalmitis = povidona yodada + cefuroxima intracamerular</span> Medidas estándar en la cirugía de catarata.</div>
+  <div class="trap"><span class="t">9 · Endoftalmitis lenta (larvada) = Propionibacterium acnes</span> Curso crónico por germen poco virulento.</div>
+  <div class="trap"><span class="t">10 · AIJ → uveítis anterior POCO sintomática</span> Por eso requiere <b>cribado</b> (riesgo de glaucoma, catarata, queratopatía en banda).</div>
+  <div class="trap"><span class="t">11 · Nódulos de Dalen-Fuchs = VKH / oftalmía simpática</span> Nódulos coroideos = sarcoidosis.</div>
+  <div class="trap"><span class="t">12 · Las FOTOPSIAS diferencian la posterior de la intermedia</span> Anterior (dolor/ojo rojo) → intermedia (miodesopsias) → posterior (+ fotopsias).</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 19. Ilustraciones esquemáticas originales (no fotografías). Para reconocer el Tyndall, el hipopión, las bolas de nieve o el foco toxoplásmico reales, repasa las imágenes del tema. Las asociaciones sistémicas se amplían en el T20/T22.</p></section>
+
+</div>
+</body>
+</html>
