@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T19 · Uveítis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T19</p>
+    <h1>Uveítis y Endoftalmitis</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figTyndall=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cámara anterior con Tyndall e hipopión">
+<ellipse cx="120" cy="75" rx="105" ry="50" fill="#f3b7ad" opacity=".5"/><circle cx="120" cy="75" r="56" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="120" cy="75" r="20" fill="#1a1a1a"/>
+<path d="M64 75 a56 56 0 0 0 112 0 q-56 20 -112 0Z" fill="#e9d7a0" opacity=".85"/>
+<g fill="#7a5a2a"><circle cx="100" cy="60" r="2.2"/><circle cx="140" cy="56" r="2"/><circle cx="118" cy="66" r="2"/></g></svg>`;
+const figBolas=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vítreo con bolas de nieve y banco de nieve">
+<ellipse cx="120" cy="75" rx="105" ry="56" fill="#1f2a30"/>
+<g fill="#eef3f5"><circle cx="100" cy="58" r="6"/><circle cx="125" cy="80" r="5"/><circle cx="146" cy="62" r="6"/></g>
+<path d="M30 104 Q90 122 165 116" stroke="#dfe8ea" stroke-width="8" fill="none" opacity=".85"/></svg>`;
+const figToxo=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foco coriorretiniano activo junto a cicatriz pigmentada">
+<circle cx="120" cy="75" r="64" fill="#dd9a45" stroke="#b8752f"/><circle cx="96" cy="64" r="14" fill="#e8e0c8" stroke="#cdbf8a"/>
+<circle cx="146" cy="88" r="13" fill="#5a3a1a"/><circle cx="146" cy="88" r="13" fill="none" stroke="#2a1a0a" stroke-width="3"/></svg>`;
+const figEndof=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con hipopión severo (endoftalmitis)">
+<ellipse cx="120" cy="72" rx="108" ry="50" fill="#f3a89c"/><circle cx="120" cy="72" r="52" fill="#bcc7cb" opacity=".85"/>
+<path d="M68 72 a52 52 0 0 0 104 0 q-52 32 -104 0Z" fill="#f2ead6"/><circle cx="120" cy="62" r="16" fill="#2a2a2a" opacity=".5"/></svg>`;
+
+const Q=[
+{cat:"Concepto",c:1,q:"La uveítis es:",
+ o:["Una opacidad del cristalino","Una inflamación que afecta a la úvea","Una pérdida de campo visual","Un defecto de refracción"],
+ e:"La <b>uveítis</b> es una <b>inflamación que afecta a la úvea</b> (iris, cuerpo ciliar, coroides)."},
+{cat:"Clasificación",c:2,q:"La uveítis ANTERIOR afecta a:",
+ o:["La coroides y la retina","El vítreo y la pars plana","El iris y la parte anterior del cuerpo ciliar (iritis/iridociclitis)","El nervio óptico"],
+ e:"La <b>uveítis anterior</b> afecta al <b>iris y la parte anterior del cuerpo ciliar</b> (iritis/iridociclitis)."},
+{cat:"Clasificación",c:3,q:"La uveítis INTERMEDIA afecta a:",
+ o:["El iris","La coroides","La córnea","El vítreo, la parte posterior del cuerpo ciliar y la pars plana (vitritis/pars planitis)"],
+ e:"La <b>uveítis intermedia</b> afecta al <b>vítreo, la parte posterior del cuerpo ciliar y la pars plana</b>."},
+{cat:"Clasificación",c:0,q:"La uveítis POSTERIOR afecta a:",
+ o:["La coroides/retina (coroiditis/retinitis)","El iris","La pars plana","La conjuntiva"],
+ e:"La <b>uveítis posterior</b> afecta a la <b>coroides y la retina</b> (coroiditis/retinitis)."},
+{cat:"Síntomas · DDx",c:1,ddx:true,q:"Los síntomas guía de la uveítis ANTERIOR son:",
+ o:["Mala visión y miodesopsias","Ojo rojo y dolor","Fotopsias","Ninguno (asintomática)"],
+ e:"La <b>uveítis anterior</b> da <b>ojo rojo y dolor</b>; la intermedia, miodesopsias/mala visión; la posterior, además, fotopsias."},
+{cat:"Uveítis anterior",c:2,q:"La pupila en la uveítis anterior está típicamente en:",
+ o:["Midriasis","Midriasis media","Miosis","Sin cambios"],
+ e:"En la <b>uveítis anterior</b> la pupila está en <b>miosis</b> (frente a la midriasis media del glaucoma agudo)."},
+{cat:"Uveítis anterior",c:3,q:"El fenómeno de Tyndall consiste en:",
+ o:["Edema corneal","Neovasos","Hipopión","Células inflamatorias visibles en la cámara anterior con la lámpara de hendidura"],
+ e:"El <b>fenómeno de Tyndall</b> son las <b>células inflamatorias</b> suspendidas en la cámara anterior (el flare es la turbidez por proteínas)."},
+{cat:"Imagen · anterior",c:0,figSrc:"figTyndall",figcap:"Cámara anterior del paciente.",
+ q:"Estas células en la cámara anterior con un nivel inferior y la pupila en miosis corresponden a:",
+ o:["Uveítis anterior (Tyndall + hipopión)","Glaucoma agudo","Conjuntivitis","Catarata"],
+ e:"Células (Tyndall) + nivel de hipopión + miosis = <b>uveítis anterior</b>."},
+{cat:"Uveítis anterior",c:1,q:"El hipopión es:",
+ o:["Sangre en cámara anterior","Un nivel de material purulento (células inflamatorias) en la cámara anterior","Edema corneal","Pigmento"],
+ e:"El <b>hipopión</b> es un <b>nivel de material purulento</b> (células inflamatorias) en la parte inferior de la cámara anterior."},
+{cat:"Uveítis anterior · tto",c:2,q:"El tratamiento de la uveítis anterior incluye, además del etiológico:",
+ o:["Solo antibióticos","Solo lágrimas","Midriáticos/ciclopléjicos + corticoides tópicos","AntiVEGF"],
+ e:"La <b>uveítis anterior</b> se trata con <b>midriáticos/ciclopléjicos</b> (ciclopentolato, atropina) y <b>corticoides tópicos</b>."},
+{cat:"Uveítis anterior · tto",c:3,q:"¿Por qué se usan midriáticos/ciclopléjicos en la uveítis anterior?",
+ o:["Para bajar la PIO","Para tratar la infección","Para dilatar y ver la retina","Para prevenir/romper sinequias y aliviar el dolor del espasmo ciliar"],
+ e:"Los <b>ciclopléjicos</b> previenen/rompen las <b>sinequias</b> y alivian el <b>dolor</b> del espasmo ciliar."},
+{cat:"Caso clínico · anterior",c:0,case:true,
+ lead:"Varón de 30 años con ojo rojo doloroso, fotofobia, inyección periquerática, pupila en miosis y células en cámara anterior (Tyndall). PIO normal.",
+ q:"El diagnóstico es:",
+ o:["Uveítis anterior","Glaucoma agudo","Conjuntivitis bacteriana","Hemorragia subconjuntival"],
+ e:"Ojo rojo doloroso + inyección ciliar + miosis + Tyndall = <b>uveítis anterior</b>."},
+{cat:"Uveítis intermedia",c:1,q:"Los síntomas de la uveítis intermedia son:",
+ o:["Ojo rojo y dolor","Mala visión y miodesopsias","Solo fotopsias","Ninguno"],
+ e:"La <b>uveítis intermedia</b> cursa con <b>mala visión y miodesopsias</b> (sin ojo rojo/dolor llamativos)."},
+{cat:"Uveítis intermedia",c:2,q:"Los agregados celulares en el vítreo se denominan:",
+ o:["Hipopión","Tyndall","Bolas de nieve (snow balls)","Drusas"],
+ e:"Los agregados celulares en el vítreo de la uveítis intermedia son las <b>'bolas de nieve' (snow balls)</b>."},
+{cat:"Uveítis intermedia",c:3,q:"Los exudados sobre la pars plana se denominan:",
+ o:["Bolas de nieve","Tyndall","Drusas","Banco de nieve (snow bank)"],
+ e:"Los exudados sobre la pars plana son el <b>'banco de nieve' (snow bank)</b>."},
+{cat:"Imagen · intermedia",c:0,figSrc:"figBolas",figcap:"Vítreo del paciente.",
+ q:"Estos agregados blanquecinos en el vítreo y el exudado sobre la pars plana corresponden a:",
+ o:["Uveítis intermedia (bolas de nieve y banco de nieve)","Uveítis anterior","Endoftalmitis","Glaucoma"],
+ e:"Bolas de nieve + banco de nieve = <b>uveítis intermedia</b>."},
+{cat:"Uveítis posterior",c:1,q:"¿Qué síntoma diferencia la uveítis POSTERIOR de la intermedia?",
+ o:["El dolor","Las fotopsias","El ojo rojo","La miosis"],
+ e:"Las <b>fotopsias</b> (junto a mala visión y miodesopsias) orientan a <b>uveítis posterior</b>."},
+{cat:"Uveítis posterior",c:2,q:"Una coriorretinitis UNILATERAL se debe, en el 93% de los casos, a:",
+ o:["Sarcoidosis","CMV","Toxoplasmosis","Behçet"],
+ e:"La <b>coriorretinitis unilateral</b> se debe en el <b>93%</b> a <b>toxoplasmosis</b>."},
+{cat:"Imagen · posterior",c:3,figSrc:"figToxo",figcap:"Fondo de ojo del paciente.",
+ q:"Este foco claro activo junto a una cicatriz pigmentada en una coriorretinitis unilateral sugiere:",
+ o:["CMV","Sarcoidosis","Behçet","Toxoplasmosis"],
+ e:"Foco activo + cicatriz pigmentada en coriorretinitis unilateral = <b>toxoplasmosis</b>."},
+{cat:"Uveítis posterior · DDx",c:0,ddx:true,q:"La retinitis 'en pizza' (exudación + hemorragias) en un inmunodeprimido sugiere:",
+ o:["CMV","Toxoplasmosis","Sarcoidosis","VKH"],
+ e:"La <b>retinitis 'en pizza'</b> en inmunodeprimidos es típica del <b>CMV</b>."},
+{cat:"Uveítis posterior · DDx",c:1,ddx:true,q:"Los nódulos de Dalen-Fuchs son típicos de:",
+ o:["Toxoplasmosis","Vogt-Koyanagi-Harada / oftalmía simpática","Behçet","CMV"],
+ e:"Los <b>nódulos de Dalen-Fuchs</b> aparecen en el <b>Vogt-Koyanagi-Harada</b> y en la oftalmía simpática."},
+{cat:"Uveítis posterior · DDx",c:2,ddx:true,q:"Los nódulos coroideos sugieren:",
+ o:["Toxoplasmosis","CMV","Sarcoidosis","Behçet"],
+ e:"Los <b>nódulos coroideos</b> son típicos de la <b>sarcoidosis</b>."},
+{cat:"Behçet",c:3,q:"La enfermedad de Behçet cursa con:",
+ o:["Solo ojo seco","Solo catarata","Bolas de nieve","Vasculitis retiniana oclusiva + uveítis anterior con hipopión"],
+ e:"El <b>Behçet</b> cursa con <b>vasculitis retiniana oclusiva</b> y <b>uveítis anterior con hipopión</b>."},
+{cat:"Caso clínico · Behçet",c:0,case:true,
+ lead:"Varón joven con aftas orales y genitales recurrentes que presenta una uveítis anterior con hipopión y una vasculitis retiniana oclusiva.",
+ q:"El diagnóstico más probable es:",
+ o:["Enfermedad de Behçet","Toxoplasmosis","Sarcoidosis","CMV"],
+ e:"Aftas orales/genitales + hipopión + vasculitis oclusiva = <b>enfermedad de Behçet</b>."},
+{cat:"Sarcoidosis",c:1,q:"En la sarcoidosis, la periflebitis con exudados se describe como:",
+ o:["En pizza","En gota de cera","En cabeza de medusa","En rosario"],
+ e:"En la <b>sarcoidosis</b>, la periflebitis con exudados es <b>'en gota de cera'</b>; también da uveítis intermedia con bolas de nieve."},
+{cat:"AIJ",c:2,q:"La uveítis de la artritis idiopática juvenil (AIJ) es típicamente:",
+ o:["Muy dolorosa","Posterior","Anterior y POCO sintomática (requiere cribado)","Una panuveítis aguda"],
+ e:"La <b>AIJ</b> produce una <b>uveítis anterior poco sintomática</b>; por eso requiere <b>cribado</b> (riesgo de glaucoma, catarata, queratopatía en banda)."},
+{cat:"Etiología",c:3,q:"¿Cuál de estas es una causa INFECCIOSA de uveítis?",
+ o:["HLA-B27","Sarcoidosis","Linfoma","Herpes, toxoplasma, sífilis, TBC, CMV"],
+ e:"Las causas infecciosas incluyen <b>herpes, toxoplasma, sífilis, TBC, VIH y CMV</b>."},
+{cat:"Etiología",c:0,q:"Los 'síndromes de mascarada/enmascaramiento' que simulan uveítis son:",
+ o:["Neoplasias (linfoma, melanoma)","Conjuntivitis","Ametropías","Cataratas"],
+ e:"Los <b>síndromes de mascarada</b> son <b>neoplasias</b> (linfoma, melanoma) que simulan una uveítis."},
+{cat:"Endoftalmitis",c:1,q:"La endoftalmitis postquirúrgica es:",
+ o:["Una conjuntivitis leve","Una panuveítis infecciosa muy grave","Una catarata","Un glaucoma crónico"],
+ e:"La <b>endoftalmitis postquirúrgica</b> es una <b>panuveítis infecciosa muy grave</b> (urgencia)."},
+{cat:"Endoftalmitis",c:2,q:"El germen más frecuente de la endoftalmitis postquirúrgica es:",
+ o:["Pseudomonas","Cándida","Estafilococo (estreptococo en inyecciones intravítreas)","Toxoplasma"],
+ e:"El germen más frecuente es el <b>estafilococo</b> (el <b>estreptococo</b> predomina en las inyecciones intravítreas)."},
+{cat:"Imagen · endoftalmitis",c:3,figSrc:"figEndof",figcap:"Ojo del paciente postoperado.",
+ q:"Este ojo muy inflamado con hipopión severo y medios turbios días tras una cirugía de catarata corresponde a:",
+ o:["Uveítis anterior leve","Conjuntivitis","Glaucoma agudo","Endoftalmitis postquirúrgica"],
+ e:"Hipopión severo + turbidez + cirugía reciente = <b>endoftalmitis postquirúrgica</b> (urgencia)."},
+{cat:"Endoftalmitis · tto",c:0,case:true,
+ lead:"Paciente operado de catarata hace 3 días con dolor intenso, pérdida brusca de visión, ojo rojo e hipopión.",
+ q:"El tratamiento de la endoftalmitis aguda es:",
+ o:["Inyección intravítrea de antibióticos y corticoides + vitrectomía","Solo colirio antibiótico","Observación","AntiVEGF"],
+ e:"La <b>endoftalmitis aguda</b> se trata con <b>antibióticos + corticoides intravítreos</b> y <b>vitrectomía</b> (urgencia)."},
+{cat:"Endoftalmitis · profilaxis",c:1,q:"La profilaxis de la endoftalmitis en la cirugía de catarata incluye:",
+ o:["AntiVEGF","Povidona yodada en fondos de saco + cefuroxima intracamerular","Corticoides orales","Atropina"],
+ e:"La profilaxis estándar es <b>povidona yodada</b> en los fondos de saco + <b>cefuroxima intracamerular</b>."},
+{cat:"Endoftalmitis",c:2,q:"La endoftalmitis lenta (larvada) se produce por:",
+ o:["Estreptococo","Pseudomonas","Gérmenes poco virulentos (Propionibacterium acnes)","Toxoplasma"],
+ e:"La <b>endoftalmitis lenta</b> se debe a gérmenes poco virulentos como <b>Propionibacterium acnes</b> (curso crónico)."},
+{cat:"DDx ojo rojo",c:3,ddx:true,q:"Ante un ojo rojo doloroso, ¿qué dato apoya UVEÍTIS anterior frente a glaucoma agudo?",
+ o:["Midriasis media","PIO muy alta","Córnea turbia","Miosis + Tyndall (con PIO normal o poco elevada)"],
+ e:"La <b>miosis + Tyndall</b> apoyan la <b>uveítis anterior</b>; la <b>midriasis media + PIO altísima</b>, el glaucoma agudo."},
+{cat:"Uveítis anterior",c:0,q:"Los precipitados retroqueráticos (endoteliales) son:",
+ o:["Depósitos de células inflamatorias en el endotelio corneal","Neovasos","Drusas","Pigmento del iris"],
+ e:"Los <b>precipitados retroqueráticos</b> son depósitos de células inflamatorias en la cara posterior de la córnea (endotelio)."},
+{cat:"Toxoplasmosis",c:1,q:"La coriorretinitis por toxoplasmosis:",
+ o:["Nunca recidiva","Deja cicatrices y se reactiva a lo largo de la vida","Es siempre bilateral","No deja secuelas"],
+ e:"La <b>toxoplasmosis</b> deja <b>cicatrices coriorretinianas</b> y puede <b>reactivarse</b> a lo largo de la vida."},
+{cat:"Uveítis intermedia",c:2,q:"¿Qué enfermedad sistémica se asocia a la uveítis intermedia con bolas de nieve?",
+ o:["Behçet","LES","Sarcoidosis","Artritis reumatoide"],
+ e:"La <b>sarcoidosis</b> se asocia a uveítis intermedia con <b>bolas de nieve</b> (y periflebitis 'en gota de cera')."},
+{cat:"Caso clínico · intermedia",c:3,case:true,
+ lead:"Mujer de 35 años con visión borrosa y 'moscas volantes' en ambos ojos, sin dolor ni ojo rojo; el fondo muestra turbidez vítrea con agregados celulares y exudados sobre la pars plana.",
+ q:"El diagnóstico es:",
+ o:["Uveítis anterior","Glaucoma","Conjuntivitis","Uveítis intermedia"],
+ e:"Mala visión + miodesopsias sin ojo rojo + bolas/banco de nieve = <b>uveítis intermedia</b>."},
+{cat:"Etiología",c:0,q:"¿Qué fármacos pueden causar uveítis?",
+ o:["Bifosfonatos y antiVEGF","Paracetamol","Lágrimas artificiales","Vitamina C"],
+ e:"Los <b>bifosfonatos</b> y los <b>antiVEGF</b> pueden causar uveítis (etiología farmacológica)."},
+{cat:"Síndromes oftalmológicos",c:1,q:"La ciclitis heterocrómica de Fuchs y el síndrome de Posner-Schlossman son:",
+ o:["Causas infecciosas","Síndromes oftalmológicos de uveítis","Tumores","Cataratas"],
+ e:"Son <b>síndromes oftalmológicos</b> específicos que cursan con uveítis (Fuchs: heterocromía; Posner-Schlossman: crisis glaucomatociclíticas)."},
+{cat:"Uveítis posterior",c:2,q:"Los signos de la uveítis posterior incluyen:",
+ o:["Miosis y Tyndall","Hipopión aislado","Focos coroideos inflamatorios, edema macular, vasculitis retiniana y hemorragias","Inyección ciliar exclusivamente"],
+ e:"La <b>uveítis posterior</b> da <b>focos coroideos, edema macular, vasculitis retiniana, hemorragias</b> y hemovítreo."},
+{cat:"Caso clínico · toxoplasmosis",c:3,case:true,
+ lead:"Joven con visión borrosa, miodesopsias y fotopsias en un ojo; el fondo muestra un foco blanquecino activo adyacente a una cicatriz pigmentada antigua.",
+ q:"El diagnóstico más probable es:",
+ o:["Sarcoidosis","Behçet","CMV","Toxoplasmosis (reactivación junto a cicatriz)"],
+ e:"Foco activo junto a cicatriz pigmentada = <b>toxoplasmosis</b> (reactivación de coriorretinitis)."},
+{cat:"Clasificación",c:0,q:"La panuveítis es:",
+ o:["La afectación de varias partes de la úvea (anterior, intermedia y posterior)","Solo uveítis anterior","Solo coroiditis","Una conjuntivitis"],
+ e:"La <b>panuveítis</b> afecta a <b>varias localizaciones</b> de la úvea simultáneamente."},
+{cat:"Clasificación",c:1,q:"Los ejes para describir una uveítis son:",
+ o:["Color, forma y tamaño","Curso (aguda/crónica/recurrente), granulomatosa y lateralidad","Edad y sexo","PIO y AV"],
+ e:"Se describe por <b>curso</b> (aguda/crónica/recurrente), <b>granulomatosa</b> (sí/no) y <b>lateralidad</b> (uni/bilateral)."},
+{cat:"Caso clínico · AIJ",c:2,case:true,
+ lead:"Niña con artritis idiopática juvenil en seguimiento; en una revisión rutinaria ocular, sin síntomas, se detecta Tyndall en cámara anterior.",
+ q:"¿Por qué es importante el cribado ocular en la AIJ?",
+ o:["Porque la uveítis es muy dolorosa","Porque siempre es posterior","Porque la uveítis anterior de la AIJ es POCO sintomática y puede dañar el ojo (catarata, glaucoma, queratopatía)","Porque no tiene tratamiento"],
+ e:"La uveítis de la <b>AIJ</b> es <b>poco sintomática</b>: el cribado detecta la inflamación antes de que cause catarata, glaucoma o queratopatía en banda."},
+{cat:"LES",c:3,q:"El lupus eritematoso sistémico (LES) se asocia a:",
+ o:["Bolas de nieve","Hipopión","Nódulos de Dalen-Fuchs","Vasculitis retiniana"],
+ e:"El <b>LES</b> se asocia a <b>vasculitis retiniana</b> (y ojo seco por Sjögren secundario)."},
+{cat:"Uveítis anterior",c:0,q:"La inyección periquerática (ciliar) es:",
+ o:["Un enrojecimiento periquerático profundo, típico de la uveítis anterior","Una hemorragia","Un edema corneal","Pigmento"],
+ e:"La <b>inyección periquerática (ciliar)</b> es el enrojecimiento alrededor del limbo, típico de la uveítis anterior (y de la queratitis/glaucoma agudo)."},
+{cat:"DDx posterior",c:1,ddx:true,q:"Asocie signo y causa:",
+ o:["Bolas de nieve → CMV","En pizza → toxoplasmosis","Hipopión + vasculitis oclusiva → Behçet","Dalen-Fuchs → sarcoidosis"],
+ e:"<b>Hipopión + vasculitis oclusiva → Behçet</b>. (Bolas de nieve = sarcoidosis/intermedia; en pizza = CMV; Dalen-Fuchs = VKH.)"},
+{cat:"Endoftalmitis",c:2,q:"En las inyecciones intravítreas, el germen que predomina en la endoftalmitis es:",
+ o:["Estafilococo","Pseudomonas","Estreptococo","Cándida"],
+ e:"En las <b>inyecciones intravítreas</b>, el germen que predomina es el <b>estreptococo</b> (en la cirugía de catarata, el estafilococo)."},
+{cat:"Uveítis anterior · tto",c:3,q:"En casos complejos de uveítis se pueden emplear:",
+ o:["Solo lágrimas","Solo antibióticos","Solo gafas","Antimetabolitos (metotrexato, azatioprina, micofenolato) y biológicos"],
+ e:"En las uveítis graves/recidivantes se usan <b>antimetabolitos</b> (metotrexato, azatioprina, micofenolato) y <b>biológicos</b>."},
+{cat:"Caso clínico · CMV",c:0,case:true,
+ lead:"Paciente con VIH y CD4 muy bajos que presenta una retinitis con exudados y hemorragias de aspecto 'en pizza'.",
+ q:"El agente más probable es:",
+ o:["Citomegalovirus (CMV)","Toxoplasma","Sarcoidosis","Behçet"],
+ e:"Retinitis 'en pizza' en un inmunodeprimido (VIH) = <b>CMV</b>."},
+{cat:"Uveítis intermedia · tto",c:1,q:"El tratamiento de la uveítis intermedia puede incluir:",
+ o:["Solo observación","Corticoides perioculares/intravítreos/sistémicos, citotóxicos, crioterapia/láser periférico y vitrectomía","Solo antibióticos","Solo midriáticos"],
+ e:"La <b>uveítis intermedia</b> se trata con <b>corticoides</b> (perioculares/intravítreos/sistémicos), citotóxicos, biológicos, <b>crioterapia/láser</b> y vitrectomía."},
+{cat:"DDx síntomas",c:2,ddx:true,q:"Un paciente con mala visión, miodesopsias y FOTOPSIAS, sin ojo rojo, tiene probablemente una uveítis:",
+ o:["Anterior","Intermedia","Posterior","Ninguna"],
+ e:"Mala visión + miodesopsias + <b>fotopsias</b> orientan a <b>uveítis posterior</b>."},
+{cat:"Uveítis posterior",c:3,q:"La coriorretinitis BILATERAL se debe con más frecuencia a:",
+ o:["Toxoplasmosis","Behçet","CMV","Síndromes oftalmológicos (65%)"],
+ e:"La <b>coriorretinitis bilateral</b> se debe en un 65% a <b>síndromes oftalmológicos</b> (23% toxoplasmosis, 8% LES, 8% enmascaramiento)."},
+{cat:"Glaucoma uveítico",c:0,q:"En el glaucoma asociado a uveítis, ¿qué fármacos están CONTRAINDICADOS?",
+ o:["Las prostaglandinas (se usan betabloqueantes)","Los betabloqueantes","El manitol","Los corticoides"],
+ e:"En el <b>glaucoma uveítico</b> las <b>prostaglandinas están contraindicadas</b> (pueden empeorar la inflamación); se usan betabloqueantes."},
+{cat:"Vasculitis retiniana",c:1,ddx:true,q:"Una vasculitis retiniana sin manifestaciones sistémicas se debe, en un 21%, a:",
+ o:["Toxoplasmosis","Behçet","CMV","Sarcoidosis"],
+ e:"La <b>vasculitis retiniana sin clínica sistémica</b> es idiopática en un 57% y se debe a <b>Behçet</b> en un 21%."},
+{cat:"Uveítis anterior",c:2,q:"Las sinequias posteriores en la uveítis anterior son:",
+ o:["Adherencias entre la córnea y el iris","Neovasos","Adherencias entre el iris y el cristalino (pupila irregular)","Cicatrices conjuntivales"],
+ e:"Las <b>sinequias posteriores</b> son adherencias entre el <b>iris y el cristalino</b> (dan pupila irregular); los midriáticos ayudan a prevenirlas."},
+{cat:"Caso clínico · sarcoidosis",c:3,case:true,
+ lead:"Paciente con sarcoidosis pulmonar conocida y visión borrosa; el fondo muestra periflebitis con exudados 'en gota de cera' y agregados vítreos.",
+ q:"El diagnóstico ocular es:",
+ o:["Toxoplasmosis","CMV","Behçet","Uveítis (intermedia/posterior) por sarcoidosis"],
+ e:"Periflebitis 'en gota de cera' + bolas de nieve en un paciente con sarcoidosis = <b>uveítis por sarcoidosis</b>."},
+{cat:"Espondiloartropatías",c:0,q:"Las espondiloartropatías (HLA-B27) se asocian típicamente a:",
+ o:["Uveítis anterior","Bolas de nieve","Retinitis en pizza","Nódulos de Dalen-Fuchs"],
+ e:"Las <b>espondiloartropatías</b> (HLA-B27) y la EII se asocian a <b>uveítis anterior</b>."},
+{cat:"Uveítis anterior",c:1,q:"El 'flare' en la cámara anterior corresponde a:",
+ o:["Células","Turbidez por exudación de proteínas","Hipopión","Pigmento"],
+ e:"El <b>flare</b> es la <b>turbidez</b> de la cámara anterior por exudación de <b>proteínas</b> (el Tyndall son las células)."},
+{cat:"Caso clínico · DDx ojo rojo",c:2,case:true,ddx:true,
+ lead:"Tres pacientes con ojo rojo: A) miosis + Tyndall, PIO normal; B) midriasis media + córnea turbia + PIO 55; C) secreción + pupila normal + sin dolor importante.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Glaucoma, uveítis, conjuntivitis","Conjuntivitis, uveítis, glaucoma","Uveítis anterior, glaucoma agudo, conjuntivitis","Todos uveítis"],
+ e:"A = <b>uveítis anterior</b> (miosis/Tyndall); B = <b>glaucoma agudo</b> (midriasis media/PIO alta); C = <b>conjuntivitis</b>."},
+{cat:"Endoftalmitis",c:3,q:"La endoftalmitis es, desde el punto de vista de la úvea:",
+ o:["Una uveítis anterior leve","Una uveítis intermedia","Una coroiditis aislada","Una panuveítis infecciosa muy grave"],
+ e:"La <b>endoftalmitis</b> es una <b>panuveítis infecciosa muy grave</b>."},
+{cat:"Toxoplasmosis",c:0,q:"La toxoplasmosis ocular puede ser:",
+ o:["Congénita o adquirida (agua/alimentos contaminados)","Solo congénita","Solo postquirúrgica","Solo en inmunodeprimidos"],
+ e:"La <b>toxoplasmosis</b> puede ser <b>congénita o adquirida</b> (por agua/alimentos contaminados con Toxoplasma gondii)."},
+{cat:"Uveítis posterior · tto",c:1,q:"El tratamiento de la uveítis posterior incluye:",
+ o:["Solo midriáticos","Etiológico, corticoides, inmunosupresores/biológicos, vitrectomía y tratar las complicaciones","Solo observación","Solo láser"],
+ e:"La <b>uveítis posterior</b> se trata de forma <b>etiológica</b>, con corticoides, inmunosupresores/biológicos, vitrectomía y tratamiento de las complicaciones."},
+{cat:"DDx anterior/posterior",c:2,ddx:true,q:"Diferencie uveítis anterior y posterior:",
+ o:["Ambas dan ojo rojo doloroso","Ambas dan fotopsias","Anterior = ojo rojo/dolor/miosis/Tyndall; posterior = mala visión/miodesopsias/fotopsias + focos coroideos","Son lo mismo"],
+ e:"<b>Anterior</b> = ojo rojo + dolor + miosis + Tyndall; <b>posterior</b> = mala visión + miodesopsias + fotopsias + focos coroideos."},
+{cat:"Caso clínico · Fuchs",c:3,case:true,
+ lead:"Paciente con un ojo de iris más claro que el otro (heterocromía), uveítis anterior crónica leve y catarata, sin sinequias.",
+ q:"El diagnóstico más probable es:",
+ o:["Behçet","Toxoplasmosis","Sarcoidosis","Ciclitis heterocrómica de Fuchs"],
+ e:"Heterocromía + uveítis anterior crónica leve sin sinequias = <b>ciclitis heterocrómica de Fuchs</b> (síndrome oftalmológico)."},
+{cat:"Endoftalmitis",c:0,q:"Ante una endoftalmitis aguda postquirúrgica, la actitud es:",
+ o:["Urgente: antibióticos intravítreos + corticoides ± vitrectomía","Observación una semana","Solo colirio","Esperar al cultivo sin tratar"],
+ e:"La <b>endoftalmitis aguda</b> es una urgencia: <b>antibióticos intravítreos + corticoides</b> y, según gravedad, <b>vitrectomía</b>."},
+{cat:"Uveítis anterior",c:1,q:"La uveítis anterior puede complicarse con un aumento de la PIO por:",
+ o:["Catarata","Trabeculitis/sinequias (glaucoma uveítico)","Conjuntivitis","Ojo seco"],
+ e:"La inflamación puede causar <b>trabeculitis y sinequias</b> → <b>glaucoma uveítico</b> (↑PIO)."},
+{cat:"Caso clínico · espondilitis",c:2,case:true,
+ lead:"Varón de 28 años con lumbalgia inflamatoria y HLA-B27 positivo que presenta un episodio de ojo rojo doloroso con Tyndall y miosis.",
+ q:"El diagnóstico es:",
+ o:["Conjuntivitis","Glaucoma","Uveítis anterior asociada a espondiloartropatía (HLA-B27)","Endoftalmitis"],
+ e:"Ojo rojo doloroso con Tyndall + HLA-B27/lumbalgia inflamatoria = <b>uveítis anterior</b> asociada a <b>espondiloartropatía</b>."},
+{cat:"Uveítis · granulomatosa",c:3,q:"Una uveítis 'granulomatosa' se caracteriza por:",
+ o:["Ausencia de células","Precipitados finos","No tener relación sistémica","Precipitados retroqueráticos grandes ('en grasa de carnero') y nódulos del iris"],
+ e:"La uveítis <b>granulomatosa</b> presenta precipitados grandes ('en grasa de carnero') y nódulos del iris; orienta a sarcoidosis, TBC, VKH, etc."},
+{cat:"DDx endoftalmitis",c:0,ddx:true,q:"Una pérdida de visión con dolor e hipopión POCOS DÍAS tras cirugía de catarata es, hasta que se demuestre lo contrario:",
+ o:["Una endoftalmitis aguda","Una conjuntivitis","Un glaucoma crónico","Una catarata residual"],
+ e:"Dolor + ↓visión + hipopión tras cirugía reciente = <b>endoftalmitis aguda</b> (urgencia) hasta que se demuestre lo contrario."},
+{cat:"Etiología",c:1,q:"Una uveítis sin causa identificable tras el estudio se denomina:",
+ o:["Granulomatosa","Idiopática","De mascarada","Facogénica"],
+ e:"La uveítis sin causa identificable es <b>idiopática</b> (es un porcentaje importante de los casos)."},
+{cat:"Caso clínico · enmascaramiento",c:2,case:true,
+ lead:"Anciano con 'uveítis' crónica que no responde a corticoides; la citología del vítreo muestra células linfomatosas.",
+ q:"¿Qué hay que sospechar?",
+ o:["Toxoplasmosis","Behçet","Síndrome de mascarada (linfoma intraocular)","Sarcoidosis"],
+ e:"Una 'uveítis' resistente al tratamiento en un anciano debe hacer sospechar un <b>síndrome de mascarada</b> (linfoma intraocular)."},
+{cat:"Uveítis posterior · DDx",c:3,ddx:true,q:"La causa más frecuente de coriorretinitis (patrón unilateral) es:",
+ o:["CMV","Sarcoidosis","Behçet","Toxoplasmosis"],
+ e:"La <b>toxoplasmosis</b> es la causa más frecuente de coriorretinitis unilateral (93%)."},
+{cat:"Uveítis anterior · tto",c:0,q:"Los corticoides tópicos usados en la uveítis anterior incluyen:",
+ o:["Prednisolona y dexametasona","Atropina","Pilocarpina","Timolol"],
+ e:"Los <b>corticoides tópicos</b> de la uveítis anterior son la <b>prednisolona</b> y la <b>dexametasona</b>."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación CORRECTA:",
+ o:["La uveítis anterior cursa con midriasis","El hipopión es sangre","La endoftalmitis se trata con observación","Anterior = miosis+Tyndall; intermedia = bolas de nieve; posterior = fotopsias+focos coroideos"],
+ e:"Resumen: <b>anterior</b> = miosis+Tyndall; <b>intermedia</b> = bolas de nieve; <b>posterior</b> = fotopsias + focos coroideos."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación FALSA:",
+ o:["La coriorretinitis unilateral suele ser toxoplasmosis","El hipopión orienta a Behçet","La endoftalmitis postquirúrgica suele ser por estafilococo","La uveítis anterior cursa con midriasis media"],
+ e:"FALSA: la uveítis anterior cursa con <b>MIOSIS</b> (la midriasis media es del glaucoma agudo)."},
+{cat:"Síntesis · signos",c:3,q:"Resumen de signos por causa:",
+ o:["Todo es toxoplasmosis","No hay signos específicos","Las uveítis no se asocian a enfermedades sistémicas","Dalen-Fuchs = VKH; nódulos coroideos = sarcoidosis; vasculitis = Behçet; foco + cicatriz = toxoplasmosis; en pizza = CMV"],
+ e:"<b>Dalen-Fuchs</b> = VKH; <b>nódulos coroideos</b> = sarcoidosis; <b>vasculitis</b> = Behçet; <b>foco + cicatriz</b> = toxoplasmosis; <b>en pizza</b> = CMV."},
+{cat:"Síntesis · endoftalmitis",c:0,q:"Resumen de la endoftalmitis:",
+ o:["Panuveítis infecciosa grave; estafilococo (estrepto en intravítreas); urgencia → ATB intravítreo + vitrectomía; profilaxis povidona + cefuroxima; lenta = P. acnes","Es banal","Se trata con gafas","No requiere tratamiento urgente"],
+ e:"Endoftalmitis: panuveítis grave, <b>estafilococo</b> (estrepto en intravítreas); urgencia → <b>ATB intravítreo + vitrectomía</b>; profilaxis <b>povidona + cefuroxima</b>; lenta = <b>P. acnes</b>."}
+];
+
+const figMap={figTyndall,figBolas,figToxo,figEndof};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas las uveítis. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo las uveítis posteriores por causa.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza la clasificación por síntomas y las asociaciones sistémicas.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T19 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
