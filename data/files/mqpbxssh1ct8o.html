@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T17 · Glaucoma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T17</p>
+    <h1>Glaucoma</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figExcav=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Papila normal frente a papila excavada">
+<text x="80" y="16" text-anchor="middle" style="font:600 11px Spectral,serif;fill:#0f4d57">normal</text>
+<circle cx="80" cy="82" r="42" fill="#e8a23a" stroke="#c98a3a"/><circle cx="80" cy="82" r="14" fill="#f3e6c8" stroke="#cdbf8a"/>
+<text x="240" y="16" text-anchor="middle" style="font:600 11px Spectral,serif;fill:#b23a32">excavada</text>
+<circle cx="240" cy="82" r="42" fill="#e8a23a" stroke="#c98a3a"/><circle cx="240" cy="82" r="31" fill="#f3e6c8" stroke="#cdbf8a"/></svg>`;
+const figAngulo=`<svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ángulo abierto frente a ángulo cerrado">
+<text x="80" y="16" text-anchor="middle" style="font:600 10px Spectral,serif;fill:#1a5e86">abierto</text>
+<path d="M22 55 Q80 38 138 55 L138 92 Q80 76 22 92Z" fill="#cfe3ea" stroke="#7fa6b5"/><path d="M22 92 L48 92 L40 66Z" fill="#9a6a3c"/><path d="M138 92 L112 92 L120 66Z" fill="#9a6a3c"/><circle cx="80" cy="78" r="12" fill="#1a1a1a"/>
+<text x="240" y="16" text-anchor="middle" style="font:600 10px Spectral,serif;fill:#b23a32">cerrado (agudo)</text>
+<path d="M182 55 Q240 34 298 55 L298 92 Q240 78 182 92Z" fill="#cfe3ea" stroke="#7fa6b5"/><path d="M182 92 Q200 72 214 60" stroke="#9a6a3c" stroke-width="8" fill="none"/><path d="M298 92 Q280 72 266 60" stroke="#9a6a3c" stroke-width="8" fill="none"/><circle cx="240" cy="74" r="14" fill="#1a1a1a"/></svg>`;
+const figAgudo=`<svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo rojo con córnea turbia y pupila en midriasis media">
+<ellipse cx="110" cy="75" rx="95" ry="50" fill="#f3b7ad"/>
+<circle cx="110" cy="75" r="44" fill="#cdd6d8" opacity=".85"/>
+<circle cx="110" cy="75" r="30" fill="#8a96a0"/><circle cx="110" cy="75" r="17" fill="#2a2a2a"/>
+<text x="110" y="140" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">ojo rojo + córnea turbia + midriasis media</text></svg>`;
+const figBuft=`<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo grande de lactante con córnea grande y turbia (buftalmos)">
+<ellipse cx="80" cy="70" rx="40" ry="30" fill="#fff" stroke="#7a8b90"/><circle cx="80" cy="70" r="22" fill="#9aa6b0"/><circle cx="80" cy="70" r="10" fill="#1a1a1a"/>
+<ellipse cx="170" cy="70" rx="56" ry="40" fill="#fff" stroke="#7a8b90"/><circle cx="170" cy="70" r="34" fill="#aeb8c0" opacity=".9"/><circle cx="170" cy="70" r="14" fill="#1a1a1a"/>
+<text x="120" y="128" text-anchor="middle" style="font:400 11px Inter;fill:#46585f">córnea grande y turbia (buftalmos)</text></svg>`;
+
+const Q=[
+{cat:"Concepto",c:1,q:"El nexo común de todos los glaucomas es:",
+ o:["La opacidad del cristalino","Un aumento de PIO que daña el nervio óptico","Una inflamación de la conjuntiva","Un defecto de refracción"],
+ e:"Los glaucomas son un grupo heterogéneo cuyo nexo común es un <b>aumento de la PIO que daña el nervio óptico</b>."},
+{cat:"Fisiología",c:2,q:"El humor acuoso se sintetiza en y se reabsorbe en, respectivamente:",
+ o:["El trabeculum y los procesos ciliares","El cristalino y la retina","Los procesos ciliares y el trabeculum","La córnea y la esclera"],
+ e:"El humor acuoso se <b>sintetiza en los procesos ciliares</b> y se <b>reabsorbe en el trabeculum</b> (malla trabecular → canal de Schlemm)."},
+{cat:"Fisiología",c:3,q:"La presión intraocular depende de:",
+ o:["La refracción","El color del iris","La longitud axial","El equilibrio entre producción y reabsorción del humor acuoso"],
+ e:"La <b>PIO</b> es el resultado del <b>equilibrio entre producción y reabsorción</b> del humor acuoso."},
+{cat:"Papila · DDx",c:0,ddx:true,q:"El signo papilar 'específico' del glaucoma es:",
+ o:["La excavación","La palidez","El edema","La mancha rojo cereza"],
+ e:"La <b>excavación papilar</b> es el signo específico del glaucoma; otras neuropatías ópticas dan <b>palidez</b>."},
+{cat:"Imagen · papila",c:1,figSrc:"figExcav",figcap:"Papila del paciente (derecha).",
+ q:"Esta papila con la copa muy aumentada respecto al disco corresponde a:",
+ o:["Papila normal","Excavación glaucomatosa","Papiledema","Atrofia óptica por neuritis"],
+ e:"El cociente <b>excavación/papila aumentado</b> es la <b>excavación glaucomatosa</b>."},
+{cat:"Clasificación",c:2,q:"Los tres glaucomas más importantes son:",
+ o:["Pigmentario, corticoideo y uveítico","Facomórfico, neovascular y normotensivo","Crónico de ángulo abierto, agudo de ángulo estrecho y congénito","Pseudoexfoliativo, neovascular y por recesión angular"],
+ e:"Los más importantes: <b>GCAA</b>, <b>agudo de ángulo estrecho</b> y <b>congénito</b>."},
+{cat:"GCAA",c:3,q:"El glaucoma crónico de ángulo abierto se caracteriza por ser:",
+ o:["Muy doloroso","De inicio agudo","Exclusivo de niños","El más frecuente y ASINTOMÁTICO hasta fases avanzadas"],
+ e:"El <b>GCAA</b> es el más frecuente y <b>asintomático</b> ('ladrón silencioso de la visión')."},
+{cat:"GCAA",c:0,q:"La tríada diagnóstica del GCAA es:",
+ o:["Excavación papilar + escotomas en el campo + ↑PIO","Dolor + midriasis + halos","Buftalmos + epífora + fotofobia","Hemorragias en llama + venas tortuosas + edema"],
+ e:"El <b>GCAA</b> se diagnostica por <b>excavación papilar + escotomas campimétricos + ↑PIO</b> (que puede ser normal: normotensivo)."},
+{cat:"GCAA · tto",c:1,q:"Los grupos de hipotensores de PRIMERA elección en el GCAA son:",
+ o:["Mióticos y manitol","Prostaglandinas y betabloqueantes","Antibióticos y corticoides","AntiVEGF y atropina"],
+ e:"En el <b>GCAA</b>, la primera elección tópica son las <b>prostaglandinas</b> y los <b>betabloqueantes</b>."},
+{cat:"GCAA · tto",c:2,q:"Comparando prostaglandinas y betabloqueantes:",
+ o:["Las prostaglandinas son las más baratas","Los betabloqueantes tienen solo efectos locales","Los betabloqueantes son baratos pero con efectos secundarios sistémicos potencialmente graves","Ninguno baja la PIO"],
+ e:"Los <b>betabloqueantes</b> son baratos pero con <b>riesgo sistémico</b> (bradicardia, broncoespasmo); las <b>prostaglandinas</b> son muy potentes, con efectos locales, más caras."},
+{cat:"Caso clínico · GCAA",c:3,case:true,
+ lead:"Varón de 65 años, sin síntomas, en una revisión rutinaria presenta PIO de 26 mmHg, excavación papilar aumentada y escotomas paracentrales en el campo visual.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma agudo","Neuritis óptica","Catarata","Glaucoma crónico de ángulo abierto"],
+ e:"Asintomático + excavación + escotomas + ↑PIO = <b>GCAA</b>."},
+{cat:"GCAA · campo",c:0,q:"El escotoma de Bjerrum y el escalón nasal de Rönne son defectos campimétricos típicos de:",
+ o:["El glaucoma crónico de ángulo abierto","La DMAE","La retinosis pigmentaria","La neuritis óptica"],
+ e:"El <b>escotoma de Bjerrum</b> y el <b>escalón nasal de Rönne</b> son característicos de la evolución campimétrica del <b>GCAA</b>."},
+{cat:"Normotensivo",c:1,q:"El glaucoma normotensivo se caracteriza por:",
+ o:["PIO muy alta","Excavación y campo glaucomatosos con PIO NORMAL","Ser agudo","Ser pediátrico"],
+ e:"El <b>glaucoma normotensivo</b> presenta daño glaucomatoso (excavación + campo) con <b>PIO dentro de la normalidad</b>."},
+{cat:"Agudo",c:2,q:"El glaucoma agudo de ángulo estrecho afecta típicamente a pacientes:",
+ o:["Miopes con ojos grandes","Niños","Hipermétropes con ojos pequeños (cámara estrecha)","Diabéticos jóvenes"],
+ e:"El <b>glaucoma agudo de ángulo estrecho</b> afecta a <b>hipermétropes</b> con <b>ojos pequeños</b> y cámara anterior estrecha."},
+{cat:"Agudo",c:3,q:"El desencadenante del glaucoma agudo de ángulo estrecho es:",
+ o:["La luz intensa","El esfuerzo físico","La lectura","La dilatación pupilar (a veces farmacológica), con midriasis media"],
+ e:"Se desencadena por la <b>dilatación pupilar</b> (oscuridad, estrés, midriáticos), con la pupila en <b>midriasis media</b>."},
+{cat:"Agudo",c:0,q:"La patogenia inicial del glaucoma agudo de ángulo estrecho es:",
+ o:["El bloqueo pupilar","La neovascularización","La trabeculitis","La disgenesia del trabeculum"],
+ e:"El mecanismo es el <b>bloqueo pupilar</b> → protrusión anterior del iris periférico → cierre del ángulo."},
+{cat:"Imagen · agudo",c:1,figSrc:"figAgudo",figcap:"Ojo del paciente.",
+ q:"Este ojo rojo con córnea turbia y pupila en midriasis media, con dolor intenso, corresponde a:",
+ o:["Conjuntivitis","Glaucoma agudo de ángulo estrecho","Uveítis anterior","Catarata"],
+ e:"Ojo rojo doloroso + córnea edematosa + <b>midriasis media</b> + PIO altísima = <b>glaucoma agudo de ángulo estrecho</b>."},
+{cat:"Agudo · clínica",c:2,q:"La clínica del glaucoma agudo de ángulo estrecho incluye:",
+ o:["Pérdida de campo indolora","Solo lagrimeo","Dolor intenso, halos, ↓visión, náuseas/vómitos y PIO de 50-60 mmHg","Ojos azulados y buftalmos"],
+ e:"El <b>glaucoma agudo</b> cursa con <b>dolor intenso, halos, ↓visión, náuseas/vómitos</b> y <b>PIO de 50-60</b>."},
+{cat:"Agudo · tto",c:3,q:"El tratamiento DEFINITIVO del glaucoma agudo de ángulo estrecho es:",
+ o:["Trabeculectomía","AntiVEGF","Panfotocoagulación","La iridotomía (rompe el bloqueo pupilar)"],
+ e:"Tras bajar la PIO (hipotensores, manitol IV, pilocarpina), el tratamiento definitivo es la <b>iridotomía</b> (láser YAG); se hace también profiláctica en el otro ojo."},
+{cat:"Caso clínico · agudo",c:0,case:true,
+ lead:"Mujer de 68 años hipermétrope que tras estar en el cine acude por dolor ocular intenso, visión de halos, náuseas y vómitos; el ojo está rojo, la córnea turbia y la pupila en midriasis media. PIO 55 mmHg.",
+ q:"Diagnóstico y primer paso:",
+ o:["Glaucoma agudo de ángulo estrecho; bajar la PIO (hipotensores + manitol) y planear iridotomía","Conjuntivitis; antibiótico","Migraña; analgesia","Catarata; cirugía programada"],
+ e:"Cuadro clásico de <b>glaucoma agudo de ángulo estrecho</b>; hay que <b>bajar la PIO</b> de inmediato y después realizar la <b>iridotomía</b>."},
+{cat:"Agudo · tto",c:1,q:"En el glaucoma agudo, los corticoides se usan para:",
+ o:["Bajar la PIO directamente","Desinflamar la córnea y poder realizar la iridotomía","Dilatar la pupila","Tratar una infección"],
+ e:"Los <b>corticoides</b> desinflaman la córnea edematosa para poder ver el ángulo y <b>realizar la iridotomía</b>."},
+{cat:"Pigmentario",c:2,q:"El glaucoma pigmentario aparece típicamente en:",
+ o:["Ancianas hipermétropes","Niños","Varones jóvenes miopes (con huso de Krukenberg)","Diabéticos con RDP"],
+ e:"El <b>glaucoma pigmentario</b> afecta a <b>varones jóvenes miopes</b>; cursa con <b>huso de Krukenberg</b> y defectos de retroiluminación del iris."},
+{cat:"Pigmentario",c:3,q:"El mecanismo del glaucoma pigmentario es:",
+ o:["Neovasos","Disgenesia del trabeculum","Bloqueo pupilar","Roce de la zónula con la cara posterior del iris (libera pigmento)"],
+ e:"El <b>roce de la zónula con la cara posterior del iris</b> libera pigmento que obstruye el trabeculum."},
+{cat:"Corticoideo",c:0,q:"El glaucoma corticoideo se caracteriza por:",
+ o:["Ser reversible al cesar los corticoides","Ser irreversible","Aparecer solo en niños","Cursar con neovasos"],
+ e:"El <b>glaucoma corticoideo</b> suele ser <b>reversible al retirar los corticoides</b> (↑GAG en la trabécula); más frecuente en miopes/diabéticos/familiares de glaucoma."},
+{cat:"Uveítico",c:1,q:"En el glaucoma uveítico, ¿qué fármacos están CONTRAINDICADOS?",
+ o:["Los betabloqueantes","Las prostaglandinas","El manitol","La pilocarpina"],
+ e:"En el <b>glaucoma uveítico</b> las <b>prostaglandinas están contraindicadas</b> (pueden empeorar la inflamación); se usan betabloqueantes."},
+{cat:"Neovascular",c:2,q:"El glaucoma neovascular es secundario sobre todo a:",
+ o:["Catarata","Conjuntivitis","Retinopatía diabética proliferativa y OVCR isquémica","Presbicia"],
+ e:"El <b>glaucoma neovascular</b> complica las retinopatías isquémicas: <b>RDP y OVCR isquémica</b> (neovasos que cierran el ángulo)."},
+{cat:"Neovascular · tto",c:3,q:"El tratamiento del glaucoma neovascular incluye:",
+ o:["Solo hipotensores tópicos","Goniotomía","Iridotomía","Panfotocoagulación, antiVEGF y dispositivos de drenaje (válvulas)"],
+ e:"El <b>glaucoma neovascular</b> se trata con <b>panfotocoagulación + antiVEGF</b> y, si es preciso, <b>válvulas</b> de drenaje."},
+{cat:"Congénito",c:0,q:"El glaucoma congénito se debe a:",
+ o:["Disgenesia del trabeculum (desarrollo anormal del ángulo)","Neovasos","Bloqueo pupilar","Corticoides"],
+ e:"El <b>glaucoma congénito</b> se debe a la <b>disgenesia del trabeculum</b> (obstrucción del drenaje del humor acuoso)."},
+{cat:"Congénito",c:1,q:"La tríada clínica del glaucoma congénito es:",
+ o:["Dolor + midriasis + halos","Epífora (lagrimeo) + fotofobia + blefarospasmo","Excavación + escotomas + ↑PIO","Proptosis + soplo + inyección"],
+ e:"La tríada del <b>glaucoma congénito</b> es <b>epífora + fotofobia + blefarospasmo</b> (más buftalmos y turbidez corneal)."},
+{cat:"Imagen · congénito",c:2,figSrc:"figBuft",figcap:"Ojos del lactante (derecho aumentado).",
+ q:"Este ojo grande con córnea aumentada y turbia en un lactante corresponde a:",
+ o:["Catarata congénita","Conjuntivitis","Buftalmos (glaucoma congénito)","Retinoblastoma"],
+ e:"El <b>buftalmos</b> (córnea grande &gt;12 mm, ojo grande, turbidez) es típico del <b>glaucoma congénito</b>."},
+{cat:"Congénito",c:3,q:"El tratamiento del glaucoma congénito es:",
+ o:["Hipotensores tópicos de por vida","AntiVEGF","Iridotomía","Quirúrgico: goniotomía"],
+ e:"El <b>glaucoma congénito</b> se trata quirúrgicamente con <b>goniotomía</b>."},
+{cat:"Congénito",c:0,q:"Las estrías de Haab del glaucoma congénito son:",
+ o:["Roturas de la membrana de Descemet por el estiramiento corneal","Neovasos","Depósitos de pigmento","Cicatrices conjuntivales"],
+ e:"Las <b>estrías de Haab</b> son roturas de la <b>membrana de Descemet</b> por el agrandamiento corneal (buftalmos)."},
+{cat:"DDx ángulo",c:1,ddx:true,q:"¿Qué dato distingue mejor el GCAA del glaucoma agudo de ángulo estrecho?",
+ o:["La edad","El color del iris","El GCAA es asintomático y crónico; el agudo es muy doloroso (urgencia) con midriasis media","La AV"],
+ e:"El <b>GCAA</b> es <b>asintomático y crónico</b>; el <b>agudo</b> es una <b>urgencia dolorosa</b> con midriasis media."},
+{cat:"Imagen · ángulo",c:0,figSrc:"figAngulo",figcap:"Esquema del ángulo.",
+ q:"En la imagen de la derecha, el iris periférico contacta con la córnea cerrando el ángulo. Esto corresponde a:",
+ o:["Glaucoma de ángulo cerrado (agudo)","Glaucoma de ángulo abierto","Papila normal","Catarata"],
+ e:"El contacto iridocorneal con cierre del ángulo es el <b>glaucoma de ángulo cerrado</b> (mecanismo del agudo)."},
+{cat:"Presión venosa epiescleral",c:2,q:"El glaucoma por aumento de presión venosa epiescleral por una fístula carótido-cavernosa cursa con:",
+ o:["Buftalmos","Huso de Krukenberg","Proptosis, inyección, soplo y parálisis del VI par","Estrías de Haab"],
+ e:"La <b>fístula carótido-cavernosa</b> 'arterializa' las venas: <b>proptosis, inyección, soplo y parálisis del VI par</b>; tto embolizar la fístula."},
+{cat:"Caso clínico · pigmentario",c:3,case:true,
+ lead:"Varón de 32 años miope, con PIO elevada; en la exploración hay un huso vertical de pigmento en el endotelio corneal y defectos de retroiluminación en el iris.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma agudo","Glaucoma congénito","Glaucoma neovascular","Glaucoma pigmentario"],
+ e:"Varón joven miope + <b>huso de Krukenberg</b> + defectos de retroiluminación = <b>glaucoma pigmentario</b>."},
+{cat:"GCAA · tto",c:0,q:"Si el tratamiento médico no controla el GCAA, el siguiente paso suele ser:",
+ o:["Láser (trabeculoplastia) y/o cirugía (trabeculectomía)","Enucleación","Observación","AntiVEGF"],
+ e:"Si los hipotensores no controlan el GCAA, se recurre al <b>láser (trabeculoplastia)</b> y a la <b>cirugía (trabeculectomía)</b>."},
+{cat:"Concepto",c:1,q:"El glaucoma daña fundamentalmente:",
+ o:["La mácula","El nervio óptico","La córnea","El cristalino"],
+ e:"El glaucoma daña el <b>nervio óptico</b> (con la consiguiente excavación y pérdida campimétrica)."},
+{cat:"Caso clínico · corticoideo",c:2,case:true,
+ lead:"Paciente con dermatitis en tratamiento prolongado con corticoides que desarrolla una hipertensión ocular; al suspenderlos, la PIO se normaliza.",
+ q:"El diagnóstico es:",
+ o:["GCAA","Glaucoma agudo","Glaucoma corticoideo","Glaucoma congénito"],
+ e:"HTO que <b>revierte al cesar los corticoides</b> = <b>glaucoma corticoideo</b>."},
+{cat:"Agudo · epidemiología",c:3,q:"El glaucoma agudo de ángulo estrecho es más frecuente en:",
+ o:["Africanos","Niños","Personas de raza negra","Asiáticos y esquimales (en caucásicos, la forma de ángulo estrecho más frecuente)"],
+ e:"Es más frecuente en <b>asiáticos y esquimales</b>; en caucásicos es la forma de ángulo estrecho más frecuente."},
+{cat:"DDx ojo rojo",c:0,ddx:true,q:"En el DDx del ojo rojo doloroso, la MIDRIASIS media orienta a:",
+ o:["Glaucoma agudo de ángulo estrecho","Uveítis anterior (que da miosis)","Conjuntivitis","Queratitis"],
+ e:"La <b>midriasis media</b> arreactiva orienta al <b>glaucoma agudo</b>; la uveítis anterior da <b>miosis</b>."},
+{cat:"GCAA",c:1,q:"En el GCAA, la PIO:",
+ o:["Siempre es muy alta","Puede ser normal (glaucoma normotensivo)","Siempre es baja","No se mide"],
+ e:"En el <b>GCAA</b> la PIO suele estar elevada, pero <b>puede ser normal</b> (glaucoma normotensivo)."},
+{cat:"Congénito",c:2,q:"El glaucoma congénito se presenta:",
+ o:["En la edad adulta","En la adolescencia","En el primer año de vida (bilateral y asimétrico, raro)","Solo tras un traumatismo"],
+ e:"El <b>glaucoma congénito</b> aparece en el <b>primer año de vida</b>, es raro (1/10.000), esporádico, bilateral y asimétrico."},
+{cat:"Caso clínico · neovascular",c:3,case:true,
+ lead:"Diabético con retinopatía proliferativa que desarrolla un glaucoma muy agresivo, con presiones muy altas, dolor y neovasos visibles en el ángulo.",
+ q:"El diagnóstico es:",
+ o:["GCAA","Glaucoma pigmentario","Glaucoma congénito","Glaucoma neovascular"],
+ e:"Neovasos en el ángulo + RDP + glaucoma agresivo = <b>glaucoma neovascular</b>."},
+{cat:"Agudo · tto",c:0,q:"La pilocarpina en el glaucoma agudo actúa:",
+ o:["Como miótico (contrae la pupila para abrir el ángulo)","Dilatando la pupila","Como antibiótico","Reduciendo la inflamación corneal"],
+ e:"La <b>pilocarpina</b> es un <b>miótico</b> que contrae la pupila y ayuda a <b>abrir el ángulo</b> en el glaucoma agudo."},
+{cat:"Papila",c:1,q:"El cociente excavación/papila (E/P) en un glaucoma severo puede llegar a:",
+ o:["0,1","0,8-0,9","0,0","Negativo"],
+ e:"En el glaucoma <b>severo</b> el cociente E/P puede llegar a <b>0,8-0,9</b> (frente a 0,4-0,5 moderado)."},
+{cat:"DDx papila",c:2,ddx:true,q:"Una papila pálida (no excavada) en un paciente con pérdida visual sugiere más bien:",
+ o:["Glaucoma","Catarata","Otra neuropatía óptica (neuritis/NOIA), no glaucoma","Conjuntivitis"],
+ e:"La <b>palidez</b> (sin excavación) orienta a <b>otras neuropatías ópticas</b> (neuritis, NOIA); el glaucoma <b>excava</b>."},
+{cat:"Caso clínico · profilaxis",c:3,case:true,
+ lead:"Tras resolver un glaucoma agudo de ángulo estrecho en un ojo, el oftalmólogo plantea actuar también sobre el ojo contralateral, que está asintomático.",
+ q:"¿Qué se suele hacer en el otro ojo?",
+ o:["Enuclearlo","Nada","Trabeculectomía","Iridotomía profiláctica (mismo riesgo anatómico)"],
+ e:"El ojo contralateral tiene el <b>mismo riesgo anatómico</b>, por lo que se realiza una <b>iridotomía profiláctica</b>."},
+{cat:"Secundarios",c:0,q:"El glaucoma facomórfico es un glaucoma de ángulo:",
+ o:["Cerrado (secundario)","Abierto primario","Congénito","Normotensivo"],
+ e:"El <b>facomórfico</b> (cristalino intumescente que cierra el ángulo) es un glaucoma de <b>ángulo cerrado secundario</b>."},
+{cat:"GCAA · tto",c:1,q:"Además de prostaglandinas y betabloqueantes, otros hipotensores tópicos son:",
+ o:["Antibióticos","Alfa-agonistas e inhibidores de la anhidrasa carbónica","AntiVEGF","Midriáticos"],
+ e:"También se usan <b>alfa-agonistas, inhibidores de la anhidrasa carbónica</b> y mióticos como hipotensores."},
+{cat:"Caso clínico · normotensivo",c:2,case:true,
+ lead:"Paciente con excavación papilar progresiva y escotomas glaucomatosos en el campo, pero con PIO repetidamente dentro de la normalidad.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma agudo","Papiledema","Glaucoma normotensivo","Neuritis óptica"],
+ e:"Daño glaucomatoso (excavación + campo) con <b>PIO normal</b> = <b>glaucoma normotensivo</b>."},
+{cat:"Congénito",c:3,q:"El buftalmos se define como:",
+ o:["Una catarata","Un ojo pequeño","Una pupila blanca","Un agrandamiento del globo/córnea (diámetro corneal >12 mm antes del año)"],
+ e:"El <b>buftalmos</b> es el agrandamiento del ojo/córnea (diámetro &gt;12 mm antes del año) por la PIO elevada en el lactante."},
+{cat:"Agudo · clínica",c:0,q:"Los halos de colores alrededor de las luces en el glaucoma agudo se deben a:",
+ o:["El edema corneal por la PIO elevada","Neovasos","Cataratas","Desprendimiento de retina"],
+ e:"Los <b>halos</b> aparecen por el <b>edema corneal</b> secundario a la PIO muy elevada."},
+{cat:"DDx",c:1,ddx:true,q:"Diferencie glaucoma pigmentario y pseudoexfoliativo:",
+ o:["Ambos son congénitos","El pigmentario es por neovasos","Pigmentario = varón joven miope, pigmento por roce zonular; pseudoexfoliativo = material en cápsula/pupila","Son lo mismo"],
+ e:"<b>Pigmentario</b> = varón joven miope, pigmento por roce de la zónula; <b>pseudoexfoliativo</b> = material pseudoexfoliativo en cápsula anterior y pupila."},
+{cat:"Caso clínico · GCAA cribado",c:2,case:true,
+ lead:"Paciente de 60 años con antecedentes familiares de glaucoma, asintomático, que acude a revisión.",
+ q:"¿Por qué es importante el cribado?",
+ o:["Porque el glaucoma agudo es asintomático","Porque la catarata no da síntomas","Porque el GCAA es asintomático hasta fases avanzadas y la pérdida visual es irreversible","Porque siempre duele"],
+ e:"El <b>GCAA</b> es <b>asintomático</b> y el daño del nervio óptico es <b>irreversible</b>; por eso el cribado (PIO, papila, campo) es clave."},
+{cat:"Fisiología",c:3,q:"El canal de Schlemm forma parte de la vía de:",
+ o:["Producción del humor acuoso","Síntesis del cristalino","Vascularización retiniana","Reabsorción/drenaje del humor acuoso (tras el trabeculum)"],
+ e:"El <b>canal de Schlemm</b> recoge el humor acuoso tras atravesar el <b>trabeculum</b> (vía de drenaje)."},
+{cat:"Agudo · tto",c:0,q:"El manitol intravenoso en el glaucoma agudo actúa:",
+ o:["Como agente osmótico que baja la PIO","Como antibiótico","Dilatando la pupila","Como antiinflamatorio"],
+ e:"El <b>manitol IV</b> es un <b>agente osmótico</b> que reduce rápidamente la PIO en el glaucoma agudo."},
+{cat:"DDx congénito",c:1,ddx:true,q:"Un lactante con epífora persistente: ¿qué hay que descartar además de la obstrucción lagrimal?",
+ o:["Catarata","Glaucoma congénito (epífora + fotofobia + buftalmos)","Conjuntivitis alérgica","Presbicia"],
+ e:"Ante <b>epífora</b> en el lactante hay que descartar <b>glaucoma congénito</b> (busca fotofobia, buftalmos, turbidez corneal), no solo obstrucción lagrimal."},
+{cat:"Secundarios",c:2,q:"El glaucoma por recesión angular es:",
+ o:["Congénito","Neovascular","Postraumático (de ángulo abierto secundario)","Uveítico"],
+ e:"El <b>glaucoma por recesión angular</b> es <b>postraumático</b> (de ángulo abierto secundario)."},
+{cat:"Caso clínico · DDx agudo/uveítis",c:3,case:true,ddx:true,
+ lead:"Dos pacientes con ojo rojo doloroso: uno con midriasis media, córnea turbia y PIO 55; otro con miosis, Tyndall en cámara anterior y PIO normal.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Uveítis y glaucoma agudo","Ambos glaucoma agudo","Ambos uveítis","Glaucoma agudo y uveítis anterior"],
+ e:"Midriasis media + córnea turbia + PIO altísima = <b>glaucoma agudo</b>; miosis + Tyndall = <b>uveítis anterior</b>."},
+{cat:"GCAA",c:0,q:"La pérdida visual del GCAA empieza por:",
+ o:["El campo periférico/paracentral (conserva la visión central hasta el final)","La visión central","Los colores","La visión nocturna exclusivamente"],
+ e:"El <b>GCAA</b> daña primero el <b>campo periférico/paracentral</b> (escotomas) y conserva la visión central hasta fases avanzadas."},
+{cat:"Neovascular",c:1,q:"En el glaucoma neovascular, lo que cierra el ángulo es:",
+ o:["El cristalino","Tejido fibrovascular (neovasos)","Pigmento","Material pseudoexfoliativo"],
+ e:"En el <b>glaucoma neovascular</b>, el <b>tejido fibrovascular</b> (neovasos) cierra el ángulo."},
+{cat:"Uveítico",c:2,q:"El mecanismo del glaucoma uveítico incluye:",
+ o:["Disgenesia del trabeculum","Neovasos","Trabeculitis y sinequias","Roce zonular"],
+ e:"El <b>glaucoma uveítico</b> se debe a <b>trabeculitis</b> y a <b>sinequias</b> (anteriores/posteriores)."},
+{cat:"Caso clínico · congénito",c:3,case:true,
+ lead:"Lactante de 6 meses con lagrimeo, fotofobia intensa, blefarospasmo y córneas grandes y turbias en ambos ojos.",
+ q:"Diagnóstico y tratamiento:",
+ o:["Conjuntivitis; antibiótico","Catarata congénita; cirugía de cristalino","Obstrucción lagrimal; masaje","Glaucoma congénito; goniotomía"],
+ e:"Epífora + fotofobia + blefarospasmo + buftalmos = <b>glaucoma congénito</b>; tratamiento con <b>goniotomía</b>."},
+{cat:"GCAA · tto",c:0,q:"En un paciente asmático con GCAA, hay que tener precaución con:",
+ o:["Los betabloqueantes (riesgo de broncoespasmo)","Las prostaglandinas","El manitol","La pilocarpina"],
+ e:"Los <b>betabloqueantes</b> pueden causar <b>broncoespasmo</b> y bradicardia; precaución en asmáticos/EPOC y cardiópatas."},
+{cat:"Anatomía",c:1,q:"La gonioscopia sirve para:",
+ o:["Medir la AV","Ver el fondo de ojo","Explorar el ángulo iridocorneal (abierto/cerrado)","Medir la refracción"],
+ e:"La <b>gonioscopia</b> explora el <b>ángulo iridocorneal</b>, clave para clasificar el glaucoma (abierto vs cerrado)."},
+{cat:"Caso clínico · FCC",c:2,case:true,
+ lead:"Paciente tras un traumatismo craneal con proptosis pulsátil, inyección conjuntival 'en cabeza de medusa', soplo orbitario y parálisis del VI par, con PIO elevada.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma congénito","Glaucoma pigmentario","Glaucoma por aumento de presión venosa epiescleral (fístula carótido-cavernosa)","Glaucoma corticoideo"],
+ e:"Proptosis pulsátil + soplo + parálisis del VI par + PIO alta = <b>glaucoma por presión venosa epiescleral</b> (fístula carótido-cavernosa); tto embolizar."},
+{cat:"DDx",c:3,ddx:true,q:"¿Qué glaucoma es una URGENCIA con dolor intenso?",
+ o:["GCAA","Normotensivo","Pigmentario","Agudo de ángulo estrecho (y el neovascular es muy agresivo)"],
+ e:"El <b>glaucoma agudo de ángulo estrecho</b> es la urgencia dolorosa clásica; el <b>neovascular</b> también es agresivo y doloroso."},
+{cat:"Congénito",c:0,q:"El glaucoma congénito es, respecto a la herencia:",
+ o:["Habitualmente esporádico","Siempre autosómico dominante","Ligado al X","Mitocondrial"],
+ e:"El <b>glaucoma congénito</b> suele ser <b>esporádico</b> (aunque hay formas hereditarias)."},
+{cat:"GCAA",c:1,q:"El término coloquial 'tensión en la vista' se refiere a:",
+ o:["La presbicia","El glaucoma crónico de ángulo abierto","La conjuntivitis","La catarata"],
+ e:"'Tensión en la vista' alude al <b>GCAA</b> (aumento de la PIO, asintomático)."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación CORRECTA:",
+ o:["El glaucoma produce palidez papilar","El GCAA es doloroso","El glaucoma agudo afecta a miopes","GCAA = asintomático (excavación+escotomas+↑PIO); agudo = hipermétrope, midriasis media, urgencia; congénito = buftalmos"],
+ e:"Resumen: <b>GCAA</b> asintomático (excavación + escotomas + ↑PIO); <b>agudo</b> en hipermétrope con midriasis media (urgencia); <b>congénito</b> con buftalmos."},
+{cat:"Síntesis",c:3,q:"Señale la afirmación FALSA:",
+ o:["En el glaucoma uveítico las prostaglandinas están contraindicadas","El glaucoma neovascular se asocia a RDP/OVCR","El glaucoma excava la papila","El glaucoma agudo de ángulo estrecho afecta a miopes con ojos grandes"],
+ e:"FALSA: el <b>glaucoma agudo de ángulo estrecho</b> afecta a <b>hipermétropes con ojos pequeños</b> (cámara estrecha), no a miopes."},
+{cat:"DDx tto",c:0,ddx:true,q:"Asocie glaucoma y tratamiento:",
+ o:["Agudo → iridotomía; GCAA → hipotensores/láser/cirugía; neovascular → panfotocoagulación/antiVEGF; congénito → goniotomía","Todos → goniotomía","Todos → iridotomía","Agudo → goniotomía"],
+ e:"<b>Agudo</b> → iridotomía; <b>GCAA</b> → hipotensores/láser/cirugía; <b>neovascular</b> → panfotocoagulación/antiVEGF; <b>congénito</b> → goniotomía."},
+{cat:"Síntesis · papila",c:1,q:"Resumen de la papila glaucomatosa:",
+ o:["El glaucoma da palidez","La excavación es inespecífica","La excavación papilar (cociente E/P aumentado) es el signo específico del glaucoma; las demás neuropatías dan palidez","El glaucoma no afecta a la papila"],
+ e:"La <b>excavación papilar</b> (E/P aumentado) es el signo <b>específico</b> del glaucoma; las demás neuropatías ópticas producen <b>palidez</b>."}
+];
+
+const figMap={figExcav,figAngulo,figAgudo,figBuft};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el glaucoma. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo GCAA vs agudo y los secundarios.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza el tratamiento y el glaucoma congénito.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T17 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
