@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T09 · Oclusiones Vasculares Retinianas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --ven:#1a5e86;--venbg:#e3eff7;--art:#b23a32;--artbg:#fbe7e4;--n2:#1f6f4a;--n2bg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:580px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.ven{color:var(--ven);background:var(--venbg)}.chip.art{color:var(--art);background:var(--artbg)}
+  .chip.n2{color:var(--n2);background:var(--n2bg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12.5px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.ven{color:var(--ven);background:var(--venbg)}.pill.art{color:var(--art);background:var(--artbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 9</p>
+  <h1>Patología Vascular II: Oclusiones Vasculares Retinianas</h1>
+  <p>Resumen centrado en separar bien la oclusión <b>venosa</b> de la <b>arterial</b> y sus variantes. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#intro">0 · Idea común: pérdida brusca e indolora</a>
+    <a href="#venosa">I · Oclusiones venosas</a>
+    <a href="#venclin">II · Clínica y tratamiento venoso</a>
+    <a href="#arterial">III · Oclusiones arteriales</a>
+    <a href="#artclin">IV · Clínica y tratamiento arterial</a>
+    <a href="#acg">V · Arteritis de células gigantes</a>
+    <a href="#cereza">VI · Mancha rojo cereza (DDx)</a>
+    <a href="#ddx">VII · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="intro">
+  <h2><span class="romnum">0</span> Lo que comparten</h2>
+  <p class="lead">Las oclusiones vasculares retinianas (venosas y arteriales) producen <b>pérdida de visión BRUSCA e INDOLORA</b>. El diagnóstico es fundamentalmente <b>clínico</b> (fondo de ojo).</p>
+  <ul>
+    <li>Factores de riesgo comunes: <b>cardiovasculares</b> (HTA, DM, dislipemia, edad).</li>
+    <li>La gran división: <b>venosas</b> (estasis → hemorragias) vs <b>arteriales</b> (isquemia → blanqueamiento). Su pronóstico y tratamiento son muy distintos.</li>
+  </ul>
+</section>
+
+<section id="venosa">
+  <h2><span class="romnum">I</span> Oclusiones venosas <span class="chip ven">estasis</span></h2>
+  <h3>Clasificación topográfica</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo</th><th>Localización</th><th>Dato</th></tr></thead>
+    <tbody>
+      <tr><td class="h">OVCR (vena central)</td><td>Posterior a la lámina cribosa</td><td>Prevalencia 0,8‰; afecta a los 4 cuadrantes</td></tr>
+      <tr><td class="h">ORVR (rama venosa)</td><td>En un <b>cruce arteriovenoso</b></td><td><b>La más frecuente</b> (4,42‰); la arteria esclerosada comprime la vénula</td></tr>
+      <tr><td class="h">Hemicentral</td><td>Hemirrama venosa</td><td>Afecta a la mitad de la retina</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Clasificación por perfusión <span class="chip ven">pronóstico</span></h3>
+  <ul>
+    <li><b>No isquémica:</b> mejor pronóstico.</li>
+    <li><b>Isquémica:</b> grandes áreas no perfundidas (OVCR ≥10 diámetros de disco; ORVR ≥5 DD), <b>defecto pupilar aferente</b> y <b>riesgo de neovascularización</b> (→ glaucoma neovascular).</li>
+  </ul>
+</section>
+
+<section id="venclin">
+  <h2><span class="romnum">II</span> Clínica y tratamiento de las oclusiones venosas</h2>
+  <h3>Signos en el fondo de ojo</h3>
+  <ul>
+    <li><b>Hemorragias en llama</b> (en los 4 cuadrantes en la OVCR), <b>tortuosidad y dilatación venosa</b>, exudados algodonosos, <b>edema macular</b> y edema de papila; en la isquémica, <b>defecto pupilar aferente</b>.</li>
+    <li>OVCR crónica: <b>vasos colaterales</b>, dilatación venosa persistente, estrechamiento arteriolar, cambios pigmentarios maculares y edema macular.</li>
+  </ul>
+  <h3>Tratamiento <span class="chip ven">de las complicaciones</span></h3>
+  <ul>
+    <li>Identificar y tratar los <b>factores de riesgo cardiovascular</b>.</li>
+    <li><b>Edema macular</b> → <b>antiVEGF</b> (o corticoides) intravítreos.</li>
+    <li><b>Neovascularización</b> → <b>panfotocoagulación</b> con láser.</li>
+  </ul>
+
+  <figure>
+    <svg width="100%" viewBox="0 0 360 200" role="img" aria-label="Fondo de ojo de oclusión de vena central con hemorragias en llama y venas tortuosas">
+      <circle cx="180" cy="100" r="86" fill="#d9863a" stroke="#b8752f"/>
+      <circle cx="232" cy="80" r="16" fill="#e8a23a" stroke="#c98a3a"/>
+      <g stroke="#9c2b22" stroke-width="3" fill="none"><path d="M232 80 Q200 70 150 60 M232 80 Q190 100 120 110 M232 80 Q210 130 170 160"/></g>
+      <g fill="#7a1f17"><path d="M120 70 l10 -4 -3 10z"/><path d="M150 120 l11 -3 -4 11z"/><path d="M200 140 l10 -4 -3 11z"/><path d="M110 110 l10 -3 -3 10z"/><path d="M170 80 l10 -4 -3 10z"/></g>
+      <text x="180" y="194" text-anchor="middle" style="font:400 11.5px Inter;fill:#7a2a25">venas tortuosas/dilatadas + hemorragias en llama en los 4 cuadrantes</text>
+    </svg>
+    <figcaption><b>OVCR</b>: el patrón de hemorragias en llama difusas con venas tortuosas es la imagen típica.</figcaption>
+  </figure>
+</section>
+
+<section id="arterial">
+  <h2><span class="romnum">III</span> Oclusiones arteriales <span class="chip art">isquemia</span></h2>
+  <h3>Clasificación</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo</th><th>Detalle</th></tr></thead>
+    <tbody>
+      <tr><td class="h">OACR (arteria central)</td><td>No arterítica (67%), con preservación ciliorretiniana (14%), transitoria (16%), <b>arterítica (ACG, 4,5%)</b></td></tr>
+      <tr><td class="h">ORA (rama arterial)</td><td><b>Más frecuente</b>; temporal-superior &gt; temporal-inferior</td></tr>
+      <tr><td class="h">Arteria ciliorretiniana</td><td>Ocluye la arteria que (cuando existe) nutre la mácula</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">La mayoría son <b>embólicas</b>: émbolos de origen <b>carotídeo</b> o <b>cardíaco</b>.</p>
+</section>
+
+<section id="artclin">
+  <h2><span class="romnum">IV</span> Clínica y tratamiento de las oclusiones arteriales</h2>
+  <h3>Clínica y signos</h3>
+  <ul>
+    <li><b>Pérdida visual brusca, severa, profunda e indolora</b> (la OACR es la más grave). <b>Amaurosis fugax</b> si es transitoria (AIT).</li>
+    <li>Fondo de ojo: <b>blanqueamiento de la retina</b> (edema isquémico) y <b>MANCHA ROJO CEREZA</b> en la fóvea (que sigue nutrida por la coroides), <b>defecto pupilar aferente</b>; en la ORA, blanqueamiento sectorial y a veces <b>émbolo visible</b>.</li>
+  </ul>
+  <div class="alarm"><span class="lbl">Urgencia</span> La OACR es una urgencia con <b>ventana terapéutica de pocas horas</b>, <b>pocas opciones de tratamiento</b> (masaje ocular, hipotensores, paracentesis) y <b>mal pronóstico</b>. Lo prioritario suele ser <b>descartar arteritis de células gigantes</b> para salvar el otro ojo.</div>
+  <figure>
+    <svg width="100%" viewBox="0 0 360 200" role="img" aria-label="Fondo de ojo con retina blanquecina y mancha rojo cereza central">
+      <circle cx="180" cy="100" r="86" fill="#f0e3d0" stroke="#cfc1a8"/>
+      <circle cx="180" cy="100" r="18" fill="#c0392b"/>
+      <circle cx="118" cy="82" r="13" fill="#e8c98a" stroke="#caa24e"/>
+      <g stroke="#cf9b5a" stroke-width="2" fill="none"><path d="M118 82 Q150 100 230 120 M118 82 Q150 80 240 70"/></g>
+      <text x="180" y="194" text-anchor="middle" style="font:400 11.5px Inter;fill:#7a2a25">retina blanquecina (isquemia) + mancha rojo cereza foveal</text>
+    </svg>
+    <figcaption><b>OACR</b>: la retina pálida con una <b>mancha rojo cereza</b> central es la imagen clave.</figcaption>
+  </figure>
+</section>
+
+<section id="acg">
+  <h2><span class="romnum">V</span> Arteritis de células gigantes (ACG) <span class="chip r">no fallar</span></h2>
+  <p class="lead">Vasculitis necrotizante de arterias grandes y medianas en <b>ancianos</b>; la oclusión arterial arterítica es una de sus manifestaciones.</p>
+  <ul>
+    <li>Clínica: <b>cefalea, claudicación mandibular</b>, fiebre, anemia, polimialgia; <b>VSG, PCR y plaquetas elevadas</b>.</li>
+    <li>Manifestaciones oculares: <b>neuropatía óptica isquémica</b>, oclusiones arteriales, diplopía por afectación de pares.</li>
+    <li><b>Tratamiento urgente con corticoides a dosis altas</b> (± ahorradores: metotrexato, tocilizumab) para <b>prevenir la afectación del otro ojo</b>.</li>
+  </ul>
+</section>
+
+<section id="cereza">
+  <h2><span class="romnum">VI</span> Mancha rojo cereza: diagnóstico diferencial</h2>
+  <p class="lead">La mancha rojo cereza no es exclusiva de la OACR; entra en su DDx.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Causa</th><th>Contexto</th></tr></thead>
+    <tbody>
+      <tr><td class="h">OACR (la más frecuente)</td><td>Isquemia retiniana difusa, aguda, en el adulto</td></tr>
+      <tr><td class="h">Depósito lisosomal</td><td><b>Bilateral, pediátrico</b>: Tay-Sachs, Niemann-Pick, sialidosis…</td></tr>
+      <tr><td class="h">Conmoción retiniana (edema de Berlín)</td><td>Traumática, signo <b>transitorio</b></td></tr>
+      <tr><td class="h">Intoxicaciones</td><td>Metanol, monóxido de carbono</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Oclusión venosa vs arterial <span class="chip r">la estrella</span></h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Venosa (OVCR/ORVR)</th><th>Arterial (OACR/ORA)</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Mecanismo</td><td>Estasis venosa</td><td>Isquemia (émbolo)</td></tr>
+      <tr><td class="h">Pérdida visual</td><td>Brusca, indolora (variable)</td><td>Brusca, <b>profunda</b>, indolora</td></tr>
+      <tr><td class="h">Fondo de ojo</td><td><b>Hemorragias en llama</b>, venas tortuosas, edema</td><td><b>Blanqueamiento</b> + <b>mancha rojo cereza</b>, émbolo</td></tr>
+      <tr><td class="h">Pronóstico</td><td>Mejor (depende de isquemia)</td><td><b>Malo</b></td></tr>
+      <tr><td class="h">Imprescindible</td><td>Vigilar edema macular y neovasos</td><td><b>Descartar ACG</b> (anciano)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · OACR no arterítica vs arterítica</h3>
+  <p>La <b>no arterítica</b> (67%) es embólica (carótida/corazón). La <b>arterítica</b> (ACG) exige <b>corticoides urgentes</b>: ante una OACR en un anciano, siempre pedir <b>VSG/PCR</b>.</p>
+  <h3>3 · Isquémica vs no isquémica (venosas)</h3>
+  <p>La <b>isquémica</b> tiene <b>DPAR</b>, grandes áreas no perfundidas y <b>riesgo de neovascularización/glaucoma neovascular</b>; la no isquémica, mejor pronóstico.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de las oclusiones vasculares.</p>
+  <div class="trap"><span class="t">1 · Pérdida BRUSCA e INDOLORA = oclusión vascular</span> Tanto la venosa como la arterial; el diagnóstico es <b>clínico</b> (fondo de ojo).</div>
+  <div class="trap"><span class="t">2 · Mancha rojo cereza = OACR</span> La fóvea se ve roja porque sigue nutrida por la <b>coroides</b>, mientras el resto de la retina se blanquea por isquemia.</div>
+  <div class="trap"><span class="t">3 · Hemorragias en llama + venas tortuosas = OVCR</span> El patrón venoso es de <b>estasis/hemorragia</b>, no de blanqueamiento.</div>
+  <div class="trap"><span class="t">4 · OACR del anciano → descartar ACG SIEMPRE</span> Pedir <b>VSG/PCR</b> y, si hay sospecha, <b>corticoides urgentes a dosis altas</b> para salvar el otro ojo.</div>
+  <div class="trap"><span class="t">5 · La oclusión venosa de RAMA es más frecuente que la central</span> La <b>ORVR</b> (4,42‰) supera a la OVCR (0,8‰) y ocurre en un <b>cruce arteriovenoso</b>.</div>
+  <div class="trap"><span class="t">6 · Forma isquémica → DPAR + neovascularización</span> La isquémica (venosa o arterial) puede dar <b>neovasos y glaucoma neovascular</b>; se trata con panfotocoagulación.</div>
+  <div class="trap"><span class="t">7 · Amaurosis fugax = AIT (carotídeo)</span> Pérdida visual transitoria que obliga a estudiar la carótida y el corazón (origen embólico).</div>
+  <div class="trap"><span class="t">8 · El tratamiento de la OVCR es el de sus complicaciones</span> <b>Edema macular → antiVEGF</b>; <b>neovasos → panfotocoagulación</b>; y controlar los factores de riesgo.</div>
+  <div class="trap"><span class="t">9 · OACR: urgencia, ventana corta, mal pronóstico</span> Pocas opciones (masaje, hipotensores, paracentesis); lo decisivo es prevenir el otro ojo (ACG).</div>
+  <div class="trap"><span class="t">10 · Mancha rojo cereza también en niños (depósito lisosomal)</span> Bilateral en Tay-Sachs/Niemann-Pick; y transitoria en el edema de Berlín (trauma).</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 9. Ilustraciones esquemáticas originales (no fotografías). Para reconocer las hemorragias en llama de la OVCR y la mancha rojo cereza de la OACR reales, repasa las retinografías del T09.</p></section>
+
+</div>
+</body>
+</html>
