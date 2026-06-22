@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T11 · Desprendimiento de Retina y Patología Vítreorretiniana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:22px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T11</p>
+    <h1>Desprendimiento de Retina y Patología Vítreorretiniana</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figDVP=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vítreo desprendido con anillo de Weiss y moscas volantes">
+<ellipse cx="120" cy="75" rx="110" ry="62" fill="#eef3f1" stroke="#9fb3b6"/>
+<path d="M22 75 Q90 30 180 55 Q210 75 180 95 Q90 120 22 75" fill="#cfe3ea" opacity=".5"/>
+<circle cx="190" cy="75" r="9" fill="none" stroke="#7a3a8f" stroke-width="3"/>
+<g fill="#46585f"><circle cx="100" cy="62" r="3"/><circle cx="118" cy="82" r="2.5"/><circle cx="88" cy="90" r="2"/></g>
+</svg>`;
+const figDesgarro=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desgarro retiniano en herradura con colgajo">
+<circle cx="120" cy="80" r="72" fill="#d98c5a" stroke="#b8752f"/>
+<path d="M120 40 Q140 50 138 72 L120 64 L102 72 Q100 50 120 40Z" fill="#7a1f17"/>
+<text x="120" y="150" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">desgarro en herradura (con flap)</text>
+</svg>`;
+const figDR=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retina desprendida bullosa con desgarro">
+<circle cx="120" cy="80" r="74" fill="#d98c5a" stroke="#b8752f"/>
+<path d="M52 80 Q110 28 180 50 Q200 80 180 110 Q110 132 52 80" fill="#e9b87a" opacity=".75" stroke="#caa46a"/>
+<path d="M186 52 l14 -9 4 12 -12 6z" fill="#7a1f17"/>
+<text x="120" y="152" text-anchor="middle" style="font:400 11px Inter;fill:#5a3a1a">retina elevada (bullosa) + desgarro</text>
+</svg>`;
+const figLattice=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Degeneración en empalizada periférica">
+<circle cx="120" cy="80" r="74" fill="#dd9a45" stroke="#b8752f"/>
+<g transform="translate(150,46) rotate(35)"><rect x="0" y="0" width="48" height="20" rx="8" fill="#e9d3a8" stroke="#cdb46a"/>
+<g stroke="#fff" stroke-width="1.4"><line x1="6" y1="2" x2="42" y2="18"/><line x1="6" y1="10" x2="42" y2="10"/><line x1="6" y1="18" x2="42" y2="2"/></g></g>
+<text x="120" y="152" text-anchor="middle" style="font:400 11px Inter;fill:#5a3a1a">tramas de líneas blancas ('rejas') en la periferia</text>
+</svg>`;
+
+const Q=[
+{cat:"DVP",c:1,q:"El desprendimiento de vítreo posterior (DVP) se produce por:",
+ o:["Una rotura retiniana","Licuefacción e involución del vítreo (senilidad) con separación de la retina","Exudación coroidea","Tracción de membranas diabéticas"],
+ e:"El <b>DVP</b> es la separación del vítreo de la retina por <b>licuefacción e involución</b> asociada a la senilidad; es muy frecuente."},
+{cat:"DVP",c:2,q:"El DVP es importante porque:",
+ o:["Produce cataratas","Cura el desprendimiento","Es el PRECURSOR del desprendimiento de retina (origen de las tracciones que causan desgarros)","No tiene consecuencias"],
+ e:"El <b>DVP</b> es el <b>precursor del DR</b>: el factor más importante en la génesis de las tracciones vitreorretinianas que originan los desgarros."},
+{cat:"DVP · clínica",c:3,q:"Las miodesopsias del DVP corresponden a:",
+ o:["Destellos por tracción","Cortina de campo","Pérdida central","Percepción de moscas volantes (anillo de Weiss, glía, microhemorragias)"],
+ e:"Las <b>miodesopsias</b> ('moscas volantes') reflejan el <b>anillo de Weiss</b>, fragmentos de glía/fibrillas y microhemorragias."},
+{cat:"DVP · clínica",c:0,q:"Las fotopsias (destellos) del DVP se deben a:",
+ o:["Tracción de la hialoides posterior sobre la retina en puntos de adherencia","Opacidad del cristalino","Edema macular","Isquemia retiniana"],
+ e:"Las <b>fotopsias</b> aparecen por la <b>tracción de la hialoides</b> sobre la retina en los puntos de adherencia."},
+{cat:"DVP · conducta",c:1,q:"Ante un DVP agudo sintomático (miodesopsias/fotopsias), la conducta OBLIGADA es:",
+ o:["Tratamiento hipotensor","Explorar el fondo de ojo bajo MIDRIASIS para descartar rotura retiniana","Iniciar antiVEGF","Hacer un campo visual aislado"],
+ e:"Es <b>obligado explorar el fondo de ojo bajo midriasis</b> para descartar una <b>rotura retiniana</b> asociada al DVP agudo."},
+{cat:"Caso clínico · DVP",c:2,case:true,
+ lead:"Mujer de 67 años con destellos luminosos nocturnos en el ojo izquierdo desde hace 3 días y, desde hoy, una zona oscura que se desplaza con la mirada. AV 1.0 en ambos ojos.",
+ q:"¿Cuál es la actitud correcta?",
+ o:["Tratar un glaucoma agudo con hipotensores","Confirmar el DVP solo con campo visual","Realizar fondo de ojo para descartar rotura retiniana o hemorragia vítrea (cuadro sugestivo de DVP)","Iniciar retinopexia neumática de inmediato"],
+ e:"Fosfenos + mancha que se desplaza sugieren <b>DVP</b>, pero hay que hacer <b>fondo de ojo</b> para descartar <b>rotura retiniana o hemorragia vítrea</b>."},
+{cat:"DVP · tto",c:3,q:"El tratamiento del DVP no complicado es:",
+ o:["Vitrectomía sistemática","AntiVEGF","Cerclaje","No tiene tratamiento (si hay desgarro, se fotocoagula con láser)"],
+ e:"El <b>DVP</b> no tiene tratamiento (controversia con la vitrectomía); si aparece un <b>desgarro</b>, se <b>fotocoagula con láser</b>."},
+{cat:"Imagen · DVP",c:0,figSrc:"figDVP",figcap:"Esquema del paciente.",
+ q:"El anillo desprendido frente a la papila que ve este paciente con miodesopsias es:",
+ o:["El anillo de Weiss (signo de DVP)","Un desgarro gigante","Una membrana epirretiniana","Un nevus"],
+ e:"El <b>anillo de Weiss</b> (anclaje vítreo-papila desprendido) es un signo del <b>DVP</b>."},
+{cat:"Roturas",c:1,q:"Los agujeros retinianos se producen por:",
+ o:["Tracción vitreorretiniana","Atrofia crónica de la retina (forma redondeada/oval)","Exudación coroidea","Inflamación"],
+ e:"Los <b>agujeros</b> se deben a <b>atrofia crónica</b> (redondeados/ovales); los <b>desgarros</b>, a tracción."},
+{cat:"Roturas · DDx",c:2,ddx:true,q:"Un desgarro en herradura ('U' con flap) se produce por:",
+ o:["Atrofia","Exudación","Tracción vitreorretiniana","Isquemia"],
+ e:"El <b>desgarro en herradura</b> (con flap) es por <b>tracción vitreorretiniana</b>; tiene alto riesgo de DR."},
+{cat:"Imagen · roturas",c:3,figSrc:"figDesgarro",figcap:"Fondo de ojo del paciente.",
+ q:"Esta rotura con forma de herradura y un colgajo corresponde a:",
+ o:["Agujero atrófico","Diálisis retiniana","Agujero macular","Desgarro en herradura (por tracción)"],
+ e:"La forma de <b>herradura con flap</b> es un <b>desgarro por tracción</b> (no un agujero atrófico)."},
+{cat:"Roturas",c:0,q:"La diálisis retiniana consiste en:",
+ o:["Desinserción de la retina en la ora serrata","Un agujero macular","Una hemorragia vítrea","Una membrana epirretiniana"],
+ e:"La <b>diálisis retiniana</b> es la <b>desinserción de la ora serrata</b>; es un tipo de rotura (frecuente en traumatismos)."},
+{cat:"Degeneraciones",c:1,q:"La degeneración periférica MÁS significativa como predisponente al DR es:",
+ o:["La baba de caracol","La degeneración en empalizada (lattice)","Las drusas","El nevus"],
+ e:"La <b>degeneración en empalizada (lattice)</b> es la más significativa; el 30–40% de los DR se asocian a ella."},
+{cat:"Degeneraciones",c:2,q:"La degeneración en empalizada (lattice) es más frecuente en:",
+ o:["Hipermétropes","Diabéticos","Miopes","Ancianos sanos"],
+ e:"El <b>lattice</b> es más frecuente en <b>miopes</b> y aparece en la periferia (temporal superior)."},
+{cat:"Imagen · lattice",c:3,figSrc:"figLattice",figcap:"Periferia retiniana del paciente.",
+ q:"Estas tramas de líneas blancas ('rejas') en la periferia de un miope corresponden a:",
+ o:["Drusas","Desgarro gigante","Mancha rojo cereza","Degeneración en empalizada (lattice)"],
+ e:"Las <b>tramas de líneas blancas con adelgazamiento</b> en la periferia de un miope son la <b>degeneración en empalizada (lattice)</b>."},
+{cat:"Degeneraciones",c:0,q:"La profilaxis de las lesiones predisponentes al DR se realiza con:",
+ o:["Fotocoagulación con láser (diodo/argón)","AntiVEGF","Corticoides","Cirugía de catarata"],
+ e:"La <b>fotocoagulación con láser</b> (diodo/argón) de las lesiones predisponentes evita la progresión a desprendimiento de retina."},
+{cat:"DR · concepto",c:1,q:"El desprendimiento de retina consiste en:",
+ o:["Opacidad del vítreo","Separación de la retina neurosensorial del EPR por líquido subretiniano","Inflamación de la coroides","Atrofia del nervio óptico"],
+ e:"El <b>DR</b> es la <b>separación de la retina neurosensorial del EPR</b> por líquido en el espacio subretiniano."},
+{cat:"DR · tipos",c:2,q:"El tipo de desprendimiento de retina MÁS FRECUENTE es:",
+ o:["El traccional","El exudativo","El regmatógeno","El seroso"],
+ e:"El <b>regmatógeno</b> es el más frecuente; requiere vítreo licuado y una rotura de espesor completo."},
+{cat:"DR · regmatógeno",c:3,q:"El DR regmatógeno requiere:",
+ o:["Solo una rotura","Solo vítreo licuado","Exudación coroidea","Vítreo licuado + rotura de espesor completo"],
+ e:"El <b>DRR</b> requiere la concurrencia de <b>vítreo licuado y una rotura de espesor completo</b>."},
+{cat:"DR · clínica",c:0,q:"La clínica típica del DR regmatógeno es:",
+ o:["Fotopsias/miodesopsias seguidas de cortina de campo que progresa","Dolor intenso","Halos de colores","Pérdida central aislada sin síntomas previos"],
+ e:"El <b>DRR</b> cursa con <b>fotopsias/miodesopsias</b> y luego una <b>cortina de campo visual</b> que avanza; si llega a la mácula, ↓ central."},
+{cat:"Imagen · DR",c:1,figSrc:"figDR",figcap:"Fondo de ojo del paciente.",
+ q:"Esta retina elevada y bullosa con un desgarro corresponde a:",
+ o:["DVP no complicado","Desprendimiento de retina regmatógeno","Membrana epirretiniana","Coroidopatía serosa"],
+ e:"Retina <b>elevada/bullosa + desgarro</b> = <b>desprendimiento de retina regmatógeno</b>."},
+{cat:"DR · DDx tipos",c:2,ddx:true,q:"¿Qué tipo de DR se precede de fotopsias y miodesopsias?",
+ o:["El traccional","El exudativo","Solo el regmatógeno","Los tres por igual"],
+ e:"Solo el <b>regmatógeno</b> se precede de <b>fotopsias/miodesopsias</b>; el traccional y el exudativo no."},
+{cat:"DR · traccional",c:3,q:"El DR traccional se asocia típicamente a:",
+ o:["Tumor coroideo","HTA maligna","Lattice","Retinopatía diabética proliferativa avanzada (y ROP, trauma penetrante)"],
+ e:"El <b>DR traccional</b> se debe a tracción de membranas; causas típicas: <b>RDP avanzada, ROP y traumatismos penetrantes</b>."},
+{cat:"DR · exudativo",c:0,q:"El DR exudativo (seroso) se produce por:",
+ o:["Exudación desde la coroides por alteración del EPR (BHE externa)","Rotura retiniana","Tracción vítrea","Licuefacción del vítreo"],
+ e:"El <b>DR exudativo</b> se debe a <b>exudación desde la coroides</b> a través de una alteración del EPR (barrera hematorretiniana externa)."},
+{cat:"DR · exudativo",c:1,q:"Una causa típica de DR exudativo es:",
+ o:["Lattice","Tumor coroideo (también HTA maligna/eclampsia, Harada, escleritis posterior)","Miopía magna","Afaquia"],
+ e:"El <b>DR exudativo</b> aparece en <b>tumores coroideos, HTA maligna/eclampsia, coroiditis exudativa (Harada) y escleritis posterior</b>."},
+{cat:"DR · tto",c:2,q:"El tratamiento del DR EXUDATIVO es:",
+ o:["Vitrectomía urgente","Cerclaje","Médico, tratando la enfermedad de base","Retinopexia neumática"],
+ e:"El <b>DR exudativo</b> se trata <b>médicamente</b>, atacando la <b>enfermedad de base</b> (no se opera la retina)."},
+{cat:"DR · tto",c:3,q:"El tratamiento del DR regmatógeno es:",
+ o:["Médico","Observación","Láser aislado","Exclusivamente quirúrgico (vitrectomía la más usada)"],
+ e:"El <b>DRR</b> tiene tratamiento <b>exclusivamente quirúrgico</b>; la <b>vitrectomía (VPP)</b> es la técnica más usada por su alto éxito."},
+{cat:"Caso clínico · DR regmatógeno",c:0,case:true,
+ lead:"Varón miope de 55 años con destellos y moscas volantes que desde hace un día nota una 'cortina' negra que asciende en su campo visual; la AV central aún está conservada.",
+ q:"El diagnóstico y la actitud son:",
+ o:["DR regmatógeno; cirugía (urgente, mácula aún 'on')","DMAE húmeda; antiVEGF","Glaucoma agudo; hipotensores","Catarata; cirugía programada"],
+ e:"Fotopsias/miodesopsias + <b>cortina</b> en un miope = <b>DR regmatógeno</b>; cirugía, idealmente antes de que la mácula se desprenda ('mácula on')."},
+{cat:"DR · PVR",c:1,q:"La proliferación vitreorretiniana (PVR) consiste en:",
+ o:["Neovasos en el iris","Membranas que contraen la retina (pliegues fijos, retina rígida) y autoperpetúan el DR","Edema macular","Hemorragia vítrea"],
+ e:"La <b>PVR</b> es la formación de membranas que contraen la retina (<b>pliegues fijos, retina rígida</b>); es la causa principal de fracaso/recidiva del DR."},
+{cat:"DR · tto",c:2,q:"La retinopexia neumática se basa en:",
+ o:["Extraer el vítreo","Colocar una banda escleral","Inyectar gas intravítreo para taponar el desgarro (indicaciones muy específicas)","AntiVEGF"],
+ e:"La <b>retinopexia neumática</b> inyecta <b>gas intravítreo</b> para reaplicar la retina; se reserva a DRR muy específicos (superior, fáquico, 1 desgarro, sin PVR)."},
+{cat:"DR · tto",c:3,q:"La cirugía escleral (cerclaje/explante) incluye habitualmente:",
+ o:["Solo láser","Solo gas","AntiVEGF","Banda de cerclaje ± explante, criopexia del desgarro y ± drenaje del LSR"],
+ e:"La <b>cirugía escleral</b> coloca una banda de cerclaje ± explante, con <b>criopexia</b> del desgarro y, a veces, <b>drenaje del LSR</b>."},
+{cat:"Caso clínico · DDx DVP/DR",c:0,case:true,ddx:true,
+ lead:"Dos pacientes con fotopsias y miodesopsias: en uno la AV es 1.0 y el fondo no muestra rotura; en el otro hay además una cortina de campo y la retina aparece elevada.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["DVP y DR regmatógeno","DR y DVP","Ambos DVP","Ambos DR"],
+ e:"AV conservada sin rotura = <b>DVP</b>; cortina de campo + retina elevada = <b>DR regmatógeno</b>."},
+{cat:"DR · factores",c:1,q:"¿Cuál de estos es un factor de riesgo de DR regmatógeno?",
+ o:["Hipermetropía leve","Miopía (también lattice, afaquia/pseudofaquia, trauma, antecedente en otro ojo)","Edad pediátrica sin otros factores","Hipertensión arterial controlada"],
+ e:"Factores de riesgo del DRR: <b>miopía, lattice, afaquia/pseudofaquia, traumatismo y antecedente de DR en el otro ojo</b>."},
+{cat:"Caso clínico · traccional",c:2,case:true,
+ lead:"Diabético con RDP avanzada que pierde campo visual de forma progresiva SIN fotopsias ni miodesopsias previas; el fondo muestra tracción por membranas fibrovasculares.",
+ q:"El tipo de DR es:",
+ o:["Regmatógeno","Exudativo","Traccional","DVP simple"],
+ e:"Tracción por membranas en una RDP avanzada, <b>sin fotopsias/miodesopsias</b> = <b>DR traccional</b>."},
+{cat:"Caso clínico · exudativo",c:3,case:true,
+ lead:"Embarazada con eclampsia y HTA grave que presenta un desprendimiento seroso de la retina, sin rotura ni fotopsias previas.",
+ q:"El tipo de DR y el tratamiento son:",
+ o:["Regmatógeno; vitrectomía","Traccional; cirugía compleja","DVP; observación","Exudativo; tratar la enfermedad de base (HTA/eclampsia)"],
+ e:"Desprendimiento <b>seroso sin rotura</b> en HTA maligna/eclampsia = <b>DR exudativo</b>; se trata la <b>enfermedad de base</b>."},
+{cat:"DR · tipos",c:0,q:"El tipo de DR MENOS frecuente es:",
+ o:["El exudativo/seroso","El regmatógeno","El traccional","Todos igual de frecuentes"],
+ e:"El <b>exudativo/seroso</b> es el menos frecuente; el regmatógeno es el más frecuente."},
+{cat:"DVP · complicaciones",c:1,q:"Una hemorragia vítrea en el contexto de un DVP agudo sugiere:",
+ o:["Que es banal","Posible desgarro de un vaso adherido a la hialoides (descartar rotura)","Glaucoma","Catarata"],
+ e:"La <b>hemorragia vítrea</b> en un DVP puede deberse al <b>desgarro de un vaso</b> adherido a la hialoides; obliga a descartar rotura retiniana."},
+{cat:"Degeneraciones",c:2,q:"En la degeneración en empalizada, el vítreo adyacente:",
+ o:["Está siempre licuado por completo","No tiene relación con la retina","Está adherido a los bordes de la lesión","Está calcificado"],
+ e:"En el <b>lattice</b>, el <b>vítreo está adherido a los bordes</b> de la lesión, lo que favorece la tracción y los desgarros."},
+{cat:"DR · clínica",c:3,q:"Cuando el DR regmatógeno alcanza la mácula ('mácula off'):",
+ o:["Mejora la visión","No cambia nada","Solo da fotopsias","Se pierde la visión central y empeora el pronóstico visual"],
+ e:"Si el DR alcanza la mácula ('<b>mácula off</b>'), se pierde la <b>visión central</b> y empeora el pronóstico visual aunque se reaplique."},
+{cat:"Caso clínico · profilaxis",c:0,case:true,
+ lead:"Miope con un desgarro en herradura sintomático reciente, sin desprendimiento todavía.",
+ q:"¿Qué medida puede evitar el desprendimiento?",
+ o:["Fotocoagulación con láser del desgarro (profilaxis)","Vitrectomía inmediata","AntiVEGF","Observación sin tratamiento"],
+ e:"La <b>fotocoagulación con láser</b> del desgarro (barrera) puede evitar la progresión a desprendimiento de retina."},
+{cat:"DR · tto",c:1,q:"La retinopexia neumática está indicada en:",
+ o:["DR con PVR avanzada","DR regmatógeno superior, fáquico, con 1 desgarro y SIN PVR","DR exudativo","DR traccional diabético"],
+ e:"La <b>retinopexia neumática</b> se reserva a DRR <b>superiores, fáquicos, con un desgarro y sin PVR</b>."},
+{cat:"DR · DDx",c:2,ddx:true,q:"¿Qué dato distingue mejor un DR regmatógeno de una maculopatía como causa de pérdida visual brusca?",
+ o:["La edad","El sexo","La cortina periférica que avanza (con fotopsias previas) frente a la pérdida central/metamorfopsia","El color del iris"],
+ e:"El <b>DR</b> da una <b>cortina periférica</b> que progresa (con fotopsias previas); las maculopatías dan pérdida <b>central</b> con metamorfopsia."},
+{cat:"DVP",c:3,q:"El DVP puede cursar con micropsia o metamorfopsia cuando:",
+ o:["Hay glaucoma","Hay catarata","Hay isquemia","El vítreo tracciona sobre el área macular"],
+ e:"La <b>tracción del vítreo sobre la mácula</b> en el DVP puede producir <b>micropsia/metamorfopsia</b>."},
+{cat:"Roturas · DDx",c:0,ddx:true,q:"El agujero macular en la miopía magna es un tipo de:",
+ o:["Agujero (por atrofia)","Desgarro por tracción","Diálisis","Degeneración en empalizada"],
+ e:"El <b>agujero macular</b> (también periférico) es una rotura de tipo <b>agujero (atrofia)</b>, frecuente en la miopía magna."},
+{cat:"DR · PVR",c:1,q:"La PVR se clasifica en grados:",
+ o:["I, II, III, IV","A, B, C","Leve, moderada, grave únicamente","0 a 4 de Arden"],
+ e:"La <b>PVR</b> se clasifica en grados <b>A, B y C</b> (con subtipos CP/CA), según la severidad de las membranas."},
+{cat:"Caso clínico · DVP MIR",c:2,case:true,
+ lead:"Paciente con fosfenos seguidos de una mancha que se desplaza con la mirada.",
+ q:"¿Qué afirmación es correcta?",
+ o:["Los fosfenos son patognomónicos de DVP y se tratan con retinopexia neumática","Solo el campo visual diferencia DVP de DR","Es un glaucoma agudo","El cuadro sugiere DVP, pero hay que hacer fondo de ojo para descartar rotura o hemorragia"],
+ e:"El cuadro es <b>sugestivo de DVP</b>, pero se debe realizar <b>fondo de ojo</b> para descartar <b>rotura retiniana o hemorragia vítrea</b>."},
+{cat:"DR · tto",c:3,q:"La técnica quirúrgica del DR regmatógeno más usada actualmente es:",
+ o:["La retinopexia neumática","El cerclaje aislado","El explante aislado","La vitrectomía (VPP), por su alto porcentaje de éxito"],
+ e:"La <b>vitrectomía (VPP)</b> es la técnica más utilizada por su <b>alto porcentaje de éxito</b>."},
+{cat:"DR · tto",c:0,q:"La VPP + cerclaje se reserva habitualmente para:",
+ o:["DR con PVR, fáquico inferior, con hemovítreo, crónico o traumático","DR superior fáquico simple","DVP no complicado","DR exudativo"],
+ e:"La <b>VPP + cerclaje</b> se asocia en DR con <b>PVR, fáquico inferior, hemovítreo, crónico o traumático</b>."},
+{cat:"Degeneraciones",c:1,q:"¿Qué porcentaje aproximado de las roturas retinianas asienta sobre degeneraciones periféricas?",
+ o:["10%","60%","5%","100%"],
+ e:"Alrededor del <b>60%</b> de las roturas asientan sobre áreas de degeneración periférica predisponente."},
+{cat:"DVP · concepto",c:2,q:"El DVP se asocia sobre todo a:",
+ o:["La infancia","La inflamación","La senilidad (involución/licuefacción del vítreo)","La hipertensión"],
+ e:"El <b>DVP</b> se asocia a la <b>senilidad</b> (licuefacción e involución del vítreo); es muy frecuente con la edad."},
+{cat:"Caso clínico · DDx tres tipos",c:3,case:true,ddx:true,
+ lead:"Tres pacientes con DR: A) miope con desgarro y fotopsias previas; B) diabético con RDP y tracción; C) paciente con melanoma coroideo y desprendimiento seroso.",
+ q:"Los tipos son, respectivamente:",
+ o:["Traccional, exudativo, regmatógeno","Exudativo, regmatógeno, traccional","Todos regmatógenos","Regmatógeno, traccional, exudativo"],
+ e:"A = <b>regmatógeno</b> (desgarro + fotopsias); B = <b>traccional</b> (RDP); C = <b>exudativo</b> (tumor coroideo)."},
+{cat:"DR · clínica",c:0,q:"La 'cortina' o 'telón' que describe el paciente con DR corresponde a:",
+ o:["La pérdida del campo visual en el sector de retina desprendida","Halos de colores","Diplopía","Fotofobia"],
+ e:"La <b>cortina/telón</b> es la <b>pérdida de campo visual</b> en el área de retina desprendida, que avanza conforme progresa el DR."},
+{cat:"Roturas",c:1,q:"Los desgarros gigantes se definen por:",
+ o:["Ser menores de 30º","Extenderse más de 90º","Ser siempre maculares","Ser atróficos"],
+ e:"Los <b>desgarros gigantes</b> se extienden <b>más de 90º</b> de la circunferencia retiniana."},
+{cat:"DR · concepto",c:2,q:"El líquido que separa la retina del EPR en el DR se denomina:",
+ o:["Humor acuoso","Vítreo primario","Líquido subretiniano (LSR)","Lágrima"],
+ e:"El <b>líquido subretiniano (LSR)</b> es el que se acumula entre la retina neurosensorial y el EPR en el DR."},
+{cat:"Caso clínico · pseudofaquia",c:3,case:true,
+ lead:"Paciente operado de catarata (pseudofáquico) que acude con fotopsias, miodesopsias y una cortina de campo.",
+ q:"¿Qué hay que descartar con prioridad?",
+ o:["Una recidiva de la catarata","Una conjuntivitis","Un glaucoma agudo","Un desprendimiento de retina regmatógeno (la pseudofaquia es factor de riesgo)"],
+ e:"La <b>pseudofaquia</b> es factor de riesgo de DRR; ante fotopsias/miodesopsias + cortina hay que descartar un <b>desprendimiento de retina</b>."},
+{cat:"DR · tto",c:0,q:"En un DRR pseudofáquico sin PVR, una opción quirúrgica adecuada es:",
+ o:["Vitrectomía aislada (VPP)","Solo láser","AntiVEGF","Tratamiento médico"],
+ e:"El <b>DRR pseudofáquico sin PVR</b> se trata bien con <b>vitrectomía aislada (VPP)</b>."},
+{cat:"DVP · DDx",c:1,ddx:true,q:"La diferencia esencial entre DVP y DR es:",
+ o:["El DVP duele y el DR no","En el DR hay separación de la retina neurosensorial del EPR; en el DVP solo se separa el vítreo","Ambos son lo mismo","El DVP afecta a la mácula siempre"],
+ e:"En el <b>DR</b> se separa la <b>retina neurosensorial del EPR</b>; en el <b>DVP</b> solo se separa el <b>vítreo</b> de la retina (aunque puede desencadenar un DR)."},
+{cat:"Degeneraciones",c:2,q:"La degeneración 'en baba de caracol' se describe como:",
+ o:["Espículas óseas","Mancha rojo cereza","Banda en 'copos de nieve' con adherencias vítreas","Drusas blandas"],
+ e:"La degeneración <b>'en baba de caracol'</b> aparece como una banda en <b>'copos de nieve'</b> con adherencias vítreas; es predisponente al DR."},
+{cat:"Caso clínico · mácula on/off",c:3,case:true,
+ lead:"Dos pacientes con DR regmatógeno: uno conserva buena visión central (mácula no desprendida) y otro ya ha perdido la visión central.",
+ q:"¿Cuál tiene mejor pronóstico visual tras la cirugía?",
+ o:["El de mácula desprendida","Da igual","Ninguno recupera visión","El de mácula NO desprendida ('mácula on')"],
+ e:"El de <b>mácula on</b> (no desprendida) tiene <b>mejor pronóstico</b>; por eso conviene operar antes de que el DR alcance la mácula."},
+{cat:"DR · tipos",c:0,q:"¿Cuál de estos NO causa típicamente un DR traccional?",
+ o:["Un tumor coroideo","La retinopatía diabética proliferativa","La retinopatía del prematuro","Un traumatismo penetrante"],
+ e:"El <b>tumor coroideo</b> causa DR <b>exudativo</b> (no traccional). El traccional lo dan RDP, ROP y traumatismos penetrantes."},
+{cat:"DVP · clínica",c:1,q:"Las fotopsias del DVP son más perceptibles:",
+ o:["A pleno sol","En la oscuridad / con los movimientos oculares","Solo al leer","Nunca se perciben"],
+ e:"Las <b>fotopsias</b> (destellos por tracción) se perciben mejor en la <b>oscuridad y con los movimientos oculares</b>."},
+{cat:"Roturas · DDx",c:2,ddx:true,q:"Asocie correctamente:",
+ o:["Agujero = tracción; desgarro = atrofia","Ambos por exudación","Agujero = atrofia (redondo); desgarro = tracción (herradura)","Ambos por isquemia"],
+ e:"<b>Agujero</b> = atrofia (redondo); <b>desgarro</b> = tracción (herradura con flap)."},
+{cat:"DR · regmatógeno",c:3,q:"En la patogenia del DRR, tras la rotura, el desprendimiento se mantiene/avanza por:",
+ o:["La curación espontánea","La presión arterial","El humor acuoso","Las fuerzas inerciales de los movimientos oculares y el fallo del EPR para reabsorber el LSR"],
+ e:"El DR se autoperpetúa por las <b>fuerzas inerciales</b> de los movimientos oculares, el fallo del transporte del EPR y la <b>PVR</b>."},
+{cat:"Caso clínico · urgencia",c:0,case:true,
+ lead:"Paciente con cortina de campo de instauración hoy y mácula aún conservada en un DR regmatógeno superior.",
+ q:"¿Cuál es la actitud más adecuada?",
+ o:["Cirugía sin demora (para reaplicar la retina antes de que la mácula se desprenda)","Esperar varias semanas","Tratamiento médico","AntiVEGF"],
+ e:"El DRR es <b>quirúrgico</b>; conviene operar <b>sin demora</b>, especialmente con <b>mácula 'on'</b>, para preservar la visión central."},
+{cat:"Degeneraciones",c:1,q:"El lattice representa histológicamente:",
+ o:["Un acúmulo de lípidos","Una discontinuidad de la membrana limitante interna (MLI) con adelgazamiento","Neovasos","Pigmento coroideo"],
+ e:"El <b>lattice</b> es una <b>discontinuidad de la MLI</b> con adelgazamiento retiniano y líneas blancas; el vítreo se adhiere a sus bordes."},
+{cat:"DR · DDx",c:2,ddx:true,q:"Un desprendimiento seroso sin rotura, sin fotopsias, en un paciente con escleritis posterior es:",
+ o:["Regmatógeno","Traccional","Exudativo","DVP"],
+ e:"Desprendimiento <b>seroso sin rotura ni fotopsias</b> en una <b>escleritis posterior</b> = <b>DR exudativo</b>."},
+{cat:"DVP · tto",c:3,q:"Si durante el seguimiento de un DVP aparece un desgarro retiniano, el tratamiento es:",
+ o:["Vitrectomía sistemática","Observación","AntiVEGF","Fotocoagulación con láser del desgarro"],
+ e:"Ante un <b>desgarro</b> en el contexto de un DVP, se realiza <b>fotocoagulación con láser</b> para prevenir el DR."},
+{cat:"DR · tipos",c:0,q:"El DR que se trata SIN cirugía retiniana (manejando la causa) es:",
+ o:["El exudativo","El regmatógeno","El traccional","Ninguno"],
+ e:"El <b>DR exudativo</b> se maneja tratando la <b>enfermedad de base</b> (médico); el regmatógeno y el traccional son quirúrgicos."},
+{cat:"Caso clínico · lattice miope",c:1,case:true,
+ lead:"Miope alto con lattice bilateral asintomático detectado en una revisión rutinaria.",
+ q:"¿Qué importancia tiene el lattice?",
+ o:["Ninguna","Es la degeneración periférica más significativa como predisponente al DR (vigilancia ± láser si hay riesgo)","Causa cataratas","Produce glaucoma"],
+ e:"El <b>lattice</b> es la degeneración periférica <b>más significativa</b> (predispone al DR); requiere vigilancia y, si procede, láser profiláctico."},
+{cat:"DR · concepto",c:2,q:"La retina neurosensorial se nutre, en su porción externa, del EPR/coroides; por eso al desprenderse:",
+ o:["Mejora su función","No cambia","Sufre y deja de funcionar (pérdida de campo/visión)","Se vuelve más sensible"],
+ e:"Al separarse del EPR, la retina pierde su soporte metabólico y <b>deja de funcionar</b>, con la consiguiente pérdida de campo/visión."},
+{cat:"DVP",c:3,q:"El DVP agudo sintomático es la situación en la que aparecen:",
+ o:["Solo cataratas","Solo glaucoma","Dolor y ojo rojo","Miodesopsias y/o fotopsias de comienzo brusco"],
+ e:"El <b>DVP agudo sintomático</b> debuta de forma <b>brusca con miodesopsias y/o fotopsias</b> (obliga a descartar rotura)."},
+{cat:"DR · tto escleral",c:0,q:"La cirugía escleral con cerclaje/explante es una buena opción en:",
+ o:["DR fáquico inferior, desgarros accesibles y diálisis retinianas","DR exudativo","DVP","Catarata"],
+ e:"La <b>cirugía escleral</b> es adecuada en <b>DR fáquico inferior, desgarros accesibles a explantes y diálisis retinianas</b>."},
+{cat:"Caso clínico · DDx pérdida brusca",c:1,case:true,ddx:true,
+ lead:"Paciente con pérdida visual brusca: refiere fotopsias y luego una cortina que asciende; no hay dolor ni metamorfopsia central inicial.",
+ q:"El diagnóstico más probable es:",
+ o:["DMAE húmeda","Desprendimiento de retina regmatógeno","Oclusión arterial","Neuritis óptica"],
+ e:"Fotopsias + <b>cortina ascendente</b> sin dolor = <b>DR regmatógeno</b> (no maculopatía ni oclusión)."},
+{cat:"DR · regmatógeno",c:2,q:"El papel del vítreo en el DRR consiste en:",
+ o:["Nutrir la retina","Producir humor acuoso","Licuarse y desprenderse (DVP), traccionar y romper la retina","Cerrar el ángulo"],
+ e:"El vítreo se <b>licúa y se desprende (DVP)</b>, tracciona la retina y la <b>rompe</b>; el vítreo licuado pasa al espacio subretiniano."},
+{cat:"Roturas",c:3,q:"Las diálisis retinianas son típicas de:",
+ o:["La DMAE","El glaucoma","La presbicia","Los traumatismos (desinserción de la ora serrata)"],
+ e:"Las <b>diálisis retinianas</b> (desinserción de la ora serrata) son típicas de los <b>traumatismos</b> contusos."},
+{cat:"Síntesis",c:0,q:"Señale la afirmación CORRECTA:",
+ o:["DVP agudo → fondo bajo midriasis; regmatógeno = el más frecuente y con fotopsias; exudativo = médico","El exudativo es el más frecuente","El traccional da fotopsias previas","El regmatógeno se trata médicamente"],
+ e:"Resumen: <b>DVP agudo → fondo bajo midriasis</b>; <b>regmatógeno</b> = el más frecuente, con fotopsias; <b>exudativo</b> = tratamiento médico."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación FALSA:",
+ o:["El lattice es la degeneración periférica más significativa","El DR traccional se precede de fotopsias y miodesopsias","La vitrectomía es la técnica más usada en el DRR","El DR exudativo se trata tratando la enfermedad de base"],
+ e:"FALSA: el <b>DR traccional NO se precede de fotopsias/miodesopsias</b> (solo el regmatógeno)."},
+{cat:"DDx general",c:2,ddx:true,q:"¿Qué cuadro NO produce una 'cortina' de campo visual progresiva?",
+ o:["DR regmatógeno superior","DR regmatógeno inferior","DMAE seca (pérdida central lenta)","DR traccional extenso"],
+ e:"La <b>DMAE seca</b> da pérdida <b>central</b> lenta, no una cortina periférica progresiva (típica del DR)."},
+{cat:"Síntesis · tto",c:3,q:"Resumen del tratamiento del DR:",
+ o:["Todo se opera igual","Todo es médico","Solo láser","Regmatógeno y traccional → quirúrgico (VPP la más usada); exudativo → médico (enfermedad de base); profilaxis con láser de lesiones predisponentes"],
+ e:"Tratamiento: <b>regmatógeno y traccional → quirúrgico</b> (VPP la más usada); <b>exudativo → médico</b>; y <b>láser profiláctico</b> de las lesiones predisponentes."}
+];
+
+const figMap={figDVP,figDesgarro,figDR,figLattice};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el desprendimiento de retina. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo los 3 tipos de DR y la conducta ante el DVP.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza regmatógeno vs traccional vs exudativo y el tratamiento.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T11 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
