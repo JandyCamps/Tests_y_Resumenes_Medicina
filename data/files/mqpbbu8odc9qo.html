@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T06 · El Cristalino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T06</p>
+    <h1>El Cristalino</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figNuclear=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pupila con el núcleo del cristalino amarillento">
+<circle cx="100" cy="85" r="78" fill="#8a6a44"/><circle cx="100" cy="85" r="78" fill="none" stroke="#5e3d1e"/>
+<circle cx="100" cy="85" r="50" fill="#1a1a1a"/>
+<circle cx="100" cy="85" r="30" fill="#caa24e"/>
+</svg>`;
+const figCortical=`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pupila con opacidades radiales en cuña en la periferia del cristalino">
+<circle cx="100" cy="85" r="78" fill="#8a6a44"/><circle cx="100" cy="85" r="78" fill="none" stroke="#5e3d1e"/>
+<circle cx="100" cy="85" r="52" fill="#1a1a1a"/>
+<g fill="#dfe6ea" opacity=".9"><polygon points="100,85 64,52 78,46"/><polygon points="100,85 136,52 122,46"/><polygon points="100,85 140,108 144,92"/><polygon points="100,85 60,108 56,92"/><polygon points="100,85 92,134 108,134"/></g>
+</svg>`;
+const figSublux=`<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cristalino desplazado del centro de la pupila">
+<ellipse cx="110" cy="80" rx="92" ry="60" fill="#8a6a44" stroke="#5e3d1e"/>
+<circle cx="110" cy="80" r="50" fill="#1a1a1a"/>
+<ellipse cx="128" cy="66" rx="40" ry="34" fill="#cfe3ea" opacity=".75" stroke="#7fa6b5"/>
+<text x="110" y="150" text-anchor="middle" style="font:italic 11px Inter;fill:#46585f">borde del cristalino visible en la pupila</text>
+</svg>`;
+const figLeuco=`<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pupila blanca (leucocoria)">
+<ellipse cx="100" cy="80" rx="92" ry="56" fill="#f7f1ec" stroke="#cfc8bb"/>
+<circle cx="100" cy="80" r="44" fill="#7a5a36"/>
+<circle cx="100" cy="80" r="22" fill="#eee"/>
+<text x="100" y="150" text-anchor="middle" style="font:italic 11px Inter;fill:#46585f">reflejo pupilar blanco</text>
+</svg>`;
+
+const Q=[
+{cat:"Recuerdo",c:1,q:"El cristalino se caracteriza por ser:",
+ o:["Muy vascularizado e inervado","Una lente biconvexa, transparente, avascular y sin inervación","La capa externa del ojo","Productor de humor acuoso"],
+ e:"El <b>cristalino</b> es una lente <b>biconvexa, transparente, avascular y sin inervación</b>; se nutre del humor acuoso y del vítreo."},
+{cat:"Recuerdo",c:2,q:"Las células del epitelio del cristalino:",
+ o:["No se dividen nunca","Producen lágrima","Forman fibras durante toda la vida","Producen melanina"],
+ e:"El <b>epitelio subcapsular</b> contiene células germinativas que forman <b>fibras durante toda la vida</b> (el cristalino sigue creciendo)."},
+{cat:"Catarata",c:0,q:"Una catarata se define como:",
+ o:["Cualquier opacidad del cristalino (conlleve o no pérdida de visión)","Una opacidad corneal","Una alteración de la mácula","Un aumento de la PIO"],
+ e:"<b>Catarata = cualquier opacidad del cristalino</b>; el grado de afectación visual depende del tipo y la localización."},
+{cat:"Catarata · tipos",c:3,q:"La catarata NUCLEAR se caracteriza por:",
+ o:["Opacidades radiales periféricas","Déficit visual rápido en jóvenes","Ser por corticoides","Color amarillo→marrón y producir MIOPÍA por aumento del índice de refracción"],
+ e:"La <b>nuclear</b> es de color amarillo→marrón, lentamente progresiva y produce <b>miopía ('miopización') por aumento del índice de refracción</b>."},
+{cat:"Imagen · tipos",c:1,figSrc:"figCortical",figcap:"Cristalino del paciente.",
+ q:"Estas opacidades radiales 'en cuña' desde la periferia corresponden a una catarata:",
+ o:["Nuclear","Cortical","Subcapsular posterior","Congénita"],
+ e:"Las <b>opacidades radiales periféricas en cuña</b> son típicas de la catarata <b>cortical</b> (la localización más frecuente, de afectación lenta)."},
+{cat:"Catarata · tipos",c:2,q:"La localización MÁS FRECUENTE de catarata es:",
+ o:["Nuclear","Subcapsular anterior","Cortical","Subcapsular posterior"],
+ e:"La <b>cortical</b> es la localización más frecuente (opacidades radiales periféricas, afectación visual lenta)."},
+{cat:"Catarata · tipos · DDx",c:0,ddx:true,q:"La catarata subcapsular posterior se caracteriza por:",
+ o:["Déficit visual RÁPIDO, en pacientes más jóvenes, y la causan los corticoides","Color marrón y miopización","Opacidades radiales periféricas","No afectar nunca a la visión"],
+ e:"La <b>subcapsular posterior</b> es central, de déficit <b>rápido</b>, en pacientes más jóvenes, y es la típica de los <b>corticoides</b> (y busulfán)."},
+{cat:"Catarata · clínica",c:1,q:"La clínica cardinal de la catarata es:",
+ o:["Ojo rojo doloroso","↓ de la agudeza visual progresiva, SIN dolor ni inflamación","Halos de colores con dolor y vómitos","Pérdida brusca del campo periférico"],
+ e:"La catarata da <b>↓AV progresiva, indolora y sin inflamación</b> (más fotofobia, halos, diplopía monocular, ↓colores)."},
+{cat:"Catarata · clínica",c:2,q:"La 'segunda visión' (volver a leer sin gafas) en un présbita se debe a:",
+ o:["Curación de la presbicia","Una catarata cortical","Una catarata nuclear que induce miopización","Un astigmatismo"],
+ e:"La <b>catarata nuclear</b> aumenta el índice del cristalino → miopiza → el présbita 'recupera' la visión cercana ('segunda visión')."},
+{cat:"Catarata · clínica",c:3,q:"La diplopía que produce la catarata es:",
+ o:["Binocular","Por paresia de un par craneal","Por estrabismo","Monocular (persiste al tapar el otro ojo)"],
+ e:"La catarata (y la subluxación del cristalino) producen <b>diplopía MONOCULAR</b>; la binocular es por desalineación ocular."},
+{cat:"Catarata · etiología",c:0,q:"La forma más frecuente de catarata y la causa más frecuente de ceguera REVERSIBLE en países desarrollados es:",
+ o:["La catarata senil","La traumática","La congénita","La inducida por corticoides"],
+ e:"La <b>catarata senil</b> es la más frecuente y la causa más frecuente de <b>pérdida visual reversible</b> en el mundo desarrollado (bilateral, asimétrica)."},
+{cat:"Catarata · etiología",c:1,q:"Los corticoides producen característicamente catarata:",
+ o:["Nuclear","Subcapsular posterior","Cortical","Congénita"],
+ e:"Los <b>corticoides</b> (y el busulfán) producen catarata <b>subcapsular posterior</b>."},
+{cat:"Caso clínico · etiología",c:2,case:true,
+ lead:"Paciente con asma en tratamiento prolongado con corticoides que consulta por deslumbramiento y pérdida visual; en la lámpara de hendidura se ve una placa opaca central por detrás del cristalino.",
+ q:"El tipo de catarata es:",
+ o:["Nuclear","Cortical","Subcapsular posterior (por corticoides)","Congénita"],
+ e:"Placa central posterior + corticoides crónicos = catarata <b>subcapsular posterior</b>, de progresión rápida."},
+{cat:"Catarata · etiología",c:3,q:"¿Cuál de estas enfermedades sistémicas se asocia a catarata?",
+ o:["Hipertensión arterial aislada","Asma","Migraña","Diabetes mellitus, galactosemia, distrofia miotónica, hipoparatiroidismo"],
+ e:"Se asocian a catarata la <b>DM, galactosemia, distrofia miotónica, hipoparatiroidismo</b> y dermatopatías (atópica, esclerodermia)."},
+{cat:"Catarata · evolución",c:0,q:"El glaucoma FACOMÓRFICO se produce porque:",
+ o:["El cristalino capta agua, aumenta de volumen y cierra el ángulo","Las proteínas obstruyen el trabéculo","Hay neovasos en el iris","Se rompe la cápsula posterior"],
+ e:"En el <b>facomórfico</b>, el cristalino <b>capta agua y aumenta de volumen</b> → aplana la cámara anterior → <b>cierre angular</b> con ↑PIO."},
+{cat:"Catarata · evolución · DDx",c:1,ddx:true,q:"El glaucoma FACOLÍTICO, a diferencia del facomórfico, se debe a:",
+ o:["El aumento de volumen del cristalino","Proteínas cristalinianas que pasan a cámara anterior y obstruyen el trabéculo","Una rotura zonular","Neovasos"],
+ e:"El <b>facolítico</b> se debe a <b>proteínas cristalinianas</b> que obstruyen la malla trabecular; el facomórfico es por aumento de volumen (mecánico)."},
+{cat:"Catarata · evolución",c:2,q:"Si una catarata no se opera y evoluciona, puede producir:",
+ o:["Mejoría espontánea","Solo molestias leves","Ceguera y complicaciones (uveítis facoanafiláctica, glaucoma facomórfico/facolítico, luxación)","Conjuntivitis"],
+ e:"La evolución natural lleva a <b>ceguera</b> y a complicaciones como <b>uveítis facoanafiláctica, glaucoma facomórfico/facolítico y luxación</b>."},
+{cat:"Catarata · tto",c:3,q:"El tratamiento de la catarata es:",
+ o:["Colirios que la disuelven","Láser que la elimina sin cirugía","Gafas potentes","Exclusivamente quirúrgico"],
+ e:"La catarata se trata de forma <b>exclusivamente quirúrgica</b> (supone el 70-80% de la cirugía ocular)."},
+{cat:"Catarata · cirugía",c:0,q:"La técnica estándar de cirugía de catarata es:",
+ o:["La facoemulsificación","La extracción intracapsular","La queratotomía radial","La trabeculectomía"],
+ e:"La <b>facoemulsificación</b> (fragmentación y aspiración del núcleo por microincisión) es la técnica estándar."},
+{cat:"Catarata · cirugía · trampa",c:3,ddx:true,q:"Respecto a los pasos de la facoemulsificación, ¿cuál es FALSA?",
+ o:["Las incisiones no suelen precisar sutura","La LIO se coloca en el saco capsular","La hidrodisección libera el núcleo del córtex","Hay que extraer por completo la cápsula posterior para evitar su opacificación"],
+ e:"FALSA: <b>NO se extrae la cápsula posterior</b>; se conserva para alojar la LIO. La capsulorrexis es de la cápsula <b>anterior</b>."},
+{cat:"Catarata · cirugía",c:1,q:"La localización óptima de la lente intraocular (LIO) es:",
+ o:["En la cámara anterior","Dentro del saco capsular","En el vítreo","Sobre la córnea"],
+ e:"La LIO se coloca, idealmente, <b>dentro del saco capsular</b>; solo si no es posible se usa el sulcus o la cámara anterior."},
+{cat:"Catarata · cirugía",c:2,q:"Al final de la facoemulsificación se inyecta en cámara anterior:",
+ o:["Aciclovir","Corticoide","Cefuroxima/moxifloxacino (profilaxis de endoftalmitis)","Anestésico"],
+ e:"Se inyecta <b>cefuroxima o moxifloxacino intracamerular</b> como profilaxis antibiótica de la endoftalmitis."},
+{cat:"Conceptos",c:3,q:"La presencia de una lente intraocular implantada se denomina:",
+ o:["Afaquia","Faquia","Ectopia lentis","Pseudofaquia"],
+ e:"<b>Pseudofaquia</b> = hay LIO. <b>Faquia</b> = hay cristalino (claro o cataratoso); <b>afaquia</b> = no hay ni cristalino ni LIO."},
+{cat:"Catarata · complicaciones",c:0,q:"La complicación postoperatoria MÁS GRAVE de la cirugía de catarata es:",
+ o:["La endoftalmitis aguda","La opacificación de la cápsula posterior","El edema macular","La uveítis aséptica"],
+ e:"La <b>endoftalmitis aguda</b> es la más grave (puede perder el globo); aunque infrecuente (&lt;0,1%). Gérmenes: S. epidermidis y S. aureus."},
+{cat:"Catarata · complicaciones",c:1,q:"La complicación postoperatoria MÁS FRECUENTE (tardía) de la cirugía de catarata es:",
+ o:["La endoftalmitis","La opacificación de la cápsula posterior (OCP)","La hemorragia coroidea","La rotura capsular"],
+ e:"La <b>OCP</b> es la complicación tardía más frecuente (meses/años, ↓visión progresiva); se trata con <b>capsulotomía Nd:YAG</b>."},
+{cat:"Catarata · complicaciones · DDx",c:2,ddx:true,q:"El tratamiento de la opacificación de la cápsula posterior es:",
+ o:["Reoperar con facoemulsificación","Antibióticos","Capsulotomía con láser Nd:YAG (ambulatoria)","Vitrectomía"],
+ e:"La <b>OCP</b> se trata con <b>capsulotomía Nd:YAG</b>, un procedimiento ambulatorio e indoloro en lámpara de hendidura."},
+{cat:"Caso clínico · endoftalmitis",c:3,case:true,
+ lead:"A los 3 días de una cirugía de catarata, un paciente presenta dolor intenso, ojo rojo, hipopión y caída brusca de la visión.",
+ q:"¿Qué complicación hay que sospechar?",
+ o:["Opacificación de la cápsula posterior","Edema macular de Irvine-Gass","Catarata residual","Endoftalmitis aguda"],
+ e:"Dolor + hipopión + caída brusca de visión días tras la cirugía = <b>endoftalmitis aguda</b> (urgencia; S. epidermidis/aureus)."},
+{cat:"Catarata · complicaciones",c:0,q:"El signo de Seidel positivo tras cirugía de catarata indica:",
+ o:["Herida filtrante (fuga de humor acuoso por la incisión)","Endoftalmitis","OCP","Edema macular"],
+ e:"El <b>Seidel +</b> (la fluoresceína se lava por la fuga) indica una <b>herida filtrante</b> con escape de humor acuoso por la incisión."},
+{cat:"Catarata · complicaciones",c:1,q:"La rotura de la cápsula posterior durante la cirugía puede obligar a:",
+ o:["Suspender toda cirugía ocular futura","Una vitrectomía (si caen fragmentos al vítreo)","Trasplante de córnea","Panfotocoagulación"],
+ e:"Si se rompe la cápsula posterior y caen fragmentos al vítreo, puede precisarse una <b>vitrectomía</b> para extraerlos."},
+{cat:"Catarata congénita",c:2,q:"La catarata congénita puede deberse a todas EXCEPTO:",
+ o:["Infecciones intrauterinas (TORCHS)","Galactosemia","Catarata subcapsular posterior por corticoides","Cromosomopatías (Down, Patau, Edward)"],
+ e:"La congénita se debe a herencia (HAD), <b>TORCHS</b>, cromosomopatías y metabolopatías (galactosemia); la de corticoides es adquirida."},
+{cat:"Catarata congénita",c:3,q:"El principal riesgo de una catarata congénita significativa no tratada es:",
+ o:["Glaucoma agudo","Desprendimiento de retina","Queratitis","Ambliopía por deprivación"],
+ e:"La opacidad impide la formación de la imagen → <b>ambliopía por deprivación</b>; por eso las significativas se operan precozmente."},
+{cat:"Catarata congénita · DDx",c:0,ddx:true,q:"¿Qué catarata congénita es reversible con tratamiento dietético?",
+ o:["La secundaria a galactosemia (suprimiendo la galactosa)","La de las cromosomopatías","La hereditaria HAD","La de las infecciones TORCHS"],
+ e:"Solo la catarata de la <b>galactosemia</b> es reversible al <b>suprimir la galactosa</b> de la dieta; las demás significativas se operan."},
+{cat:"Caso clínico · congénita",c:1,case:true,figSrc:"figLeuco",figcap:"Reflejo pupilar del lactante.",
+ lead:"Lactante en cuya revisión se detecta un reflejo pupilar blanco (leucocoria) y una opacidad central posterior del cristalino.",
+ q:"¿Por qué hay que operar precozmente?",
+ o:["Para evitar el glaucoma","Para minimizar la ambliopía por deprivación (opacidades centrales posteriores, las más invalidantes)","Para prevenir la endoftalmitis","Para corregir la miopía"],
+ e:"Las opacidades <b>centrales posteriores</b> son las más ambliogénicas; la cirugía precoz minimiza la <b>ambliopía por deprivación</b> (y hay que tratar la ambliopía después)."},
+{cat:"Catarata congénita",c:2,q:"El pronóstico de la catarata congénita es:",
+ o:["Mejor en las unilaterales","Igual en ambos casos","Peor (más pobre) en las unilaterales que en las bilaterales","Siempre excelente"],
+ e:"Las <b>unilaterales</b> tienen <b>peor pronóstico</b> (más ambliopía); las bilaterales evolucionan mejor."},
+{cat:"Luxación",c:3,q:"La subluxación del cristalino se caracteriza por:",
+ o:["Opacidad total del cristalino","Aumento de la PIO siempre","Neovasos en iris","Desplazamiento parcial con el cristalino aún sujeto por parte de la zónula"],
+ e:"En la <b>subluxación</b> el cristalino está <b>desplazado pero parcialmente sujeto</b> por la zónula (en la luxación se suelta del todo: a vítreo o a cámara anterior)."},
+{cat:"Luxación · DDx",c:0,ddx:true,q:"Ante una ectopia lentis (luxación congénita), ¿qué síndromes hay que descartar?",
+ o:["Marfan, homocistinuria, Weill-Marchesani, Ehlers-Danlos","Down y Turner","Sjögren y AR","Wegener y PAN"],
+ e:"La <b>ectopia lentis</b> obliga a descartar <b>Marfan, homocistinuria, Weill-Marchesani y Ehlers-Danlos</b>."},
+{cat:"Caso clínico · luxación",c:1,case:true,
+ lead:"Joven alto, de extremidades largas y aracnodactilia, en el que se detecta un cristalino subluxado hacia arriba.",
+ q:"¿Qué enfermedad sistémica es más probable?",
+ o:["Homocistinuria","Síndrome de Marfan","Diabetes","Artritis reumatoide"],
+ e:"Talla alta, extremidades largas y aracnodactilia + ectopia lentis = <b>síndrome de Marfan</b> (mutación de la fibrilina)."},
+{cat:"Luxación · clínica",c:2,q:"El temblor del cristalino y del iris por falta de sujeción se denomina:",
+ o:["Nistagmo","Miodesopsias","Facodonesis e iridodonesis","Diplopía binocular"],
+ e:"La falta de sujeción zonular produce <b>facodonesis</b> (temblor del cristalino) e <b>iridodonesis</b> (temblor del iris)."},
+{cat:"Luxación · clínica",c:3,q:"La subluxación del cristalino puede producir:",
+ o:["Ojo rojo doloroso","Halos de colores con vómitos","Pérdida del campo periférico","↓visión, diplopía monocular y astigmatismo lenticular"],
+ e:"La subluxación da <b>↓visión, diplopía monocular y astigmatismo lenticular</b> (más facodonesis/iridodonesis), sin dolor."},
+{cat:"Luxación · tto",c:0,q:"El tratamiento de una luxación de cristalino sintomática es:",
+ o:["Extracción del cristalino e implante de LIO en otra posición (cámara anterior, sulcus)","Observación siempre","Colirios hipotensores","Láser Nd:YAG"],
+ e:"Si hay clínica severa, se extrae el cristalino y se implanta una <b>LIO en otra posición</b> (cámara anterior, sulcus); si es asintomática, observación."},
+{cat:"Acomodación",c:1,q:"La presbicia es:",
+ o:["Una catarata incipiente","Una pérdida fisiológica del poder de acomodación con la edad","Una luxación parcial","Un glaucoma"],
+ e:"La <b>presbicia</b> es la pérdida <b>fisiológica</b> de la acomodación por hipofunción progresiva del músculo ciliar con la edad."},
+{cat:"Acomodación · DDx",c:2,ddx:true,q:"La parálisis de la acomodación (núcleo de Edinger-Westphal: difteria, botulismo) cursa con:",
+ o:["Falsa miopía","Miosis y espasmo","Oftalmoplejía interna: midriasis + pérdida de acomodación","Aumento de la amplitud de acomodación"],
+ e:"La <b>parálisis</b> da <b>oftalmoplejía interna</b>: <b>midriasis + pérdida de acomodación</b> (dificultad de cerca)."},
+{cat:"Acomodación · DDx",c:3,ddx:true,q:"El espasmo de acomodación (fijación prolongada, parasimpaticomiméticos) produce:",
+ o:["Midriasis","Presbicia","Hipermetropía","Una 'falsa miopía' (ve mal de lejos)"],
+ e:"El <b>espasmo de acomodación</b> genera exceso de convergencia → <b>falsa miopía</b> (mala visión de lejos), típico en niños o por mióticos."},
+{cat:"Catarata · tipos",c:0,q:"La catarata hipermadura también se denomina:",
+ o:["Morgagni","Coronaria","Polar","Sutural"],
+ e:"La catarata <b>hipermadura</b> se denomina de <b>Morgagni</b> (la clasificación por grado es: incipiente → madura → hipermadura/Morgagni)."},
+{cat:"Imagen · tipos",c:1,figSrc:"figNuclear",figcap:"Cristalino del paciente.",
+ q:"Este núcleo cristaliniano amarillo-marrón, en un paciente que refiere mejoría reciente de la visión cercana, corresponde a una catarata:",
+ o:["Cortical","Nuclear (que produce miopización)","Subcapsular posterior","Congénita"],
+ e:"Núcleo amarillento + miopización ('segunda visión') = catarata <b>nuclear</b>."},
+{cat:"Caso clínico · facomórfico",c:2,case:true,
+ lead:"Anciana con una catarata muy avanzada (intumescente) que acude por ojo rojo doloroso, halos y PIO de 45 mmHg, con cámara anterior muy estrecha.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma facolítico","Endoftalmitis","Glaucoma facomórfico","Uveítis facoanafiláctica"],
+ e:"Catarata intumescente que <b>capta agua, aumenta de volumen y cierra el ángulo</b> → <b>glaucoma facomórfico</b> (PIO muy alta, cámara estrecha)."},
+{cat:"Catarata · etiología",c:3,q:"¿Cuál de estos fármacos/tóxicos NO se asocia clásicamente a catarata?",
+ o:["Corticoides","Busulfán","Clorpromazina","Aciclovir"],
+ e:"Se asocian a catarata los <b>corticoides, busulfán, clorpromazina, alopurinol, mióticos y metales</b>; el aciclovir no."},
+{cat:"Catarata · secundaria",c:0,q:"¿Cuál de estas enfermedades OCULARES puede producir catarata secundaria?",
+ o:["Uveítis, glaucoma agudo/absoluto, alta miopía, DR, tumores intraoculares","Conjuntivitis alérgica","Pinguécula","Orzuelo"],
+ e:"Las cataratas <b>secundarias oculares</b> aparecen en <b>uveítis, glaucoma, alta miopía, DR y tumores intraoculares</b>."},
+{cat:"Catarata · cirugía",c:1,q:"La extracción extracapsular del cristalino se reserva hoy para:",
+ o:["Todas las cataratas","Casos excepcionales (cataratas muy duras, países en desarrollo)","Cataratas congénitas","La presbicia"],
+ e:"La <b>extracapsular</b> (incisión amplia, extracción del núcleo entero) queda para casos <b>excepcionales</b>: cataratas muy duras o países en desarrollo."},
+{cat:"Catarata · cirugía",c:2,q:"En la cirugía FLACs (láser de femtosegundo), el láser realiza:",
+ o:["La aspiración del córtex","El implante de la LIO","Las incisiones, la capsulorrexis y la fractura del núcleo","La sutura final"],
+ e:"En la <b>FLACs</b>, el láser hace las <b>incisiones, la capsulorrexis y la fractura del núcleo</b>; el resto (faco e implante de LIO) es igual."},
+{cat:"Conceptos · DDx",c:3,ddx:true,q:"La ausencia de cristalino y de lente intraocular se denomina:",
+ o:["Faquia","Pseudofaquia","Ectopia lentis","Afaquia"],
+ e:"<b>Afaquia</b> = no hay cristalino ni LIO. Faquia = hay cristalino; pseudofaquia = hay LIO."},
+{cat:"Caso clínico · OCP",c:0,case:true,
+ lead:"Paciente operada de catarata hace 2 años, con buena visión inicial, que nota una disminución visual progresiva e indolora; el resto de la exploración es normal.",
+ q:"La causa más probable es:",
+ o:["Opacificación de la cápsula posterior (OCP)","Endoftalmitis","Recidiva de la catarata","Glaucoma agudo"],
+ e:"↓visión progresiva e indolora <b>años después</b> de la cirugía = <b>OCP</b>, la complicación tardía más frecuente; se trata con Nd:YAG."},
+{cat:"Catarata · clínica",c:1,q:"Además de la ↓AV, la catarata puede producir:",
+ o:["Dolor ocular intenso","Fotofobia, deslumbramiento, halos y diplopía monocular","Pérdida del campo periférico","Midriasis fija"],
+ e:"La catarata da <b>fotofobia/deslumbramiento, halos, diplopía monocular y ↓ de los colores</b>, además de la pérdida de AV."},
+{cat:"Imagen · luxación",c:2,case:false,figSrc:"figSublux",figcap:"Pupila del paciente.",
+ q:"Ver el borde del cristalino dentro del área pupilar, con temblor del iris, indica:",
+ o:["Catarata madura","Glaucoma","Subluxación del cristalino","Membrana epirretiniana"],
+ e:"El borde del cristalino visible en la pupila + iridodonesis = <b>subluxación del cristalino</b> (falla la zónula)."},
+{cat:"Caso clínico · homocistinuria",c:3,case:true,
+ lead:"Niño con retraso, hábito marfanoide y antecedentes de eventos trombóticos, en el que se detecta un cristalino subluxado hacia abajo.",
+ q:"¿Qué causa de ectopia lentis es más probable?",
+ o:["Marfan","Diabetes","Traumatismo","Homocistinuria"],
+ e:"Hábito marfanoide + <b>trombosis</b> + ectopia lentis (clásicamente hacia abajo) orienta a <b>homocistinuria</b>."},
+{cat:"Catarata · cirugía",c:0,q:"Antes de la cirugía de catarata se realiza antisepsia con:",
+ o:["Povidona yodada (piel 10%, conjuntiva 5%)","Alcohol al 70% en la córnea","Clorhexidina intraocular","Agua estéril"],
+ e:"La profilaxis incluye <b>povidona yodada</b> (10% en piel, 5% en conjuntiva), clave para prevenir la endoftalmitis."},
+{cat:"Catarata · etiología",c:1,q:"La catarata traumática se produce por:",
+ o:["Envejecimiento","Lesión de las fibras del cristalino y minirroturas de la cápsula con entrada de humor acuoso","Corticoides","Diabetes"],
+ e:"La <b>traumática</b> se debe a <b>lesión de las fibras y roturas capsulares</b> con entrada de humor acuoso; puede haber pigmento de iris en la cápsula."},
+{cat:"DDx glaucoma",c:2,ddx:true,q:"Diferencie facomórfico y facolítico:",
+ o:["Ambos por proteínas","Ambos por aumento de volumen","Facomórfico = aumento de volumen (cierre angular); facolítico = proteínas que obstruyen el trabéculo","Solo difieren en la edad"],
+ e:"<b>Facomórfico</b> = cristalino hinchado que cierra el ángulo (mecánico). <b>Facolítico</b> = proteínas cristalinianas que obstruyen el trabéculo."},
+{cat:"Catarata congénita · tto",c:3,q:"En la cirugía de catarata congénita, además de la faco, suele hacerse:",
+ o:["Solo extracción del núcleo","Trabeculectomía","Queratoplastia","Capsulotomía posterior ± vitrectomía anterior (la OCP es casi del 100%)"],
+ e:"En el niño la <b>OCP es casi del 100%</b>, por lo que se hace <b>capsulotomía posterior ± vitrectomía anterior</b>; el momento de la LIO es controvertido (globo en crecimiento)."},
+{cat:"Caso clínico · DDx diplopía",c:0,case:true,ddx:true,
+ lead:"Paciente que ve doble; al tapar el ojo derecho la diplopía persiste en el ojo izquierdo, donde se aprecia una catarata.",
+ q:"¿Qué tipo de diplopía es y qué la causa?",
+ o:["Monocular, por la catarata (o subluxación) del cristalino","Binocular, por estrabismo","Binocular, por paresia del VI par","Ninguna, es normal"],
+ e:"La diplopía que <b>persiste al ocluir el otro ojo</b> es <b>monocular</b> y orienta al <b>cristalino</b> (catarata o subluxación)."},
+{cat:"Acomodación",c:1,q:"La presbicia, a diferencia de las cataratas, es:",
+ o:["Una enfermedad que produce ceguera","Una condición fisiológica (no patológica) de la edad","Una opacidad del cristalino","Una urgencia"],
+ e:"La <b>presbicia</b> es <b>fisiológica</b> (pérdida normal de acomodación con la edad), no una opacidad ni una enfermedad."},
+{cat:"Catarata · cirugía",c:2,q:"En la facoemulsificación, la hidrodisección sirve para:",
+ o:["Sellar la herida","Anestesiar el ojo","Liberar el núcleo del córtex y facilitar su rotación/extracción","Implantar la LIO"],
+ e:"La <b>hidrodisección</b> separa el núcleo del córtex para poder <b>rotarlo y emulsificarlo</b> con facilidad."},
+{cat:"Catarata · complicaciones",c:3,q:"El edema macular que aparece tras la cirugía de catarata se conoce como síndrome de:",
+ o:["Marfan","Gunn","Elschnig","Irvine-Gass"],
+ e:"El <b>edema macular de Irvine-Gass</b> es una complicación postoperatoria (quístico) que puede reducir la visión tras la cirugía."},
+{cat:"Catarata · cirugía",c:0,q:"En la facoemulsificación, la capsulorrexis es la apertura de:",
+ o:["La cápsula anterior","La cápsula posterior","La córnea","El iris"],
+ e:"La <b>capsulorrexis</b> es la apertura circular de la <b>cápsula anterior</b>; la posterior se conserva para la LIO."},
+{cat:"Caso clínico · DDx senil",c:1,case:true,
+ lead:"Mujer de 75 años con disminución visual lenta, bilateral y asimétrica, sin dolor; mejora poco con el estenopeico y se ve el cristalino opacificado.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma crónico","Catarata senil","DMAE","Maculopatía tóxica"],
+ e:"↓visión lenta, bilateral asimétrica, indolora, con cristalino opaco = <b>catarata senil</b> (la más frecuente)."},
+{cat:"Catarata · evolución",c:2,q:"La uveítis facoanafiláctica se produce por:",
+ o:["Una infección bacteriana","Un traumatismo corneal","La salida de proteínas del cristalino que generan una reacción inflamatoria","Neovasos"],
+ e:"La <b>uveítis facoanafiláctica</b> es una inflamación intraocular por <b>salida de proteínas del cristalino</b> a través de la cápsula."},
+{cat:"Conceptos",c:3,q:"Una persona con su cristalino transparente está en situación de:",
+ o:["Pseudofaquia","Afaquia","Ectopia lentis","Faquia"],
+ e:"<b>Faquia</b> = presencia de cristalino (transparente o cataratoso). Pseudofaquia = LIO; afaquia = ninguno."},
+{cat:"Catarata · tipos",c:0,q:"¿Qué tipo de catarata produce un déficit visual de progresión más RÁPIDA y en pacientes más jóvenes?",
+ o:["La subcapsular","La nuclear","La cortical","La hipermadura"],
+ e:"La <b>subcapsular (especialmente posterior)</b> es central, de progresión rápida y en pacientes más jóvenes."},
+{cat:"Caso clínico · congénita galactosemia",c:1,case:true,
+ lead:"Lactante con vómitos, ictericia, hepatomegalia y cataratas bilaterales; se sospecha galactosemia.",
+ q:"¿Qué actitud puede revertir las cataratas?",
+ o:["Operar de inmediato siempre","Suprimir la galactosa de la dieta","Iniciar corticoides","Poner gafas"],
+ e:"Las cataratas de la <b>galactosemia</b> pueden revertir al <b>retirar la galactosa</b> de la dieta (las únicas congénitas reversibles con dieta)."},
+{cat:"Catarata · cirugía",c:2,q:"¿Qué porcentaje aproximado de la cirugía ocular supone la cirugía de catarata?",
+ o:["10-20%","30-40%","70-80%","Menos del 5%"],
+ e:"La cirugía de catarata supone aproximadamente el <b>70-80%</b> de toda la cirugía ocular."},
+{cat:"Luxación · DDx",c:3,ddx:true,q:"La causa ADQUIRIDA más típica de luxación/subluxación del cristalino es:",
+ o:["El síndrome de Marfan","La homocistinuria","El Ehlers-Danlos","El traumatismo (rotura zonular)"],
+ e:"Entre las <b>adquiridas</b>, la más típica es la <b>traumática</b> (rotura zonular &gt;25% de las fibras); las congénitas son los síndromes (Marfan, etc.)."},
+{cat:"Acomodación · DDx",c:0,ddx:true,q:"Diferencie parálisis y espasmo de acomodación:",
+ o:["Parálisis = midriasis + pérdida de acomodación; espasmo = falsa miopía","Ambos dan midriasis","Ambos dan falsa miopía","Parálisis = miosis; espasmo = midriasis"],
+ e:"<b>Parálisis</b> (Edinger-Westphal) = <b>midriasis + pérdida de acomodación</b>. <b>Espasmo</b> = exceso de convergencia → <b>falsa miopía</b>."},
+{cat:"Catarata · complicaciones",c:1,q:"Los gérmenes más frecuentes de la endoftalmitis aguda postcirugía de catarata son:",
+ o:["Pseudomonas y hongos","Staphylococcus epidermidis y S. aureus","Streptococcus pneumoniae aislado","Acanthamoeba"],
+ e:"Los más frecuentes son <b>S. epidermidis y S. aureus</b> (flora cutánea/conjuntival)."},
+{cat:"Caso clínico · DDx final",c:2,case:true,ddx:true,
+ lead:"Varón de 70 años, présbita, que nota que vuelve a leer sin gafas pero ve cada vez peor de lejos y con deslumbramiento; el cristalino tiene el núcleo pardo.",
+ q:"El diagnóstico es:",
+ o:["Hipermetropía nueva","Glaucoma","Catarata nuclear (con miopización)","Subluxación del cristalino"],
+ e:"Núcleo pardo + 'segunda visión' (miopización) + deslumbramiento = <b>catarata nuclear</b>."},
+{cat:"Catarata congénita",c:3,q:"Las opacidades congénitas más invalidantes visualmente (y que requieren cirugía precoz) son:",
+ o:["Las periféricas","Las puntiformes","Las suturales","Las centrales posteriores"],
+ e:"Las opacidades <b>centrales posteriores</b> son las más ambliogénicas y requieren <b>tratamiento quirúrgico precoz</b>."},
+{cat:"Catarata · cirugía",c:0,q:"Tras una cirugía de catarata sin complicaciones, las microincisiones corneales:",
+ o:["Normalmente no precisan sutura","Siempre se suturan con seda","Requieren grapas","Se dejan abiertas y supurando"],
+ e:"Las microincisiones de la facoemulsificación son autosellantes y <b>normalmente no precisan sutura</b>."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación CORRECTA:",
+ o:["La complicación más frecuente de la cirugía es la endoftalmitis","Cortical = más frecuente; corticoides → subcapsular posterior; complicación tardía más frecuente = OCP","La nuclear la causan los corticoides","La LIO se coloca siempre en cámara anterior"],
+ e:"Resumen: <b>cortical</b> = más frecuente por localización; <b>corticoides → subcapsular posterior</b>; complicación tardía más frecuente = <b>OCP</b>."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación FALSA:",
+ o:["La presbicia es fisiológica","La diplopía de la catarata es monocular","En la faco se extrae la cápsula posterior para evitar su opacificación","La galactosemia es la única catarata congénita reversible con dieta"],
+ e:"FALSA: en la faco <b>NO se extrae la cápsula posterior</b> (se conserva para la LIO). El resto es correcto."},
+{cat:"DDx general",c:3,ddx:true,q:"¿Qué hallazgo orienta a subluxación del cristalino más que a catarata?",
+ o:["↓AV indolora","Halos","Diplopía","Facodonesis e iridodonesis (temblor del cristalino y del iris)"],
+ e:"La <b>facodonesis/iridodonesis</b> indica falta de sujeción zonular → <b>subluxación</b>; la catarata es solo opacidad."},
+{cat:"Síntesis · congénita",c:0,q:"Resumen de la catarata congénita:",
+ o:["TORCHS/galactosemia/cromosomopatías; riesgo de ambliopía; galactosemia reversible con dieta; peor pronóstico las unilaterales","Siempre reversible con gafas","Nunca produce ambliopía","Las bilaterales tienen peor pronóstico"],
+ e:"Congénita: etiología <b>TORCHS/galactosemia/cromosomopatías/HAD</b>, riesgo de <b>ambliopía por deprivación</b>, <b>galactosemia reversible</b> con dieta y <b>peor pronóstico las unilaterales</b>."}
+];
+
+const figMap={figNuclear,figCortical,figSublux,figLeuco};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el cristalino. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo tipos de catarata y complicaciones de la cirugía.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza la cirugía y la luxación del cristalino.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T06 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
