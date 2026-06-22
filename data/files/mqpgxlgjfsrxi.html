@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T04 · Esclera y Lágrima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T04</p>
+    <h1>Superficie II: Esclera y Lágrima</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+/* ---- Figuras ---- */
+const figEpi=`<svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con enrojecimiento superficial sectorial">
+<ellipse cx="140" cy="80" rx="118" ry="58" fill="#f7f1ec" stroke="#cfc8bb"/>
+<g stroke="#e0554a" stroke-width="2.2"><line x1="170" y1="54" x2="222" y2="48"/><line x1="174" y1="68" x2="226" y2="66"/><line x1="170" y1="84" x2="224" y2="88"/></g>
+<circle cx="120" cy="80" r="40" fill="#9a6a3c"/><circle cx="120" cy="80" r="40" fill="none" stroke="#5e3d1e"/><circle cx="120" cy="80" r="17" fill="#1a1a1a"/>
+</svg>`;
+const figEscl=`<svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con enrojecimiento violáceo profundo y difuso">
+<ellipse cx="140" cy="80" rx="118" ry="58" fill="#efe4ec" stroke="#c9b0c6"/>
+<ellipse cx="140" cy="80" rx="106" ry="48" fill="#b07a9c" opacity=".4"/>
+<g stroke="#7a3a6a" stroke-width="2.6"><line x1="60" y1="60" x2="100" y2="70"/><line x1="60" y1="100" x2="102" y2="90"/><line x1="220" y1="60" x2="182" y2="70"/><line x1="220" y1="100" x2="180" y2="90"/></g>
+<circle cx="140" cy="80" r="40" fill="#9a6a3c"/><circle cx="140" cy="80" r="40" fill="none" stroke="#5e3d1e"/><circle cx="140" cy="80" r="17" fill="#1a1a1a"/>
+</svg>`;
+const figLayers=`<svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tres capas de la película lagrimal sobre el epitelio corneal">
+<text x="180" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Película lagrimal (de aire a córnea)</text>
+<rect x="60" y="26" width="240" height="18" fill="#f0d98a"/><text x="306" y="39" style="font:600 10px Inter;fill:#9a7a1a">1</text>
+<rect x="60" y="44" width="240" height="64" fill="#bfe0ec"/><text x="306" y="80" style="font:600 10px Inter;fill:#1a5e86">2</text>
+<rect x="60" y="108" width="240" height="16" fill="#bfe6cf"/><text x="306" y="121" style="font:600 10px Inter;fill:#1f6f4a">3</text>
+<rect x="60" y="124" width="240" height="26" fill="#d9c3a8"/><text x="180" y="142" text-anchor="middle" style="font:600 10px Inter;fill:#6b4a2a">Epitelio corneal</text>
+</svg>`;
+const figSchirmer=`<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tira de papel doblada en el párpado inferior para una prueba lagrimal">
+<path d="M30 70 Q140 30 250 70 Q140 120 30 70Z" fill="#f7f1ec" stroke="#cfc8bb"/>
+<circle cx="140" cy="74" r="34" fill="#9a6a3c"/><circle cx="140" cy="74" r="34" fill="none" stroke="#5e3d1e"/><circle cx="140" cy="74" r="15" fill="#1a1a1a"/>
+<path d="M96 96 L92 150 L104 150 L106 98Z" fill="#fbf7ea" stroke="#cdbf8a"/>
+<rect x="93" y="120" width="11" height="30" fill="#bfe0ec" opacity=".7"/>
+</svg>`;
+const figInjection=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con enrojecimiento máximo alrededor de la córnea">
+<ellipse cx="120" cy="78" rx="100" ry="54" fill="#f7f1ec" stroke="#cfa9a2"/>
+<g stroke="#bf3d34" stroke-width="1.7"><line x1="120" y1="36" x2="120" y2="50"/><line x1="158" y1="50" x2="148" y2="62"/><line x1="82" y1="50" x2="92" y2="62"/><line x1="162" y1="98" x2="150" y2="90"/><line x1="78" y1="98" x2="90" y2="90"/></g>
+<circle cx="120" cy="78" r="38" fill="#9a6a3c"/><circle cx="120" cy="78" r="38" fill="none" stroke="#5e3d1e"/><circle cx="120" cy="78" r="16" fill="#1a1a1a"/>
+</svg>`;
+
+/* ---- Banco T04 ---- */
+const Q=[
+{cat:"Recuerdo",c:1,q:"La esclera es la capa externa del globo y se caracteriza por:",
+ o:["Ser muy vascularizada y oscura","Ser fibrosa (colágeno), blanca, recubrir ~80% del globo y estar poco vascularizada","Ser la capa media (úvea)","Producir el humor acuoso"],
+ e:"La <b>esclera</b> es la capa <b>externa fibrosa</b> (colágeno), blanca, que recubre el <b>80%</b> del globo; poco vascularizada, se nutre de epiesclera y coroides."},
+{cat:"Epiescleritis",c:2,q:"La epiescleritis se define como un cuadro:",
+ o:["Grave, con frecuente pérdida de visión","Infeccioso bacteriano","Frecuente, benigno y autolimitado, típico de mujeres jóvenes","Tumoral"],
+ e:"La <b>epiescleritis</b> es <b>benigna, autolimitada</b> y frecuente en <b>mujeres jóvenes</b>; afecta a los vasos epiesclerales superficiales."},
+{cat:"Caso clínico · Imagen",c:0,case:true,figSrc:"figEpi",figcap:"Ojo derecho de la paciente.",
+ lead:"Mujer de 28 años con enrojecimiento sectorial de un ojo, molestia leve y lagrimeo, sin pérdida de visión. Al instilar fenilefrina, la zona roja palidece.",
+ q:"El diagnóstico más probable es:",
+ o:["Epiescleritis","Escleritis necrosante","Uveítis anterior","Glaucoma agudo"],
+ e:"Rojo <b>superficial sectorial</b>, molestia leve y que <b>blanquea con fenilefrina</b> = <b>epiescleritis</b> (benigna)."},
+{cat:"Epiescleritis",c:3,q:"En la epiescleritis, la inyección de los vasos superficiales con fenilefrina:",
+ o:["No cambia","Se vuelve violácea","Aumenta","Blanquea (palidece)"],
+ e:"La <b>fenilefrina contrae los vasos superficiales</b>, por lo que la epiescleritis <b>blanquea</b>; la escleritis (vasos profundos) no lo hace."},
+{cat:"Epiescleritis",c:1,q:"Sobre los tipos de epiescleritis, es correcto que:",
+ o:["La nodular nunca recidiva","La simple es la más frecuente y resuelve sola; la nodular cursa con un nódulo elevado que resuelve en ~1 mes","La simple deja cicatriz","Ambas requieren inmunosupresores"],
+ e:"La <b>epiescleritis simple</b> (sectorial) es la más frecuente y autolimitada; la <b>nodular</b> presenta un nódulo congestivo que resuelve en ~1 mes (estudiar si recidiva)."},
+{cat:"Epiescleritis · tto",c:0,q:"El tratamiento de la epiescleritis, si lo precisa, es:",
+ o:["Corticoides tópicos suaves (fluorometolona) y AINE orales si no basta","Corticoides sistémicos a dosis altas","Antibióticos reforzados","Inmunosupresores de inicio"],
+ e:"La epiescleritis suele resolverse sola; si molesta, se usan <b>corticoides tópicos suaves (fluorometolona)</b> y, si no basta, <b>AINE orales</b>."},
+{cat:"Escleritis",c:2,q:"La escleritis, a diferencia de la epiescleritis, es:",
+ o:["Más leve y siempre unilateral","Infecciosa en la mayoría de casos","Una inflamación profunda, potencialmente grave, 40% bilateral, en mujeres de la 5ª década","Exclusiva de niños"],
+ e:"La <b>escleritis</b> es <b>profunda y grave</b>; un <b>40% es bilateral</b>, predomina en <b>mujeres de la 5ª década</b> y suele asociar enfermedad sistémica."},
+{cat:"Caso clínico · Imagen",c:1,case:true,figSrc:"figEscl",figcap:"Ojo del paciente.",
+ lead:"Paciente con artritis reumatoide y un ojo rojo de tono violáceo, dolor intenso que le despierta por la noche e irradia a la cara; la fenilefrina NO blanquea el enrojecimiento.",
+ q:"El diagnóstico es:",
+ o:["Epiescleritis simple","Escleritis","Conjuntivitis","Pinguécula inflamada"],
+ e:"Color <b>violáceo profundo</b>, <b>dolor intenso irradiado</b> y que <b>NO blanquea con fenilefrina</b>, en un paciente con AR = <b>escleritis</b>."},
+{cat:"Escleritis",c:3,q:"El color violáceo de la escleritis se debe a:",
+ o:["Depósito de melanina","Hemorragia subconjuntival","Edema corneal","Dilatación de los vasos esclerales profundos (que no blanquean con fenilefrina)"],
+ e:"El tono <b>violáceo</b> refleja la <b>dilatación vascular profunda</b>; por eso <b>no blanquea con fenilefrina</b>, a diferencia de la epiescleritis."},
+{cat:"Escleritis",c:0,q:"La causa más frecuente de escleritis es:",
+ o:["Autoinmune (artritis reumatoide ~33% y otras artropatías)","Infección bacteriana","Traumática","Alérgica"],
+ e:"La mayoría de las escleritis son <b>autoinmunes</b> (AR ~33%, otras artropatías); las infecciosas (TBC, HZV, Lyme) son raras."},
+{cat:"DDx clave",c:1,ddx:true,q:"¿Qué prueba sencilla diferencia epiescleritis de escleritis a pie de lámpara?",
+ o:["El test de Schirmer","La instilación de fenilefrina (blanquea la epiescleritis, no la escleritis)","La tonometría","La gonioscopia"],
+ e:"La <b>fenilefrina</b> contrae los vasos superficiales: la <b>epiescleritis palidece</b> y la <b>escleritis no</b> (vasos profundos)."},
+{cat:"Escleritis",c:2,q:"La escleritis anterior NO necrosante se subdivide en:",
+ o:["Posterior y necrosante","Infecciosa y tóxica","Difusa (edema violáceo diseminado) y nodular (nódulo no movilizable)","Aguda y crónica"],
+ e:"La no necrosante puede ser <b>difusa</b> (edema violáceo diseminado) o <b>nodular</b> (nódulo que <b>no se moviliza</b> sobre el plano profundo)."},
+{cat:"DDx nódulo",c:3,ddx:true,q:"¿Cómo se diferencia el nódulo de una escleritis nodular del de una epiescleritis nodular?",
+ o:["Por el color del iris","Por la edad del paciente solo","Por el test de Schirmer","El nódulo escleral NO se moviliza sobre el tejido profundo; el epiescleral SÍ es móvil"],
+ e:"El <b>nódulo escleral está fijo</b> (no se moviliza sobre el plano profundo), mientras que el <b>epiescleral es móvil</b>; además la escleritis no blanquea con fenilefrina."},
+{cat:"Escleritis necrosante",c:0,q:"La escleritis necrosante con inflamación se asocia típicamente a:",
+ o:["Granulomatosis de Wegener y procesos paraneoplásicos","Conjuntivitis vírica","Ojo seco evaporativo","Pinguécula"],
+ e:"La <b>necrosante con inflamación</b> es muy grave y dolorosísima (no responde a analgésicos, irradia a la cara) y se asocia a <b>Wegener</b> y a cuadros <b>paraneoplásicos</b>."},
+{cat:"Caso clínico · trampa",c:2,case:true,
+ lead:"Mujer de 70 años con artritis reumatoide de larga evolución; en la esclera presenta áreas de adelgazamiento blanco-amarillento que coalescen, SIN dolor ni signos inflamatorios.",
+ q:"El diagnóstico es:",
+ o:["Escleritis difusa","Epiescleritis nodular","Escleromalacia perforante (escleritis necrosante sin inflamación)","Pinguécula"],
+ e:"Adelgazamiento escleral <b>indoloro y sin inflamación</b> en <b>AR de larga evolución</b> = <b>escleromalacia perforante</b> (necrosante sin inflamación)."},
+{cat:"DDx necrosante",c:1,ddx:true,q:"Respecto a la escleritis necrosante, ¿cuál es la diferencia clave entre sus dos formas?",
+ o:["Una es infecciosa y la otra alérgica","La que cursa CON inflamación es dolorosísima (Wegener); la que cursa SIN inflamación es indolora (escleromalacia perforante, AR)","Ambas son indoloras","Solo difieren en el ojo afectado"],
+ e:"<b>Con inflamación</b> = dolorosísima, Wegener/paraneoplásica. <b>Sin inflamación</b> = <b>escleromalacia perforante</b>, indolora, AR de larga evolución."},
+{cat:"Escleritis posterior",c:3,q:"La escleritis posterior se caracteriza por:",
+ o:["Ser banal y frecuente","No producir dolor","No afectar nunca la visión","Ser rara, muy dolorosa, con pérdida de visión y engrosamiento escleral posterior en ecografía"],
+ e:"La <b>posterior</b> es rara, muy dolorosa, con <b>↓visión</b>, inflamación de párpados/retina/papila y <b>engrosamiento escleral en ecografía</b>."},
+{cat:"Escleritis · tto",c:0,q:"En el tratamiento de la escleritis, el mejor parámetro de seguimiento es:",
+ o:["El dolor","El color del iris","La presión arterial","El diámetro pupilar"],
+ e:"El <b>dolor</b> es el mejor indicador de respuesta. Se tratan con <b>corticoides sistémicos y tópicos</b> (evitar perioculares) e inmunosupresores según la enfermedad de base."},
+{cat:"Escleritis · tto",c:1,q:"Si una escleritis evoluciona a perforación escleral, el tratamiento incluye:",
+ o:["Antibiótico tópico","Injerto de esclera","Lágrimas artificiales","Oclusión"],
+ e:"Ante <b>perforación escleral</b> se recurre a <b>injertos de esclera</b>, además del tratamiento inmunosupresor sistémico."},
+{cat:"DDx sistémica",c:2,ddx:true,q:"Una escleritis NECROTIZANTE debe hacer descartar especialmente:",
+ o:["Conjuntivitis alérgica","Ojo seco evaporativo","Granulomatosis de Wegener o poliarteritis nodosa","Pterigion"],
+ e:"La <b>escleritis necrotizante</b> es característica de la <b>granulomatosis con poliangeítis (Wegener)</b> y de la <b>PAN</b> (ambas con queratitis ulcerativa periférica)."},
+{cat:"Caso clínico · sistémica",c:3,case:true,
+ lead:"Varón con sinusitis crónica, infiltrados pulmonares y deterioro renal (glomerulonefritis), que desarrolla un ojo rojo dolorosísimo con necrosis escleral y se le transparenta la úvea.",
+ q:"¿Qué enfermedad sistémica es más probable?",
+ o:["Lupus eritematoso sistémico","Síndrome de Sjögren primario","Artritis idiopática juvenil","Granulomatosis con poliangeítis (Wegener)"],
+ e:"Sinusitis + pulmón + riñón + <b>escleritis necrotizante</b> = <b>granulomatosis con poliangeítis (Wegener)</b>."},
+{cat:"DDx sistémica",c:0,ddx:true,q:"La escleromalacia perforante se asocia clásicamente a:",
+ o:["Artritis reumatoide de larga evolución","Conjuntivitis bacteriana","Diabetes","Glaucoma"],
+ e:"La <b>escleromalacia perforante</b> (necrosante sin inflamación, indolora) es típica de la <b>AR de larga evolución</b>."},
+{cat:"Caso clínico · DDx ojo rojo",c:1,case:true,ddx:true,figSrc:"figInjection",figcap:"Patrón de inyección.",
+ lead:"Paciente con ojo rojo doloroso; la imagen muestra enrojecimiento máximo alrededor de la córnea (inyección ciliar), con dolor, fotofobia, ↓AV y pupila en MIOSIS.",
+ q:"El diagnóstico más probable es:",
+ o:["Epiescleritis","Uveítis anterior","Conjuntivitis","Ojo seco"],
+ e:"<b>Inyección ciliar + dolor + ↓AV + miosis (y Tyndall)</b> = <b>uveítis anterior</b>. La escleritis tiene pupila normal y hiperemia difusa/nodular, no ciliar."},
+{cat:"Caso clínico · DDx ojo rojo",c:2,case:true,ddx:true,
+ lead:"Mujer de 65 años con ojo rojo muy doloroso, cefalea y vómitos, halos, córnea turbia y pupila en midriasis media fija.",
+ q:"El cuadro urgente a descartar es:",
+ o:["Escleritis posterior","Conjuntivitis","Glaucoma agudo de ángulo cerrado","Epiescleritis"],
+ e:"Dolor + cefalea/vómitos + halos + córnea edematosa + <b>midriasis media fija</b> = <b>glaucoma agudo</b> (PIO muy alta)."},
+{cat:"DDx ojo rojo",c:3,ddx:true,q:"Ante un ojo rojo DOLOROSO con PUPILA NORMAL e hiperemia difusa o nodular (no ciliar), debemos pensar especialmente en:",
+ o:["Uveítis anterior","Glaucoma agudo","Conjuntivitis alérgica","Epiescleritis o escleritis"],
+ e:"La <b>pupila normal</b> con hiperemia difusa/nodular orienta a <b>epi/escleritis</b>; la fenilefrina ayuda a distinguirlas entre sí."},
+{cat:"Epiescleritis",c:0,q:"Ante una epiescleritis NODULAR que recidiva, lo indicado es:",
+ o:["Realizar un estudio sistémico (puede haber base reumática)","Enuclear","Iniciar quimioterapia","No hacer nada nunca"],
+ e:"Aunque suele ser idiopática, la <b>epiescleritis nodular recidivante</b> obliga a <b>estudio</b> por posible origen reumático."},
+{cat:"Superficie ocular",c:1,q:"La superficie ocular, como unidad funcional, incluye:",
+ o:["Solo la córnea","Epitelios corneal/limbar/conjuntival, unión mucoepidérmica y glándulas lagrimales y de Meibomio","Solo la película lagrimal","Esclera y úvea"],
+ e:"La <b>superficie ocular</b> agrupa los epitelios corneal, limbar y conjuntival, la unión mucoepidérmica y las <b>glándulas lagrimales y de Meibomio</b>."},
+{cat:"Película lagrimal",c:2,q:"La película lagrimal precorneal, junto con la córnea, constituye:",
+ o:["La barrera hematoacuosa","El sistema de drenaje","La superficie refractiva más importante del ojo","La úvea anterior"],
+ e:"La <b>película lagrimal + córnea</b> es la <b>superficie refractiva más importante</b> y mantiene la función corneal normal."},
+{cat:"Imagen · capas",c:1,figSrc:"figLayers",figcap:"Esquema de la película lagrimal.",
+ q:"En el esquema, ¿qué produce la capa 1 (la más externa, en contacto con el aire)?",
+ o:["Las células caliciformes","Las glándulas de Meibomio (capa lipídica)","La glándula lagrimal principal","El endotelio corneal"],
+ e:"La capa <b>1 = lipídica</b>, producida por las <b>glándulas de Meibomio</b>; reduce la evaporación de la capa acuosa."},
+{cat:"Película lagrimal",c:3,q:"La capa acuosa de la lágrima (la más gruesa) es producida por:",
+ o:["Las glándulas de Meibomio","Las células caliciformes","El epitelio corneal","Las glándulas lagrimales (principal y accesorias)"],
+ e:"La <b>capa acuosa</b> la producen las <b>glándulas lagrimales</b>; aporta nutrición, defensa y es la más gruesa."},
+{cat:"Película lagrimal",c:0,q:"La capa de mucina, en contacto con el epitelio corneal, se produce por las células caliciformes y sirve para:",
+ o:["Convertir el epitelio hidrófobo en hidrófilo (anclar la lágrima)","Impedir la evaporación","Producir la capa lipídica","Drenar la lágrima"],
+ e:"La <b>mucina (Goblet)</b> hace <b>hidrófila</b> la superficie epitelial, permitiendo que la lágrima se extienda y se ancle."},
+{cat:"Película lagrimal",c:1,q:"Las sustancias antibacterianas de la lágrima incluyen:",
+ o:["Melanina y colágeno","Lisozima, lactoferrina e IgA","Hidroxiapatita","Amiloide"],
+ e:"La capa acuosa contiene <b>lisozima, lactoferrina e IgA</b>, con acción antibacteriana."},
+{cat:"Unidad funcional",c:2,q:"La inervación sensitiva de la unidad lagrimal funcional es:",
+ o:["Aferente VII, eferente V","Aferente II, eferente III","Aferente V (trigémino), eferente VII (facial)","Solo simpática"],
+ e:"La unidad lagrimal recibe inervación sensitiva <b>aferente del V (trigémino)</b> y <b>eferente del VII (facial)</b>; la secreción basal está regulada por el simpático."},
+{cat:"Unidad funcional",c:3,q:"La secreción lagrimal basal (de reposo) está regulada por:",
+ o:["El parasimpático","El trigémino","El nervio óptico","El sistema simpático"],
+ e:"La <b>secreción basal</b> está regulada por el <b>simpático</b>; la <b>refleja</b> aparece ante estímulos (vía V aferente)."},
+{cat:"Ojo seco",c:0,q:"Según el DEWS II, el ojo seco es una enfermedad multifactorial de la superficie ocular caracterizada por:",
+ o:["Pérdida de la homeostasis de la película lagrimal con hiperosmolaridad, inestabilidad, inflamación y anomalías neurosensoriales","Una infección bacteriana crónica","Un tumor de la glándula lagrimal","Una alergia estacional"],
+ e:"El DEWS II define el ojo seco como pérdida de la <b>homeostasis de la película lagrimal</b> con <b>hiperosmolaridad, inestabilidad, inflamación/daño y anomalías neurosensoriales</b>."},
+{cat:"Ojo seco · tipos",c:1,q:"El ojo seco evaporativo se debe principalmente a:",
+ o:["Destrucción inmune de la glándula lagrimal","Disfunción de las glándulas de Meibomio (déficit de lípidos)","Déficit de vitamina A","Parálisis del trigémino"],
+ e:"El <b>evaporativo (lipodeficiente)</b> se debe a la <b>disfunción de las glándulas de Meibomio</b>, con menor producción de lípidos y mayor evaporación."},
+{cat:"Ojo seco · tipos",c:2,q:"¿Cuál de estas causas produce ojo seco ACUODEFICIENTE?",
+ o:["Déficit de vitamina A","Uso de lentes de contacto (irritación mecánica)","Destrucción inmune de la glándula lagrimal (síndrome de Sjögren)","Conjuntivitis cicatricial"],
+ e:"El <b>acuodeficiente</b> incluye la <b>destrucción inmune de la glándula (Sjögren)</b>, fármacos, falta de estímulo reflejo y parálisis del VII."},
+{cat:"Ojo seco · tipos",c:3,q:"El ojo seco mucodeficiente puede deberse a:",
+ o:["Disfunción de Meibomio","Síndrome de Sjögren","Parálisis facial","Déficit de vitamina A o conjuntivitis cicatriciales"],
+ e:"El <b>mucodeficiente</b> (↓Goblet/mucina) se asocia a <b>déficit de vitamina A</b>, conjuntivitis crónicas/cicatriciales e irritación mecánica por LC."},
+{cat:"Caso clínico · Sjögren",c:0,case:true,
+ lead:"Mujer de 55 años con sequedad ocular y bucal persistentes; refiere artritis reumatoide de base. El Schirmer es de 3 mm y la lisozima lagrimal está reducida.",
+ q:"El tipo de ojo seco y la causa son:",
+ o:["Acuodeficiente por síndrome de Sjögren (secundario a la AR)","Evaporativo por disfunción de Meibomio","Mucodeficiente por déficit de vitamina A","Ninguno: es normal"],
+ e:"Sequedad ocular + bucal + AR + Schirmer bajo + <b>lisozima reducida</b> = ojo seco <b>acuodeficiente por Sjögren</b> (secundario a la AR)."},
+{cat:"Caso clínico · evaporativo",c:1,case:true,
+ lead:"Varón con párpados engrosados, costras en las pestañas y secreción meibomiana espesa, que refiere sensación de arenilla y ojo seco que empeora al final del día.",
+ q:"El mecanismo del ojo seco más probable es:",
+ o:["Destrucción de la glándula lagrimal","Disfunción de las glándulas de Meibomio (evaporativo)","Déficit de mucina por vitamina A","Parálisis del trigémino"],
+ e:"Blefaritis con <b>disfunción de las glándulas de Meibomio</b> → ojo seco <b>evaporativo</b> (mejora con higiene palpebral, calor y a veces tetraciclinas)."},
+{cat:"Caso clínico · fármacos",c:2,case:true,
+ lead:"Paciente en tratamiento con antidepresivos y antihistamínicos que consulta por sequedad ocular de reciente aparición.",
+ q:"¿Qué tipo de ojo seco están favoreciendo estos fármacos?",
+ o:["Evaporativo","Mucodeficiente","Acuodeficiente (reducen la secreción acuosa)","Ninguno"],
+ e:"Los <b>antidepresivos, antihistamínicos y ACO</b> reducen la secreción acuosa → ojo seco <b>acuodeficiente</b>."},
+{cat:"DDx tipos",c:3,ddx:true,q:"Relacione correctamente la capa deficiente con el tipo de ojo seco:",
+ o:["Lípido → mucodeficiente","Acuosa → evaporativo","Mucina → acuodeficiente","Lípido → evaporativo; acuosa → acuodeficiente; mucina → mucodeficiente"],
+ e:"Cada capa define un tipo: <b>lípido (Meibomio) → evaporativo</b>; <b>acuosa (gl. lagrimales) → acuodeficiente</b>; <b>mucina (Goblet) → mucodeficiente</b>."},
+{cat:"DDx tipos",c:0,ddx:true,q:"El déficit de vitamina A produce ojo seco por afectar a:",
+ o:["La mucina (células caliciformes) → mucodeficiente","Los lípidos (Meibomio)","La glándula lagrimal","El simpático"],
+ e:"El <b>déficit de vitamina A</b> daña las células caliciformes (mucina) → ojo seco <b>mucodeficiente</b> (y queratinización de la superficie)."},
+{cat:"Exploración",c:1,q:"El tiempo de ruptura de la película lagrimal (T-BUT) se considera normal cuando es:",
+ o:["Mayor de 3 segundos","Mayor de 10 segundos","Mayor de 1 minuto","Cualquier valor"],
+ e:"El <b>T-BUT</b> mide la <b>estabilidad</b> de la lágrima y es normal cuando es <b>&gt; 10 segundos</b>."},
+{cat:"Exploración",c:2,q:"El test de Schirmer se considera normal cuando humedece:",
+ o:["Más de 1 mm","Más de 5 mm","Más de 10 mm","Más de 30 mm"],
+ e:"El <b>Schirmer</b> mide la <b>cantidad</b> de secreción acuosa y es normal con <b>&gt; 10 mm</b>."},
+{cat:"DDx pruebas",c:3,ddx:true,q:"¿Qué diferencia mide cada prueba del ojo seco?",
+ o:["Ambas miden la cantidad de lágrima","Ambas miden la estabilidad","El Schirmer mide estabilidad y el BUT cantidad","El BUT mide la estabilidad de la lágrima y el Schirmer la cantidad de secreción acuosa"],
+ e:"<b>BUT = estabilidad</b> (calidad de lípidos/mucina); <b>Schirmer = cantidad</b> (componente acuoso). Ambos &lt;10 son patológicos."},
+{cat:"Exploración",c:0,q:"En las tinciones del ojo seco:",
+ o:["La fluoresceína tiñe lesiones epiteliales y el verde de lisamina las áreas de pérdida de mucina","La fluoresceína tiñe la mucina","El verde de lisamina mide la PIO","Ninguna se usa en ojo seco"],
+ e:"La <b>fluoresceína</b> tiñe <b>lesiones epiteliales</b> y el <b>verde de lisamina</b> las <b>áreas de pérdida de mucina/células desvitalizadas</b>."},
+{cat:"Exploración",c:1,q:"Respecto a la osmolaridad de la lágrima en el ojo seco:",
+ o:["Está disminuida","Está aumentada en TODAS las variedades","Solo cambia en el evaporativo","No se modifica"],
+ e:"La <b>osmolaridad está aumentada en todas las variedades</b> de ojo seco; la <b>lisozima</b> está reducida en el acuodeficiente."},
+{cat:"Ojo seco · tto",c:2,q:"Respecto al tratamiento del ojo seco, es cierto que:",
+ o:["Tiene cura definitiva con antibióticos","Se cura con cirugía","No tiene cura: es sintomático (y etiológico cuando se puede)","Requiere siempre corticoides sistémicos"],
+ e:"El ojo seco <b>no tiene cura</b>; el tratamiento es <b>sintomático y escalonado</b> (medidas ambientales, lágrimas, antiinflamatorios, tapones)."},
+{cat:"Ojo seco · tto",c:3,q:"Respecto a los sustitutos lagrimales, lo ideal es que sean:",
+ o:["Con muchos conservantes","De base oleosa pura","Antibióticos","Sin conservantes (ésteres de celulosa, hialuronato sódico, carbómero, alcohol polivinílico)"],
+ e:"Lo ideal son <b>lágrimas sin conservantes</b> (ésteres de celulosa, hialuronato sódico, carbómero, PVA) para no dañar la superficie."},
+{cat:"Ojo seco · tto",c:0,q:"¿Cuál de los siguientes es un antiinflamatorio usado en el ojo seco?",
+ o:["Ciclosporina tópica 0,05%","Pilocarpina","Hialuronato sódico","Fenilefrina"],
+ e:"La <b>ciclosporina 0,05%</b> (y los corticoides cortos, tetraciclinas) son antiinflamatorios usados en el ojo seco; la pilocarpina es un secretagogo."},
+{cat:"Ojo seco · tto",c:1,q:"La oclusión del sistema de drenaje lagrimal (tapones) busca:",
+ o:["Aumentar la producción de lágrima","Retener la poca lágrima disponible sobre la superficie","Drenar mejor la lágrima","Tratar la blefaritis"],
+ e:"Los <b>tapones lagrimales</b> ocluyen el drenaje para <b>retener</b> la lágrima disponible y prolongar su contacto con la superficie."},
+{cat:"Ojo seco · tto",c:2,q:"Los secretagogos empleados en el ojo seco son:",
+ o:["Antibióticos","Antihistamínicos","Parasimpaticomiméticos colinérgicos (p. ej. pilocarpina oral)","Betabloqueantes"],
+ e:"Los <b>secretagogos</b> son <b>parasimpaticomiméticos (pilocarpina oral)</b> que estimulan la secreción; tienen efectos secundarios colinérgicos."},
+{cat:"Caso clínico · ambiental",c:3,case:true,
+ lead:"Oficinista que pasa 10 horas frente a pantallas en un ambiente con aire acondicionado, con sensación de arenilla y picor leve a media tarde, exploración prácticamente normal.",
+ q:"La primera medida más razonable es:",
+ o:["Corticoides sistémicos","Antibiótico tópico","Cirugía de tapones","Medidas ambientales (humidificar, pausas, parpadeo) y lágrimas artificiales"],
+ e:"Ojo seco leve relacionado con pantallas/ambiente: se inicia con <b>medidas ambientales</b> (humidificar, pausas, evitar corrientes) y <b>lágrimas artificiales</b>."},
+{cat:"Caso clínico · VII par",c:0,case:true,
+ lead:"Paciente con parálisis facial periférica reciente que no puede cerrar bien el ojo; consulta por sequedad y queratitis en la mitad inferior de la córnea.",
+ q:"¿Qué mecanismos de ojo seco/superficie están implicados?",
+ o:["Acuodeficiente (interrupción eferente del VII) + exposición por lagoftalmos","Mucodeficiente por vitamina A","Evaporativo puro por Meibomio","Ninguno"],
+ e:"La <b>parálisis del VII</b> interrumpe la vía eferente (acuodeficiente) y produce <b>lagoftalmos</b> con queratitis por <b>exposición</b> inferior."},
+{cat:"Ojo seco · tto",c:1,q:"En el ojo seco evaporativo por disfunción de Meibomio, además de la higiene palpebral, pueden ser útiles:",
+ o:["Antifúngicos tópicos","Tetraciclinas (efecto sobre la secreción meibomiana)","Midriáticos","Antivirales"],
+ e:"Las <b>tetraciclinas</b> mejoran la secreción de las glándulas de Meibomio y son útiles en el <b>evaporativo/DGM</b> (junto a calor e higiene)."},
+{cat:"Caso clínico · Sjögren",c:2,case:true,ddx:true,
+ lead:"Mujer de 50 años SIN otras enfermedades, con ojo seco intenso y boca seca, anticuerpos positivos, sin artropatía asociada.",
+ q:"Se trata probablemente de un síndrome de Sjögren:",
+ o:["Secundario a AR","Secundario a LES","Primario (aislado, sin otra enfermedad del tejido conectivo)","Que no produce ojo seco"],
+ e:"Sjögren <b>primario</b> = aislado (ojo y boca secos sin otra conectivopatía). El <b>secundario</b> acompaña a AR o LES."},
+{cat:"Imagen · exploración",c:3,figSrc:"figSchirmer",figcap:"Prueba realizada en consulta.",
+ q:"Esta tira de papel colocada en el párpado inferior para medir la secreción lagrimal corresponde a:",
+ o:["Tinción con fluoresceína","Test de BUT","Gonioscopia","Test de Schirmer"],
+ e:"La <b>tira de papel en el fórnix inferior</b> que mide los milímetros humedecidos es el <b>test de Schirmer</b> (normal &gt;10 mm)."},
+{cat:"Ojo seco · clínica",c:0,ddx:true,q:"Un dato paradójico que puede aparecer en el ojo seco es:",
+ o:["Lagrimeo (epífora) reflejo por irritación de la superficie","Midriasis fija","Halos de colores","Dolor que irradia a la cara"],
+ e:"La irritación de la superficie puede desencadenar <b>lagrimeo reflejo</b>, de modo que un paciente con ojo seco puede consultar paradójicamente por 'ojo lloroso'."},
+{cat:"Caso clínico · post-cirugía",c:1,case:true,
+ lead:"Paciente operado de cirugía refractiva (LASIK) que desde entonces nota sequedad ocular; se sospecha alteración de la sensibilidad corneal.",
+ q:"El mecanismo del ojo seco es:",
+ o:["Mucodeficiente por vitamina A","Acuodeficiente por falta de estímulo reflejo (sección de nervios corneales)","Evaporativo por Meibomio","Infeccioso"],
+ e:"La <b>cirugía refractiva</b> secciona terminaciones corneales y reduce el <b>estímulo reflejo</b> → ojo seco <b>acuodeficiente</b> (también la LC y la afectación del trigémino)."},
+{cat:"Película lagrimal",c:2,q:"La función refractiva de la lágrima depende sobre todo de:",
+ o:["La capa mucínica","La esclera","Que mantenga una superficie óptica lisa y regular sobre la córnea","El humor acuoso"],
+ e:"Una de las 4 funciones de la lágrima es ofrecer una <b>superficie óptica lisa y regular</b>; por eso la inestabilidad lagrimal produce visión fluctuante."},
+{cat:"DDx ojo rojo",c:3,ddx:true,q:"Frente a una escleritis, una queratitis se diferencia por presentar:",
+ o:["Pupila en midriasis fija","Hiperemia violácea profunda","Engrosamiento escleral en ecografía","Una lesión corneal (defecto epitelial) que tiñe con fluoresceína"],
+ e:"La <b>queratitis</b> muestra un <b>defecto/opacidad corneal que tiñe</b>; la escleritis cursa con hiperemia profunda violácea y córnea íntegra."},
+{cat:"Caso clínico · escleritis posterior",c:0,case:true,
+ lead:"Paciente con dolor ocular profundo intenso, pérdida de visión y leve proptosis; la exploración del segmento anterior es casi normal, pero la ecografía muestra engrosamiento de la pared posterior del ojo.",
+ q:"El diagnóstico más probable es:",
+ o:["Escleritis posterior","Conjuntivitis","Epiescleritis simple","Ojo seco acuodeficiente"],
+ e:"Dolor profundo + ↓visión + segmento anterior normal + <b>engrosamiento escleral posterior en ecografía</b> = <b>escleritis posterior</b>."},
+{cat:"Take-home",c:1,q:"Señale la afirmación CORRECTA sobre epiescleritis y escleritis:",
+ o:["La epiescleritis requiere inmunosupresores sistémicos","La escleritis es grave, violácea, no blanquea con fenilefrina y suele tratarse de forma sistémica","La epiescleritis no blanquea con fenilefrina","La escleritis nunca se asocia a enfermedad sistémica"],
+ e:"La <b>escleritis</b> es grave, <b>violácea, no blanquea con fenilefrina</b> y exige <b>tratamiento sistémico</b>; la epiescleritis es benigna y blanquea."},
+{cat:"Take-home",c:2,q:"La asociación CORRECTA entre manifestación escleral y enfermedad sistémica es:",
+ o:["Epiescleritis simple ↔ Wegener","Escleritis posterior ↔ conjuntivitis alérgica","Escleritis necrotizante ↔ Wegener/PAN; escleromalacia perforante ↔ AR","Escleromalacia ↔ glaucoma"],
+ e:"<b>Necrotizante → Wegener/PAN</b>; <b>escleromalacia perforante → AR de larga evolución</b>; escleritis nodular → AR."},
+{cat:"DDx tipos",c:3,ddx:true,q:"En un paciente con disfunción de las glándulas de Meibomio, ¿qué capa de la lágrima está principalmente alterada?",
+ o:["La acuosa","La mucínica","La epitelial","La lipídica (→ ojo seco evaporativo)"],
+ e:"Las glándulas de <b>Meibomio</b> producen la <b>capa lipídica</b>; su disfunción reduce los lípidos → mayor evaporación → <b>ojo seco evaporativo</b>."},
+{cat:"Take-home",c:0,q:"Sobre las pruebas del ojo seco, indique la afirmación correcta:",
+ o:["BUT normal &gt;10 s (estabilidad) y Schirmer normal &gt;10 mm (cantidad)","BUT normal &gt;1 min","Schirmer normal &gt;30 mm","Ambas miden la osmolaridad"],
+ e:"<b>BUT &gt;10 s</b> (estabilidad) y <b>Schirmer &gt;10 mm</b> (cantidad de lágrima acuosa) son los valores normales de referencia."},
+{cat:"Caso clínico · DDx fenilefrina",c:1,case:true,ddx:true,
+ lead:"Paciente con AR que consulta por un ojo rojo con un nódulo doloroso; al instilar fenilefrina el enrojecimiento NO blanquea y el nódulo no se desplaza sobre el plano profundo.",
+ q:"El diagnóstico es:",
+ o:["Epiescleritis nodular","Escleritis nodular","Conjuntivitis folicular","Pinguécula"],
+ e:"Nódulo <b>doloroso, fijo</b> y que <b>no blanquea con fenilefrina</b>, en una paciente con AR = <b>escleritis nodular</b> (no la epiescleritis, que blanquea y es móvil)."},
+{cat:"Take-home",c:2,q:"Las tres capas de la película lagrimal, de fuera a dentro, y su origen son:",
+ o:["Acuosa (Goblet), lipídica (lagrimal), mucina (Meibomio)","Mucina, acuosa, lipídica","Lipídica (Meibomio), acuosa (glándulas lagrimales), mucina (células caliciformes)","Lipídica (lagrimal), mucina (Meibomio), acuosa (Goblet)"],
+ e:"De fuera a dentro: <b>lipídica (Meibomio) → acuosa (glándulas lagrimales) → mucina (células caliciformes/Goblet)</b>."},
+{cat:"Esclera",c:3,q:"¿Cuál de estas afirmaciones sobre la escleritis es FALSA?",
+ o:["Puede ser anterior (necrosante o no) o posterior","El dolor es el mejor parámetro de seguimiento","Suele asociarse a enfermedad autoinmune","Es un cuadro banal que nunca compromete la visión"],
+ e:"La escleritis <b>puede ser grave y comprometer la visión</b> (sobre todo la posterior y la necrosante); el resto de afirmaciones son correctas."},
+{cat:"Unidad funcional",c:0,q:"¿Por qué se dice que una alteración de la unidad lagrimal funcional 'afecta globalmente'?",
+ o:["Porque la unidad integra glándulas, epitelio, parpadeo e inervación, y el fallo de uno desestabiliza toda la película","Porque solo depende de la córnea","Porque es puramente vascular","Porque depende solo del simpático"],
+ e:"La <b>unidad lagrimal funcional</b> integra glándulas, superficie epitelial, parpadeo e inervación V/VII; el fallo de cualquier componente <b>desestabiliza toda la película</b>."},
+{cat:"Caso clínico · DDx epi vs escleritis",c:1,case:true,ddx:true,
+ lead:"Dos pacientes con ojo rojo: la primera, mujer joven con rojo sectorial leve que blanquea con fenilefrina; el segundo, varón con AR, rojo violáceo doloroso que no blanquea.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Escleritis y epiescleritis","Epiescleritis y escleritis","Ambas escleritis","Ambas conjuntivitis"],
+ e:"Rojo <b>superficial, leve, que blanquea</b> = <b>epiescleritis</b>; rojo <b>violáceo, doloroso, que no blanquea</b> en AR = <b>escleritis</b>."},
+{cat:"Ojo seco",c:2,q:"En el ojo seco acuodeficiente por Sjögren, ¿qué hallazgo de laboratorio es característico?",
+ o:["Osmolaridad disminuida","Lisozima aumentada","Lisozima lagrimal reducida (producida por la glándula lagrimal)","IgE elevada en lágrima"],
+ e:"En el acuodeficiente por afectación glandular (Sjögren), la <b>lisozima lagrimal está reducida</b>; la osmolaridad está aumentada (como en todos los tipos)."},
+{cat:"Take-home",c:3,q:"Indique la afirmación FALSA sobre el ojo seco:",
+ o:["Es multifactorial y cursa con hiperosmolaridad","Se clasifica en evaporativo, acuodeficiente y mucodeficiente","El tratamiento es sintomático y escalonado","Tiene cura definitiva con un ciclo corto de antibiótico"],
+ e:"El ojo seco <b>no tiene cura</b> y NO se trata con antibióticos; el manejo es <b>sintomático y escalonado</b>. El resto es correcto."}
+];
+
+/* ---- Engine ---- */
+const figMap={figEpi,figEscl,figLayers,figSchirmer,figInjection};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas esclera y lágrima y sus diagnósticos diferenciales. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo epiescleritis vs escleritis y los tipos de ojo seco.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza las asociaciones sistémicas y las pruebas del ojo seco.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T04 y repite el test; fíjate en la prueba de la fenilefrina y BUT vs Schirmer.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
