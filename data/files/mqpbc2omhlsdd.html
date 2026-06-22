@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T15–16 · Estrabismo y Ambliopía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T15–16</p>
+    <h1>Estrabismo y Ambliopía</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figIII=`<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parálisis del III par: ojo abajo y afuera con ptosis y midriasis">
+<path d="M30 55 Q70 38 110 55 Q70 72 30 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="70" cy="55" r="15" fill="#9a6a3c"/><circle cx="70" cy="55" r="6" fill="#1a1a1a"/>
+<path d="M190 58 Q230 46 270 58 Q230 70 190 58Z" fill="#fff" stroke="#7a8b90"/><path d="M190 58 Q230 46 270 58" fill="#e8d9c8" stroke="#a98"/><circle cx="248" cy="64" r="15" fill="#9a6a3c"/><circle cx="248" cy="64" r="10" fill="#1a1a1a"/>
+<text x="70" y="100" text-anchor="middle" style="font:400 10px Inter;fill:#46585f">normal</text><text x="230" y="100" text-anchor="middle" style="font:600 10px Inter;fill:#b23a32">ptosis+midriasis+abajo/afuera</text></svg>`;
+const figVI=`<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Parálisis del VI par: endotropia, el ojo no abduce">
+<path d="M30 55 Q70 38 110 55 Q70 72 30 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="88" cy="55" r="15" fill="#9a6a3c"/><circle cx="88" cy="55" r="6" fill="#1a1a1a"/>
+<path d="M190 55 Q230 38 270 55 Q230 72 190 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="212" cy="55" r="15" fill="#9a6a3c"/><circle cx="212" cy="55" r="6" fill="#1a1a1a"/>
+<text x="160" y="98" text-anchor="middle" style="font:400 10px Inter;fill:#46585f">endotropia (ojos convergentes, no abducen)</text></svg>`;
+const figCover=`<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cover test">
+<path d="M20 55 Q55 38 90 55 Q55 72 20 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="55" cy="55" r="13" fill="#9a6a3c"/><circle cx="55" cy="55" r="5" fill="#1a1a1a"/>
+<path d="M100 55 Q135 38 170 55 Q135 72 100 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="148" cy="55" r="13" fill="#9a6a3c"/><circle cx="148" cy="55" r="5" fill="#1a1a1a"/>
+<rect x="196" y="42" width="26" height="26" fill="#cfd6da" stroke="#7a8b90"/>
+<path d="M232 55 Q267 38 302 55 Q267 72 232 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="267" cy="55" r="13" fill="#9a6a3c"/><circle cx="267" cy="55" r="5" fill="#1a1a1a"/>
+<text x="160" y="98" text-anchor="middle" style="font:400 10px Inter;fill:#46585f">al ocluir, el ojo desviado toma la fijación</text></svg>`;
+
+const Q=[
+{cat:"Concepto",c:1,q:"El estrabismo se define como:",
+ o:["Una opacidad del cristalino","La falta de alineación de los ejes visuales","Una pérdida de campo","Una catarata congénita"],
+ e:"El <b>estrabismo</b> es la <b>falta de alineación</b> de los ejes visuales de ambos ojos."},
+{cat:"Clasificación · DDx",c:2,ddx:true,q:"La diferencia entre foria y tropia es:",
+ o:["La foria es vertical y la tropia horizontal","La foria es congénita","La foria es manifiesta y la tropia latente","La foria es latente (solo al disociar) y la tropia es manifiesta (permanente)"],
+ e:"La <b>foria</b> es una desviación <b>latente</b> (solo se manifiesta al disociar/ocluir); la <b>tropia</b> es <b>manifiesta</b> (permanente)."},
+{cat:"Clasificación",c:3,q:"Una desviación de los ojos hacia DENTRO presente de forma continua es una:",
+ o:["Exoforia","Endoforia","Exotropia","Endotropia"],
+ e:"Hacia dentro y continua = <b>endotropia</b> (si fuera solo al disociar, endoforia)."},
+{cat:"Clasificación",c:0,q:"Una desviación hacia FUERA que solo aparece al disociar es una:",
+ o:["Exoforia","Exotropia","Endoforia","Endotropia"],
+ e:"Hacia fuera y solo al disociar (latente) = <b>exoforia</b> (si fuera continua, exotropia)."},
+{cat:"Exploración",c:1,q:"El cover test consiste en:",
+ o:["Iluminar la pupila alternativamente","Ocluir de forma alterna para obligar al ojo desviado a tomar la fijación","Medir la PIO","Ver el fondo de ojo"],
+ e:"El <b>cover test</b> ocluye de forma <b>alterna</b> para obligar al ojo desviado a fijar, observando de dónde viene el ojo (revela forias y tropias)."},
+{cat:"Imagen · cover",c:2,figSrc:"figCover",figcap:"Cover test del paciente.",
+ q:"En esta secuencia, al ocluir un ojo el otro se mueve para tomar la fijación. ¿Qué demuestra?",
+ o:["Una catarata","Un glaucoma","Una desviación ocular (estrabismo)","Una neuritis"],
+ e:"Que el ojo desviado <b>se mueve para fijar</b> al ocluir el otro demuestra un <b>estrabismo</b> (tropia)."},
+{cat:"Pseudoestrabismo",c:3,q:"El epicanto en un niño:",
+ o:["Es un estrabismo verdadero","Requiere cirugía urgente","Produce ambliopía siempre","Es un PSEUDOestrabismo (simula endotropia); el cover test es normal y mejora con el crecimiento"],
+ e:"El <b>epicanto</b> (pliegue del canto interno) es un <b>pseudoestrabismo</b>: simula endotropia pero el cover test es normal."},
+{cat:"Ambliopía",c:0,q:"La ambliopía ('ojo vago') es:",
+ o:["Una disminución de la AV por supresión central, siempre secundaria a otro proceso","Una catarata","Un tumor","Una distrofia hereditaria"],
+ e:"La <b>ambliopía</b> es una ↓AV por <b>supresión central</b>; <b>siempre es consecuencia de otro proceso</b> (estrabismo, anisometropía, deprivación)."},
+{cat:"Ambliopía",c:1,q:"¿Cuál de estas NO es causa frecuente de ambliopía?",
+ o:["Estrabismo","Glaucoma agudo","Anisometropía","Deprivación (catarata congénita)"],
+ e:"Las causas de ambliopía son <b>estrabismo, anisometropía y deprivación</b>; el glaucoma agudo no la causa."},
+{cat:"Ambliopía",c:2,q:"El tratamiento de la ambliopía se basa en:",
+ o:["Operar siempre","Gafas de sol","Corrección óptica + penalizar/ocluir el ojo DOMINANTE (sano)","No hacer nada"],
+ e:"Se corrige el defecto óptico y se <b>penaliza/ocluye el ojo dominante (sano)</b> para forzar el uso del ojo vago."},
+{cat:"Ambliopía",c:3,q:"El pronóstico del tratamiento de la ambliopía es mejor:",
+ o:["Cuanto más tarde se trate","En la forma deprivacional","En la estrábica","Cuanto antes se inicie (mayor neuroplasticidad del niño)"],
+ e:"<b>Cuanto antes</b> se trate, mejor (mayor <b>neuroplasticidad</b>); por edad es clave la precocidad."},
+{cat:"Ambliopía · DDx",c:0,ddx:true,q:"¿Qué tipo de ambliopía tiene PEOR pronóstico?",
+ o:["La secundaria a catarata congénita (deprivación)","La anisométrica","La estrábica leve","Ninguna tiene mal pronóstico"],
+ e:"La ambliopía por <b>deprivación (catarata congénita)</b> tiene el <b>peor pronóstico</b>; la anisométrica, el mejor."},
+{cat:"Caso clínico · ambliopía",c:1,case:true,
+ lead:"Niño de 4 años con endotropia del ojo izquierdo y peor visión en ese ojo.",
+ q:"Además de corregir el estrabismo, ¿qué tratamiento es clave?",
+ o:["Antibióticos","Ocluir el ojo derecho (dominante) para tratar la ambliopía del izquierdo","Operar de catarata","Lágrimas artificiales"],
+ e:"Hay que <b>tratar la ambliopía</b> ocluyendo/penalizando el <b>ojo dominante (derecho)</b> para forzar el uso del ojo vago."},
+{cat:"Comitantes",c:2,q:"Los estrabismos comitantes se caracterizan por:",
+ o:["Aparecer en ancianos","Tener un músculo parético","Aparecer en la infancia, con desviación similar en todas las posiciones de la mirada","Ser dolorosos"],
+ e:"Los <b>comitantes</b> aparecen en la <b>infancia</b> y la desviación es <b>igual en todas las posiciones</b> (sin músculo parético)."},
+{cat:"Comitantes",c:3,q:"En el tratamiento del estrabismo comitante, el PRIMER paso es:",
+ o:["Cirugía","Toxina botulínica","Oclusión","Refracción bajo cicloplejia (descartar el componente acomodativo)"],
+ e:"Primero se hace <b>refracción bajo cicloplejia</b> para descartar un <b>componente acomodativo</b>; luego se trata la ambliopía y se corrige la desviación."},
+{cat:"Comitantes",c:0,q:"La endotropia acomodativa se corrige fundamentalmente con:",
+ o:["Gafas que corrigen la hipermetropía","Cirugía urgente","Toxina botulínica","Oclusión exclusivamente"],
+ e:"La <b>endotropia acomodativa</b> se corrige poniendo las <b>gafas con la hipermetropía</b> (el exceso de acomodación causaba la convergencia)."},
+{cat:"Comitantes",c:1,q:"Para corregir quirúrgicamente la desviación se emplean técnicas de:",
+ o:["Vitrectomía","Retroinserción y resección musculares (o toxina botulínica en el vientre del músculo)","Trasplante de córnea","Facoemulsificación"],
+ e:"La desviación se corrige con <b>retroinserción/resección</b> musculares o <b>toxina botulínica</b> en el vientre del músculo."},
+{cat:"Incomitantes",c:2,q:"Los estrabismos incomitantes incluyen:",
+ o:["Solo forias","Solo el epicanto","Parálisis oculomotoras (III, IV, VI) y estrabismos restrictivos","Solo la ambliopía"],
+ e:"Los <b>incomitantes</b> son las <b>parálisis oculomotoras (III, IV, VI)</b> y los <b>restrictivos</b> (distiroidea, fractura orbitaria)."},
+{cat:"III par",c:3,q:"La parálisis del III par craneal cursa con:",
+ o:["Solo endotropia","Solo hipertropia","Exciclotorsión aislada","Déficit severo de la MOE + ptosis ± midriasis (ojo 'abajo y afuera')"],
+ e:"La <b>parálisis del III par</b> da un déficit muy severo de la motilidad + <b>ptosis ± midriasis</b>, con el ojo <b>'abajo y afuera'</b>."},
+{cat:"Imagen · III par",c:0,figSrc:"figIII",figcap:"Ojos del paciente.",
+ q:"Este ojo desviado abajo y afuera, con ptosis y pupila dilatada, corresponde a:",
+ o:["Parálisis del III par","Parálisis del VI par","Síndrome de Horner","Endotropia acomodativa"],
+ e:"Ojo <b>abajo y afuera</b> + <b>ptosis</b> + <b>midriasis</b> = <b>parálisis del III par</b>."},
+{cat:"III par · DDx",c:1,ddx:true,q:"En la parálisis del III par, una pupila DILATADA (midriasis) sugiere causa:",
+ o:["Isquémica (microvascular)","Compresiva (aneurisma de la arteria comunicante posterior) → urgencia","Congénita","Tóxica"],
+ e:"La <b>midriasis</b> en la parálisis del III par sugiere causa <b>compresiva</b> (clásico: <b>aneurisma de la comunicante posterior</b>), una urgencia."},
+{cat:"III par · DDx",c:2,ddx:true,q:"En la parálisis del III par, una pupila RESPETADA (normal) sugiere causa:",
+ o:["Aneurisma","Tumor","Isquémica (microvascular, p. ej. diabética)","Traumática grave"],
+ e:"La <b>pupila respetada</b> orienta a causa <b>isquémica/microvascular</b> (típica del diabético): la 'regla de la pupila'."},
+{cat:"Caso clínico · III par",c:3,case:true,
+ lead:"Mujer de 50 años con ptosis brusca, ojo derecho desviado abajo y afuera, diplopía y pupila DILATADA arreactiva; refiere cefalea intensa.",
+ q:"¿Qué hay que descartar con urgencia?",
+ o:["Migraña","Catarata","Conjuntivitis","Aneurisma de la arteria comunicante posterior (parálisis compresiva del III par)"],
+ e:"Parálisis del III par con <b>midriasis</b> + cefalea = <b>aneurisma de la comunicante posterior</b> hasta que se demuestre lo contrario (urgencia)."},
+{cat:"IV par",c:0,q:"La parálisis del IV par (troclear) cursa con:",
+ o:["Hipertropia, exciclotorsión y tortícolis hacia el hombro contrario","Endotropia","Ptosis y midriasis","Exoftalmos"],
+ e:"La <b>parálisis del IV par</b> da <b>hipertropia</b> (más en aducción), <b>exciclotorsión</b> y <b>tortícolis</b> con la cabeza inclinada al hombro contrario."},
+{cat:"IV par",c:1,q:"El IV par craneal destaca por ser:",
+ o:["El más grueso","El más vulnerable a los traumatismos (largo trayecto)","El que inerva el recto lateral","El que inerva el elevador"],
+ e:"El <b>IV par</b> es el <b>más vulnerable a traumatismos</b> por su largo y delicado trayecto; inerva el oblicuo superior."},
+{cat:"IV par",c:2,q:"El test de Bielschowsky (inclinación de la cabeza) se usa para diagnosticar la parálisis del:",
+ o:["III par","VI par","IV par (troclear)","Recto lateral"],
+ e:"El <b>test de Bielschowsky</b> (la hipertropia aumenta al inclinar la cabeza al lado afecto) diagnostica la <b>parálisis del IV par</b>."},
+{cat:"VI par",c:3,q:"La parálisis del VI par (abducens) cursa con:",
+ o:["Ptosis y midriasis","Hipertropia","Exciclotorsión","Endotropia + déficit de abducción + diplopía horizontal (peor de lejos)"],
+ e:"La <b>parálisis del VI par</b> da <b>endotropia</b> con déficit de <b>abducción</b> y <b>diplopía horizontal</b>, más marcada de lejos."},
+{cat:"Imagen · VI par",c:0,figSrc:"figVI",figcap:"Ojos del paciente al mirar al frente.",
+ q:"Estos ojos convergentes en los que uno no logra abducir corresponden a:",
+ o:["Parálisis del VI par (endotropia)","Parálisis del III par","Exotropia","Horner"],
+ e:"Endotropia con déficit de <b>abducción</b> = <b>parálisis del VI par</b>."},
+{cat:"VI par",c:1,q:"La etiología más frecuente de la parálisis del VI par es:",
+ o:["Tumoral","Isquémica","Traumática","Congénita"],
+ e:"La causa más frecuente de la <b>parálisis del VI par</b> es la <b>isquémica</b> (microvascular); también la HIC (canal de Dorello)."},
+{cat:"VI par",c:2,q:"La parálisis del VI par en la hipertensión intracraneal es:",
+ o:["Un signo de buen pronóstico","Diagnóstica de tumor del seno cavernoso","Un FALSO localizador (compresión contra el peñasco/canal de Dorello)","Siempre traumática"],
+ e:"En la <b>HIC</b>, la parálisis del VI par es un <b>falso localizador</b> (se comprime contra el peñasco; canal de Dorello)."},
+{cat:"Pronóstico",c:3,q:"Respecto al pronóstico de las parálisis oculomotoras:",
+ o:["Las traumáticas tienen buen pronóstico","Todas son iguales","El IV par tiene peor pronóstico","Las isquémicas tienen buen pronóstico; la del III par es peor que las de IV y VI"],
+ e:"Las <b>isquémicas</b> tienen buen pronóstico; las traumáticas/tumorales/aneurismáticas, malo. La del <b>III par</b> es <b>peor</b> que IV y VI."},
+{cat:"Epidemiología",c:0,q:"La parálisis oculomotora MÁS INFRECUENTE es la del:",
+ o:["III par","VI par","IV par","Recto lateral"],
+ e:"La parálisis <b>más infrecuente</b> es la del <b>III par</b> (aunque es difícil establecer cuál es la más frecuente)."},
+{cat:"Restrictivos",c:1,q:"¿Cuál de estos es un estrabismo RESTRICTIVO?",
+ o:["Endotropia acomodativa","Oftalmopatía distiroidea (Graves)","Parálisis del VI par","Exoforia"],
+ e:"La <b>oftalmopatía distiroidea</b> (y la fractura orbitaria) son <b>restrictivos</b> (limitación mecánica del músculo)."},
+{cat:"Restrictivos",c:2,q:"En una fractura del suelo orbitario (blow-out), la diplopía se debe a:",
+ o:["Parálisis del VI par","Aneurisma","Atrapamiento del recto inferior","Catarata"],
+ e:"En la <b>fractura blow-out</b>, el <b>atrapamiento del recto inferior</b> limita la elevación y causa diplopía vertical (estrabismo restrictivo)."},
+{cat:"Caso clínico · IV par",c:3,case:true,
+ lead:"Paciente que tras un traumatismo craneal nota diplopía vertical al bajar la mirada (al leer o bajar escaleras) y adopta una postura con la cabeza inclinada hacia el hombro contrario.",
+ q:"El diagnóstico más probable es:",
+ o:["Parálisis del III par","Parálisis del VI par","Horner","Parálisis del IV par (troclear)"],
+ e:"Diplopía vertical al mirar abajo + tortícolis al hombro contrario, tras traumatismo, = <b>parálisis del IV par</b> (el más vulnerable a traumatismos)."},
+{cat:"Caso clínico · VI par",c:0,case:true,
+ lead:"Diabético de 65 años con diplopía horizontal de inicio brusco; el ojo derecho no abduce y está en endotropia. La pupila es normal y no hay dolor.",
+ q:"El diagnóstico más probable es:",
+ o:["Parálisis isquémica del VI par","Aneurisma","Glaucoma","Catarata"],
+ e:"Endotropia con déficit de abducción en un diabético, sin dolor, = <b>parálisis isquémica (microvascular) del VI par</b>."},
+{cat:"DDx pares",c:1,ddx:true,q:"¿Qué parálisis produce un ojo desviado 'abajo y afuera'?",
+ o:["VI par","III par","IV par","Recto medio"],
+ e:"El ojo <b>'abajo y afuera'</b> (por predominio del recto lateral y el oblicuo superior) es típico de la <b>parálisis del III par</b>."},
+{cat:"Ambliopía",c:2,q:"La supresión central de la ambliopía afecta a:",
+ o:["Solo a la córnea","Solo al cristalino","Retina, cuerpo geniculado lateral y corteza visual","Solo a la conjuntiva"],
+ e:"La ambliopía produce anomalías funcionales/estructurales en <b>retina, CGL y corteza visual</b> (supresión central)."},
+{cat:"Clasificación",c:3,q:"Una endoforia es:",
+ o:["Una desviación manifiesta hacia fuera","Una desviación manifiesta hacia dentro","Una desviación latente hacia fuera","Una desviación latente hacia dentro (solo al disociar)"],
+ e:"La <b>endoforia</b> es una desviación <b>latente hacia dentro</b> (solo aparece al disociar con el cover test)."},
+{cat:"Caso clínico · acomodativa",c:0,case:true,
+ lead:"Niño de 3 años hipermétrope con endotropia que mejora al ponerle las gafas con la corrección completa.",
+ q:"El tipo de estrabismo es:",
+ o:["Endotropia acomodativa","Parálisis del VI par","Estrabismo restrictivo","Exotropia"],
+ e:"Endotropia que mejora con la corrección de la hipermetropía = <b>endotropia acomodativa</b> (comitante)."},
+{cat:"Exploración",c:1,q:"Las versiones exploran:",
+ o:["La motilidad monocular","Los movimientos binoculares (de ambos ojos)","La pupila","La PIO"],
+ e:"Las <b>versiones</b> son los movimientos <b>binoculares</b>; las <b>ducciones</b>, los monoculares."},
+{cat:"III par",c:2,q:"La 'regla de la pupila' en la parálisis del III par sirve para:",
+ o:["Medir la AV","Ver el fondo","Distinguir causa isquémica (pupila respetada) de compresiva (midriasis)","Detectar cataratas"],
+ e:"La <b>regla de la pupila</b>: si está <b>respetada</b> → isquémica; si hay <b>midriasis</b> → compresiva (aneurisma)."},
+{cat:"Pronóstico ambliopía",c:3,q:"El mejor pronóstico de la ambliopía corresponde a la forma:",
+ o:["Deprivacional (catarata congénita)","Estrábica","Mixta","Anisométrica"],
+ e:"La ambliopía <b>anisométrica</b> tiene el <b>mejor pronóstico</b>; la deprivacional, el peor."},
+{cat:"Caso clínico · restrictivo",c:0,case:true,
+ lead:"Mujer con enfermedad de Graves, exoftalmos y limitación de la elevación de un ojo, con diplopía.",
+ q:"El tipo de estrabismo es:",
+ o:["Restrictivo (oftalmopatía distiroidea)","Comitante","Acomodativo","Parálisis del III par"],
+ e:"La <b>oftalmopatía distiroidea</b> (Graves) produce un estrabismo <b>restrictivo</b> por engrosamiento/fibrosis muscular."},
+{cat:"Concepto",c:1,q:"Un estrabismo CONVERGENTE corresponde a:",
+ o:["Una exotropia","Una endotropia/endoforia (ojos hacia dentro)","Una hipertropia","Una torsión"],
+ e:"El <b>estrabismo convergente</b> es hacia <b>dentro</b> (endotropia/endoforia)."},
+{cat:"VI par",c:2,q:"La diplopía de la parálisis del VI par es más marcada:",
+ o:["De cerca","Al leer","De lejos (se requiere divergencia/abducción)","Por la noche"],
+ e:"Como abducir/divergir es necesario para mirar de <b>lejos</b>, la diplopía de la <b>parálisis del VI par</b> es peor <b>de lejos</b>."},
+{cat:"DDx pares",c:3,ddx:true,q:"Asocie par y signo:",
+ o:["III par → endotropia que no abduce","IV par → ptosis y midriasis","VI par → tortícolis y exciclotorsión","IV par → hipertropia, exciclotorsión y tortícolis"],
+ e:"<b>IV par</b> = hipertropia + exciclotorsión + tortícolis. (III = abajo/afuera + ptosis/midriasis; VI = endotropia que no abduce.)"},
+{cat:"Caso clínico · pseudoestrabismo",c:0,case:true,
+ lead:"Lactante con aspecto de ojos 'cruzados'; el pediatra observa un pliegue prominente en el canto interno, pero el reflejo corneal está centrado y el cover test es normal.",
+ q:"El diagnóstico es:",
+ o:["Pseudoestrabismo por epicanto","Endotropia congénita","Parálisis del VI par","Ambliopía"],
+ e:"Reflejo corneal centrado + cover test normal + epicanto = <b>pseudoestrabismo</b> (no es estrabismo real)."},
+{cat:"Ambliopía",c:1,q:"¿Cuál de estas medidas penaliza el ojo dominante para tratar la ambliopía?",
+ o:["Antibióticos","Oclusión / atropina / laca / infracorregir la hipermetropía","Lágrimas artificiales","Cirugía de catarata"],
+ e:"Se <b>penaliza el ojo dominante</b> con <b>oclusión, atropina, laca o infracorrección óptica</b> para forzar el uso del ojo vago."},
+{cat:"Incomitantes",c:2,q:"La característica de un estrabismo incomitante es:",
+ o:["Aparece siempre en la infancia","No tiene tratamiento","La desviación VARÍA según la posición de la mirada","Es siempre congénito"],
+ e:"En el <b>incomitante</b> la desviación <b>varía con la posición de la mirada</b> (hay un músculo parético o una restricción)."},
+{cat:"Caso clínico · III isquémico",c:3,case:true,
+ lead:"Diabético de 68 años con ptosis y diplopía, ojo abajo y afuera, pero con la PUPILA NORMAL y reactiva; sin dolor.",
+ q:"La causa más probable es:",
+ o:["Aneurisma","Tumor del seno cavernoso","Traumatismo","Isquémica (microvascular), por la pupila respetada"],
+ e:"Parálisis del III par con <b>pupila respetada</b> en un diabético = <b>isquémica/microvascular</b> (buen pronóstico, suele recuperar)."},
+{cat:"Comitantes",c:0,q:"El segundo paso del tratamiento del estrabismo comitante (tras la refracción) es:",
+ o:["Tratar la ambliopía","Operar de inmediato","Toxina botulínica","No hacer nada"],
+ e:"Tras la <b>refracción bajo cicloplejia</b>, el siguiente paso es <b>tratar la ambliopía</b>, y por último corregir la desviación."},
+{cat:"IV par",c:1,q:"La hipertropia de la parálisis del IV par es más marcada cuando el ojo está en:",
+ o:["Abducción","Aducción","Posición primaria","Mirada superior"],
+ e:"La <b>hipertropia</b> de la parálisis del IV par es más marcada en <b>aducción</b> (el oblicuo superior actúa más en esa posición)."},
+{cat:"DDx restrictivo/parálisis",c:2,ddx:true,q:"¿Qué distingue un estrabismo restrictivo de una parálisis?",
+ o:["El restrictivo es doloroso siempre","La parálisis es mecánica","En el restrictivo hay una limitación MECÁNICA del músculo (no una parálisis nerviosa)","Son lo mismo"],
+ e:"En el <b>restrictivo</b> hay una <b>limitación mecánica</b> del músculo (distiroidea, atrapamiento), no una parálisis del nervio."},
+{cat:"Caso clínico · ambliopía catarata",c:3,case:true,
+ lead:"Lactante con catarata congénita unilateral densa no tratada; años después tiene una ambliopía profunda de ese ojo.",
+ q:"¿Por qué el pronóstico es malo?",
+ o:["Por la edad avanzada","Porque la catarata recidiva","Porque es leve","Porque la ambliopía por deprivación es la de peor pronóstico (requiere cirugía precoz)"],
+ e:"La ambliopía por <b>deprivación (catarata congénita)</b> es la de <b>peor pronóstico</b>; exige cirugía y rehabilitación muy precoces."},
+{cat:"Concepto",c:0,q:"Una exotropia es:",
+ o:["Una desviación manifiesta hacia fuera","Una desviación latente hacia dentro","Una hipertropia","Una torsión"],
+ e:"La <b>exotropia</b> es una desviación <b>manifiesta hacia fuera</b> (divergente)."},
+{cat:"VI par",c:1,q:"El VI par craneal inerva el músculo:",
+ o:["Recto medio","Recto lateral","Oblicuo superior","Elevador del párpado"],
+ e:"El <b>VI par (abducens)</b> inerva el <b>recto lateral</b> (abducción); su parálisis da endotropia."},
+{cat:"III par",c:2,q:"El III par craneal inerva todos estos músculos EXCEPTO:",
+ o:["Recto superior","Recto medio","Oblicuo superior","Recto inferior"],
+ e:"El <b>III par</b> inerva casi toda la MOE (rectos sup., inf., medio, oblicuo inferior) y el elevador; el <b>oblicuo superior</b> lo inerva el IV par."},
+{cat:"Caso clínico · HIC",c:3,case:true,
+ lead:"Paciente con hipertensión intracraneal que desarrolla diplopía horizontal y un déficit de abducción bilateral.",
+ q:"¿Cómo se interpreta esta parálisis del VI par?",
+ o:["Localiza el tumor en el seno cavernoso","Indica aneurisma","Es un signo de buen pronóstico","Es un falso localizador (no indica el lugar de la lesión)"],
+ e:"La parálisis del VI par en la <b>HIC</b> es un <b>falso localizador</b> (se comprime contra el peñasco), no señala el lugar de la lesión."},
+{cat:"Ambliopía",c:0,q:"La prevalencia aproximada de la ambliopía en la población es:",
+ o:["~2,9%","~30%","~0,01%","~50%"],
+ e:"La ambliopía tiene una prevalencia de aproximadamente <b>2,9%</b>."},
+{cat:"DDx pares",c:1,ddx:true,q:"Una diplopía HORIZONTAL peor de lejos, con un ojo que no abduce, corresponde a:",
+ o:["Parálisis del III par","Parálisis del VI par","Parálisis del IV par","Horner"],
+ e:"Diplopía horizontal peor de lejos + déficit de abducción = <b>parálisis del VI par</b>."},
+{cat:"Exploración",c:2,q:"Para estimar la desviación con el reflejo luminoso corneal se usa:",
+ o:["El test de Schirmer","La gonioscopia","El test de Hirschberg (reflejos corneales)","La paquimetría"],
+ e:"El <b>test de Hirschberg</b> valora la posición del <b>reflejo corneal</b> para estimar la magnitud de la desviación."},
+{cat:"Caso clínico · DDx pares",c:3,case:true,ddx:true,
+ lead:"Tres pacientes: A) ojo abajo-afuera con ptosis y midriasis; B) hipertropia con tortícolis al hombro contrario; C) endotropia que no abduce.",
+ q:"Las parálisis son, respectivamente:",
+ o:["VI, IV, III","IV, III, VI","Todas del III","III, IV, VI"],
+ e:"A = <b>III par</b> (abajo-afuera, ptosis, midriasis); B = <b>IV par</b> (hipertropia, tortícolis); C = <b>VI par</b> (endotropia que no abduce)."},
+{cat:"Comitantes",c:0,q:"En el estrabismo comitante NO hay:",
+ o:["Un músculo parético (la desviación es igual en todas las posiciones)","Ambliopía","Desviación","Tratamiento"],
+ e:"En el <b>comitante</b> <b>no hay músculo parético</b>: por eso la desviación es la misma en todas las posiciones de la mirada."},
+{cat:"Restrictivos",c:1,q:"En la oftalmopatía distiroidea, la restricción se debe a:",
+ o:["Parálisis del III par","Engrosamiento/fibrosis de los músculos extraoculares","Atrapamiento por fractura","Un aneurisma"],
+ e:"En la <b>distiroidea (Graves)</b> los músculos se <b>engrosan y fibrosan</b>, restringiendo el movimiento (estrabismo restrictivo)."},
+{cat:"Ambliopía",c:2,q:"La corrección óptica en la ambliopía:",
+ o:["No es necesaria","Solo se usa en adultos","Es la base del tratamiento (junto con la penalización del ojo dominante)","Empeora la ambliopía"],
+ e:"La <b>corrección óptica adecuada</b> es la base (con la penalización/oclusión del ojo dominante) del tratamiento de la ambliopía."},
+{cat:"III par",c:3,q:"El peor pronóstico, entre las parálisis oculomotoras, corresponde a la del:",
+ o:["VI par","IV par","Recto lateral","III par"],
+ e:"La parálisis del <b>III par</b> tiene <b>peor pronóstico</b> que las de IV y VI."},
+{cat:"Caso clínico · IV Bielschowsky",c:0,case:true,
+ lead:"Paciente con hipertropia del ojo derecho que aumenta al inclinar la cabeza hacia el hombro derecho (test de Bielschowsky positivo).",
+ q:"El diagnóstico es:",
+ o:["Parálisis del IV par derecho","Parálisis del VI par","Parálisis del III par","Horner"],
+ e:"Hipertropia que aumenta al inclinar la cabeza al lado afecto (<b>Bielschowsky +</b>) = <b>parálisis del IV par</b>."},
+{cat:"Clasificación · DDx",c:1,ddx:true,q:"Resumen forias/tropias:",
+ o:["Foria = manifiesta; tropia = latente","Foria = latente (solo al disociar); tropia = manifiesta (permanente)","Ambas son latentes","Ambas son manifiestas"],
+ e:"<b>Foria</b> = latente (solo al disociar con el cover test); <b>tropia</b> = manifiesta (permanente)."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación CORRECTA:",
+ o:["La ambliopía se trata ocluyendo el ojo malo","El III par da endotropia","El comitante tiene un músculo parético","III par = abajo/afuera + ptosis ± midriasis; midriasis = compresivo (aneurisma)"],
+ e:"Resumen: <b>III par</b> = ojo abajo/afuera + ptosis ± midriasis; <b>midriasis = compresivo (aneurisma)</b>; pupila respetada = isquémico."},
+{cat:"Síntesis",c:3,q:"Señale la afirmación FALSA:",
+ o:["La ambliopía es siempre secundaria","El IV par es el más vulnerable a traumatismos","El VI par da endotropia con déficit de abducción","La ambliopía se trata ocluyendo el ojo vago (afecto)"],
+ e:"FALSA: la ambliopía se trata <b>ocluyendo/penalizando el ojo SANO (dominante)</b>, no el ojo vago."},
+{cat:"DDx pares",c:0,ddx:true,q:"Resumen de las parálisis oculomotoras:",
+ o:["III = abajo/afuera + ptosis ± midriasis; IV = hipertropia + tortícolis; VI = endotropia que no abduce","Todas dan ptosis","Todas dan endotropia","Ninguna da diplopía"],
+ e:"<b>III</b> = abajo/afuera + ptosis ± midriasis; <b>IV</b> = hipertropia + exciclotorsión + tortícolis; <b>VI</b> = endotropia que no abduce."},
+{cat:"Síntesis · ambliopía",c:1,q:"Resumen de la ambliopía:",
+ o:["Es primaria","Secundaria (estrabismo/anisometropía/deprivación); tratamiento = corrección óptica + penalizar el ojo dominante, cuanto antes mejor; peor pronóstico la deprivacional","No tiene tratamiento","Solo se da en adultos"],
+ e:"Ambliopía: <b>secundaria</b>, tratamiento con <b>corrección óptica + penalización del ojo dominante</b>, <b>cuanto antes mejor</b>; peor pronóstico la <b>deprivacional</b> (catarata congénita)."}
+];
+
+const figMap={figIII,figVI,figCover};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el estrabismo. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo las 3 parálisis y la ambliopía.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza foria/tropia, III par y comitantes.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen de T15-16 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
