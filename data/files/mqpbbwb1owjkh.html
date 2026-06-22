@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T08 · Retinopatía Diabética e Hipertensiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T08</p>
+    <h1>Retinopatía Diabética e Hipertensiva</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figGunn=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cruce de una arteria sobre una vena con muescas">
+<line x1="20" y1="50" x2="220" y2="100" stroke="#b23a32" stroke-width="7"/>
+<line x1="40" y1="110" x2="210" y2="45" stroke="#3a5ba0" stroke-width="10"/>
+<line x1="118" y1="83" x2="135" y2="77" stroke="#2a4585" stroke-width="4"/>
+<text x="120" y="135" text-anchor="middle" style="font:400 11px Inter;fill:#46585f">cruce arteria/vena</text>
+</svg>`;
+const figHilos=`<svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dos arterias, una amarillenta y otra blanquecina">
+<line x1="20" y1="45" x2="220" y2="45" stroke="#c98a3a" stroke-width="8"/><text x="225" y="49" style="font:600 10px Inter;fill:#9a7a1a"> </text>
+<line x1="20" y1="90" x2="220" y2="90" stroke="#cfd4d8" stroke-width="8"/>
+<text x="120" y="22" text-anchor="middle" style="font:600 11px Spectral,serif;fill:#0f4d57">Dos arterias (a y b)</text>
+<text x="120" y="118" text-anchor="middle" style="font:400 10.5px Inter;fill:#46585f">¿cuál es más grave?</text>
+</svg>`;
+const figRDNP=`<svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fondo con microaneurismas, hemorragias y exudados duros">
+<circle cx="110" cy="90" r="80" fill="#e0973f" stroke="#b8752f"/>
+<g fill="#7a1f17"><circle cx="80" cy="70" r="3"/><circle cx="130" cy="78" r="3"/><circle cx="96" cy="110" r="3"/><circle cx="140" cy="112" r="3"/></g>
+<g fill="#f0e08a"><circle cx="118" cy="96" r="4"/><circle cx="104" cy="84" r="3"/><circle cx="128" cy="104" r="3"/></g>
+<circle cx="150" cy="88" r="12" fill="#f3ead0" opacity=".7"/>
+</svg>`;
+const figNeovasos=`<svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fondo con disco y red de neovasos finos">
+<circle cx="110" cy="90" r="80" fill="#e0973f" stroke="#b8752f"/>
+<circle cx="150" cy="80" r="18" fill="#f0d9a0" stroke="#caa46a"/>
+<g stroke="#9c2b22" stroke-width="1.3" fill="none"><path d="M150 80 Q140 64 128 70 M150 80 Q160 62 172 68 M150 80 Q138 92 126 90 M150 80 Q164 92 174 86"/></g>
+<text x="110" y="160" text-anchor="middle" style="font:400 11px Inter;fill:#46585f">ovillo vascular sobre la papila</text>
+</svg>`;
+
+const Q=[
+{cat:"RD · concepto",c:1,q:"La retinopatía diabética es:",
+ o:["Una inflamación de la úvea","Una microangiopatía de los vasos retinianos por la diabetes","Una distrofia hereditaria","Un tumor retiniano"],
+ e:"La RD es una <b>microangiopatía</b> de los vasos retinianos secundaria a la diabetes mellitus."},
+{cat:"RD · epidemiología",c:2,q:"La retinopatía diabética es la causa más frecuente de ceguera en:",
+ o:["Mayores de 80 años","Recién nacidos","Países occidentales en menores de 65 años","Población infantil"],
+ e:"La RD es la <b>causa más frecuente de ceguera en países occidentales en menores de 65 años</b>."},
+{cat:"RD · ceguera",c:0,q:"¿Cuáles son las causas de ceguera en la retinopatía diabética?",
+ o:["Edema macular, hemorragia vítrea y desprendimiento de retina traccional","Catarata y glaucoma simple","Conjuntivitis y queratitis","Ojo seco y blefaritis"],
+ e:"Las tres causas de ceguera en la RD son <b>edema macular, hemorragia vítrea y desprendimiento de retina traccional</b>."},
+{cat:"RD · clasificación",c:3,q:"La forma más frecuente de retinopatía diabética, que incluye todas las lesiones MENOS los neovasos, es:",
+ o:["La proliferativa","La coroidopatía","La forma exudativa","La no proliferativa (RDNP)"],
+ e:"La <b>RDNP</b> es la más frecuente e incluye todas las lesiones <b>excepto la neovascularización</b>; el deterioro visual se debe al edema macular."},
+{cat:"RD · clasificación",c:1,q:"El primer signo oftalmoscópico de la retinopatía diabética es:",
+ o:["Los neovasos","Los microaneurismas","El papiledema","La estrella macular"],
+ e:"El <b>microaneurisma</b> es el primer signo de la RD (RDNP leve)."},
+{cat:"RD · DDx grave",c:2,ddx:true,q:"La regla '4-2-1' que define la RDNP GRAVE se refiere a:",
+ o:["4 neovasos, 2 hemorragias vítreas, 1 DR","4 exudados, 2 microaneurismas, 1 drusa","Hemorragias en 4 cuadrantes, arrosariamiento venoso en 2, AMIR en 1","4 cuadrantes de neovasos en 2 ojos, 1 vez al año"],
+ e:"<b>RDNP grave = regla 4-2-1</b>: hemorragias en los <b>4</b> cuadrantes, arrosariamiento venoso en <b>2</b>, o AMIR en <b>1</b>."},
+{cat:"RD · clasificación",c:0,q:"Lo que define el paso a retinopatía diabética PROLIFERATIVA (RDP) es:",
+ o:["La aparición de neovasos","La aparición de microaneurismas","El edema macular","Los exudados duros"],
+ e:"La <b>RDP</b> se define por la aparición de <b>NEOVASOS</b>; puede dar pérdida brusca e indolora por hemorragia vítrea/prerretiniana y DR traccional."},
+{cat:"Imagen · RDNP",c:3,figSrc:"figRDNP",figcap:"Retinografía del paciente.",
+ q:"Este fondo con microaneurismas, hemorragias puntiformes y exudados duros, SIN neovasos, corresponde a:",
+ o:["RDP","Coroidopatía hipertensiva","Retinopatía hipertensiva grado IV","RDNP"],
+ e:"Microaneurismas + hemorragias + exudados duros <b>sin neovasos</b> = <b>RDNP</b>."},
+{cat:"Imagen · RDP",c:1,case:false,figSrc:"figNeovasos",figcap:"Retinografía del paciente.",
+ q:"Este ovillo de vasos finos y anómalos sobre la papila indica:",
+ o:["Exudados algodonosos","Neovasos (retinopatía diabética proliferativa)","Estrella macular","Drusas"],
+ e:"El <b>ovillo de neovasos</b> (sobre papila o retina) define la <b>RDP</b>."},
+{cat:"RD · signos",c:2,q:"Los exudados ALGODONOSOS de la retina indican:",
+ o:["Depósito de lípidos","Depósito de calcio","Isquemia (infartos de la capa de fibras nerviosas)","Neovascularización"],
+ e:"Los <b>exudados algodonosos</b> son infartos de la capa de fibras nerviosas por <b>isquemia</b>; marcador de RDNP grave/preproliferativa."},
+{cat:"RD · signos · DDx",c:3,ddx:true,q:"Los exudados DUROS, a diferencia de los algodonosos, son:",
+ o:["Infartos isquémicos","Neovasos","Microaneurismas","Depósitos de lípidos (amarillos, bien definidos)"],
+ e:"Los <b>exudados duros</b> son <b>depósitos de lípidos</b> (amarillos, bien delimitados); los algodonosos son isquémicos."},
+{cat:"EMD",c:0,q:"La causa MÁS FRECUENTE de pérdida de visión en el paciente diabético es:",
+ o:["El edema macular diabético","La hemorragia vítrea","El desprendimiento de retina","La catarata"],
+ e:"El <b>edema macular diabético (EMD)</b> es la causa más frecuente de pérdida visual en el diabético; más en DM2 y en cualquier fase."},
+{cat:"Caso clínico · EMD",c:1,case:true,
+ lead:"Diabético tipo 2 con visión central borrosa progresiva; en la OCT se ve engrosamiento foveal con quistes, sin neovasos.",
+ q:"El cuadro más probable es:",
+ o:["RDP","Edema macular diabético (cistoide)","Coroidopatía hipertensiva","Hemorragia vítrea"],
+ e:"Engrosamiento foveal con quistes y sin neovasos = <b>edema macular diabético</b> (forma difusa/cistoide), causa frecuente de baja visión en DM2."},
+{cat:"RD · tto",c:2,q:"La panfotocoagulación con láser está indicada en:",
+ o:["El edema macular focal aislado","Cualquier RDNP leve","La RDP y la RDNP grave","La coroidopatía hipertensiva"],
+ e:"La <b>panfotocoagulación</b> (ablación de la retina periférica para reducir factores vasoproliferativos) se indica en <b>RDP y RDNP grave</b>."},
+{cat:"RD · tto",c:3,q:"Para el edema macular diabético, el tratamiento incluye:",
+ o:["Solo panfotocoagulación","Vitrectomía siempre","Antibióticos","Fotocoagulación macular/focal y/o antiVEGF (o corticoides) intravítreos"],
+ e:"El <b>EMD</b> se trata con <b>fotocoagulación macular focal</b> y/o <b>antiVEGF</b> (o corticoides intravítreos como la dexametasona)."},
+{cat:"RD · tto",c:0,q:"Los antiVEGF intravítreos en la RD se usan para:",
+ o:["El edema macular y la regresión de neovasos","Bajar la PIO","Tratar la catarata","La conjuntivitis"],
+ e:"Los <b>antiVEGF</b> reducen la permeabilidad vascular (<b>edema macular</b>) e inducen la <b>regresión de los neovasos</b> en la RDP."},
+{cat:"RD · cribado",c:1,q:"¿Cuándo se hace la primera revisión oftalmológica en un paciente con DM tipo 1?",
+ o:["Al diagnóstico","A los 5 años del diagnóstico","A los 20 años","Nunca, si no hay síntomas"],
+ e:"En <b>DM1</b> la primera revisión se hace a los <b>5 años</b> del diagnóstico; en DM2, al diagnóstico."},
+{cat:"Caso clínico · cribado",c:2,case:true,
+ lead:"Paciente recién diagnosticado de DM tipo 2 a los 58 años, asintomático visual.",
+ q:"¿Cuándo debe hacerse la primera revisión de fondo de ojo?",
+ o:["A los 5 años","A los 10 años","Al diagnóstico de la diabetes","Solo si pierde visión"],
+ e:"En <b>DM2</b> la primera revisión se hace <b>al diagnóstico</b>, porque puede haber RD ya presente."},
+{cat:"RD · factores",c:3,ddx:true,q:"¿Cuál de los siguientes es un factor PROTECTOR de la progresión de la retinopatía diabética?",
+ o:["Mal control metabólico","HTA asociada","Embarazo","Miopía magna (y atrofia coriorretiniana)"],
+ e:"La <b>miopía magna</b> y la atrofia coriorretiniana son <b>factores protectores</b>; el mal control, la HTA y el embarazo, de riesgo."},
+{cat:"RD · complicaciones",c:0,q:"La rubeosis de iris y el glaucoma neovascular son complicaciones de:",
+ o:["La RDP (extensión de neovasos al segmento anterior)","La RDNP leve","La coroidopatía hipertensiva","El edema macular focal"],
+ e:"En la <b>RDP</b>, los neovasos pueden extenderse al segmento anterior → <b>rubeosis de iris y glaucoma neovascular</b>."},
+{cat:"Caso clínico · RDP",c:1,case:true,
+ lead:"Diabético de larga evolución con pérdida de visión BRUSCA e indolora en un ojo; el fondo no se visualiza bien por opacidad de medios.",
+ q:"La causa más probable es:",
+ o:["Edema macular","Hemorragia vítrea por RDP","Catarata","Conjuntivitis"],
+ e:"Pérdida <b>brusca e indolora</b> con medios opacos en un diabético = <b>hemorragia vítrea</b> por RDP (neovasos que sangran)."},
+{cat:"RD · evolución",c:2,q:"La fase de microangiopatía de la RD se caracteriza por:",
+ o:["Neovasos","Hemorragia vítrea","Afectación de los vasos sin lesiones visibles (preclínica)","Desprendimiento de retina"],
+ e:"La fase de <b>microangiopatía</b> es preclínica: hay daño vascular pero la retina aún no muestra lesiones."},
+{cat:"RHTA · signos",c:3,q:"En la retinopatía hipertensiva, el cambio de color arteriolar a 'hilo de cobre' y luego 'hilo de plata' se debe a:",
+ o:["Depósito de lípidos","Isquemia","Neovasos","Esclerosis/engrosamiento de la pared arteriolar"],
+ e:"La <b>esclerosis</b> de la pared arteriolar cambia el reflejo: <b>hilo de cobre</b> (moderada) → <b>hilo de plata</b> (más grave)."},
+{cat:"Imagen · RHTA",c:1,figSrc:"figHilos",figcap:"Dos arterias retinianas.",
+ q:"De estas dos arterias (a: amarillenta, b: blanquecina), ¿cuál refleja una esclerosis más avanzada?",
+ o:["La a (hilo de cobre)","La b (hilo de plata)","Ninguna","Ambas iguales"],
+ e:"El <b>hilo de plata</b> (b, blanquecina) refleja una esclerosis más avanzada que el <b>hilo de cobre</b> (a, amarillenta)."},
+{cat:"Imagen · RHTA",c:2,figSrc:"figGunn",figcap:"Cruce de un vaso sobre otro.",
+ q:"La compresión de la vénula por la arteria esclerosada en el cruce arteriovenoso se denomina:",
+ o:["Estrella macular","Hilo de plata","Signo de Gunn (signo de cruce)","Mancha de Elschnig"],
+ e:"El <b>signo de Gunn</b> (cruce arteriovenoso) aparece por compresión de la vénula por la arteria esclerosada; es el grado II de Keith-Wagener."},
+{cat:"RHTA · clasificación",c:0,q:"La clasificación más usada de la retinopatía hipertensiva es:",
+ o:["Keith-Wagener (1939)","AREDS","Internacional de la RD","Scheie únicamente"],
+ e:"La más usada es la de <b>Keith-Wagener (1939)</b> (grados I-IV); la de Scheie es subjetiva y de menor utilidad."},
+{cat:"RHTA · clasificación",c:1,q:"El grado IV de Keith-Wagener se caracteriza por:",
+ o:["Solo estrechamiento arteriolar","La presencia de PAPILEDEMA (HTA maligna)","Cruces de Gunn aislados","Hilo de cobre"],
+ e:"El <b>grado IV</b> añade <b>papiledema</b> y equivale a <b>HTA maligna</b> (el grado III tiene hemorragias y exudados)."},
+{cat:"RHTA · clasificación",c:2,q:"El signo de cruce arteriovenoso (Gunn) aparece en el grado de Keith-Wagener:",
+ o:["I","IV","II","III"],
+ e:"El <b>grado II</b> de Keith-Wagener añade los <b>cruces arteriovenosos (signo de Gunn)</b> al estrechamiento arteriolar."},
+{cat:"Caso clínico · RHTA",c:3,case:true,
+ lead:"Hipertenso mal controlado con cefalea; en el fondo de ojo se ven cruces de Gunn, hemorragias, exudados y edema de papila bilateral.",
+ q:"¿Qué grado de Keith-Wagener tiene y qué implica?",
+ o:["Grado I; leve","Grado II; cruces aislados","Grado III; hemorragias","Grado IV (papiledema) = HTA maligna"],
+ e:"La presencia de <b>papiledema</b> junto a hemorragias y exudados es <b>grado IV = HTA maligna</b> (urgencia)."},
+{cat:"RHTA · signos",c:0,q:"La 'estrella macular' de la retinopatía hipertensiva está formada por:",
+ o:["Exudados duros dispuestos radialmente en la mácula","Neovasos","Microaneurismas","Manchas de Elschnig"],
+ e:"La <b>estrella macular</b> son <b>exudados duros</b> (lípidos) dispuestos de forma radial en la mácula; típica de HTA (y neurorretinitis)."},
+{cat:"Coroidopatía HTA",c:1,q:"La coroidopatía hipertensiva aparece típicamente en:",
+ o:["Ancianos con esclerosis avanzada","Pacientes jóvenes con HTA aguda grave SIN esclerosis (eclampsia, renal, feocromocitoma)","Diabéticos tipo 1","Miopes magnos"],
+ e:"La <b>coroidopatía hipertensiva</b> es propia de <b>HTA aguda grave en jóvenes sin esclerosis</b> (eclampsia, enfermedad renal, feocromocitoma)."},
+{cat:"Coroidopatía HTA",c:2,q:"Las manchas de Elschnig corresponden a:",
+ o:["Neovasos coroideos","Exudados duros","Áreas de hipoperfusión de la coriocapilar","Microaneurismas"],
+ e:"Las <b>manchas de Elschnig</b> son áreas de <b>hipoperfusión de la coriocapilar</b>, típicas de la coroidopatía hipertensiva."},
+{cat:"Caso clínico · eclampsia",c:3,case:true,
+ lead:"Embarazada de 32 semanas con HTA grave (preeclampsia) y visión borrosa; en el fondo aparecen desprendimientos serosos focales y manchas blanquecinas profundas.",
+ q:"El diagnóstico es:",
+ o:["RDP","RDNP grave","Coroidopatía hipertensiva (manchas de Elschnig)","DMAE húmeda"],
+ e:"HTA aguda grave del embarazo + desprendimientos serosos + manchas profundas = <b>coroidopatía hipertensiva</b> (Elschnig)."},
+{cat:"RD · DDx",c:0,ddx:true,q:"¿Qué distingue la RDNP de la RDP?",
+ o:["La presencia de NEOVASOS (solo en la RDP)","El color del iris","La edad del paciente","La agudeza visual de lejos"],
+ e:"La <b>RDP</b> tiene <b>neovasos</b>; la RDNP no. Ese es el criterio que las separa (y lo que hace peligrosa a la RDP)."},
+{cat:"RD · signos",c:1,q:"El arrosariamiento venoso (venas 'en rosario') es un signo de:",
+ o:["RDNP leve","RDNP grave/preproliferativa (forma parte de la regla 4-2-1)","RDP establecida","Coroidopatía"],
+ e:"El <b>arrosariamiento venoso</b> es un signo de <b>RDNP grave</b> (2 cuadrantes en la regla 4-2-1)."},
+{cat:"RD · signos",c:2,q:"Las AMIR (anomalías microvasculares intrarretinianas) aparecen en:",
+ o:["La coroidopatía","La retinopatía hipertensiva leve","La RDNP grave/preproliferativa","La RDNP leve"],
+ e:"Las <b>AMIR</b> son un signo de <b>RDNP grave</b> (1 cuadrante en la regla 4-2-1)."},
+{cat:"Caso clínico · DDx vascular",c:3,case:true,ddx:true,
+ lead:"Dos pacientes con fondo de ojo alterado: uno diabético con microaneurismas, exudados duros y un neovaso; otro hipertenso con cruces de Gunn, hilo de plata y estrella macular.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Ambos RD","Ambos RHTA","Retinopatía hipertensiva y diabética","Retinopatía diabética (proliferativa) y retinopatía hipertensiva"],
+ e:"Microaneurismas + neovaso = <b>RD (proliferativa)</b>; cruces de Gunn + hilo de plata + estrella macular = <b>retinopatía hipertensiva</b>."},
+{cat:"RD · tto",c:0,q:"Los corticoides intravítreos (dexametasona) en la RD se usan para el edema macular, pero tienen como efectos secundarios:",
+ o:["Hipertensión ocular y catarata","Glaucoma de ángulo estrecho","Queratitis","Ojo seco"],
+ e:"Los <b>corticoides intravítreos</b> tratan el edema (↓permeabilidad e inflamación) pero pueden causar <b>HTO y catarata</b>."},
+{cat:"RD · tto",c:1,q:"La vitrectomía en la retinopatía diabética se indica en:",
+ o:["RDNP leve","Hemorragia vítrea persistente y/o desprendimiento de retina traccional","Edema macular focal leve","Coroidopatía hipertensiva"],
+ e:"La <b>vitrectomía</b> se reserva para las complicaciones avanzadas de la RDP: <b>hemorragia vítrea persistente y DR traccional</b>."},
+{cat:"RD · objetivo láser",c:2,q:"El objetivo de la panfotocoagulación retiniana es:",
+ o:["Cerrar microaneurismas maculares","Mejorar el edema focal","Reducir la producción de factores vasoproliferativos (ablación de retina periférica)","Sellar la mácula"],
+ e:"La <b>panfotocoagulación</b> ablaciona la retina periférica isquémica para <b>reducir los factores vasoproliferativos (VEGF)</b> y hacer regresar los neovasos."},
+{cat:"RD · epidemiología",c:3,q:"La prevalencia de RD en la diabetes:",
+ o:["Es baja en todos los casos","Solo afecta a la DM1","Es independiente del tiempo de evolución","Es muy alta y aumenta con el tiempo de evolución (≈98% de DM1 a los 20 años)"],
+ e:"La RD tiene <b>alta prevalencia</b> que aumenta con la duración de la DM (≈98% de DM1 y 50-80% de DM2 a los 20 años)."},
+{cat:"Caso clínico · EMD focal",c:0,case:true,
+ lead:"Diabético con exudados duros agrupados alrededor de microaneurismas en la zona macular y engrosamiento localizado en la OCT.",
+ q:"Se trata de un edema macular:",
+ o:["Focal","Difuso","Cistoide difuso","No es edema"],
+ e:"Engrosamiento <b>localizado</b> por exudación de microaneurismas individuales/agrupados = <b>EMD focal</b> (frente al difuso, mal definido y cistoide)."},
+{cat:"RHTA · signos",c:1,q:"En la retinopatía hipertensiva, las VENAS muestran típicamente:",
+ o:["Estrechamiento","Dilatación y tortuosidad","Hilo de plata","Neovasos"],
+ e:"En la RHTA, las <b>venas</b> se <b>dilatan y vuelven tortuosas</b>, mientras que las arterias se estrechan y cambian de reflejo."},
+{cat:"RHTA · clasificación",c:2,q:"En la clasificación de Scheie, las arterias en 'hilo de plata' corresponden al grado de esclerosis:",
+ o:["1","2","4","3"],
+ e:"En Scheie, el <b>hilo de cobre es grado 3</b> y el <b>hilo de plata grado 4</b> de esclerosis."},
+{cat:"Caso clínico · cribado",c:3,case:true,
+ lead:"Niña de 10 años diagnosticada de DM tipo 1 hace 2 años; la familia pregunta cuándo debe revisarse los ojos.",
+ q:"La respuesta correcta es:",
+ o:["Ya debería haberse revisado al diagnóstico","Nunca hasta los 18 años","Solo si pierde visión","A los 5 años del diagnóstico (le quedan unos 3 años)"],
+ e:"En <b>DM1</b> la primera revisión se programa a los <b>5 años</b> del diagnóstico (salvo pubertad/otros factores); luego, anual/bianual."},
+{cat:"RD · complicaciones",c:0,q:"El desprendimiento de retina de la RDP es de tipo:",
+ o:["Traccional (por la fibrosis que acompaña a los neovasos)","Regmatógeno","Exudativo","Seroso por coroides"],
+ e:"En la RDP, la <b>fibrosis</b> que acompaña a los neovasos tracciona la retina → <b>DR traccional</b>."},
+{cat:"RD · signos",c:1,q:"Los signos de la RDNP incluyen todos EXCEPTO:",
+ o:["Microaneurismas","Neovasos","Hemorragias","Exudados duros"],
+ e:"La RDNP incluye microaneurismas, hemorragias, exudados y edema, pero <b>NO neovasos</b> (esos definen la RDP)."},
+{cat:"Caso clínico · DDx",c:2,case:true,ddx:true,
+ lead:"Diabético con exudados algodonosos, arrosariamiento venoso en dos cuadrantes y AMIR en un cuadrante, sin neovasos.",
+ q:"¿En qué estadio está?",
+ o:["RDNP leve","RDP","RDNP grave (regla 4-2-1)","Coroidopatía hipertensiva"],
+ e:"Arrosariamiento en 2 cuadrantes + AMIR en 1, sin neovasos = <b>RDNP grave</b> (regla 4-2-1). Candidata a vigilancia estrecha ± panfotocoagulación."},
+{cat:"RD · tto",c:3,q:"La base del tratamiento de toda retinopatía diabética es:",
+ o:["La cirugía","El antiVEGF","Los corticoides","El control metabólico (glucemia) y de la HTA"],
+ e:"La base es el <b>control metabólico</b> (y de la HTA); sobre él se añaden láser, intravítreos o vitrectomía según el estadio."},
+{cat:"RHTA · fisiopatología",c:0,q:"Las lesiones EXTRAVASCULARES (en parénquima) de la retinopatía hipertensiva incluyen:",
+ o:["Hemorragias, exudados duros (estrella macular), algodonosos y papiledema","Solo hilo de cobre","Solo cruces de Gunn","Microaneurismas exclusivamente"],
+ e:"Las lesiones <b>extravasculares</b> son hemorragias, exudados duros (estrella macular), algodonosos (isquemia) y, en la maligna, papiledema."},
+{cat:"Caso clínico · glaucoma neovascular",c:1,case:true,
+ lead:"Diabético con RDP avanzada que desarrolla un ojo rojo doloroso con PIO muy elevada y vasos finos visibles en el iris.",
+ q:"El diagnóstico es:",
+ o:["Glaucoma agudo por cierre angular primario","Glaucoma neovascular (rubeosis de iris)","Uveítis","Conjuntivitis"],
+ e:"Vasos en el iris (<b>rubeosis</b>) + PIO alta en una RDP = <b>glaucoma neovascular</b>, por extensión de neovasos al ángulo."},
+{cat:"RD · clasificación",c:2,q:"La RDNP moderada se sitúa, en gravedad, entre:",
+ o:["La RDP y la coroidopatía","La emetropía y la presbicia","La leve (solo microaneurismas) y la grave (regla 4-2-1)","La estrella macular y el papiledema"],
+ e:"La <b>RDNP moderada</b> tiene más lesiones que la leve (solo microaneurismas) pero sin llegar a los criterios de <b>grave (4-2-1)</b>."},
+{cat:"RHTA · DDx",c:3,ddx:true,q:"Un hipertenso joven sin signos de esclerosis con desprendimientos serosos sugiere:",
+ o:["RDP","RDNP grave","DMAE","Coroidopatía hipertensiva"],
+ e:"HTA aguda en <b>joven sin esclerosis</b> con desprendimientos serosos = <b>coroidopatía hipertensiva</b> (eclampsia, renal, feocromocitoma)."},
+{cat:"RD · factores",c:0,q:"¿Cuál de estos es un factor de RIESGO de progresión de la RD?",
+ o:["Mal control metabólico","Miopía magna","Atrofia coriorretiniana","Retinosis pigmentaria"],
+ e:"El <b>mal control metabólico</b> (junto al tiempo de DM, HTA, DM1, embarazo) es factor de riesgo; la miopía magna y la atrofia coriorretiniana son protectores."},
+{cat:"Caso clínico · EMD DM2",c:1,case:true,
+ lead:"Mujer de 60 años con DM2 y visión central borrosa; no tiene neovasos, pero la OCT muestra edema macular.",
+ q:"¿Qué afirmación es correcta?",
+ o:["El edema macular solo aparece en la RDP","El edema macular es la causa más frecuente de baja visión en el diabético y aparece más en DM2","Hay que hacer panfotocoagulación urgente","Es una coroidopatía hipertensiva"],
+ e:"El <b>EMD</b> es la causa más frecuente de baja visión en el diabético, más en <b>DM2</b>, y puede aparecer en cualquier fase (no requiere RDP)."},
+{cat:"RD · evolución",c:2,q:"Ordene las fases de la RD:",
+ o:["Retinopatía → microangiopatía → vitreorretinopatía","Vitreorretinopatía → retinopatía → microangiopatía","Microangiopatía (preclínica) → retinopatía → vitreorretinopatía/complicaciones","Solo existe una fase"],
+ e:"La RD evoluciona: <b>microangiopatía (preclínica) → retinopatía → vitreorretinopatía y complicaciones de la RDP</b>."},
+{cat:"RHTA · signos",c:3,q:"En condiciones normales, en un cruce arteriovenoso la arteria pasa sobre la vena sin alterarla; en la HTA/esclerosis aparece:",
+ o:["Una estrella macular","Un hilo de cobre","Una mancha de Elschnig","El signo de Gunn (compresión de la vénula)"],
+ e:"La hiperplasia de la adventicia común en el cruce comprime la vénula → <b>signo de Gunn</b> (cruce arteriovenoso patológico)."},
+{cat:"Caso clínico · DDx exudados",c:0,case:true,ddx:true,
+ lead:"En el fondo de un diabético se ven, por un lado, depósitos amarillos bien definidos y, por otro, manchas blanquecinas algodonosas de bordes difusos.",
+ q:"¿Qué representan, respectivamente?",
+ o:["Exudados duros (lípidos) y exudados algodonosos (isquemia)","Neovasos y microaneurismas","Drusas y hemorragias","Ambos son isquémicos"],
+ e:"Los <b>duros</b> (amarillos, definidos) son lípidos; los <b>algodonosos</b> (blandos, difusos) son infartos isquémicos de fibras nerviosas."},
+{cat:"RD · tto antiVEGF",c:1,q:"En la RDP, los antiVEGF intravítreos consiguen:",
+ o:["Aumentar la PIO","Regresión de los neovasos (inhibición del VEGF)","Curar la catarata","Producir midriasis"],
+ e:"Al inhibir el VEGF, los antiVEGF inducen la <b>regresión de los neovasos</b> en la RDP (y reducen el edema macular)."},
+{cat:"RHTA · clasificación",c:2,q:"El grado III de Keith-Wagener añade, respecto al II:",
+ o:["Solo estrechamiento","Solo cruces de Gunn","Hemorragias y exudados","Papiledema"],
+ e:"El <b>grado III</b> añade <b>hemorragias y exudados</b> (algodonosos, estrella macular); el papiledema ya es grado IV."},
+{cat:"Caso clínico · HTA maligna",c:3,case:true,
+ lead:"Varón con cifras tensionales de 220/130, cefalea intensa y, en el fondo de ojo, edema de papila bilateral con hemorragias.",
+ q:"El hallazgo de papiledema en este contexto indica:",
+ o:["RDNP grave","RDP","Coroidopatía hipertensiva sin más","Retinopatía hipertensiva grado IV = HTA maligna (urgencia)"],
+ e:"El <b>papiledema</b> con hemorragias en una HTA muy elevada = <b>Keith-Wagener IV = HTA maligna</b>, una urgencia médica."},
+{cat:"RD · concepto",c:0,q:"La retina del diabético se afecta porque la hiperglucemia crónica daña:",
+ o:["Los microvasos retinianos (microangiopatía)","El cristalino exclusivamente","La córnea","La esclera"],
+ e:"La hiperglucemia crónica daña los <b>microvasos retinianos</b> (microangiopatía): la base de toda la RD."},
+{cat:"RHTA · signos",c:1,q:"El estrechamiento del calibre arteriolar y la alteración del reflejo arterial son signos:",
+ o:["Extravasculares","Vasculares de la retinopatía hipertensiva","De la RDP","De la coroidopatía"],
+ e:"El <b>estrechamiento arteriolar</b> y los cambios del reflejo (cobre/plata) son los <b>signos vasculares</b> arteriales de la RHTA."},
+{cat:"Caso clínico · RD cribado embarazo",c:2,case:true,
+ lead:"Diabética tipo 1 que se queda embarazada; su oftalmólogo intensifica los controles.",
+ q:"¿Por qué?",
+ o:["El embarazo cura la RD","El embarazo no influye","El embarazo es un factor de riesgo de progresión de la RD","La miopía protege más en el embarazo"],
+ e:"El <b>embarazo</b> (como la pubertad) es un <b>factor de riesgo de progresión</b> de la RD; por eso se intensifica el seguimiento."},
+{cat:"RD · DDx",c:3,ddx:true,q:"¿Qué signo NO pertenece a la retinopatía diabética NO proliferativa?",
+ o:["Microaneurismas","Exudados duros","Hemorragias","Neovasos"],
+ e:"Los <b>neovasos</b> NO son de la RDNP: definen la <b>RDP</b>. La RDNP tiene microaneurismas, hemorragias, exudados y edema."},
+{cat:"RHTA · DDx",c:0,ddx:true,q:"Diferencie el dato inicial de la RD del de la RHTA:",
+ o:["RD empieza por microaneurismas; RHTA destaca por cambios arteriolares (estrechamiento, cobre/plata, Gunn)","Ambas empiezan por neovasos","RD por papiledema; RHTA por microaneurismas","Son indistinguibles"],
+ e:"La <b>RD</b> empieza con <b>microaneurismas</b>; la <b>RHTA</b> destaca por los <b>cambios arteriolares</b> y, en grado IV, papiledema."},
+{cat:"RD · tto",c:1,q:"En la RDNP grave (muy isquémica), además del control y el seguimiento, puede indicarse:",
+ o:["Solo lágrimas artificiales","Panfotocoagulación (para prevenir la progresión a RDP)","Antibióticos tópicos","Midriáticos crónicos"],
+ e:"En la <b>RDNP grave</b> con isquemia extensa puede adelantarse la <b>panfotocoagulación</b> para prevenir la neovascularización."},
+{cat:"Coroidopatía HTA",c:2,q:"La rotura de la barrera hematorretiniana EXTERNA en la coroidopatía hipertensiva produce:",
+ o:["Neovasos","Microaneurismas","Desprendimientos serosos focales de retina","Hilo de plata"],
+ e:"En la coroidopatía hipertensiva, la rotura de la <b>BHE externa (EPR)</b> permite el paso de líquido → <b>desprendimientos serosos</b> focales."},
+{cat:"Caso clínico · DDx final",c:3,case:true,ddx:true,
+ lead:"Diabético de larga evolución con visión borrosa central, OCT con edema macular y, en la periferia, microaneurismas y exudados; sin neovasos.",
+ q:"Diagnóstico y causa de la baja visión:",
+ o:["RDP; hemorragia vítrea","Coroidopatía hipertensiva; Elschnig","RHTA grado IV; papiledema","RDNP con edema macular diabético (causa más frecuente de baja visión en el diabético)"],
+ e:"Sin neovasos = <b>RDNP</b>; la baja visión central por <b>edema macular diabético</b>, la causa más frecuente de pérdida visual en el diabético."},
+{cat:"RD · screening",c:0,q:"Tras la primera revisión, las exploraciones de cribado de RD se repiten:",
+ o:["Anual o bianualmente","Cada 10 años","Una sola vez en la vida","Solo si hay síntomas"],
+ e:"El cribado se mantiene con <b>revisiones anuales/bianuales</b> (cada vez más con telemedicina desde atención primaria)."},
+{cat:"RHTA · clasificación",c:1,q:"La clasificación de Scheie, frente a la de Keith-Wagener:",
+ o:["Es la más usada","Tiene el inconveniente de ser subjetiva y de escaso valor pronóstico","Mide neovasos","Solo sirve para la RD"],
+ e:"La de <b>Scheie</b> separa vasoconstricción y esclerosis (0-4) pero es <b>subjetiva y de escaso valor pronóstico</b>; la más usada es Keith-Wagener."},
+{cat:"RD · complicaciones",c:2,q:"La hemorragia vítrea en la RDP causa:",
+ o:["Dolor intenso y ojo rojo","Pérdida lenta indolora","Pérdida de visión brusca e indolora","Halos de colores"],
+ e:"La <b>hemorragia vítrea</b> de la RDP produce <b>pérdida de visión brusca e indolora</b> (los neovasos sangran al vítreo)."},
+{cat:"Caso clínico · RHTA grados",c:3,case:true,ddx:true,
+ lead:"Tres hipertensos: el 1º solo con estrechamiento arteriolar leve; el 2º con cruces de Gunn; el 3º con hemorragias y exudados.",
+ q:"Sus grados de Keith-Wagener son, respectivamente:",
+ o:["II, III, IV","I, I, II","III, II, I","I, II, III"],
+ e:"Estrechamiento leve = <b>I</b>; cruces de Gunn = <b>II</b>; hemorragias y exudados = <b>III</b> (el IV añade papiledema)."},
+{cat:"Síntesis",c:0,q:"Señale la afirmación CORRECTA:",
+ o:["RDNP grave = 4-2-1; RDP = neovasos; EMD = causa más frecuente de baja visión en el diabético","La RDNP tiene neovasos","La miopía magna agrava la RD","El cribado de la DM2 se hace a los 5 años"],
+ e:"Resumen: <b>RDNP grave = regla 4-2-1</b>, <b>RDP = neovasos</b>, <b>EMD = causa más frecuente de baja visión</b> en el diabético."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación FALSA:",
+ o:["La panfotocoagulación se usa en RDP y RDNP grave","La miopía magna es factor de riesgo de progresión de la RD","El signo de Gunn es un cruce arteriovenoso","El papiledema define el grado IV de Keith-Wagener"],
+ e:"FALSA: la <b>miopía magna es PROTECTORA</b> (no factor de riesgo). El resto de afirmaciones son correctas."},
+{cat:"DDx general",c:2,ddx:true,q:"El glaucoma neovascular puede complicar:",
+ o:["Una conjuntivitis","Una catarata senil","La RDP y la oclusión venosa de la retina","Un astigmatismo"],
+ e:"El <b>glaucoma neovascular</b> (rubeosis de iris) complica las retinopatías isquémicas: <b>RDP y oclusión venosa de la retina (OVCR)</b>."},
+{cat:"Síntesis · cribado",c:3,q:"Resumen del cribado de la RD:",
+ o:["DM1 y DM2 a los 10 años","Solo DM1 se criba","No hay cribado","DM1 a los 5 años del diagnóstico, DM2 al diagnóstico, luego anual/bianual"],
+ e:"<b>DM1</b>: primera revisión a los <b>5 años</b>; <b>DM2</b>: <b>al diagnóstico</b>; después, revisiones <b>anuales/bianuales</b>."}
+];
+
+const figMap={figGunn,figHilos,figRDNP,figNeovasos};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la patología vascular retiniana. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo la regla 4-2-1 y Keith-Wagener.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza RDNP vs RDP y los signos de la RHTA.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T08 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
