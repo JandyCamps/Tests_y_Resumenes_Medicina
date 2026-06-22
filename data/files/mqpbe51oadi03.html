@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T20 · Enfermedades Sistémicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --reu:#1a5e86;--reubg:#e3eff7;--inf:#9a4d12;--infbg:#f6ecde;--aut:#7a3a8f;--autbg:#f1e6f4;--met:#1f6f4a;--metbg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:31px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.reu{color:var(--reu);background:var(--reubg)}.chip.inf{color:var(--inf);background:var(--infbg)}
+  .chip.aut{color:var(--aut);background:var(--autbg)}.chip.met{color:var(--met);background:var(--metbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.reu{color:var(--reu);background:var(--reubg)}.pill.inf{color:var(--inf);background:var(--infbg)}.pill.aut{color:var(--aut);background:var(--autbg)}.pill.met{color:var(--met);background:var(--metbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 20</p>
+  <h1>Repercusión Oftalmológica de las Enfermedades Sistémicas</h1>
+  <p>Resumen organizado por grupos de enfermedad (<b>reumáticas, autoinmunes, infecciosas, endocrino-metabólicas</b>) y por el <b>tejido ocular afectado</b>. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#concepto">0 · Por qué importan estas asociaciones</a>
+    <a href="#tejido">I · Patrón por tejido ocular</a>
+    <a href="#reumaticas">II · Enfermedades reumáticas</a>
+    <a href="#vasculitis">III · Vasculitis (incl. ACG)</a>
+    <a href="#autoinmunes">IV · Autoinmunes (tiroides, sarcoidosis)</a>
+    <a href="#infecciosas">V · Enfermedades infecciosas</a>
+    <a href="#metabolicas">VI · Endocrino-metabólicas (DM)</a>
+    <a href="#ddx">VII · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="concepto">
+  <h2><span class="romnum">0</span> Por qué importan estas asociaciones</h2>
+  <p class="lead">Conocer las manifestaciones oculares de las enfermedades sistémicas es útil para el <b>diagnóstico inicial</b>, como <b>ayuda diagnóstica</b>, para <b>prevenir el daño visual</b> y para <b>seguir el tratamiento</b>.</p>
+  <ul>
+    <li>Las enfermedades <b>inflamatorias</b> pueden dar <b>uveítis, vasculitis y necrosis tisular</b>.</li>
+    <li>Las <b>infecciosas</b> dañan por actividad microbiana directa, inflamación secundaria o efectos de la enfermedad (inmunodepresión por VIH, neurosífilis…).</li>
+    <li>La <b>diabetes</b> produce alteraciones oculares <b>más allá de la retinopatía</b>.</li>
+  </ul>
+</section>
+
+<section id="tejido">
+  <h2><span class="romnum">I</span> Patrón por tejido ocular <span class="chip reu">tabla clave</span></h2>
+  <p class="lead">La tabla maestra del tema: qué tejido se afecta, su riesgo visual y qué enfermedad sistémica buscar.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Manifestación</th><th>Riesgo visual</th><th>Enfermedad sistémica</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Escleritis</td><td>Moderado</td><td><b>AR, Wegener, LES, PAN</b></td></tr>
+      <tr><td class="h">Queratitis (úlcera periférica)</td><td>Moderado</td><td>AR, Wegener, PAN</td></tr>
+      <tr><td class="h">Uveítis</td><td>Moderado</td><td>AIJ, HLA-B27, sarcoidosis, Behçet, VKH</td></tr>
+      <tr><td class="h">Vasculitis retiniana</td><td><b>Alto</b></td><td><b>LES, PAN, Wegener, Behçet</b></td></tr>
+      <tr><td class="h">Inflamación orbitaria</td><td>Bajo</td><td>PAN, Wegener</td></tr>
+      <tr><td class="h">Neuropatía óptica</td><td><b>Alto</b></td><td><b>ACG, LES, Sjögren, PAN, sarcoidosis</b></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="reumaticas">
+  <h2><span class="romnum">II</span> Enfermedades reumáticas <span class="chip reu">superficie</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Enfermedad</th><th>Manifestaciones oculares</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Artritis reumatoide</td><td><b>Ojo seco</b> (Sjögren secundario), <b>queratitis ulcerativa periférica</b>, <b>escleritis</b> (nodular)</td></tr>
+      <tr><td class="h">Artritis idiopática juvenil (AIJ)</td><td><b>Uveítis anterior poco sintomática</b> (+ glaucoma, catarata, queratopatía en banda) → cribado</td></tr>
+      <tr><td class="h">Espondiloartropatías / EII</td><td>Uveítis anterior (HLA-B27)</td></tr>
+      <tr><td class="h">LES</td><td>Ojo seco (Sjögren secundario), <b>vasculitis retiniana</b></td></tr>
+      <tr><td class="h">Síndrome de Sjögren</td><td><b>Ojo seco</b></td></tr>
+      <tr><td class="h">Wegener (GPA) / PAN</td><td><b>Queratitis ulcerativa periférica</b>, <b>escleritis necrotizante</b></td></tr>
+      <tr><td class="h">Behçet</td><td><b>Vasculitis retiniana oclusiva</b> + uveítis anterior con <b>hipopión</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">La diferencia</span> En la <b>AR</b> piensa en <b>superficie</b> (ojo seco, queratitis periférica, escleritis); en el <b>LES/Behçet</b>, en <b>vasculitis retiniana</b>; en la <b>AIJ</b>, en <b>uveítis anterior silente</b>.</div>
+  <p class="note"><b>Maculopatía por antipalúdicos:</b> la cloroquina/hidroxicloroquina (usadas en AR/LES) producen una maculopatía <b>"en ojo de buey"</b>; todo paciente en tratamiento crónico debe ser cribado y, si aparece, se suspende el fármaco.</p>
+</section>
+
+<section id="vasculitis">
+  <h2><span class="romnum">III</span> Vasculitis: arteritis de células gigantes <span class="chip r">urgencia</span></h2>
+  <ul>
+    <li><b>Vasculitis necrotizante</b> de arterias grandes y medias, en <b>ancianos</b>.</li>
+    <li><b>Clínica:</b> cefalea, fiebre, anemia, <b>claudicación mandibular</b>; elevación de reactantes (<b>VSG, PCR, plaquetas</b>).</li>
+    <li><b>Manifestaciones oftalmológicas:</b> <b>neuropatía óptica isquémica (NOIA arterítica)</b>, obstrucciones arteriales retinianas y afectación de pares craneales (diplopía).</li>
+    <li><b>Tratamiento URGENTE:</b> corticoides a dosis altas ± ahorradores (metotrexato, <b>tocilizumab</b>).</li>
+  </ul>
+  <div class="alarm"><span class="lbl">No fallar</span> Anciano con pérdida visual + clínica de ACG + <b>VSG/PCR altas</b> → <b>corticoides urgentes</b> para salvar el otro ojo (NOIA arterítica).</div>
+</section>
+
+<section id="autoinmunes">
+  <h2><span class="romnum">IV</span> Autoinmunes: tiroides y sarcoidosis</h2>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Oftalmopatía tiroidea (Graves) <span class="pill aut">exoftalmos</span></h4>
+      <ul>
+        <li>Aparece en el <b>50%</b> de los pacientes con enfermedad de Graves-Basedow.</li>
+        <li><b>Causa más frecuente de exoftalmos en el adulto</b> (uni o bilateral).</li>
+        <li>Retracción palpebral, <b>exoftalmos</b>, ↑PIO, <b>oftalmoplejía restrictiva</b> (diplopía), <b>neuropatía óptica compresiva</b>.</li>
+        <li>Mujeres &gt; hombres (5:1); el paciente puede ser hipo, eu o hipertiroideo. Casos moderados/graves: <b>corticoides</b>.</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Sarcoidosis <span class="pill aut">granulomatosa</span></h4>
+      <ul>
+        <li><b>Uveítis anterior</b> granulomatosa.</li>
+        <li><b>Periflebitis</b> con exudados <b>"en gota de cera"</b>.</li>
+        <li><b>Uveítis intermedia</b> con <b>bolas de nieve</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="key"><span class="lbl">Recuerda</span> La <b>oftalmopatía tiroidea</b> es la causa más frecuente de exoftalmos del adulto; en el <b>niño</b>, la causa más frecuente de exoftalmos es la <b>celulitis orbitaria</b>.</div>
+</section>
+
+<section id="infecciosas">
+  <h2><span class="romnum">V</span> Enfermedades infecciosas</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Agente</th><th>Manifestaciones oculares</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Herpes simple (HSV-1)</td><td>Queratitis (dendrítica → disciforme), iridociclitis; recurrencias desde el ganglio de Gasser</td></tr>
+      <tr><td class="h">Herpes zóster oftálmico</td><td>Rama oftálmica del <b>trigémino</b> (signo de Hutchinson en la nariz = rama nasociliar); iridociclitis, uveítis con atrofia sectorial del iris</td></tr>
+      <tr><td class="h">VIH/SIDA</td><td><b>Microangiopatía retiniana</b> (la más frecuente), <b>retinitis por CMV</b>, infecciones oportunistas, Kaposi palpebral, linfoma</td></tr>
+      <tr><td class="h">Sífilis</td><td>Uveítis, neurosífilis (pupila de <b>Argyll-Robertson</b>)</td></tr>
+      <tr><td class="h">Tuberculosis</td><td>Uveítis, coroiditis</td></tr>
+      <tr><td class="h">Toxoplasmosis</td><td><b>Coriorretinitis</b> (congénita o adquirida); deja cicatrices y se reactiva</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">SIDA</span> En fase SIDA hay un 30–40% de afectación ocular; la <b>microangiopatía retiniana</b> es la más frecuente y la <b>retinitis por CMV</b> ("en pizza") la más temida.</div>
+</section>
+
+<section id="metabolicas">
+  <h2><span class="romnum">VI</span> Endocrino-metabólicas: diabetes mellitus</h2>
+  <p class="lead">La diabetes afecta al ojo <b>más allá de la retinopatía diabética</b>.</p>
+  <ul>
+    <li><b>Retinopatía diabética</b> (lo principal).</li>
+    <li><b>Mala adherencia del epitelio corneal</b> y <b>↓sensibilidad corneal</b>.</li>
+    <li><b>Refracción inestable</b> (según la glucemia) y <b>catarata</b>.</li>
+    <li><b>Glaucoma neovascular</b>.</li>
+    <li><b>Paresias de pares craneales</b> (III par isquémico que respeta la pupila, VI par) e <b>infecciones</b>.</li>
+  </ul>
+  <p class="note"><b>Depósitos corneales por enfermedades metabólicas:</b> cistinosis, enfermedad de Fabry, gota e hipercalcemia depositan material en la córnea; la diabetes mellitus, en cambio, <b>no</b> produce depósitos corneales de material extraño.</p>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · ¿Qué busco según el signo ocular?</h3>
+  <p><b>Escleritis/queratitis periférica</b> → AR, Wegener, PAN. <b>Vasculitis retiniana</b> → LES, Behçet, PAN, Wegener. <b>Uveítis anterior</b> → HLA-B27, AIJ, sarcoidosis. <b>Neuropatía óptica</b> → ACG, sarcoidosis, LES, Sjögren.</p>
+  <h3>2 · Exoftalmos</h3>
+  <p><b>Adulto</b> → oftalmopatía tiroidea (lo más frecuente). <b>Niño</b> → celulitis orbitaria.</p>
+  <h3>3 · Pérdida visual en el anciano con VSG alta</h3>
+  <p>Arteritis de células gigantes → <b>NOIA arterítica</b>; corticoides urgentes.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de las asociaciones sistémicas.</p>
+  <div class="trap"><span class="t">1 · Artritis reumatoide → superficie</span> Ojo seco (Sjögren secundario), queratitis ulcerativa periférica y <b>escleritis</b> (nodular).</div>
+  <div class="trap"><span class="t">2 · Vasculitis retiniana = riesgo visual ALTO → LES, Behçet, PAN, Wegener</span> Hemorragias, exudados algodonosos y oclusión vascular.</div>
+  <div class="trap"><span class="t">3 · AIJ → uveítis anterior POCO sintomática</span> Requiere cribado (glaucoma, catarata, queratopatía en banda).</div>
+  <div class="trap"><span class="t">4 · Behçet → vasculitis oclusiva + uveítis anterior con HIPOPIÓN</span> Sarcoidosis → bolas de nieve y exudados "en gota de cera".</div>
+  <div class="trap"><span class="t">5 · Oftalmopatía tiroidea = causa más frecuente de exoftalmos del ADULTO</span> En el niño, la causa más frecuente es la <b>celulitis orbitaria</b>.</div>
+  <div class="trap"><span class="t">6 · La oftalmopatía tiroidea puede darse con hipo, eu o hipertiroidismo</span> Cursa con retracción palpebral, exoftalmos, oftalmoplejía restrictiva y neuropatía óptica compresiva; casos graves → corticoides.</div>
+  <div class="trap"><span class="t">7 · Arteritis de células gigantes → NOIA arterítica (urgencia)</span> Anciano + VSG/PCR altas + claudicación mandibular → corticoides a dosis altas (± tocilizumab).</div>
+  <div class="trap"><span class="t">8 · VIH/SIDA: microangiopatía retiniana (la más frecuente) y retinitis por CMV ("en pizza")</span> La afectación ocular aparece en el 30–40% en fase SIDA.</div>
+  <div class="trap"><span class="t">9 · Sífilis → pupila de Argyll-Robertson</span> Disociación luz-acomodación (neurosífilis).</div>
+  <div class="trap"><span class="t">10 · Antipalúdicos (cloroquina) → maculopatía "en ojo de buey"</span> En pacientes con AR/LES; cribado y suspender el fármaco.</div>
+  <div class="trap"><span class="t">11 · La diabetes da clínica ocular más allá de la retinopatía</span> Refracción inestable, ↓sensibilidad corneal, catarata, glaucoma neovascular y paresias de pares craneales (III que respeta pupila).</div>
+  <div class="trap"><span class="t">12 · Depósitos corneales = cistinosis, Fabry, gota, hipercalcemia (NO la diabetes)</span> Pregunta clásica de "cuál NO se asocia a depósitos corneales".</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 20. Ilustraciones esquemáticas originales (no fotografías). Muchas de estas entidades se detallan en sus temas específicos (uveítis T19, órbita T23, superficie T03-T04, mácula T07).</p></section>
+
+</div>
+</body>
+</html>
