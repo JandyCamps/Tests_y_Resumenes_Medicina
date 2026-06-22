@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T18 · Oftalmología Pediátrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T18</p>
+    <h1>Oftalmología Pediátrica</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figLeuco=`<svg viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pupila blanca (leucocoria)">
+<ellipse cx="110" cy="72" rx="100" ry="50" fill="#f7f1ec" stroke="#cfc8bb"/><circle cx="110" cy="72" r="40" fill="#7a5a36"/><circle cx="110" cy="72" r="21" fill="#eee"/></svg>`;
+const figVia=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vía lagrimal con obstrucción baja en la válvula de Hasner">
+<ellipse cx="110" cy="48" rx="64" ry="22" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="80" cy="48" r="4" fill="#1a5e86"/><circle cx="140" cy="48" r="4" fill="#1a5e86"/>
+<path d="M80 52 Q66 86 74 116" stroke="#1a5e86" stroke-width="5" fill="none"/><path d="M140 52 Q154 86 146 116" stroke="#1a5e86" stroke-width="5" fill="none"/>
+<rect x="66" y="114" width="26" height="30" rx="7" fill="#cfe3ea" stroke="#7fa6b5"/><path d="M79 144 L79 158" stroke="#1a5e86" stroke-width="8" fill="none"/><path d="M72 156 l14 0" stroke="#b23a32" stroke-width="5"/>
+<text x="150" y="146" style="font:600 10px Inter;fill:#b23a32">válvula de Hasner</text></svg>`;
+const figBuft=`<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo de lactante con córnea grande y turbia (buftalmos)">
+<ellipse cx="80" cy="68" rx="38" ry="28" fill="#fff" stroke="#7a8b90"/><circle cx="80" cy="68" r="20" fill="#9aa6b0"/><circle cx="80" cy="68" r="9" fill="#1a1a1a"/>
+<ellipse cx="170" cy="68" rx="54" ry="38" fill="#fff" stroke="#7a8b90"/><circle cx="170" cy="68" r="32" fill="#aeb8c0" opacity=".9"/><circle cx="170" cy="68" r="13" fill="#1a1a1a"/>
+<text x="120" y="128" text-anchor="middle" style="font:400 11px Inter;fill:#46585f">buftalmos (córnea grande y turbia)</text></svg>`;
+const figROP=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Retina del prematuro con cresta y vasos dilatados (enfermedad plus)">
+<circle cx="120" cy="72" r="66" fill="#dd9a45" stroke="#b8752f"/><circle cx="80" cy="60" r="11" fill="#e8c98a" stroke="#caa24e"/>
+<g stroke="#9c2b22" stroke-width="3" fill="none"><path d="M80 60 Q120 70 165 60 M80 60 Q120 86 160 96"/></g>
+<path d="M150 35 Q165 72 150 110" stroke="#f3e0a0" stroke-width="6" fill="none"/>
+<text x="120" y="142" text-anchor="middle" style="font:400 10px Inter;fill:#5a3a1a">cresta + vasos dilatados/tortuosos (plus)</text></svg>`;
+
+const Q=[
+{cat:"Epidemiología",c:1,q:"La patología pediátrica ocular más frecuente (≈85%) son:",
+ o:["Tumores y catarata","Ametropías y estrabismo","Glaucoma y uveítis","Neuropatías ópticas"],
+ e:"El <b>85%</b> de la patología pediátrica son <b>ametropías y estrabismo</b>; la obstrucción lagrimal supone ~10% y el resto (5%) lo grave."},
+{cat:"Vía lagrimal",c:2,q:"La obstrucción congénita de la vía lagrimal se debe a:",
+ o:["Un tumor del saco","Una conjuntivitis","La falta de apertura de la válvula de Hasner (obstrucción baja)","Una catarata"],
+ e:"Se debe a la falta de apertura de la <b>válvula de Hasner</b> (meato inferior): obstrucción <b>baja</b> de la vía lagrimal."},
+{cat:"Vía lagrimal",c:3,q:"La clínica de la obstrucción congénita de la vía lagrimal incluye:",
+ o:["Leucocoria","Buftalmos","Fotofobia y dolor","Epífora, conjuntivitis de repetición y mucocele"],
+ e:"Cursa con <b>epífora, conjuntivitis de repetición y mucocele</b> (dacriocistocele)."},
+{cat:"Vía lagrimal · tto",c:0,q:"El tratamiento INICIAL de la obstrucción congénita de la vía lagrimal es:",
+ o:["Conservador (masaje del saco); >90% se resuelve solo en los primeros meses","Sondaje inmediato al nacer","DCR urgente","Antibióticos sistémicos de por vida"],
+ e:"La mayoría (&gt;90%) se resuelve <b>espontáneamente</b>; se inicia con <b>masaje del saco lagrimal</b>."},
+{cat:"Vía lagrimal · tto",c:1,q:"Si la obstrucción lagrimal persiste pasados los primeros meses, el siguiente paso es:",
+ o:["DCR","Sondaje de la vía lagrimal","Enucleación","Trasplante"],
+ e:"Si no se resuelve con masaje, se realiza <b>sondaje</b> (a partir de los 6–12 meses; éxito ~90% hasta los 3 años)."},
+{cat:"Imagen · vía lagrimal",c:2,figSrc:"figVia",figcap:"Esquema de la vía lagrimal del lactante.",
+ q:"La obstrucción marcada en la parte baja, que impide el drenaje a la nariz, corresponde a:",
+ o:["Glaucoma congénito","Dacriocistitis del adulto","Obstrucción congénita de la vía lagrimal (válvula de Hasner)","Catarata"],
+ e:"La obstrucción <b>baja</b> en la <b>válvula de Hasner</b> es la obstrucción congénita de la vía lagrimal."},
+{cat:"Caso clínico · vía lagrimal",c:3,case:true,
+ lead:"Lactante de 2 meses con lagrimeo constante de un ojo y episodios repetidos de secreción/conjuntivitis, sin fotofobia ni córnea turbia.",
+ q:"Diagnóstico y actitud:",
+ o:["Glaucoma congénito; goniotomía","Retinoblastoma; enucleación","Conjuntivitis alérgica; antihistamínicos","Obstrucción congénita de la vía lagrimal; masaje del saco (la mayoría se resuelve sola)"],
+ e:"Epífora + conjuntivitis de repetición sin fotofobia/buftalmos = <b>obstrucción congénita de la vía lagrimal</b>; tratamiento inicial conservador (masaje)."},
+{cat:"Glaucoma congénito",c:0,q:"El glaucoma congénito se debe a:",
+ o:["Disgenesia del trabeculum (desarrollo anormal del ángulo)","Obstrucción de la válvula de Hasner","Un tumor","Corticoides"],
+ e:"El <b>glaucoma congénito</b> se debe a la <b>disgenesia del trabeculum</b> (obstrucción del drenaje del humor acuoso)."},
+{cat:"Glaucoma congénito",c:1,q:"La tríada clínica del glaucoma congénito es:",
+ o:["Leucocoria + estrabismo + nistagmo","Epífora + fotofobia + blefarospasmo","Dolor + halos + náuseas","Proptosis + soplo + inyección"],
+ e:"La tríada del <b>glaucoma congénito</b> es <b>epífora + fotofobia + blefarospasmo</b> (más buftalmos y turbidez corneal)."},
+{cat:"Imagen · buftalmos",c:2,figSrc:"figBuft",figcap:"Ojos del lactante (derecho aumentado).",
+ q:"Este ojo grande con córnea aumentada y turbia en un lactante con fotofobia corresponde a:",
+ o:["Catarata congénita","Obstrucción lagrimal","Buftalmos (glaucoma congénito)","Conjuntivitis"],
+ e:"El <b>buftalmos</b> (córnea &gt;12 mm, ojo grande, turbidez) con fotofobia es típico del <b>glaucoma congénito</b>."},
+{cat:"Glaucoma congénito",c:3,q:"El tratamiento del glaucoma congénito es:",
+ o:["Masaje","Antibióticos","Hipotensores tópicos de por vida","Quirúrgico: goniotomía"],
+ e:"El <b>glaucoma congénito</b> se trata quirúrgicamente con <b>goniotomía</b>."},
+{cat:"Leucocoria · DDx",c:0,ddx:true,q:"La causa MÁS FRECUENTE de leucocoria es:",
+ o:["La catarata congénita","El retinoblastoma","La ROP","La toxocariasis"],
+ e:"La <b>catarata congénita</b> es la causa más frecuente de leucocoria; el retinoblastoma es la más grave."},
+{cat:"Leucocoria · DDx",c:1,ddx:true,q:"La causa MÁS GRAVE de leucocoria es:",
+ o:["La catarata congénita","El retinoblastoma","La persistencia de vítreo primario","La enfermedad de Coats"],
+ e:"El <b>retinoblastoma</b> es la causa más grave (maligna) de leucocoria; siempre hay que descartarlo."},
+{cat:"Imagen · leucocoria",c:2,figSrc:"figLeuco",figcap:"Reflejo pupilar del niño.",
+ q:"Ante este reflejo pupilar blanco en un niño, lo prioritario es:",
+ o:["Tranquilizar a los padres","Poner gafas","Estudiar con prioridad para descartar retinoblastoma","Dar antibiótico"],
+ e:"Toda <b>leucocoria</b> infantil obliga a <b>descartar retinoblastoma</b> con prioridad."},
+{cat:"Caso clínico · retinoblastoma",c:3,case:true,
+ lead:"Varón de 20 meses que acude por leucocoria en el ojo derecho.",
+ q:"¿Qué enfermedad puede padecer?",
+ o:["Dacriocistitis del recién nacido","Coloboma de iris","Astigmatismo","Retinoblastoma"],
+ e:"Leucocoria en un niño pequeño obliga a pensar en <b>retinoblastoma</b> (tumor intraocular maligno más frecuente de la infancia)."},
+{cat:"Catarata congénita",c:0,q:"¿Cuál de estas es causa de catarata congénita?",
+ o:["TORCHS, galactosemia, cromosomopatías (Down, Patau, Edward), herencia HAD","Corticoides tópicos","Traumatismo del parto","Conjuntivitis neonatal"],
+ e:"La catarata congénita se debe a <b>TORCHS, galactosemia, cromosomopatías y herencia HAD</b>."},
+{cat:"Catarata congénita",c:1,q:"En el diagnóstico de la catarata congénita, el oftalmoscopio directo muestra:",
+ o:["Mancha rojo cereza","Pérdida del reflejo rojo / opacidades negras","Excavación papilar","Estrías de Haab"],
+ e:"El oftalmoscopio directo muestra <b>pérdida del reflejo rojo</b> u opacidades negras en la catarata congénita."},
+{cat:"Catarata congénita",c:2,q:"El tratamiento de la catarata congénita significativa es:",
+ o:["Observación","Gafas","Cirugía + tratamiento de la ambliopía","Masaje"],
+ e:"La catarata congénita significativa se trata con <b>cirugía + tratamiento de la ambliopía</b> (por el riesgo de ambliopía por deprivación)."},
+{cat:"Catarata congénita",c:3,q:"¿Qué catarata congénita puede revertir con tratamiento dietético?",
+ o:["La de las cromosomopatías","La de las infecciones TORCHS","La hereditaria","La de la galactosemia (suprimiendo la galactosa)"],
+ e:"La catarata de la <b>galactosemia</b> puede revertir al <b>suprimir la galactosa</b> de la dieta."},
+{cat:"Retinoblastoma",c:0,q:"El retinoblastoma es:",
+ o:["El tumor intraocular maligno más frecuente de la infancia","Un tumor benigno","Una distrofia","Una infección"],
+ e:"El <b>retinoblastoma</b> es el tumor intraocular maligno más frecuente de la infancia (gen RB1)."},
+{cat:"Retinoblastoma",c:1,q:"La forma de presentación MÁS FRECUENTE del retinoblastoma es:",
+ o:["El glaucoma","La leucocoria","El dolor","La epífora"],
+ e:"La presentación más frecuente del <b>retinoblastoma</b> es la <b>leucocoria</b> (también estrabismo, glaucoma, mala visión, inflamación)."},
+{cat:"Retinoblastoma",c:2,q:"En la imagen, el retinoblastoma típicamente aparece como:",
+ o:["Una mancha rojo cereza","Un edema de papila","Una masa intraocular con calcificaciones","Una excavación papilar"],
+ e:"El <b>retinoblastoma</b> es una <b>masa intraocular con calcificaciones</b>."},
+{cat:"Retinoblastoma",c:3,q:"Las formas hereditarias de retinoblastoma se caracterizan por:",
+ o:["Ser siempre unilaterales","No tener base genética","Aparecer en adultos","Mutación del alelo RB1 (HAD), bilaterales y con asociación a otros tumores"],
+ e:"Las formas <b>hereditarias</b> (mutación de <b>RB1</b>, HAD) suelen ser <b>bilaterales</b> y se asocian a otros tumores; las esporádicas son unilaterales."},
+{cat:"Retinoblastoma",c:0,q:"El tratamiento del retinoblastoma incluye:",
+ o:["Quimioterapia, crioterapia, braquiterapia o enucleación según el caso","Solo gafas","Solo observación","Masaje del saco"],
+ e:"El <b>retinoblastoma</b> se trata con <b>quimioterapia, crioterapia, braquiterapia o enucleación</b> según el caso."},
+{cat:"Retinoblastoma",c:1,q:"El retinoblastoma puede diseminarse por:",
+ o:["La vía lagrimal","Invasión del nervio óptico hacia el encéfalo (y metástasis a ganglios, pulmón, cerebro, hueso)","La córnea","La conjuntiva"],
+ e:"El <b>retinoblastoma</b> puede invadir el <b>nervio óptico</b> y diseminarse al encéfalo; metastatiza a ganglios, pulmón, cerebro y hueso."},
+{cat:"ROP",c:2,q:"El cribado de la retinopatía de la prematuridad se inicia:",
+ o:["Al año","A los 6 meses","A las 5 semanas del parto (en prematuros <30 sem o <1300 g)","Al nacer en todos los recién nacidos"],
+ e:"El cribado de la <b>ROP</b> se hace a las <b>5 semanas del parto</b> en prematuros (&lt;30 semanas o &lt;1300 g; o &lt;35 sem/&lt;1800 g si oxígeno)."},
+{cat:"ROP",c:3,q:"La enfermedad 'plus' en la ROP indica:",
+ o:["Curación","Estadío 1","Desprendimiento total","Actividad (dilatación y tortuosidad vascular)"],
+ e:"La <b>enfermedad plus</b> (dilatación y tortuosidad vascular) indica <b>actividad</b> de la ROP."},
+{cat:"Imagen · ROP",c:0,figSrc:"figROP",figcap:"Retina del prematuro.",
+ q:"Esta cresta con vasos dilatados y tortuosos en un prematuro corresponde a:",
+ o:["Retinopatía de la prematuridad con enfermedad plus","Retinoblastoma","Catarata","Glaucoma congénito"],
+ e:"Cresta + vasos dilatados/tortuosos (plus) en un prematuro = <b>ROP activa</b>."},
+{cat:"ROP",c:1,q:"El estadío 5 de la ROP corresponde a:",
+ o:["Línea de demarcación","Desprendimiento de retina total (leucocoria)","Cresta monticular","Proliferación extrarretiniana"],
+ e:"El <b>estadío 5</b> de la ROP es el <b>desprendimiento de retina total</b>, que se manifiesta como leucocoria."},
+{cat:"ROP",c:2,q:"El tratamiento de la ROP es:",
+ o:["Masaje","Goniotomía","Fotocoagulación con láser o antiVEGF (según zona y estadío)","Antibióticos"],
+ e:"La <b>ROP</b> se trata con <b>fotocoagulación con láser o antiVEGF</b> según la zona y el estadío."},
+{cat:"Caso clínico · ROP",c:3,case:true,
+ lead:"Prematuro de 28 semanas y 1100 g que recibió oxígeno; en la revisión a las 5 semanas se observa una cresta con proliferación fibrovascular y vasos dilatados/tortuosos.",
+ q:"Diagnóstico y actitud:",
+ o:["Catarata; cirugía","Glaucoma congénito; goniotomía","Obstrucción lagrimal; masaje","Retinopatía de la prematuridad con enfermedad plus; valorar láser/antiVEGF"],
+ e:"Prematuro con cresta + proliferación + plus = <b>ROP activa</b>; se valora tratamiento con <b>láser o antiVEGF</b> según zona y estadío."},
+{cat:"DDx epífora",c:0,ddx:true,q:"Ante un lactante con epífora, ¿qué hay que descartar además de la obstrucción lagrimal?",
+ o:["Glaucoma congénito (si hay fotofobia, buftalmos, turbidez corneal)","Presbicia","DMAE","Catarata senil"],
+ e:"La <b>epífora del lactante</b> obliga a descartar <b>glaucoma congénito</b> (busca fotofobia, buftalmos y turbidez corneal), no solo obstrucción lagrimal."},
+{cat:"Catarata congénita",c:1,q:"La catarata congénita se debe sospechar ante:",
+ o:["Epífora aislada","Leucocoria, estrabismo, nistagmo o retraso psicomotor","Ojo rojo doloroso","Halos de colores"],
+ e:"Se sospecha catarata congénita ante <b>leucocoria, estrabismo, nistagmo o retraso psicomotor</b>."},
+{cat:"Leucocoria · DDx",c:2,ddx:true,q:"La enfermedad de Coats como causa de leucocoria se caracteriza por:",
+ o:["Calcificaciones","Disgenesia del trabeculum","Telangiectasias retinianas con exudación","Obstrucción de Hasner"],
+ e:"La <b>enfermedad de Coats</b> cursa con <b>telangiectasias retinianas</b> y exudación (causa de leucocoria y DR exudativo)."},
+{cat:"Glaucoma congénito",c:3,q:"Las estrías de Haab del glaucoma congénito son:",
+ o:["Neovasos","Depósitos de pigmento","Cicatrices conjuntivales","Roturas de la membrana de Descemet por el estiramiento corneal"],
+ e:"Las <b>estrías de Haab</b> son roturas de la <b>membrana de Descemet</b> por el agrandamiento corneal (buftalmos)."},
+{cat:"Vía lagrimal · tto",c:0,q:"En la obstrucción lagrimal que no responde al sondaje hacia los 2-4 años, se realiza:",
+ o:["Intubación bicanalicular con silicona","Enucleación","Goniotomía","Masaje"],
+ e:"Entre los 2 y 4 años, si fracasa el sondaje, se hace <b>intubación bicanalicular con silicona</b>; &gt;4 años, DCR."},
+{cat:"Vía lagrimal · tto",c:1,q:"La dacriocistorrinostomía (DCR) se reserva para:",
+ o:["El recién nacido","Los casos resistentes (>4 años) o fracaso de las medidas previas","La leucocoria","El glaucoma congénito"],
+ e:"La <b>DCR</b> se reserva para los casos resistentes (&gt;4 años) o fracaso de masaje/sondaje/intubación."},
+{cat:"ROP",c:2,q:"La ROP es una causa de qué tipo de desprendimiento de retina:",
+ o:["Regmatógeno","Exudativo","Traccional","Seroso"],
+ e:"La <b>ROP</b> (proliferación fibrovascular) causa <b>desprendimiento de retina traccional</b>."},
+{cat:"Caso clínico · catarata congénita",c:3,case:true,
+ lead:"Recién nacido con antecedentes de infección materna durante el embarazo; en la exploración no se obtiene reflejo rojo en un ojo y hay una opacidad blanquecina del cristalino.",
+ q:"El diagnóstico más probable es:",
+ o:["Glaucoma congénito","Retinoblastoma","Obstrucción lagrimal","Catarata congénita (posible TORCHS)"],
+ e:"Ausencia de reflejo rojo + opacidad del cristalino + infección materna = <b>catarata congénita</b> (posible TORCHS)."},
+{cat:"Leucocoria · DDx",c:0,ddx:true,q:"¿Cuál de estas NO es causa de leucocoria?",
+ o:["Dacriocistitis del recién nacido","Catarata congénita","Retinoblastoma","Retinopatía de la prematuridad"],
+ e:"La <b>dacriocistitis del recién nacido</b> (obstrucción lagrimal) no causa leucocoria; sí lo hacen catarata congénita, retinoblastoma, ROP, Coats, etc."},
+{cat:"Retinoblastoma",c:1,q:"El retinoblastoma aparece típicamente:",
+ o:["En la adolescencia","En los dos primeros años de vida","En adultos jóvenes","Solo tras un traumatismo"],
+ e:"El <b>retinoblastoma</b> aparece en los <b>dos primeros años de vida</b>."},
+{cat:"Caso clínico · glaucoma congénito",c:2,case:true,
+ lead:"Lactante de 5 meses con lagrimeo, fotofobia intensa, blefarospasmo y córneas grandes y turbias en ambos ojos.",
+ q:"Diagnóstico y tratamiento:",
+ o:["Obstrucción lagrimal; masaje","Conjuntivitis; antibiótico","Glaucoma congénito; goniotomía","Catarata; cirugía de cristalino"],
+ e:"Epífora + fotofobia + blefarospasmo + buftalmos = <b>glaucoma congénito</b>; tratamiento con <b>goniotomía</b>."},
+{cat:"ROP",c:3,q:"¿Qué prematuros deben ser examinados para ROP?",
+ o:["Todos los recién nacidos","Solo los de parto gemelar","Solo los de bajo peso al año","Los nacidos <30 semanas o con peso <1300 g (o <35 sem/<1800 g si recibieron oxígeno)"],
+ e:"Se examinan los prematuros <b>&lt;30 semanas o &lt;1300 g</b> (o &lt;35 sem/&lt;1800 g si recibieron oxígeno)."},
+{cat:"Catarata congénita",c:0,q:"El principal riesgo de una catarata congénita densa no tratada es:",
+ o:["Ambliopía por deprivación","Glaucoma agudo","Desprendimiento de retina","Queratitis"],
+ e:"La opacidad impide la formación de la imagen → <b>ambliopía por deprivación</b> (la de peor pronóstico); por eso se opera precozmente."},
+{cat:"Vía lagrimal",c:1,q:"El mucocele del recién nacido (dacriocistocele) se debe a:",
+ o:["Un tumor","La acumulación de contenido en el saco por la obstrucción de la vía lagrimal","Un glaucoma","Una catarata"],
+ e:"El <b>mucocele/dacriocistocele</b> es la acumulación de contenido en el saco por la <b>obstrucción</b> de la vía lagrimal."},
+{cat:"DDx pediátrico",c:2,ddx:true,q:"Diferencie obstrucción lagrimal congénita y glaucoma congénito:",
+ o:["Ambos dan buftalmos","Ambos dan leucocoria","Obstrucción = epífora + conjuntivitis (frecuente); glaucoma = epífora + fotofobia + buftalmos (raro, grave)","Son lo mismo"],
+ e:"<b>Obstrucción lagrimal</b> = epífora + conjuntivitis de repetición (frecuente); <b>glaucoma congénito</b> = epífora + fotofobia + buftalmos (raro pero grave)."},
+{cat:"Leucocoria",c:3,q:"La frase 'cuando una foto salva una vida' alude a:",
+ o:["Las gafas","El uso de fotos con flash que revelan la leucocoria / ausencia de reflejo rojo (retinoblastoma)","La cirugía de catarata","El masaje del saco"],
+ e:"El flash de una foto puede revelar la <b>leucocoria</b> o la ausencia del reflejo rojo, permitiendo detectar precozmente un <b>retinoblastoma</b>."},
+{cat:"Retinoblastoma",c:0,q:"Los patrones de crecimiento del retinoblastoma incluyen:",
+ o:["Endofítico, exofítico (DR), siembras, infiltración difusa e invasión del nervio óptico","Solo endofítico","Solo afectación corneal","Solo conjuntival"],
+ e:"El <b>retinoblastoma</b> puede crecer de forma <b>endofítica, exofítica (DR), con siembras, infiltración difusa</b> e <b>invasión del nervio óptico</b>."},
+{cat:"Catarata congénita",c:1,q:"¿Qué infecciones intrauterinas (TORCHS) pueden causar catarata congénita?",
+ o:["Solo la gripe","Toxoplasma, rubéola, CMV, herpes, sífilis (TORCHS)","Solo bacterianas","Ninguna"],
+ e:"El acrónimo <b>TORCHS</b> (toxoplasma, rubéola, CMV, herpes, sífilis y otras) recoge las infecciones intrauterinas que causan catarata congénita."},
+{cat:"Caso clínico · DDx leucocoria",c:2,case:true,ddx:true,
+ lead:"Dos lactantes con leucocoria: uno con una opacidad del cristalino y reflejo rojo ausente; otro con una masa intraocular calcificada en la ecografía.",
+ q:"Los diagnósticos más probables son, respectivamente:",
+ o:["Retinoblastoma y catarata","Glaucoma y ROP","Catarata congénita y retinoblastoma","ROP y Coats"],
+ e:"Opacidad del cristalino = <b>catarata congénita</b>; masa intraocular <b>calcificada</b> = <b>retinoblastoma</b>."},
+{cat:"Glaucoma congénito",c:3,q:"El buftalmos se define como:",
+ o:["Una pupila blanca","Un ojo pequeño","Una catarata","Un agrandamiento del ojo/córnea (diámetro corneal >12 mm antes del año)"],
+ e:"El <b>buftalmos</b> es el agrandamiento del globo/córnea (&gt;12 mm) por la PIO elevada en el lactante."},
+{cat:"Vía lagrimal",c:0,q:"¿Qué porcentaje de las obstrucciones congénitas de la vía lagrimal se resuelve espontáneamente?",
+ o:["Más del 90% en los primeros meses","Menos del 10%","El 50%","Ninguna"],
+ e:"<b>Más del 90%</b> de las obstrucciones congénitas de la vía lagrimal se resuelven <b>espontáneamente</b> en los primeros meses."},
+{cat:"ROP",c:1,q:"El estadío 1 de la ROP corresponde a:",
+ o:["Cresta monticular","Línea de demarcación","Proliferación extrarretiniana","DR total"],
+ e:"El <b>estadío 1</b> de la ROP es la <b>línea de demarcación</b> (1: línea; 2: cresta; 3: proliferación; 4: DR parcial; 5: DR total)."},
+{cat:"Catarata congénita",c:2,q:"La catarata congénita puede ser:",
+ o:["Solo bilateral","Solo unilateral","Uni o bilateral, con reducción de AV según el tipo y la cantidad de opacidad","Siempre asintomática"],
+ e:"La catarata congénita puede ser <b>uni o bilateral</b>, con reducción de AV según el <b>tipo y la cantidad de opacidad</b>."},
+{cat:"Caso clínico · ROP cribado",c:3,case:true,
+ lead:"Neonatólogo consulta sobre qué prematuros derivar a oftalmología para cribado de ROP.",
+ q:"¿Cuál es el criterio correcto?",
+ o:["Solo los de >2500 g","Solo a término","Ninguno","Revisión a las 5 semanas en <30 sem o <1300 g (o <35 sem/<1800 g si oxígeno)"],
+ e:"Se derivan los prematuros <b>&lt;30 semanas o &lt;1300 g</b> (o &lt;35 sem/&lt;1800 g si recibieron oxígeno), con revisión a las <b>5 semanas</b>."},
+{cat:"Retinoblastoma · DDx",c:0,ddx:true,q:"Un retinoblastoma BILATERAL orienta a una forma:",
+ o:["Hereditaria (RB1, HAD, con riesgo de otros tumores)","Esporádica","Traumática","Infecciosa"],
+ e:"El retinoblastoma <b>bilateral</b> suele ser <b>hereditario</b> (RB1, HAD), con asociación a otros tumores; el unilateral suele ser esporádico."},
+{cat:"Vía lagrimal",c:1,q:"La obstrucción congénita de la vía lagrimal afecta a la porción:",
+ o:["Alta (puntos lagrimales)","Baja (saco y conducto nasolagrimal, válvula de Hasner)","Corneal","Conjuntival"],
+ e:"Afecta a la porción <b>baja</b> de la vía lagrimal (saco y conducto nasolagrimal, válvula de Hasner)."},
+{cat:"Catarata congénita",c:2,q:"En la catarata congénita, el tratamiento de la ambliopía:",
+ o:["No es necesario","Solo en adultos","Es fundamental tras la cirugía (riesgo de ambliopía por deprivación)","Empeora el resultado"],
+ e:"Tras operar la catarata congénita es <b>fundamental tratar la ambliopía</b> (por deprivación), cuanto antes mejor."},
+{cat:"Caso clínico · DDx epífora",c:3,case:true,ddx:true,
+ lead:"Lactante con epífora persistente; al explorarlo, además, presenta fotofobia marcada, blefarospasmo y una córnea aumentada de tamaño y algo turbia.",
+ q:"¿Qué diagnóstico hay que priorizar?",
+ o:["Obstrucción lagrimal simple","Conjuntivitis alérgica","Ojo seco","Glaucoma congénito (no es una simple obstrucción lagrimal)"],
+ e:"La epífora <b>con fotofobia, blefarospasmo y buftalmos</b> orienta al <b>glaucoma congénito</b>, no a una obstrucción lagrimal banal."},
+{cat:"ROP",c:0,q:"La ROP se denominaba antiguamente:",
+ o:["Fibroplasia retrolental","Retinosis pigmentaria","Enfermedad de Coats","Toxocariasis"],
+ e:"La <b>ROP</b> se llamaba antes <b>fibroplasia retrolental</b>."},
+{cat:"Retinoblastoma",c:1,q:"Además de la leucocoria, el retinoblastoma puede presentarse como:",
+ o:["Cataratas bilaterales","Estrabismo, glaucoma, mala visión o inflamación ocular/orbitaria","Nictalopía","Presbicia"],
+ e:"El <b>retinoblastoma</b> puede presentarse con <b>estrabismo, glaucoma, mala visión o inflamación ocular/orbitaria</b>, además de leucocoria."},
+{cat:"Leucocoria",c:2,q:"La persistencia de vítreo primario hiperplásico es:",
+ o:["Una catarata adquirida","Un tumor maligno","Una causa congénita de leucocoria","Una obstrucción lagrimal"],
+ e:"La <b>persistencia de vítreo primario hiperplásico</b> es una causa <b>congénita</b> de leucocoria."},
+{cat:"Glaucoma congénito",c:3,q:"El glaucoma congénito se presenta habitualmente:",
+ o:["En la adolescencia","En adultos","Tras un traumatismo","En el primer año de vida (bilateral asimétrico, raro)"],
+ e:"El <b>glaucoma congénito</b> aparece en el <b>primer año de vida</b>, es raro (1/10.000), esporádico, bilateral y asimétrico."},
+{cat:"Catarata congénita · DDx",c:0,ddx:true,q:"¿Qué cromosomopatías se asocian a catarata congénita?",
+ o:["Síndrome de Down, Patau y Edward","Turner exclusivamente","Klinefelter","Ninguna"],
+ e:"Las cromosomopatías asociadas a catarata congénita incluyen <b>Down, Patau y Edward</b>."},
+{cat:"Vía lagrimal · tto",c:1,q:"El masaje del saco lagrimal en la obstrucción congénita se mantiene:",
+ o:["Toda la vida","Hasta los 10-12 meses (antes de plantear el sondaje)","Solo una semana","No se usa"],
+ e:"El <b>masaje del saco</b> se mantiene hasta los <b>10-12 meses</b>; si persiste, se plantea el sondaje."},
+{cat:"Caso clínico · retinoblastoma hereditario",c:2,case:true,
+ lead:"Niño con retinoblastoma bilateral; sus padres preguntan por el riesgo en futuros hijos y otros tumores.",
+ q:"¿Qué hay que tener en cuenta?",
+ o:["No tiene base genética","Es siempre esporádico","La forma bilateral suele ser hereditaria (RB1, HAD), con riesgo de otros tumores y de transmisión","No hay riesgo de otros tumores"],
+ e:"El retinoblastoma <b>bilateral</b> suele ser <b>hereditario (RB1, HAD)</b>, con riesgo de <b>otros tumores</b> (p. ej. osteosarcoma) y de transmisión a la descendencia."},
+{cat:"ROP",c:3,q:"El estadío 3 de la ROP corresponde a:",
+ o:["Línea de demarcación","Cresta monticular","DR total","Proliferación fibrovascular extrarretiniana"],
+ e:"El <b>estadío 3</b> de la ROP es la <b>proliferación fibrovascular extrarretiniana</b>."},
+{cat:"Catarata congénita",c:0,q:"La herencia de la catarata congénita hereditaria suele ser:",
+ o:["Autosómica dominante (HAD)","Ligada al X","Mitocondrial","Recesiva exclusivamente"],
+ e:"La forma <b>hereditaria</b> de la catarata congénita suele ser <b>autosómica dominante (HAD)</b>."},
+{cat:"DDx leucocoria",c:1,ddx:true,q:"Resumen del DDx de leucocoria:",
+ o:["Solo el retinoblastoma","Más frecuente = catarata congénita; más grave = retinoblastoma; otras: ROP, Coats, persistencia de vítreo primario, toxocariasis","Siempre benigna","Más frecuente = ROP"],
+ e:"Leucocoria: <b>más frecuente = catarata congénita</b>; <b>más grave = retinoblastoma</b>; otras: ROP, Coats, persistencia de vítreo primario, toxocariasis."},
+{cat:"Glaucoma congénito",c:2,q:"La turbidez corneal del glaucoma congénito da a los ojos un aspecto:",
+ o:["Rojo","Amarillo","Azulado","Negro"],
+ e:"La turbidez/edema corneal del <b>glaucoma congénito</b> da a los ojos un aspecto <b>azulado</b>."},
+{cat:"Caso clínico · vía lagrimal evolución",c:3,case:true,
+ lead:"Niño de 14 meses con obstrucción lagrimal que no se ha resuelto con el masaje mantenido durante meses.",
+ q:"¿Cuál es el siguiente paso?",
+ o:["DCR inmediata","Enucleación","Goniotomía","Sondaje de la vía lagrimal"],
+ e:"Si el masaje no resuelve la obstrucción pasados los primeros meses, el siguiente paso es el <b>sondaje</b> de la vía lagrimal."},
+{cat:"ROP",c:0,q:"El estadío 4 de la ROP corresponde a:",
+ o:["Desprendimiento de retina parcial","Línea de demarcación","Cresta","DR total"],
+ e:"El <b>estadío 4</b> de la ROP es el <b>desprendimiento de retina parcial</b> (el 5 es total)."},
+{cat:"Retinoblastoma",c:1,q:"El gen implicado en el retinoblastoma es:",
+ o:["ABCA4","RB1","BEST1","RPE65"],
+ e:"El gen implicado en el <b>retinoblastoma</b> es el <b>RB1</b> (gen supresor de tumores)."},
+{cat:"Catarata congénita",c:2,q:"La exploración clave en el recién nacido para detectar una catarata congénita es:",
+ o:["La gonioscopia","La tonometría","El reflejo rojo con oftalmoscopio directo","La campimetría"],
+ e:"El <b>reflejo rojo</b> con oftalmoscopio directo es la exploración de cribado: su <b>ausencia</b> sugiere catarata congénita (u otra leucocoria)."},
+{cat:"Caso clínico · DDx pediátrico",c:3,case:true,ddx:true,
+ lead:"Tres lactantes: A) epífora + conjuntivitis de repetición; B) epífora + fotofobia + buftalmos; C) leucocoria con masa calcificada.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Glaucoma, obstrucción lagrimal, catarata","Catarata, glaucoma, retinoblastoma","Retinoblastoma, catarata, glaucoma","Obstrucción lagrimal, glaucoma congénito, retinoblastoma"],
+ e:"A = <b>obstrucción lagrimal</b>; B = <b>glaucoma congénito</b> (buftalmos); C = <b>retinoblastoma</b> (masa calcificada)."},
+{cat:"ROP",c:0,q:"La ROP afecta fundamentalmente a:",
+ o:["Prematuros (sobre todo los que recibieron oxígeno)","Recién nacidos a término","Adolescentes","Adultos diabéticos"],
+ e:"La <b>ROP</b> afecta a <b>prematuros</b>, especialmente de bajo peso/edad gestacional y los que recibieron oxígeno."},
+{cat:"Vía lagrimal",c:1,q:"La obstrucción congénita de la vía lagrimal representa aproximadamente:",
+ o:["El 85% de la patología pediátrica","El 10%","El 50%","Menos del 1%"],
+ e:"La <b>obstrucción congénita de la vía lagrimal</b> supone aproximadamente el <b>10%</b> de la patología oftalmológica pediátrica."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación CORRECTA:",
+ o:["El retinoblastoma es benigno","La obstrucción lagrimal causa buftalmos","La leucocoria más grave es la catarata","Leucocoria: más frecuente = catarata congénita; más grave = retinoblastoma; ROP cribado a las 5 sem"],
+ e:"Resumen: leucocoria más frecuente = <b>catarata congénita</b>, más grave = <b>retinoblastoma</b>; ROP se criba a las <b>5 semanas</b>."},
+{cat:"Síntesis",c:3,q:"Señale la afirmación FALSA:",
+ o:["La obstrucción lagrimal congénita se resuelve sola en >90%","El glaucoma congénito se trata con goniotomía","El retinoblastoma puede invadir el nervio óptico","El glaucoma congénito es la causa más frecuente de epífora en el lactante"],
+ e:"FALSA: la causa más frecuente de epífora en el lactante es la <b>obstrucción congénita de la vía lagrimal</b> (el glaucoma congénito es raro pero hay que descartarlo)."},
+{cat:"Síntesis · pediátrico",c:0,q:"Resumen del tema:",
+ o:["85% ametropías/estrabismo; epífora del lactante → descartar glaucoma; leucocoria → descartar retinoblastoma; ROP → cribado del prematuro","Todo es grave","Nada requiere tratamiento","El retinoblastoma es lo más frecuente"],
+ e:"Pediatría: <b>85% ametropías/estrabismo</b>; epífora del lactante → descartar <b>glaucoma congénito</b>; leucocoria → descartar <b>retinoblastoma</b>; prematuro → cribado de <b>ROP</b>."}
+];
+
+const figMap={figLeuco,figVia,figBuft,figROP};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la oftalmología pediátrica. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo la leucocoria y la ROP.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza la obstrucción lagrimal y el retinoblastoma.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T18 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
