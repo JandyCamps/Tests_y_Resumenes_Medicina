@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T03 · Superficie I: Córnea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T03</p>
+    <h1>Superficie I: Córnea</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+/* ---- Figuras SVG ---- */
+const figQueratocono=`<svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Perfil de córnea con protrusión cónica central-inferior">
+<text x="170" y="16" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Perfil corneal (signo a identificar)</text>
+<path d="M40 140 Q120 96 175 50 Q205 96 300 140" fill="#e9dcec" stroke="#9a4d9a" stroke-width="3"/>
+<line x1="40" y1="140" x2="300" y2="140" stroke="#b9a9c4"/>
+<line x1="175" y1="50" x2="175" y2="30" stroke="#7a3a8f"/><text x="175" y="26" text-anchor="middle" style="font:400 10px Inter;fill:#7a3a8f">vértice</text>
+</svg>`;
+const figDendrita=`<svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Córnea con lesión ramificada teñida de verde">
+<circle cx="120" cy="100" r="88" fill="#eef3f1" stroke="#9fb3b6"/>
+<g stroke="#2f8f4f" stroke-width="3.4" fill="none" stroke-linecap="round">
+<path d="M92 56 L116 100 L96 144 M116 100 L150 84 M116 100 L154 116 M116 100 L120 66 M96 144 L78 156"/>
+<circle cx="92" cy="56" r="3.4" fill="#2f8f4f"/><circle cx="150" cy="84" r="3.4" fill="#2f8f4f"/><circle cx="154" cy="116" r="3.4" fill="#2f8f4f"/><circle cx="78" cy="156" r="3.4" fill="#2f8f4f"/></g>
+</svg>`;
+const figAnillo=`<svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Córnea con infiltrado blanquecino en forma de anillo">
+<circle cx="120" cy="100" r="88" fill="#f6efe9" stroke="#9fb3b6"/>
+<circle cx="120" cy="100" r="48" fill="none" stroke="#c19463" stroke-width="11" stroke-dasharray="4 5"/>
+<circle cx="120" cy="100" r="20" fill="#efe3d6" opacity=".6"/>
+</svg>`;
+const figArco=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Córnea con anillo blanco-grisáceo periférico y zona clara entre el anillo y el limbo">
+<ellipse cx="120" cy="80" rx="100" ry="58" fill="#f6f2ea" stroke="#cfc8bb"/>
+<circle cx="120" cy="80" r="58" fill="#aebfc9" opacity=".4"/>
+<circle cx="120" cy="80" r="58" fill="none" stroke="#dfe3e6" stroke-width="9"/>
+<circle cx="120" cy="80" r="50" fill="none" stroke="#7f93a3" stroke-width="2"/>
+<circle cx="120" cy="80" r="24" fill="#2a2a2a"/>
+</svg>`;
+const figBanda=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Córnea con banda blanca horizontal a través de la hendidura palpebral">
+<ellipse cx="120" cy="80" rx="100" ry="58" fill="#f6f2ea" stroke="#cfc8bb"/>
+<circle cx="120" cy="80" r="56" fill="#b0c0cb" opacity=".45"/><circle cx="120" cy="80" r="56" fill="none" stroke="#7f93a3"/>
+<rect x="20" y="66" width="200" height="28" fill="#e9e4d2" opacity=".85"/>
+<circle cx="120" cy="80" r="22" fill="#2a2a2a"/>
+</svg>`;
+const figInjection=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con enrojecimiento máximo alrededor de la córnea">
+<ellipse cx="120" cy="80" rx="100" ry="56" fill="#f7f1ec" stroke="#cfa9a2"/>
+<g stroke="#bf3d34" stroke-width="1.7"><line x1="120" y1="36" x2="120" y2="50"/><line x1="160" y1="50" x2="150" y2="62"/><line x1="80" y1="50" x2="90" y2="62"/><line x1="166" y1="100" x2="154" y2="92"/><line x1="74" y1="100" x2="86" y2="92"/><line x1="120" y1="118" x2="120" y2="106"/></g>
+<circle cx="120" cy="80" r="40" fill="#9a6a3c"/><circle cx="120" cy="80" r="40" fill="none" stroke="#5e3d1e"/><circle cx="120" cy="80" r="18" fill="#1a1a1a"/>
+</svg>`;
+
+/* ---- Banco de preguntas T03 ---- */
+const Q=[
+{cat:"Bases",c:1,q:"¿Qué dos características explican que la patología corneal duela tanto y cicatrice dejando opacidad?",
+ o:["Es muy vascular y poco inervada","Es avascular y la estructura más inervada del cuerpo (trigémino)","Tiene melanina y carece de nervios","Es endodérmica y muy vascularizada"],
+ e:"La córnea es <b>avascular</b> (cicatriza lento, con leucoma) y <b>la más inervada</b> del organismo (rama oftálmica del trigémino, 300–600× la piel) → mucho dolor."},
+{cat:"Bases",c:2,q:"Tras una herida que afecta al estroma corneal profundo, la consecuencia esperable es:",
+ o:["Regeneración perfecta sin secuela","Edema corneal por fallo de bomba","Pérdida de transparencia: nubéculas y leucomas","Vascularización imposible"],
+ e:"El <b>estroma</b> regenera colágeno desordenado y avascular → cicatriza con <b>pérdida de transparencia (nubéculas/leucomas)</b>. El epitelio sí cura sin secuela."},
+{cat:"Bases",c:3,q:"El endotelio corneal, ante un daño, se caracteriza por:",
+ o:["Multiplicarse rápidamente","Producir lágrima","Depositar calcio","No dividirse; las células se ensanchan y, si falla la bomba, aparece edema"],
+ e:"El <b>endotelio NO se multiplica</b>: las células se ensanchan para cubrir el defecto. Si su bomba falla, el estroma se hidrata → <b>edema corneal</b>."},
+{cat:"Bases · DDx",c:0,ddx:true,q:"La clínica de 'ojo rojo grave' (dolor espástico, fotofobia, blefarospasmo, hiperemia ciliar) es propia de las queratitis y además de:",
+ o:["Uveítis y glaucoma agudo","Conjuntivitis alérgica","Pinguécula","Hemorragia subconjuntival"],
+ e:"El <b>ojo rojo grave</b> lo comparten <b>queratitis, uveítis y glaucoma agudo</b> (todas con dolor, fotofobia e inyección ciliar). La conjuntivitis es un ojo rojo banal."},
+{cat:"Disgenesias",c:1,q:"Sobre el origen embriológico de la córnea, es correcto que:",
+ o:["Todo deriva del ectodermo","El epitelio es ectodérmico; el estroma y el endotelio, mesodérmicos","Todo es mesodérmico","El endotelio es ectodérmico"],
+ e:"<b>Epitelio = ectodermo</b>; <b>estroma y endotelio = mesodermo</b> (junto con iris y cámara anterior). Por eso las disgenesias se asocian a anomalías iridocorneales."},
+{cat:"Disgenesias",c:2,q:"Se denomina megalocórnea a un diámetro corneal:",
+ o:["Menor de 10 mm","Igual a 11 mm","Mayor de 13 mm","Mayor de 9 mm"],
+ e:"<b>Megalocórnea = &gt;13 mm</b>; <b>microcórnea = &lt;10 mm</b>. Son anomalías congénitas de forma/curvatura, no progresivas."},
+{cat:"Disgenesias · DDx",c:3,ddx:true,q:"¿Qué rasgo distingue a una disgenesia corneal de una distrofia?",
+ o:["La disgenesia es bilateral y progresiva","La disgenesia aparece en la 2ª década","La disgenesia es siempre hereditaria","La disgenesia es congénita y NO progresa; la distrofia es hereditaria y progresiva"],
+ e:"Las <b>disgenesias</b> son <b>congénitas y estables</b>; las <b>distrofias</b> son hereditarias, bilaterales y <b>progresivas</b> (2ª década)."},
+{cat:"Degeneraciones",c:0,q:"La queratopatía en banda consiste en el depósito de:",
+ o:["Cristales de hidroxiapatita (calcio) en la membrana de Bowman","Amiloide en el estroma","Hierro en el epitelio","Lípidos en la periferia"],
+ e:"La queratopatía en banda es depósito de <b>hidroxiapatita (calcio)</b> en Bowman/estroma superficial, que avanza de periferia a centro por la <b>hendidura palpebral</b>. Tto: EDTA + raspado."},
+{cat:"Degeneraciones",c:2,q:"¿Cuál es una causa sistémica típica de queratopatía en banda?",
+ o:["Hipocalcemia","Anemia","Hipercalcemia (o uveítis crónica de la ACJ)","Hipertensión arterial"],
+ e:"La banda puede ser 2ª a <b>hipercalcemia</b> y a enfermedades oculares como la <b>uveítis crónica de la artritis crónica juvenil (ACJ)</b>."},
+{cat:"Caso clínico · Degeneraciones",c:1,case:true,
+ lead:"Paciente de 30 años con un anillo lipídico blanquecino en la periferia de ambas córneas. No tiene otra clínica ocular.",
+ q:"Además de pensar en arco corneal, ¿qué hay que descartar por su edad?",
+ o:["Glaucoma","Hipercolesterolemia","Diabetes insípida","Hipotiroidismo"],
+ e:"El <b>arco senil (gerontoxon)</b> es normal en ancianos (depósito de lípidos), pero <b>en jóvenes obliga a descartar hipercolesterolemia</b>."},
+{cat:"Degeneraciones",c:3,q:"La degeneración de Terrien se caracteriza por:",
+ o:["Depósito central de calcio","Ectasia con protrusión cónica","Anillo de amiloide","Adelgazamiento límbico superior bilateral con vascularización y astigmatismo, sin inflamación"],
+ e:"La <b>degeneración de Terrien</b> es un adelgazamiento <b>límbico superior</b>, bilateral, progresivo y <b>no inflamatorio</b>, con vascularización y astigmatismo."},
+{cat:"Caso clínico · Trampa",c:2,case:true,ddx:true,
+ lead:"Varón joven con una úlcera corneal periférica anular, muy dolorosa, con crisis recurrentes; en la analítica destaca infección por hepatitis C.",
+ q:"El diagnóstico es:",
+ o:["Degeneración de Terrien","Queratopatía en banda","Úlcera de Mooren (autoinmune; NO es una degeneración)","Arco senil"],
+ e:"La <b>úlcera de Mooren</b> es <b>autoinmune</b> (asociada a hepatitis C), anular y con perforación; aunque se estudia junto a las periféricas, <b>NO es una degeneración</b>. Peor pronóstico en jóvenes."},
+{cat:"Degeneraciones",c:0,q:"El tratamiento de la úlcera de Mooren incluye:",
+ o:["Corticoides sistémicos (y resección conjuntival)","EDTA y raspado","Antibiótico reforzado cada hora","Aciclovir oral"],
+ e:"Al ser <b>autoinmune</b>, la úlcera de Mooren se trata con <b>corticoides sistémicos</b> y resección conjuntival; responde peor en jóvenes."},
+{cat:"Distrofias",c:1,q:"Las distrofias corneales se definen como alteraciones:",
+ o:["Adquiridas, unilaterales y periféricas","Hereditarias, bilaterales, de la 2ª década, centrales y progresivas","Congénitas y no progresivas","Inflamatorias agudas"],
+ e:"Las <b>distrofias</b> son <b>hereditarias, bilaterales, centrales y progresivas</b>, y suelen manifestarse en la <b>2ª década</b>."},
+{cat:"Distrofias",c:3,q:"La distrofia corneal MÁS FRECUENTE, con erosiones epiteliales recidivantes, es:",
+ o:["Distrofia macular de Groenouw II","Distrofia reticular (lattice)","Distrofia granular","Distrofia de la membrana basal de Cogan (dot-map-fingerprint)"],
+ e:"La <b>distrofia de Cogan</b> (membrana basal, patrón 'dot-map-fingerprint') es la <b>más frecuente</b> y causa <b>erosiones recidivantes</b> por mala unión epitelio–membrana basal."},
+{cat:"Distrofias · DDx",c:2,ddx:true,q:"Relacione la distrofia estromal con su depósito:",
+ o:["Granular → amiloide","Macular → hialino","Granular → hialino; reticular (lattice) → amiloide; macular → glicosaminoglicanos","Reticular → calcio"],
+ e:"Regla: gra<b>N</b>ular = hiali<b>N</b>o · <b>L</b>attice = ami<b>L</b>oide · <b>M</b>acular = <b>m</b>ucopolisacáridos (glicosaminoglicanos)."},
+{cat:"Distrofias · DDx",c:0,ddx:true,q:"¿Cuál de las distrofias estromales tiene herencia autosómica RECESIVA y peor pronóstico visual?",
+ o:["Macular (Groenouw II)","Granular (Groenouw I)","Reticular (lattice)","Cogan"],
+ e:"La <b>distrofia macular (Groenouw II)</b> es la única <b>AR</b>, afecta a todo el estroma y da <b>pérdida visual precoz</b>. Las granular y lattice son AD."},
+{cat:"Distrofias",c:1,q:"La córnea guttata consiste en:",
+ o:["Depósito de amiloide en el epitelio","Excrecencias de material hialino en la membrana de Descemet que empiezan en el centro","Depósito de hierro en el cono","Vascularización límbica superior"],
+ e:"La <b>córnea guttata</b> son excrecencias hialinas en la <b>Descemet</b> que comienzan en el <b>centro</b> y avanzan a la periferia dañando el endotelio."},
+{cat:"Caso clínico · Distrofias",c:2,case:true,
+ lead:"Mujer de 62 años con visión borrosa más intensa al despertar que mejora a lo largo del día; en la exploración hay edema corneal bilateral y guttata.",
+ q:"El diagnóstico más probable es:",
+ o:["Queratocono","Úlcera de Mooren","Distrofia endotelial de Fuchs","Queratopatía en banda"],
+ e:"<b>Mujer, bilateral, 6ª década, edema corneal</b> peor por la mañana = <b>distrofia de Fuchs</b>. Puede precisar <b>trasplante endotelial (DSAEK/DMEK)</b>."},
+{cat:"Imagen · Ectasias",c:3,figSrc:"figQueratocono",figcap:"Perfil de la córnea.",
+ q:"Este perfil corneal con protrusión cónica y adelgazamiento central-inferior corresponde a:",
+ o:["Arco senil","Distrofia de Fuchs","Queratopatía en banda","Queratocono"],
+ e:"La <b>protrusión cónica</b> con adelgazamiento central-inferior es el <b>queratocono</b>, una ectasia axial no inflamatoria."},
+{cat:"Ectasias",c:0,q:"El queratocono se caracteriza epidemiológicamente por:",
+ o:["Bilateral asimétrico, comienzo en la pubertad, asociado al frotamiento ocular","Unilateral del anciano","Congénito y estable","Exclusivo de mujeres en la 6ª década"],
+ e:"El <b>queratocono</b> es <b>bilateral asimétrico</b>, empieza en la <b>pubertad</b> (cuanto más precoz, más progresa) y se asocia al <b>frotamiento</b>, Down, atopia, Marfan y vernal."},
+{cat:"Ectasias",c:1,q:"¿Cuál de estos NO es un signo clásico del queratocono?",
+ o:["Signo de Munson","Líneas de Arlt","Líneas de Vogt","Anillo de Fleischer"],
+ e:"Los signos del queratocono son <b>Munson</b>, <b>líneas de Vogt</b> y <b>anillo de Fleischer</b>. Las <b>líneas de Arlt</b> son del tracoma (conjuntiva)."},
+{cat:"Ectasias · DDx depósitos",c:2,ddx:true,q:"El anillo de Fleischer del queratocono es un depósito de:",
+ o:["Calcio","Lípidos","Hierro (en la base del cono)","Amiloide"],
+ e:"El <b>anillo de Fleischer</b> es <b>hierro</b>. Compáralo: banda = calcio, arco senil = lípidos, Fleischer = hierro."},
+{cat:"Ectasias",c:3,q:"El tratamiento escalonado del queratocono es:",
+ o:["Antibiótico → corticoide → cirugía","Corticoide → aciclovir → injerto","EDTA → raspado → láser","Gafas → LC rígida → anillos intraestromales/cross-linking → queratoplastia (DALK)"],
+ e:"Escalón terapéutico: <b>gafas → LC rígida → anillos/cross-linking</b> (frena progresión) → <b>queratoplastia lamelar anterior profunda (DALK)</b> o penetrante."},
+{cat:"Caso clínico · Ectasias",c:0,case:true,
+ lead:"Adolescente con síndrome de Down y dermatitis atópica que se frota mucho los ojos, con empeoramiento progresivo de la visión y astigmatismo irregular que no corrige bien con gafas.",
+ q:"¿Qué prueba confirmaría la sospecha y cuál es el diagnóstico?",
+ o:["Topografía corneal → queratocono","Tonometría → glaucoma","Test de Schirmer → ojo seco","Gonioscopia → cierre angular"],
+ e:"Astigmatismo irregular progresivo + frotamiento + Down/atopia = <b>queratocono</b>, que se confirma con <b>topografía corneal</b>."},
+{cat:"Queratitis",c:1,q:"Las queratitis punteadas superficiales se caracterizan porque:",
+ o:["No tiñen con ningún colorante","Las erosiones epiteliales tiñen con fluoresceína y, al cronificar, dan pannus","Afectan solo al endotelio","Son siempre indoloras y profundas"],
+ e:"Son múltiples erosiones epiteliales que <b>tiñen con fluoresceína</b>; afectan epitelio y estroma anterior y, al cronificarse, producen <b>pannus corneal</b>."},
+{cat:"Queratitis · úlceras",c:2,q:"En la evolución de una úlcera corneal, la fase más grave es:",
+ o:["La de curación","La de cicatrización","La de infiltración, porque puede llevar a perforación","La de vascularización"],
+ e:"La <b>fase de infiltración</b> puede progresar a <b>perforación corneal</b> (muy grave). Después vienen la curación (vascularización) y la cicatrización (leucoma)."},
+{cat:"Caso clínico · Úlcera marginal",c:3,case:true,ddx:true,
+ lead:"Mujer con artritis reumatoide que desarrolla una úlcera corneal periférica con adelgazamiento ('melting') cerca del limbo.",
+ q:"¿Qué tipo de úlcera es?",
+ o:["Úlcera infecciosa por Pseudomonas","Úlcera dendrítica herpética","Queratopatía en banda","Queratitis ulcerativa periférica por colagenopatía (AR/LES/Sjögren)"],
+ e:"Las úlceras <b>marginales</b> por <b>colagenopatías ('melting')</b> aparecen en <b>AR, LES y Sjögren</b> (queratitis ulcerativa periférica)."},
+{cat:"Queratitis neurotrófica",c:0,q:"La queratitis neuroparalítica (neurotrófica) se produce por:",
+ o:["Pérdida de inervación sensitiva (denervación del ganglio de Gasser, herpes) que altera el trofismo corneal","Exceso de lágrima","Infección por Pseudomonas","Depósito de calcio"],
+ e:"La inervación sensitiva mantiene el <b>trofismo corneal</b>; su pérdida (Gasser, herpes) provoca ulceración no infecciosa. Tto: lágrimas, <b>suero autólogo</b>, cierre palpebral."},
+{cat:"Infecciosas · bacterianas",c:1,q:"¿Qué germen es característico de la úlcera bacteriana del portador de lentes de contacto?",
+ o:["Staphylococcus epidermidis","Pseudomonas aeruginosa","Streptococcus pneumoniae","Corynebacterium"],
+ e:"<b>Pseudomonas</b> es típica del <b>portador de LC</b> (úlcera rápida y agresiva). La flora habitual incluye S. aureus/epidermidis, estreptococos y Proteus."},
+{cat:"Infecciosas · bacterianas",c:2,q:"¿Cuál de estos gérmenes puede atravesar el epitelio corneal INTACTO?",
+ o:["Pseudomonas","Staphylococcus aureus","Neisseria gonorrhoeae","Streptococcus"],
+ e:"La mayoría de bacterias requieren <b>rotura del epitelio</b>, pero <b>N. gonorrhoeae, Listeria, Corynebacterium y H. aegyptius</b> atraviesan el epitelio intacto."},
+{cat:"Caso clínico · bacteriana",c:3,case:true,
+ lead:"Portador de lentes blandas que duerme con ellas, con ojo rojo doloroso de 24 h, un infiltrado corneal blanco que crece rápido e hipopión.",
+ q:"Conducta inicial más adecuada:",
+ o:["Corticoide tópico aislado","Aciclovir oral","Observación 48 h","Tomar muestra para cultivo e iniciar antibióticos tópicos reforzados (concentrados) cada hora"],
+ e:"Úlcera bacteriana grave (probable <b>Pseudomonas</b>): se trata con <b>antibióticos reforzados tópicos cada hora</b> hasta tener el antibiograma. Nunca corticoide de entrada."},
+{cat:"Infecciosas · fúngicas",c:0,q:"Una queratitis micótica debe sospecharse especialmente tras:",
+ o:["Un traumatismo con material vegetal/orgánico","Una conjuntivitis alérgica","Exposición a soldadura","Cirugía de cataratas no complicada"],
+ e:"El <b>traumatismo vegetal/orgánico</b> es el antecedente clásico de queratitis <b>fúngica</b> (también inmunodepresión y LC)."},
+{cat:"Infecciosas · fúngicas",c:1,q:"Las queratitis por hongos filamentosos (Aspergillus, Fusarium) presentan típicamente:",
+ o:["Absceso en anillo","Lesiones satélite","Dendrita verdadera","Hipopión estéril exclusivamente"],
+ e:"Los <b>filamentosos</b> dan <b>lesiones satélite</b>. Las <b>levaduras (Candida)</b> aparecen en inmunodeprimidos."},
+{cat:"Infecciosas · fúngicas",c:2,q:"Respecto al tratamiento antifúngico corneal, lo correcto es:",
+ o:["Aciclovir para todos","Corticoides en monoterapia","Voriconazol tópico (amplio); natamicina mejor en filamentosos; anfotericina B mejor en levaduras","Solo antibióticos reforzados"],
+ e:"<b>Voriconazol</b> tópico penetra bien y es de amplio espectro; <b>natamicina</b> es mejor en filamentosos y <b>anfotericina B</b> en levaduras."},
+{cat:"Caso clínico · fúngica",c:3,case:true,
+ lead:"Jardinero al que una rama le golpeó el ojo hace una semana; ahora presenta un infiltrado corneal con bordes plumosos y pequeñas lesiones blancas alrededor (satélites).",
+ q:"El agente más probable es:",
+ o:["Herpes simple","Pseudomonas","Acanthamoeba","Hongo filamentoso (Aspergillus/Fusarium)"],
+ e:"Antecedente <b>vegetal</b> + <b>lesiones satélite</b> = queratitis por <b>hongo filamentoso</b>."},
+{cat:"Infecciosas · herpes",c:0,q:"Tras la primoinfección herpética (HSV), el virus queda latente en:",
+ o:["El ganglio sensorial de Gasser (trigémino)","El cuerpo ciliar","La glándula lagrimal","El nervio óptico"],
+ e:"La primoinfección suele ser banal; el virus migra y queda latente en el <b>ganglio de Gasser</b>, desde donde recidiva al bajar las defensas."},
+{cat:"Imagen · herpes",c:1,figSrc:"figDendrita",figcap:"Tinción con fluoresceína.",
+ q:"Esta lesión corneal ramificada con bulbos terminales que tiñe de verde es:",
+ o:["Pseudodendrita de Acanthamoeba","Úlcera dendrítica herpética","Arco senil","Queratopatía en banda"],
+ e:"La <b>úlcera dendrítica</b> (ramificada, con bulbos, que tiñe con fluoresceína) es el signo típico de la <b>queratitis herpética epitelial</b>."},
+{cat:"Infecciosas · herpes",c:2,q:"En la queratitis herpética EPITELIAL (dendrítica), respecto a los corticoides:",
+ o:["Son el tratamiento de elección","Se asocian siempre al aciclovir","Están CONTRAINDICADOS (favorecen la úlcera geográfica); se trata con aciclovir/ganciclovir","Se usan en pauta descendente"],
+ e:"En la forma <b>epitelial los corticoides están prohibidos</b> (favorecen la úlcera geográfica). Tto: aciclovir o ganciclovir en pomada 5×/día."},
+{cat:"Infecciosas · herpes",c:3,q:"La queratitis herpética disciforme (intersticial) se caracteriza por:",
+ o:["Úlcera dendrítica que tiñe","Lesiones satélite","Absceso en anillo","Edema estromal discoide de origen inmunológico (endotelitis) que se trata con corticoides"],
+ e:"La <b>disciforme</b> es <b>inmunológica (endotelitis)</b>, con edema discoide y escasa afectación epitelial; aquí SÍ se usan <b>corticoides tópicos</b>."},
+{cat:"DDx herpes",c:0,ddx:true,q:"¿En cuáles formas de queratitis herpética SÍ se emplean corticoides?",
+ o:["En las inmunes: disciforme y estromal (con dendríticas previas)","En la epitelial dendrítica","En ninguna","Siempre, en todas"],
+ e:"Los corticoides solo se usan en las formas <b>inmunes (disciforme/estromal)</b>, nunca en la <b>epitelial dendrítica</b>."},
+{cat:"Caso clínico · herpes",c:1,case:true,ddx:true,
+ lead:"Hombre de 35 años con dolor ocular de 3 días; al teñir con fluoresceína se ve una úlcera corneal central en forma de dendrita.",
+ q:"El diagnóstico es:",
+ o:["Queratitis fúngica","Queratitis herpética","Queratitis bacteriana","Crisis glaucomatociclítica"],
+ e:"Una <b>dendrita que tiñe con fluoresceína</b> es prácticamente patognomónica de <b>queratitis herpética</b>. (Pregunta MIR clásica.)"},
+{cat:"Infecciosas · zóster",c:2,q:"El herpes zóster oftálmico afecta a la rama del trigémino:",
+ o:["Maxilar (V2)","Mandibular (V3)","Oftálmica (V1), especialmente la nasociliar","Lingual"],
+ e:"El <b>HZV oftálmico</b> afecta la <b>rama oftálmica (V1)</b>, sobre todo la <b>nasociliar</b>; se complica con frecuencia con iridociclitis."},
+{cat:"Caso clínico · zóster",c:3,case:true,
+ lead:"Anciano con erupción vesiculosa dolorosa en frente y punta de la nariz, seguida de ojo rojo; en la exploración hay iridociclitis y un sector del iris atrófico.",
+ q:"El cuadro y su tratamiento de base son:",
+ o:["Herpes simple; corticoides aislados","Queratitis bacteriana; antibiótico","Conjuntivitis vírica; sintomático","Herpes zóster oftálmico; aciclovir oral (tópico si afectación corneal)"],
+ e:"Vesículas en territorio V1 (signo de Hutchinson en la nariz) + iridociclitis + <b>atrofia sectorial del iris</b> = <b>HZV oftálmico</b>. Tto: <b>aciclovir oral</b>."},
+{cat:"Imagen · Acanthamoeba",c:0,figSrc:"figAnillo",figcap:"Aspecto del infiltrado corneal.",
+ q:"Este infiltrado corneal en forma de anillo, en un paciente con dolor desproporcionado, sugiere:",
+ o:["Queratitis por Acanthamoeba","Distrofia de Fuchs","Arco senil","Queratitis bacteriana banal"],
+ e:"El <b>absceso/infiltrado en anillo</b> con <b>dolor desproporcionado</b> es típico de <b>Acanthamoeba</b> (portador de LC)."},
+{cat:"Infecciosas · Acanthamoeba",c:1,q:"La queratitis por Acanthamoeba aparece sobre todo en:",
+ o:["Ancianos con cataratas","Portadores de LC con soluciones no estériles/agua del grifo y nadadores","Recién nacidos","Pacientes con arco senil"],
+ e:"<b>Acanthamoeba</b> es un protozoo ubicuo que afecta a <b>portadores de LC</b> (agua del grifo/soluciones no estériles) y <b>nadadores</b>."},
+{cat:"Caso clínico · DDx Acanthamoeba",c:2,case:true,ddx:true,
+ lead:"Usuaria de lentes de contacto que se ducha y nada con ellas; presenta un ojo con dolor INTENSÍSIMO, desproporcionado para los escasos signos, y pseudodendritas epiteliales.",
+ q:"Diagnóstico y tratamiento:",
+ o:["Herpes simple; aciclovir y corticoides","Úlcera bacteriana; antibiótico cada hora","Acanthamoeba; diamidinas (propamidina) + biguanida (clorhexidina/polihexanida) durante meses","Distrofia de Cogan; lubricación"],
+ e:"<b>LC + agua + dolor desproporcionado + pseudodendritas</b> = <b>Acanthamoeba</b>. Tto: <b>propamidina + biguanida</b> durante meses. Hay que diferenciarla del herpes."},
+{cat:"Infecciosas · Acanthamoeba",c:3,q:"El diagnóstico de laboratorio de la queratitis por Acanthamoeba se hace con:",
+ o:["Serología IgE","Antibiograma estándar","Tinción de Gram únicamente","Raspado teñido con PAS/calcoflúor o cultivo en agar sin nutrientes con E. coli"],
+ e:"Se confirma con <b>raspado teñido (PAS o calcoflúor)</b> o <b>cultivo en agar sin nutrientes sembrado con <i>E. coli</i></b>."},
+{cat:"DDx · dendrita",c:0,ddx:true,q:"¿Qué diferencia mejor la pseudodendrita de Acanthamoeba de la dendrita herpética?",
+ o:["El dolor desproporcionado y el contexto de LC/agua de la Acanthamoeba","La Acanthamoeba no duele","El herpes solo afecta a portadores de LC","La dendrita herpética no tiñe"],
+ e:"La <b>Acanthamoeba</b> da <b>dolor desproporcionado</b> en un portador de LC/nadador con pseudodendritas y anillo; la dendrita herpética <b>duele poco</b> (perineuritis) y tiñe limpiamente."},
+{cat:"Tratamiento",c:1,q:"Sobre el uso del anestésico tópico en la patología corneal:",
+ o:["Es el tratamiento del dolor de la úlcera","Solo debe usarse en la exploración, nunca como tratamiento","Se pauta cada 8 h en casa","Acelera la cicatrización"],
+ e:"El <b>anestésico tópico es tóxico para el epitelio</b>: solo se usa para explorar. El dolor se calma con <b>midriáticos</b> y analgesia oral."},
+{cat:"Tratamiento",c:2,q:"¿Por qué se usa un ciclopléjico/midriático en las queratitis y úlceras?",
+ o:["Para dilatar la pupila y operar","Para bajar la PIO","Para producir reposo del músculo ciliar, reduciendo el espasmo y el dolor","Para vascularizar la córnea"],
+ e:"El <b>ciclopléjico</b> da <b>reposo al músculo ciliar</b>, reduce el espasmo del síndrome irritativo ciliar y, con ello, el <b>dolor</b>."},
+{cat:"Tratamiento",c:3,q:"Respecto a la oclusión ocular en las queratitis:",
+ o:["Es obligatoria en todas","Mejora las infecciones","No tiene contraindicaciones","NO debe usarse en las infecciones (favorece el crecimiento del germen)"],
+ e:"La <b>oclusión NO se usa en infecciones</b>. Se prefieren lentes de contacto terapéuticas; la oclusión cerraría un ambiente favorable al germen."},
+{cat:"Tratamiento · queratoplastia",c:0,q:"La queratoplastia endotelial (DSAEK/DMEK) está indicada típicamente en:",
+ o:["Fallo endotelial (distrofia de Fuchs, córnea guttata)","Queratocono inicial","Conjuntivitis alérgica","Pinguécula"],
+ e:"La <b>queratoplastia endotelial</b> reemplaza solo el endotelio (± estroma posterior): indicada en <b>fallo endotelial (Fuchs, guttata)</b>."},
+{cat:"Tratamiento · queratoplastia",c:1,q:"El trasplante de córnea tiene menos rechazo que otros trasplantes porque la córnea es:",
+ o:["Muy vascular","Avascular e inmunoprivilegiada","De donante vivo siempre","Rica en linfáticos"],
+ e:"Al ser <b>avascular</b> y un tejido inmunoprivilegiado, el injerto corneal está relativamente 'aislado' del sistema inmune → <b>menor rechazo</b>."},
+{cat:"Imagen · DDx depósitos",c:2,figSrc:"figArco",figcap:"Periferia corneal.",
+ q:"Este anillo blanco-grisáceo periférico, con una zona clara entre él y el limbo, en un anciano, corresponde a:",
+ o:["Anillo de Fleischer (hierro)","Queratopatía en banda (calcio)","Arco senil/gerontoxon (depósito de lípidos)","Úlcera de Mooren"],
+ e:"El <b>arco senil (gerontoxon)</b> es un depósito periférico de <b>lípidos</b>, bilateral, propio de la edad."},
+{cat:"Imagen · DDx depósitos",c:3,figSrc:"figBanda",figcap:"Córnea en la hendidura palpebral.",
+ q:"Esta opacidad blanquecina horizontal que cruza la córnea por la hendidura palpebral es:",
+ o:["Arco senil (lípidos)","Anillo de Fleischer (hierro)","Distrofia reticular (amiloide)","Queratopatía en banda (calcio/hidroxiapatita)"],
+ e:"La <b>queratopatía en banda</b> es depósito de <b>calcio</b> en la hendidura palpebral, de periferia a centro."},
+{cat:"DDx depósitos",c:0,ddx:true,q:"Asocie correctamente depósito y entidad corneal:",
+ o:["Banda = calcio; arco senil = lípidos; Fleischer = hierro","Banda = hierro; arco = calcio; Fleischer = lípidos","Banda = amiloide; arco = calcio; Fleischer = hialino","Todos son depósitos de calcio"],
+ e:"<b>Banda = calcio</b> (hidroxiapatita), <b>arco senil = lípidos</b>, <b>anillo de Fleischer = hierro</b> (queratocono)."},
+{cat:"Caso clínico · física",c:1,case:true,
+ lead:"Soldador que trabajó sin protección; varias horas después acude con dolor intenso bilateral, fotofobia, lagrimeo y sensación de arenilla, con queratitis punteada superficial.",
+ q:"El diagnóstico es:",
+ o:["Queratitis herpética","Queratitis física/actínica (por radiación UV)","Queratitis por Acanthamoeba","Distrofia de Cogan"],
+ e:"La exposición a <b>soldadura/UV</b> (o sol intenso) produce una <b>queratitis física/actínica</b>, con clínica diferida de horas y queratitis punteada."},
+{cat:"Queratitis exposición",c:2,q:"La queratitis por exposición aparece típicamente por:",
+ o:["Uso de lentes de contacto","Traumatismo vegetal","Lagoftalmos (cierre palpebral incompleto, p. ej. parálisis facial)","Hipercalcemia"],
+ e:"La queratitis por <b>exposición</b> se debe a la imposibilidad de cubrir la córnea (<b>lagoftalmos</b>, parálisis facial), que se deseca, sobre todo en la zona inferior."},
+{cat:"Caso clínico · DDx ojo rojo",c:3,case:true,ddx:true,figSrc:"figInjection",figcap:"Patrón de inyección.",
+ lead:"Paciente con ojo rojo doloroso; la imagen muestra enrojecimiento máximo alrededor de la córnea (inyección ciliar) y, con fluoresceína, se aprecia un defecto epitelial.",
+ q:"¿Qué grupo de patología es y qué la diferencia de una conjuntivitis?",
+ o:["Conjuntivitis: rojo en fondos de saco","Hemorragia subconjuntival","Pinguécula inflamada","Queratitis/úlcera (ojo rojo grave): inyección ciliar, dolor, ↓AV y defecto que tiñe"],
+ e:"La <b>inyección ciliar/periquerática</b> + dolor + defecto corneal que tiñe = <b>queratitis</b> (ojo rojo grave), distinta del rojo en fondos de saco de la conjuntivitis."},
+{cat:"Caso clínico · DDx ojo rojo",c:0,case:true,ddx:true,
+ lead:"Mujer de 65 años con ojo rojo muy doloroso, cefalea y vómitos, halos, córnea turbia (edematosa) y pupila en midriasis media fija.",
+ q:"El cuadro a descartar de forma urgente es:",
+ o:["Glaucoma agudo de ángulo cerrado","Queratitis herpética","Conjuntivitis bacteriana","Distrofia de Fuchs"],
+ e:"<b>Dolor + cefalea/vómitos + halos + córnea edematosa + midriasis media fija</b> = <b>glaucoma agudo</b> (PIO muy alta). La córnea está turbia por edema, no por defecto epitelial."},
+{cat:"DDx antecedente",c:1,ddx:true,q:"Relacione el antecedente con el agente de la úlcera corneal:",
+ o:["Nadador → Aspergillus","LC + agua del grifo → Acanthamoeba; trauma vegetal → hongo filamentoso; vesículas → herpes","Soldadura → Candida","Inmunodeprimido → Pseudomonas"],
+ e:"Antecedentes clave: <b>LC/agua/nadador → Acanthamoeba</b>; <b>vegetal → Aspergillus/Fusarium</b>; <b>inmunodeprimido → Candida</b>; <b>vesículas → herpes</b>; <b>soldadura/sol → física/actínica</b>."},
+{cat:"DDx clasificación",c:2,ddx:true,q:"¿Cuál de las siguientes es HEREDITARIA, bilateral, central y progresiva?",
+ o:["Megalocórnea (disgenesia)","Arco senil (degeneración)","Distrofia reticular (lattice)","Queratopatía en banda (degeneración)"],
+ e:"Las <b>distrofias</b> (como la <b>lattice</b>) son hereditarias, bilaterales, centrales y progresivas. Disgenesia = congénita estable; degeneración = adquirida."},
+{cat:"Take-home",c:3,q:"Señale la afirmación FALSA sobre el manejo de las queratitis:",
+ o:["La dendrita indica herpes, aciclovir y prohibición de corticoides","El dolor se calma con midriáticos","Las úlceras bacterianas se tratan con antibiótico reforzado cada hora","El anestésico tópico es un buen tratamiento del dolor en casa"],
+ e:"El <b>anestésico tópico NUNCA es tratamiento</b> (es tóxico epitelial); solo se usa para explorar. El resto de afirmaciones son correctas."},
+{cat:"Distrofias",c:0,q:"La distrofia reticular (lattice) se debe al depósito de amiloide y se asocia a mutaciones en:",
+ o:["El gen TGFBI (cromosoma 5)","El gen de la fibrilina","El gen CHST6 únicamente","El gen del colágeno IV"],
+ e:"La <b>lattice</b> (amiloide en red) se asocia a mutaciones en <b>TGFBI (cromosoma 5)</b>, herencia AD."},
+{cat:"Infecciosas · bacterianas",c:1,q:"El mecanismo inicial principal para que se produzca una queratitis bacteriana habitual es:",
+ o:["La hipercalcemia","La disrupción (rotura) del epitelio corneal","El frotamiento ocular","La exposición solar"],
+ e:"La integridad del <b>epitelio</b> y un flujo lagrimal normal previenen la invasión; el <b>defecto epitelial</b> es el mecanismo inicial principal (salvo gérmenes que atraviesan epitelio intacto)."},
+{cat:"Caso clínico · Distrofias",c:2,case:true,
+ lead:"Paciente que sufre episodios repetidos de dolor ocular brusco al despertar, con sensación de cuerpo extraño; en la córnea se ven opacidades en forma de mapas y huellas dactilares.",
+ q:"El diagnóstico más probable es:",
+ o:["Queratocono","Úlcera de Mooren","Distrofia de la membrana basal de Cogan (con erosiones recidivantes)","Arco senil"],
+ e:"Las <b>erosiones recidivantes</b> con patrón <b>'dot-map-fingerprint'</b> definen la <b>distrofia de Cogan</b> (membrana basal), la distrofia más frecuente."},
+{cat:"Queratitis superficiales",c:3,q:"Una queratitis punteada superficial crónica puede estar causada por todas EXCEPTO:",
+ o:["Ojo seco","Causa tóxico-alérgica","Blefaroconjuntivitis","Glaucoma agudo de ángulo cerrado"],
+ e:"Las queratitis punteadas crónicas se deben a <b>ojo seco, tóxico-alérgicas, víricas y bacterianas (blefaroconjuntivitis)</b>; el glaucoma agudo no las produce."},
+{cat:"Caso clínico · DDx",c:0,case:true,ddx:true,
+ lead:"Dos portadores de lentillas con úlcera corneal: el primero con infiltrado blanco que progresa en horas; el segundo con dolor desmesurado, pseudodendritas y un infiltrado anular tras nadar con las lentes.",
+ q:"Los agentes más probables son, respectivamente:",
+ o:["Pseudomonas (rápida) y Acanthamoeba (anillo, dolor desproporcionado)","Herpes y Candida","Aspergillus y Pseudomonas","Ambos por Acanthamoeba"],
+ e:"En el portador de LC: <b>Pseudomonas</b> da úlcera <b>rápida</b> y agresiva; <b>Acanthamoeba</b> da <b>dolor desproporcionado</b> y <b>anillo</b>, sobre todo con agua/nadar."},
+{cat:"Ectasias",c:1,q:"Además del queratocono, otras ectasias corneales son:",
+ o:["Pinguécula y pterigion","Degeneración marginal pelúcida y queratoglobo","Banda y arco senil","Cogan y lattice"],
+ e:"Las ectasias (deformidades progresivas con adelgazamiento) incluyen <b>queratocono, degeneración marginal pelúcida y queratoglobo</b>."},
+{cat:"Infecciosas · herpes",c:2,q:"La úlcera 'geográfica' herpética aparece típicamente cuando:",
+ o:["Se asocia diabetes","Hay deficiencia de vitamina A","Se han usado corticoides sobre una queratitis epitelial","Se usa aciclovir"],
+ e:"Sobre una queratitis epitelial herpética, el <b>uso de corticoides</b> hace que la dendrita progrese a una úlcera más amplia, la <b>úlcera geográfica</b>."},
+{cat:"Disgenesias",c:3,q:"Dentro de las disgenesias mesenquimales irido-corneales se incluyen:",
+ o:["Queratocono y queratoglobo","Cogan y lattice","Banda y Terrien","Embriotoxon posterior y anomalías de Axenfeld, Rieger y Peters"],
+ e:"Las <b>mesenquimales</b> incluyen esclerocórnea, <b>embriotoxon posterior</b> y las anomalías de <b>Axenfeld, Rieger y Peters</b> (con riesgo de glaucoma)."},
+{cat:"Take-home",c:0,q:"Indique la asociación CORRECTA antecedente–germen:",
+ o:["Traumatismo vegetal → Aspergillus (hongo filamentoso)","Nadador → herpes","Inmunodeprimido → Pseudomonas","Soldadura → Acanthamoeba"],
+ e:"El <b>traumatismo vegetal</b> orienta a <b>Aspergillus</b> (hongo filamentoso). Nadador/LC+agua → Acanthamoeba; inmunodeprimido → Candida; soldadura → física/actínica."},
+{cat:"Degeneraciones",c:2,q:"La queratopatía en banda es asintomática hasta que:",
+ o:["Se infecta","Aparece dolor agudo","El depósito de calcio alcanza el eje visual","Provoca midriasis"],
+ e:"La banda crece desde la periferia y es <b>asintomática hasta que llega al eje visual</b> y reduce la agudeza visual; entonces se trata con EDTA + raspado."},
+{cat:"Caso clínico · neurotrófica",c:1,case:true,
+ lead:"Paciente con antecedente de herpes zóster oftálmico que desarrolla una úlcera corneal persistente que no duele y con córnea hipoestésica, sin signos de infección activa.",
+ q:"¿Qué tipo de queratitis es?",
+ o:["Queratitis bacteriana","Queratitis neurotrófica (neuroparalítica)","Queratitis fúngica","Queratitis actínica"],
+ e:"La pérdida de sensibilidad corneal (por afectación del trigémino tras herpes) altera el trofismo y causa una <b>úlcera neurotrófica</b> indolora. Tto: lágrimas, suero autólogo, cierre palpebral."},
+{cat:"Bases",c:3,q:"El estroma corneal supone aproximadamente qué porcentaje del grosor y debe su transparencia a:",
+ o:["50%, a su vascularización","20%, a la melanina","100%, al epitelio","90%, a la disposición ordenada de las láminas de colágeno"],
+ e:"El estroma es ~<b>90%</b> del grosor; su <b>transparencia</b> depende de la disposición en orden perfecto de 200–250 láminas de colágeno paralelas."},
+{cat:"DDx herpes vs bacteriana",c:0,ddx:true,q:"Frente a una queratitis bacteriana, un rasgo que orienta a herpes simple epitelial es:",
+ o:["La úlcera dendrítica con escaso dolor (perineuritis) y pérdida de sensibilidad","El infiltrado blanco que progresa en horas con hipopión","El antecedente de portador de LC","Las lesiones satélite"],
+ e:"El herpes epitelial da <b>dendrita</b> con <b>poco dolor</b> (perineuritis) y <b>↓sensibilidad corneal</b>; la bacteriana da infiltrado supurado doloroso de progresión rápida."},
+{cat:"Tratamiento",c:1,q:"Una complicación que hay que prevenir en las úlceras corneales profundas es el descematocele, que consiste en:",
+ o:["Depósito de calcio","Protrusión de la membrana de Descemet por adelgazamiento extremo (preperforación)","Edema macular","Catarata"],
+ e:"El <b>descematocele</b> es la protrusión de la Descemet cuando el estroma se ha adelgazado al máximo: signo de <b>preperforación</b>. Se maneja con LC/recubrimiento conjuntival."},
+{cat:"Caso clínico · DDx ectasia",c:2,case:true,ddx:true,
+ lead:"Joven con mala visión por astigmatismo que aumenta cada revisión; las gafas ya no le sirven y al mirar hacia abajo el párpado inferior dibuja una muesca en V.",
+ q:"Ese signo (muesca del párpado inferior en infraversión) se llama y orienta a:",
+ o:["Signo de Hutchinson; herpes zóster","Línea de Arlt; tracoma","Signo de Munson; queratocono","Anillo de Kayser-Fleischer; Wilson"],
+ e:"El <b>signo de Munson</b> (muesca palpebral inferior al mirar abajo por la protrusión del cono) es típico del <b>queratocono</b>."},
+{cat:"Take-home",c:3,q:"¿Cuál de estas afirmaciones sobre las distrofias es correcta?",
+ o:["Todas son autosómicas recesivas","Aparecen en ancianos y son unilaterales","Nunca afectan a la visión","La macular es la única AR y la de peor pronóstico visual; Cogan es la más frecuente"],
+ e:"Entre las distrofias, la <b>macular es la única AR</b> y la de <b>peor pronóstico</b>, mientras que la <b>de Cogan</b> es la <b>más frecuente</b>."}
+];
+
+/* ---- Engine ---- */
+const figMap={figQueratocono,figDendrita,figAnillo,figArco,figBanda,figInjection};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la córnea y sus diagnósticos diferenciales. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo el antecedente→germen y el herpes.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza distrofias, ectasias y queratitis infecciosas.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T03 y repite el test; fíjate en dendrita vs anillo y depósitos corneales.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
