@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T21 · Sistema Lagrimal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --sec:#1a5e86;--secbg:#e3eff7;--exc:#9a4d12;--excbg:#f6ecde;--baja:#7a3a8f;--bajabg:#f1e6f4;--seco:#1f6f4a;--secobg:#e4f3ea;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.sec{color:var(--sec);background:var(--secbg)}.chip.exc{color:var(--exc);background:var(--excbg)}
+  .chip.baja{color:var(--baja);background:var(--bajabg)}.chip.seco{color:var(--seco);background:var(--secobg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.sec{color:var(--sec);background:var(--secbg)}.pill.exc{color:var(--exc);background:var(--excbg)}.pill.baja{color:var(--baja);background:var(--bajabg)}.pill.seco{color:var(--seco);background:var(--secobg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 21</p>
+  <h1>Patología del Sistema Lagrimal</h1>
+  <p>Resumen dividido en la <b>porción secretora</b> (glándula, dacrioadenitis, tumores), la <b>película lagrimal / ojo seco</b> y la <b>porción excretora</b> (epífora, dacriocistitis). Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#anatomia">0 · La película y la vía lagrimal</a>
+    <a href="#secretora">I · Porción secretora (glándula)</a>
+    <a href="#tumores">II · Tumores de la glándula lagrimal</a>
+    <a href="#ojoseco">III · Ojo seco</a>
+    <a href="#epifora">IV · Epífora: tipos</a>
+    <a href="#baja">V · Porción baja (saco): dacriocistitis</a>
+    <a href="#ddx">VI · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="anatomia">
+  <h2><span class="romnum">0</span> La película y la vía lagrimal</h2>
+  <p class="lead">La <b>película lagrimal precorneal</b>, junto con la córnea, es la <b>superficie refractiva más importante</b> del ojo y mantiene la función corneal.</p>
+  <p>El sistema lagrimal tiene dos porciones:</p>
+  <ul>
+    <li><b>Secretora:</b> glándula lagrimal principal y accesorias, glándulas de Meibomio.</li>
+    <li><b>Excretora (vía de drenaje):</b> puntos lagrimales → canalículos → saco lagrimal → conducto nasolagrimal (a la nariz).</li>
+  </ul>
+</section>
+
+<section id="secretora">
+  <h2><span class="romnum">I</span> Porción secretora: inflamación <span class="chip sec">glándula</span></h2>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Dacrioadenitis aguda</h4>
+      <ul>
+        <li>Inflamación aguda de la glándula lagrimal, habitualmente <b>unilateral e idiopática</b>.</li>
+        <li><b>Clínica:</b> dolor e hipersensibilidad en el área <b>superoexterna</b> de la órbita; edema palpebral superior con ptosis en <b>"S itálica"</b>.</li>
+        <li><b>Tratamiento:</b> sintomático (analgésicos, AINEs) + etiológico.</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Dacrioadenitis crónica</h4>
+      <ul><li>Curso crónico; suele asociarse a enfermedades sistémicas (sarcoidosis, Sjögren, IgG4…).</li></ul>
+    </div>
+  </div>
+  <div class="key"><span class="lbl">Pista</span> La <b>ptosis en "S itálica"</b> por edema en el ángulo superoexterno es el signo característico de la <b>dacrioadenitis aguda</b>.</div>
+</section>
+
+<section id="tumores">
+  <h2><span class="romnum">II</span> Tumores de la glándula lagrimal <span class="chip sec">no fallar</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Adenoma pleomorfo</th><th>Carcinoma</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Frecuencia</td><td><b>El tumor más frecuente</b> de la glándula lagrimal</td><td>Infrecuente</td></tr>
+      <tr><td class="h">Naturaleza</td><td><b>Benigno</b></td><td>Maligno (<b>alta mortalidad</b>)</td></tr>
+      <tr><td class="h">¿Biopsia?</td><td><b>NO se biopsia</b> (riesgo de malignización/siembra)</td><td><b>Sí se puede biopsiar</b></td></tr>
+      <tr><td class="h">Imagen</td><td>Masa bien delimitada</td><td>TAC/RMN con <b>signos de agresividad</b> (destrucción ósea)</td></tr>
+      <tr><td class="h">Tratamiento</td><td><b>Extirpación completa sin romper la cápsula</b></td><td>Cirugía agresiva ± radio/quimio</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Clave de examen</span> El <b>adenoma pleomorfo</b> <b>NO se biopsia</b> (riesgo de malignización) y se extirpa <b>sin romper la cápsula</b>. El <b>carcinoma</b> sí se biopsia y tiene <b>alta mortalidad</b>.</div>
+</section>
+
+<section id="ojoseco">
+  <h2><span class="romnum">III</span> Ojo seco <span class="chip seco">consulta frecuente</span></h2>
+  <p class="lead">Uno de los principales motivos de consulta oftalmológica. Es una <b>enfermedad multifactorial de la superficie ocular</b> (definición DEWS II): pérdida de la homeostasis de la película lagrimal, con <b>inestabilidad e hiperosmolaridad</b>, inflamación, daño de la superficie y anomalías neurosensoriales.</p>
+  <ul>
+    <li><b>Síntomas:</b> sensación de cuerpo extraño, escozor y, paradójicamente, <b>lagrimeo</b> (con la <b>vía lagrimal permeable</b>).</li>
+    <li>Pruebas: tiempo de rotura lagrimal (BUT), test de Schirmer, tinciones.</li>
+  </ul>
+  <div class="key"><span class="lbl">La diferencia</span> El <b>ojo seco</b> da lagrimeo <b>con la vía permeable</b> (por hipersecreción refleja); la <b>epífora conjuntival</b> es por <b>obstrucción</b> del drenaje o fallo de la bomba lagrimal.</div>
+</section>
+
+<section id="epifora">
+  <h2><span class="romnum">IV</span> Epífora: tipos <span class="chip exc">drenaje</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo</th><th>Mecanismo</th><th>Claves</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Hipersecreción refleja (lagrimeo)</td><td>Exceso de lágrima con <b>vía permeable</b></td><td>Psíquica (emociones) o neurógena (trigémino/facial: ojo seco, frío, bostezo, vómito, queratitis)</td></tr>
+      <tr><td class="h">Epífora conjuntival</td><td><b>Insuficiencia de la bomba lagrimal</b> u <b>obstrucción mecánica</b> del drenaje</td><td>Independiente del ambiente; <b>sin irritación ocular</b></td></tr>
+    </tbody>
+  </table></div>
+  <p>La <b>obstrucción mecánica</b> puede estar en los <b>puntos</b> (estenosis puntal), los <b>canalículos</b> (canaliculitis aguda/crónica, obstrucción parcial/total) o el <b>conducto nasolagrimal</b>.</p>
+</section>
+
+<section id="baja">
+  <h2><span class="romnum">V</span> Porción baja (saco y conducto): obstrucción del adulto</h2>
+  <p class="lead">La obstrucción de la vía lagrimal en el adulto se manifiesta con <b>epífora</b> y puede complicarse con infección del saco (<b>dacriocistitis</b>).</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Dacriocistitis aguda</th><th>Dacriocistitis crónica</th><th>Mucocele</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Clínica</td><td><b>Dolor intenso</b>, inflamación y eritema del canto interno</td><td><b>Indolora</b>; conjuntivitis de repetición</td><td>Dilatación <b>indolora</b>, no inflamada</td></tr>
+      <tr><td class="h">A la presión del saco</td><td>Refluye <b>material purulento</b></td><td>Refluye <b>moco</b></td><td><b>NO refluye</b> moco</td></tr>
+      <tr><td class="h">Gérmenes</td><td><b>Gram+ &gt; Gram−</b>: S. aureus, Streptococcus β-hemolítico (Gram−: Pseudomonas)</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Complicaciones:</b> celulitis preseptal, fistulización a la piel.</li>
+    <li><b>Tratamiento quirúrgico</b> (epífora insoportable, dacriocistitis agudas repetidas o crónicas): <b>dacriocistorrinostomía (DCR)</b> externa (80-90% de éxito), endonasal o transcanalicular (láser); a veces stent lacrimonasal.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 170" role="img" aria-label="Dacriocistitis aguda: inflamación eritematosa del canto interno">
+      <ellipse cx="180" cy="70" rx="110" ry="34" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <circle cx="180" cy="70" r="20" fill="#9a6a3c"/><circle cx="180" cy="70" r="9" fill="#1a1a1a"/>
+      <circle cx="92" cy="92" r="22" fill="#d65a4a"/><circle cx="92" cy="92" r="22" fill="none" stroke="#a83228" stroke-width="3"/>
+      <text x="92" y="135" text-anchor="middle" style="font:600 11px Inter;fill:#7a2a25">tumefacción eritematosa dolorosa del canto interno</text>
+    </svg>
+    <figcaption>Dacriocistitis aguda: inflamación <b>dolorosa y eritematosa</b> del <b>canto interno</b> (sobre el saco); refluye pus a la presión.</figcaption>
+  </figure>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VI</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Lagrimeo (ojo seco) vs epífora (obstrucción)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Ojo seco (hipersecreción refleja)</th><th>Epífora conjuntival</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Vía lagrimal</td><td><b>Permeable</b></td><td><b>Obstruida</b> o bomba insuficiente</td></tr>
+      <tr><td class="h">Síntomas</td><td>Cuerpo extraño, escozor, irritación</td><td>Solo lagrimeo; <b>sin irritación</b></td></tr>
+      <tr><td class="h">Ambiente</td><td>Empeora con viento/sequedad</td><td>Independiente del ambiente</td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · Tumefacción del canto interno</h3>
+  <p><b>Dolorosa con pus</b> → dacriocistitis aguda. <b>Indolora con moco al presionar</b> → dacriocistitis crónica. <b>Indolora sin reflujo</b> → mucocele.</p>
+  <h3>3 · Adenoma pleomorfo vs carcinoma</h3>
+  <p><b>Adenoma pleomorfo</b> = benigno, no biopsiar, extirpar sin romper cápsula. <b>Carcinoma</b> = maligno, se biopsia, signos de agresividad en imagen.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas del sistema lagrimal.</p>
+  <div class="trap"><span class="t">1 · Ojo seco = lagrimeo con vía lagrimal PERMEABLE</span> Cuerpo extraño, escozor; el lagrimeo es por hipersecreción refleja, no por obstrucción.</div>
+  <div class="trap"><span class="t">2 · Epífora conjuntival = obstrucción del drenaje o fallo de la bomba</span> Lagrimeo sin irritación, independiente del ambiente.</div>
+  <div class="trap"><span class="t">3 · Adenoma pleomorfo = tumor más frecuente de la glándula; NO se biopsia</span> Benigno; extirpar <b>sin romper la cápsula</b> (riesgo de malignización/siembra).</div>
+  <div class="trap"><span class="t">4 · Carcinoma de glándula lagrimal = infrecuente pero alta mortalidad</span> Sí se biopsia; TAC/RMN con signos de agresividad (destrucción ósea).</div>
+  <div class="trap"><span class="t">5 · Dacriocistitis aguda = dolor + eritema del canto interno + reflujo de PUS</span> Gérmenes Gram+ &gt; Gram− (S. aureus, Streptococcus β-hemolítico).</div>
+  <div class="trap"><span class="t">6 · Dacriocistitis crónica = indolora, reflujo de MOCO, conjuntivitis de repetición</span> Frente al mucocele (indoloro, NO refluye).</div>
+  <div class="trap"><span class="t">7 · Dacrioadenitis aguda = ptosis en "S itálica" + dolor superoexterno</span> Inflamación de la glándula lagrimal (área superoexterna de la órbita).</div>
+  <div class="trap"><span class="t">8 · Tratamiento de la obstrucción del adulto = dacriocistorrinostomía (DCR)</span> En epífora insoportable o dacriocistitis repetidas/crónicas (DCR externa: 80-90% éxito).</div>
+  <div class="trap"><span class="t">9 · La obstrucción del NIÑO (válvula de Hasner) ≠ la del adulto</span> El recién nacido se trata con masaje/sondaje; el adulto, con DCR.</div>
+  <div class="trap"><span class="t">10 · La película lagrimal es la superficie refractiva más importante (con la córnea)</span> Por eso el ojo seco altera la calidad visual.</div>
+  <div class="trap"><span class="t">11 · La dacriocistitis aguda puede complicarse con celulitis preseptal o fístula</span> No infravalorar la tumefacción dolorosa del canto interno.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 21. Ilustraciones esquemáticas originales (no fotografías). La obstrucción congénita de la vía lagrimal se detalla en el T18 (pediatría) y el ojo seco se amplía en el T04 (superficie).</p></section>
+
+</div>
+</body>
+</html>
