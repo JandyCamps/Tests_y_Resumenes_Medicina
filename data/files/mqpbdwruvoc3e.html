@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T10 · Distrofias Heredodegenerativas y Tumores de la Úvea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --dist:#1a5e86;--distbg:#e3eff7;--elec:#7a3a8f;--elecbg:#f1e6f4;--tum:#9a4d12;--tumbg:#f6ecde;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:30px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:580px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.dist{color:var(--dist);background:var(--distbg)}.chip.elec{color:var(--elec);background:var(--elecbg)}
+  .chip.tum{color:var(--tum);background:var(--tumbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12.5px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.dist{color:var(--dist);background:var(--distbg)}.pill.tum{color:var(--tum);background:var(--tumbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 10</p>
+  <h1>Distrofias Heredodegenerativas de la Retina y Tumores de la Úvea</h1>
+  <p>Resumen centrado en las pruebas electrofisiológicas, en distinguir las 4 distrofias y en los tumores uveales. Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#electro">I · Electrofisiología ocular</a>
+    <a href="#distrofias">II · Distrofias retinianas: generalidades</a>
+    <a href="#rp">III · Retinosis pigmentaria</a>
+    <a href="#stargardt">IV · Enfermedad de Stargardt</a>
+    <a href="#best">V · Enfermedad de Best</a>
+    <a href="#conos">VI · Distrofia de conos</a>
+    <a href="#tumores">VII · Tumores de la úvea</a>
+    <a href="#ddx">VIII · Diagnóstico diferencial</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="electro">
+  <h2><span class="romnum">I</span> Electrofisiología ocular <span class="chip elec">muy preguntable</span></h2>
+  <p class="lead">El ojo es un <b>dipolo</b> (potencial de reposo y de acción). Tres pruebas que hay que distinguir bien:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Prueba</th><th>Qué registra</th><th>Qué valora</th></tr></thead>
+    <tbody>
+      <tr><td class="h">EOG (electrooculograma)</td><td>Potencial de <b>REPOSO</b></td><td><b>EPR</b> y fotorreceptores; <b>índice de Arden</b> (normal &gt;1,8; dudoso 1,6–1,8; <b>patológico &lt;1,6</b>). Alterado en la <b>enfermedad de Best</b></td></tr>
+      <tr><td class="h">ERG (electrorretinograma)</td><td>Potencial de <b>ACCIÓN</b> (ondas a y b)</td><td>Fotorreceptores, Müller, bipolares, EPR. <b>Fotópico = conos</b>; <b>escotópico = bastones</b></td></tr>
+      <tr><td class="h">PEV (potenciales evocados visuales)</td><td>Respuesta cortical</td><td><b>Corteza visual</b> / vía óptica</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Regla mnemotécnica</span> <b>EOG → EPR (Arden)</b>; <b>ERG → fotorreceptores (fotópico = conos / escotópico = bastones)</b>; <b>PEV → corteza/vía óptica</b>.</div>
+  <p class="note">Variantes del ERG: <b>ERG patrón</b> (retina interna/células ganglionares) y <b>ERG multifocal</b> (función macular).</p>
+</section>
+
+<section id="distrofias">
+  <h2><span class="romnum">II</span> Distrofias retinianas: generalidades</h2>
+  <p class="lead">Defectos <b>funcionales hereditarios</b>, <b>bilaterales y progresivos</b>. Herencia: <b>AR 70%</b>, AD 25%, ligada al X y mitocondrial.</p>
+  <p>Cuatro entidades clave: <b>retinosis pigmentaria, enfermedad de Stargardt, enfermedad de Best y distrofia de conos</b>. La forma de afectación (bastones vs conos, periférica vs central) y la electrofisiología las separan.</p>
+</section>
+
+<section id="rp">
+  <h2><span class="romnum">III</span> Retinosis pigmentaria <span class="chip dist">bastones</span></h2>
+  <p class="lead">Degeneración de fotorreceptores que empieza por los <b>BASTONES</b> (y luego afecta a los conos). Multitud de genes (AD/AR/XL).</p>
+  <ul>
+    <li><b>Síntomas:</b> <b>NICTALOPÍA</b> (ceguera nocturna, mala adaptación a la oscuridad) y <b>reducción concéntrica del campo visual</b> (visión "en cañón de escopeta"); la visión central se conserva hasta fases tardías.</li>
+    <li><b>Tríada en el fondo de ojo:</b> <b>espículas óseas de pigmento</b> + <b>palidez papilar (cérea)</b> + <b>atenuación vascular</b>.</li>
+    <li><b>ERG:</b> escotópico disminuido (inicial) y fotópico disminuido (avanzado).</li>
+    <li><b>Tratamiento:</b> <b>terapia génica</b> (única distrofia con tratamiento emergente aprobado en ciertos genes). Síndromes asociados: <b>Usher</b> (+ sordera) y <b>Bardet-Biedl</b>.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 200" role="img" aria-label="Fondo de ojo con espículas óseas, palidez papilar y vasos finos">
+      <circle cx="160" cy="100" r="86" fill="#dd9a45" stroke="#b8752f"/>
+      <circle cx="110" cy="86" r="15" fill="#efe6c8" stroke="#cdbf8a"/>
+      <g stroke="#c98a3a" stroke-width="1.6" fill="none"><path d="M110 86 Q150 100 230 120 M110 86 Q150 80 235 70"/></g>
+      <g fill="#3a2a1a"><path d="M200 70 l5 -7 5 7 -5 7z"/><path d="M215 110 l5 -7 5 7 -5 7z"/><path d="M180 140 l5 -7 5 7 -5 7z"/><path d="M120 140 l5 -7 5 7 -5 7z"/><path d="M95 120 l5 -7 5 7 -5 7z"/><path d="M230 95 l5 -7 5 7 -5 7z"/></g>
+      <text x="160" y="194" text-anchor="middle" style="font:400 11px Inter;fill:#5a3a1a">espículas óseas + papila pálida + vasos finos</text>
+    </svg>
+    <figcaption><b>Retinosis pigmentaria</b>: tríada de espículas óseas, palidez papilar y atenuación vascular en la periferia retiniana.</figcaption>
+  </figure>
+</section>
+
+<section id="stargardt">
+  <h2><span class="romnum">IV</span> Enfermedad de Stargardt <span class="chip dist">mácula</span></h2>
+  <ul>
+    <li><b>Distrofia macular más frecuente.</b> Gen <b>ABCA4</b>, herencia <b>autosómica recesiva</b>.</li>
+    <li><b>Clínica:</b> pérdida de <b>visión CENTRAL</b>, con ↓AV en <b>&lt; 20 años</b>.</li>
+    <li><b>Fondo:</b> <b>flecks</b> (manchas amarillentas) y aspecto en <b>"bronce golpeado"</b>.</li>
+    <li><b>AFG: SILENCIO COROIDEO</b> (la lipofuscina del EPR bloquea la fluorescencia coroidea) — dato muy característico.</li>
+    <li><b>ERG:</b> escotópico normal, fotópico disminuido.</li>
+  </ul>
+</section>
+
+<section id="best">
+  <h2><span class="romnum">V</span> Enfermedad de Best (viteliforme) <span class="chip dist">EOG</span></h2>
+  <ul>
+    <li>Distrofia macular por depósito de <b>lipofuscina</b>. Gen <b>BEST1</b>, herencia <b>autosómica dominante</b> con expresividad variable.</li>
+    <li>Material <b>viteliforme</b> ("yema de huevo") en la mácula. Fases: viteliforme → pseudohipopión → vitelirupta → atrófica.</li>
+    <li><b>Asintomática al inicio</b>; pérdida de visión central hacia la <b>5ª década</b>. <b>BUEN PRONÓSTICO.</b></li>
+    <li><b>Clave diagnóstica:</b> <b>EOG ALTERADO (índice de Arden &lt;1,6)</b> con <b>ERG NORMAL</b>.</li>
+  </ul>
+  <div class="key"><span class="lbl">La clave de Best</span> <b>EOG alterado + ERG normal</b> = enfermedad de Best. Es la única distrofia en que el EOG es el que "canta".</div>
+</section>
+
+<section id="conos">
+  <h2><span class="romnum">VI</span> Distrofia de conos <span class="chip dist">conos</span></h2>
+  <ul>
+    <li>Degeneración progresiva de los <b>CONOS</b> (finalmente también bastones). Heterogénea (sobre todo AD).</li>
+    <li><b>Clínica:</b> <b>FOTOFOBIA</b>, alteración de la <b>visión de los colores (discromatopsia)</b>, pérdida de <b>visión central</b> y <b>escotoma central</b>.</li>
+    <li><b>Fondo:</b> moteado del EPR, imagen en <b>"ojo de buey"</b>, atrofia.</li>
+    <li><b>ERG:</b> fotópico alterado, escotópico normal/disminuido. <b>MAL PRONÓSTICO.</b></li>
+    <li><b>Manejo:</b> ayudas de baja visión, gafas/lentillas oscuras (fotofobia).</li>
+  </ul>
+</section>
+
+<section id="tumores">
+  <h2><span class="romnum">VII</span> Tumores de la úvea <span class="chip tum">coroides</span></h2>
+  <p class="lead">Iris (melanoma, metástasis, xantogranuloma, quistes), cuerpo ciliar (melanoma, meduloepitelioma) y coroides (nevus, melanoma, hemangioma, melanocitoma, metástasis).</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tumor</th><th>Claves</th><th>Tratamiento</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Melanoma de coroides</td><td><b>Tumor maligno intraocular PRIMARIO más frecuente del adulto</b>; dx por ecografía y exploración</td><td><b>Enucleación</b> o <b>braquiterapia</b> (misma supervivencia en tamaño mediano, &lt;10 mm)</td></tr>
+      <tr><td class="h">Metástasis coroideas</td><td>El tumor intraocular <b>MÁS FRECUENTE en general</b>; origen <b>pulmón/mama</b>; amarillentas, <b>bilaterales, multifocales</b>, rápido crecimiento, mal pronóstico</td><td>Radioterapia/braquiterapia/quimioterapia</td></tr>
+      <tr><td class="h">Hemangioma coroideo</td><td><b>Benigno</b>; líquido subretiniano; <b>"wash-out" en ICG</b></td><td><b>TFD</b> (terapia fotodinámica)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Excepciones de color de las metástasis: el <b>melanoma cutáneo</b> da metástasis pigmentada y el <b>carcinoma de células renales</b>, rojiza.</p>
+  <div class="key"><span class="lbl">Primario vs global</span> El <b>melanoma de coroides</b> es el tumor maligno intraocular <b>primario</b> más frecuente del adulto; las <b>metástasis</b> son el tumor intraocular <b>más frecuente en términos absolutos</b>.</div>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VIII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Las 4 distrofias de un vistazo</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Distrofia</th><th>Célula/zona</th><th>Síntoma clave</th><th>Pista</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Retinosis pigmentaria</td><td>Bastones → conos</td><td><b>Nictalopía</b> + ↓campo concéntrico</td><td>Espículas óseas; terapia génica</td></tr>
+      <tr><td class="h">Stargardt</td><td>Mácula (ABCA4, AR)</td><td>↓visión central &lt;20 a</td><td><b>Silencio coroideo</b>, bronce golpeado</td></tr>
+      <tr><td class="h">Best</td><td>Mácula (BEST1, AD)</td><td>↓central 5ª década (buen pronóstico)</td><td><b>EOG alterado + ERG normal</b>; viteliforme</td></tr>
+      <tr><td class="h">Distrofia de conos</td><td>Conos</td><td><b>Fotofobia</b> + escotoma central + discromatopsia</td><td>"Ojo de buey"; ERG fotópico alterado</td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · ¿Qué prueba "canta"?</h3>
+  <p><b>EOG alterado, ERG normal → Best.</b> <b>ERG escotópico bajo → retinosis pigmentaria</b> (bastones). <b>ERG fotópico alterado → distrofia de conos.</b> <b>Silencio coroideo en AFG → Stargardt.</b></p>
+  <h3>3 · Tumores coroideos</h3>
+  <p><b>Melanoma</b> = maligno primario más frecuente del adulto (braquiterapia/enucleación). <b>Metástasis</b> = el más frecuente global (pulmón/mama, bilaterales). <b>Hemangioma</b> = benigno (wash-out en ICG, TFD).</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de las distrofias y los tumores.</p>
+  <div class="trap"><span class="t">1 · EOG alterado + ERG normal = enfermedad de Best</span> Es la combinación electrofisiológica que más se pregunta. El <b>índice de Arden &lt;1,6</b> es patológico.</div>
+  <div class="trap"><span class="t">2 · Nictalopía + campo en cañón + espículas óseas = retinosis pigmentaria</span> Empieza por los <b>bastones</b> (visión nocturna y periferia).</div>
+  <div class="trap"><span class="t">3 · Tríada de la RP</span> Espículas óseas de pigmento + palidez papilar + atenuación vascular.</div>
+  <div class="trap"><span class="t">4 · Stargardt = AR, ABCA4, joven, SILENCIO COROIDEO</span> Distrofia macular más frecuente; AFG con silencio coroideo y aspecto en "bronce golpeado".</div>
+  <div class="trap"><span class="t">5 · Distrofia de conos = fotofobia + escotoma central</span> ERG <b>fotópico</b> alterado, discromatopsia, "ojo de buey", mal pronóstico.</div>
+  <div class="trap"><span class="t">6 · ERG fotópico = conos / escotópico = bastones</span> Y EOG = EPR (Arden); PEV = corteza/vía óptica. No los mezcles.</div>
+  <div class="trap"><span class="t">7 · Best: AD, buen pronóstico, viteliforme</span> Depósito de lipofuscina ("yema de huevo"); pérdida central en la 5ª década.</div>
+  <div class="trap"><span class="t">8 · Melanoma de coroides = maligno intraocular PRIMARIO más frecuente del adulto</span> Tratamiento: <b>braquiterapia o enucleación</b> (misma supervivencia en tamaño mediano).</div>
+  <div class="trap"><span class="t">9 · Metástasis coroideas = el tumor intraocular más frecuente GLOBAL</span> Origen <b>pulmón/mama</b>, bilaterales y multifocales (no confundir con el melanoma, que es el primario más frecuente).</div>
+  <div class="trap"><span class="t">10 · Hemangioma coroideo = benigno, wash-out en ICG, TFD</span> Cursa con líquido subretiniano; tratamiento con terapia fotodinámica.</div>
+  <div class="trap"><span class="t">11 · La retinosis pigmentaria tiene terapia génica</span> Única distrofia con tratamiento emergente aprobado (en genes concretos, p. ej. RPE65).</div>
+  <div class="trap"><span class="t">12 · Pseudo-retinosis pigmentaria por fármacos</span> La <b>clorpromazina y la tioridazina</b> pueden dar un cuadro pigmentario que la imita.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 10. Ilustraciones esquemáticas originales (no fotografías). Para reconocer las espículas óseas de la RP, los flecks de Stargardt o el material viteliforme de Best reales, repasa las imágenes del T10.</p></section>
+
+</div>
+</body>
+</html>
