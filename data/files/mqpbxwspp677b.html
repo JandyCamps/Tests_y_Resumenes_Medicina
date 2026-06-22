@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T21 · Sistema Lagrimal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T21</p>
+    <h1>Patología del Sistema Lagrimal</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figDacrio=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dacriocistitis aguda: tumefacción eritematosa del canto interno">
+<ellipse cx="135" cy="60" rx="90" ry="28" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="135" cy="60" r="17" fill="#9a6a3c"/><circle cx="135" cy="60" r="8" fill="#1a1a1a"/>
+<circle cx="58" cy="82" r="20" fill="#d65a4a"/><circle cx="58" cy="82" r="20" fill="none" stroke="#a83228" stroke-width="3"/>
+<text x="120" y="135" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">tumefacción dolorosa del canto interno</text></svg>`;
+const figVia=`<svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vía lagrimal: puntos, canalículos, saco y conducto nasolagrimal">
+<ellipse cx="120" cy="46" rx="66" ry="22" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="86" cy="46" r="4" fill="#1a5e86"/><circle cx="154" cy="46" r="4" fill="#1a5e86"/>
+<path d="M86 50 Q74 80 80 110" stroke="#1a5e86" stroke-width="5" fill="none"/><path d="M154 50 Q166 80 160 110" stroke="#1a5e86" stroke-width="5" fill="none"/>
+<rect x="72" y="108" width="26" height="32" rx="7" fill="#cfe3ea" stroke="#7fa6b5"/><path d="M85 140 L85 156" stroke="#1a5e86" stroke-width="8" fill="none"/>
+<text x="150" y="120" style="font:600 10px Inter;fill:#46585f">saco</text><text x="150" y="152" style="font:600 10px Inter;fill:#46585f">conducto NL</text></svg>`;
+const figSitalica=`<svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ptosis en S itálica por dacrioadenitis">
+<path d="M30 55 Q90 30 150 55 Q90 80 30 55Z" fill="#fff" stroke="#7a8b90"/><circle cx="90" cy="55" r="20" fill="#9a6a3c"/><circle cx="90" cy="55" r="9" fill="#1a1a1a"/>
+<path d="M40 40 Q110 22 150 50" fill="none" stroke="#d65a4a" stroke-width="7"/>
+<text x="120" y="110" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">edema superoexterno: ptosis en 'S itálica'</text></svg>`;
+const figOjoseco=`<svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tinción punteada corneal de ojo seco">
+<ellipse cx="110" cy="68" rx="96" ry="44" fill="#cfe6dd"/><circle cx="110" cy="68" r="38" fill="#bcd9cf"/>
+<g fill="#1f7a4d"><circle cx="96" cy="58" r="2.4"/><circle cx="116" cy="64" r="2.4"/><circle cx="104" cy="76" r="2.4"/><circle cx="124" cy="72" r="2.2"/></g>
+<circle cx="110" cy="68" r="14" fill="#1a1a1a"/></svg>`;
+
+const Q=[
+{cat:"Anatomía",c:1,q:"La película lagrimal precorneal, junto con la córnea:",
+ o:["No tiene función óptica","Constituye la superficie refractiva más importante del ojo","Solo lubrica","Produce el humor acuoso"],
+ e:"La <b>película lagrimal precorneal</b>, con la córnea, es la <b>superficie refractiva más importante</b> del ojo y mantiene la función corneal."},
+{cat:"Anatomía",c:2,q:"El sistema lagrimal se divide en:",
+ o:["Anterior y posterior","Central y periférica","Porción secretora y porción excretora (de drenaje)","Superior e inferior"],
+ e:"El sistema lagrimal tiene una <b>porción secretora</b> (glándula) y una <b>porción excretora</b> (vía de drenaje)."},
+{cat:"Anatomía",c:3,figSrc:"figVia",figcap:"Esquema de la vía lagrimal.",
+ q:"El orden correcto del drenaje de la lágrima es:",
+ o:["Conducto → saco → canalículos → puntos","Saco → puntos → canalículos","Glándula → córnea → saco","Puntos → canalículos → saco → conducto nasolagrimal"],
+ e:"La lágrima drena: <b>puntos → canalículos → saco lagrimal → conducto nasolagrimal</b> (a la nariz)."},
+{cat:"Dacrioadenitis",c:0,q:"La dacrioadenitis aguda es:",
+ o:["Inflamación aguda de la glándula lagrimal, habitualmente unilateral e idiopática","Inflamación del saco","Una obstrucción canalicular","Un tumor"],
+ e:"La <b>dacrioadenitis aguda</b> es la inflamación aguda de la <b>glándula lagrimal</b>, habitualmente unilateral e idiopática."},
+{cat:"Dacrioadenitis",c:1,figSrc:"figSitalica",figcap:"Párpado del paciente.",
+ q:"El edema palpebral superior con ptosis en 'S itálica' y dolor superoexterno corresponde a:",
+ o:["Dacriocistitis aguda","Dacrioadenitis aguda","Mucocele","Ojo seco"],
+ e:"La <b>ptosis en 'S itálica'</b> con dolor en el ángulo superoexterno es típica de la <b>dacrioadenitis aguda</b>."},
+{cat:"Dacrioadenitis",c:2,q:"El tratamiento de la dacrioadenitis aguda idiopática es:",
+ o:["Cirugía urgente","AntiVEGF","Sintomático (analgésicos/AINEs) + etiológico","Enucleación"],
+ e:"La <b>dacrioadenitis aguda</b> se trata de forma <b>sintomática</b> (analgésicos, AINEs) y etiológica."},
+{cat:"Tumores",c:3,q:"El tumor MÁS FRECUENTE de la glándula lagrimal es:",
+ o:["El carcinoma","El linfoma","El melanoma","El adenoma pleomorfo (benigno)"],
+ e:"El <b>adenoma pleomorfo</b> (benigno) es el tumor más frecuente de la glándula lagrimal."},
+{cat:"Tumores",c:0,q:"El adenoma pleomorfo de la glándula lagrimal:",
+ o:["NO debe biopsiarse (riesgo de malignización) y se extirpa sin romper la cápsula","Se biopsia siempre","Se trata con quimioterapia","Es maligno"],
+ e:"El <b>adenoma pleomorfo</b> <b>no se biopsia</b> (riesgo de malignización/siembra) y se extirpa <b>completo sin romper la cápsula</b>."},
+{cat:"Tumores",c:1,q:"El carcinoma de la glándula lagrimal:",
+ o:["Es muy frecuente y benigno","Es infrecuente pero de alta mortalidad (se puede biopsiar)","No se trata","Nunca da metástasis"],
+ e:"El <b>carcinoma</b> de la glándula lagrimal es <b>infrecuente pero de alta mortalidad</b>; sí se biopsia y muestra signos de agresividad en imagen."},
+{cat:"Caso clínico · tumor",c:2,case:true,
+ lead:"Paciente con una masa indolora de crecimiento lento en el ángulo superoexterno de la órbita; la imagen muestra una lesión bien delimitada que desplaza el globo.",
+ q:"¿Cuál es la conducta correcta?",
+ o:["Biopsia incisional","Observación indefinida","Extirpación completa sin romper la cápsula (sospecha de adenoma pleomorfo)","Quimioterapia"],
+ e:"Ante la sospecha de <b>adenoma pleomorfo</b> (masa bien delimitada, indolora), se hace <b>extirpación completa sin romper la cápsula</b>, no biopsia."},
+{cat:"Ojo seco",c:3,q:"El ojo seco se define (DEWS II) como:",
+ o:["Una infección","Un tumor","Una obstrucción del drenaje","Una enfermedad multifactorial de la superficie ocular con pérdida de la homeostasis de la película lagrimal"],
+ e:"El <b>ojo seco</b> es una <b>enfermedad multifactorial de la superficie ocular</b> con pérdida de la homeostasis lagrimal (inestabilidad, hiperosmolaridad, inflamación)."},
+{cat:"Ojo seco",c:0,q:"El ojo seco se caracteriza por:",
+ o:["Sensación de cuerpo extraño, escozor y lagrimeo con vía lagrimal PERMEABLE","Dolor intenso del canto interno","Reflujo de pus","Exoftalmos"],
+ e:"El <b>ojo seco</b> cursa con <b>cuerpo extraño, escozor y lagrimeo</b>, con la <b>vía lagrimal permeable</b> (hipersecreción refleja)."},
+{cat:"Imagen · ojo seco",c:1,figSrc:"figOjoseco",figcap:"Superficie corneal teñida.",
+ q:"Esta tinción punteada corneal con síntomas de cuerpo extraño y escozor corresponde a:",
+ o:["Dacriocistitis","Ojo seco","Adenoma pleomorfo","Mucocele"],
+ e:"La tinción punteada con cuerpo extraño/escozor es típica del <b>ojo seco</b>."},
+{cat:"Epífora",c:2,q:"La epífora por hipersecreción refleja se produce con:",
+ o:["La vía lagrimal obstruida","Un tumor","La vía lagrimal permeable (exceso de lágrima)","Una infección del saco"],
+ e:"La <b>hipersecreción refleja</b> (lagrimeo) cursa con <b>vía lagrimal permeable</b>; el exceso de lágrima supera la capacidad de drenaje."},
+{cat:"Epífora · DDx",c:3,ddx:true,q:"La epífora conjuntival se debe a:",
+ o:["Exceso de producción","Una emoción","Una queratitis","Insuficiencia de la bomba lagrimal u obstrucción mecánica del drenaje"],
+ e:"La <b>epífora conjuntival</b> se debe a <b>insuficiencia de la bomba lagrimal</b> o a <b>obstrucción mecánica</b> del drenaje."},
+{cat:"Epífora",c:0,q:"Una característica de la epífora conjuntival (por obstrucción) es:",
+ o:["Es independiente del ambiente y NO hay irritación ocular","Empeora con el viento","Cursa con dolor intenso","Refluye pus"],
+ e:"La <b>epífora conjuntival</b> es <b>independiente del ambiente</b> y cursa <b>sin irritación ocular</b> (a diferencia del ojo seco)."},
+{cat:"Epífora",c:1,q:"La lagrimación neurógena se produce por estimulación refleja de:",
+ o:["El simpático","El trigémino o el facial (ojo seco, frío, bostezo, vómito, queratitis)","El nervio óptico","El III par"],
+ e:"La <b>lagrimación neurógena</b> es por estimulación del <b>trigémino o el facial</b> (frío, bostezo, vómito, queratitis, ojo seco)."},
+{cat:"Dacriocistitis aguda",c:2,q:"La dacriocistitis aguda es:",
+ o:["Inflamación de la glándula lagrimal","Un tumor","Inflamación aguda del saco lagrimal, con dolor intenso","Ojo seco"],
+ e:"La <b>dacriocistitis aguda</b> es la inflamación aguda del <b>saco lagrimal</b>, con <b>dolor intenso</b> y eritema del canto interno."},
+{cat:"Imagen · dacriocistitis",c:3,figSrc:"figDacrio",figcap:"Canto interno del paciente.",
+ q:"Esta tumefacción dolorosa y eritematosa del canto interno que refluye pus a la presión corresponde a:",
+ o:["Dacrioadenitis","Ojo seco","Mucocele","Dacriocistitis aguda"],
+ e:"Tumefacción dolorosa del canto interno con reflujo de pus = <b>dacriocistitis aguda</b>."},
+{cat:"Dacriocistitis aguda",c:0,q:"Los gérmenes más frecuentes de la dacriocistitis aguda son:",
+ o:["Gram+ (S. aureus, Streptococcus β-hemolítico) > Gram−","Solo Pseudomonas","Solo hongos","Solo virus"],
+ e:"Predominan los <b>Gram+</b> (S. aureus, Streptococcus β-hemolítico) sobre los Gram− (Pseudomonas)."},
+{cat:"Dacriocistitis crónica",c:1,q:"La dacriocistitis crónica se caracteriza por:",
+ o:["Dolor intenso","Secreción mucopurulenta indolora con conjuntivitis (refluye moco al presionar el saco)","Exoftalmos","Reflujo de pus con dolor"],
+ e:"La <b>dacriocistitis crónica</b> es <b>indolora</b>, con secreción mucopurulenta, conjuntivitis de repetición y <b>reflujo de moco</b> al presionar el saco."},
+{cat:"Mucocele · DDx",c:2,ddx:true,q:"El mucocele del saco lagrimal se caracteriza por:",
+ o:["Dolor intenso y eritema","Reflujo de pus","Dilatación indolora, no inflamada, que NO refluye moco","Exoftalmos"],
+ e:"El <b>mucocele</b> es una <b>dilatación indolora</b>, no inflamada, que <b>no refluye</b> moco a la presión."},
+{cat:"Caso clínico · dacriocistitis",c:3,case:true,
+ lead:"Mujer de 60 años con dolor intenso, enrojecimiento y tumefacción del canto interno del ojo derecho; al presionar la zona refluye material purulento.",
+ q:"El diagnóstico es:",
+ o:["Dacrioadenitis","Ojo seco","Mucocele","Dacriocistitis aguda"],
+ e:"Dolor + eritema del canto interno + reflujo de pus = <b>dacriocistitis aguda</b>."},
+{cat:"Complicaciones",c:0,q:"La dacriocistitis aguda puede complicarse con:",
+ o:["Celulitis preseptal y fistulización a la piel","Catarata","Glaucoma","Desprendimiento de retina"],
+ e:"La <b>dacriocistitis aguda</b> puede complicarse con <b>celulitis preseptal</b> y <b>fistulización a la piel</b>."},
+{cat:"Tratamiento",c:1,q:"El tratamiento quirúrgico de la obstrucción de la vía lagrimal del adulto es:",
+ o:["Masaje","Dacriocistorrinostomía (DCR)","Iridotomía","Goniotomía"],
+ e:"La obstrucción de la vía lagrimal del adulto se trata con <b>dacriocistorrinostomía (DCR)</b> (externa, endonasal o transcanalicular)."},
+{cat:"Tratamiento",c:2,q:"La dacriocistorrinostomía externa tiene una tasa de éxito de:",
+ o:["10-20%","40-50%","80-90%","100%"],
+ e:"La <b>DCR externa</b> tiene una tasa de éxito del <b>80-90%</b>."},
+{cat:"Tratamiento",c:3,q:"¿Cuándo se indica la cirugía (DCR) en la obstrucción de la vía lagrimal del adulto?",
+ o:["Siempre, de inmediato","Nunca","Solo en niños","Epífora insoportable, dacriocistitis agudas repetidas o dacriocistitis crónica"],
+ e:"La <b>DCR</b> se indica en <b>epífora insoportable, dacriocistitis agudas repetidas o crónicas</b>."},
+{cat:"DDx ojo seco/epífora",c:0,ddx:true,q:"¿Qué diferencia el lagrimeo del ojo seco de la epífora por obstrucción?",
+ o:["En el ojo seco la vía está permeable y hay irritación; en la epífora obstructiva la vía está obstruida y no hay irritación","Son lo mismo","El ojo seco no da lagrimeo","La epífora da dolor intenso siempre"],
+ e:"<b>Ojo seco</b> = vía permeable + irritación (hipersecreción refleja); <b>epífora obstructiva</b> = vía obstruida, sin irritación."},
+{cat:"Anatomía",c:1,q:"Los puntos lagrimales se localizan en:",
+ o:["La córnea","El borde libre de los párpados (canto interno)","La conjuntiva bulbar","La esclera"],
+ e:"Los <b>puntos lagrimales</b> están en el borde libre palpebral, cerca del canto interno, e inician la vía de drenaje."},
+{cat:"Canalículos",c:2,q:"La canaliculitis es una patología de:",
+ o:["La glándula lagrimal","El saco","Los canalículos (vía excretora)","La córnea"],
+ e:"La <b>canaliculitis</b> (aguda o crónica) afecta a los <b>canalículos</b> de la vía excretora."},
+{cat:"Caso clínico · ojo seco",c:3,case:true,
+ lead:"Mujer de 55 años con sensación de arenilla, escozor y lagrimeo que empeora con el viento y al leer; la vía lagrimal es permeable al sondaje.",
+ q:"El diagnóstico más probable es:",
+ o:["Dacriocistitis","Obstrucción de la vía lagrimal","Mucocele","Ojo seco (hipersecreción refleja con vía permeable)"],
+ e:"Arenilla/escozor + lagrimeo que empeora con el ambiente + vía permeable = <b>ojo seco</b>."},
+{cat:"Tumores · DDx",c:0,ddx:true,q:"Diferencie adenoma pleomorfo y carcinoma de la glándula lagrimal:",
+ o:["Adenoma = benigno, no biopsiar, extirpar sin romper cápsula; carcinoma = maligno, se biopsia, signos de agresividad","Ambos se biopsian igual","Ambos son benignos","El adenoma es maligno"],
+ e:"<b>Adenoma pleomorfo</b> = benigno, no biopsiar, extirpar sin romper cápsula; <b>carcinoma</b> = maligno, se biopsia, signos de agresividad en imagen."},
+{cat:"Dacrioadenitis",c:1,q:"La dacrioadenitis afecta a la región:",
+ o:["Canto interno (inferonasal)","Superoexterna de la órbita (donde está la glándula lagrimal)","Centro de la córnea","Conducto nasolagrimal"],
+ e:"La <b>dacrioadenitis</b> afecta a la región <b>superoexterna</b> de la órbita, donde se sitúa la glándula lagrimal."},
+{cat:"DDx canto interno",c:2,ddx:true,q:"Una tumefacción del canto interno indolora que refluye moco al presionar es:",
+ o:["Dacriocistitis aguda","Dacrioadenitis","Dacriocistitis crónica","Adenoma pleomorfo"],
+ e:"Tumefacción <b>indolora</b> con reflujo de <b>moco</b> = <b>dacriocistitis crónica</b>."},
+{cat:"Epífora",c:3,q:"La lagrimación psíquica se produce por:",
+ o:["Una obstrucción","Una infección","Un tumor","Las emociones"],
+ e:"La <b>lagrimación psíquica</b> es la producida por las <b>emociones</b> (hipersecreción refleja)."},
+{cat:"Caso clínico · DCR",c:0,case:true,
+ lead:"Paciente con epífora constante muy molesta y varios episodios de dacriocistitis aguda de repetición por obstrucción del conducto nasolagrimal.",
+ q:"¿Qué tratamiento se le propone?",
+ o:["Dacriocistorrinostomía (DCR)","Masaje del saco","Lágrimas artificiales únicamente","Antibiótico de por vida"],
+ e:"La obstrucción del conducto nasolagrimal con epífora molesta y dacriocistitis de repetición se trata con <b>DCR</b>."},
+{cat:"Película lagrimal",c:1,q:"La película lagrimal forma parte de:",
+ o:["El humor acuoso","La superficie ocular (con epitelios corneal/conjuntival y glándulas)","La retina","El cristalino"],
+ e:"La <b>película lagrimal</b> forma parte de la <b>superficie ocular</b> (epitelios corneal/limbar/conjuntival, glándulas lagrimales y de Meibomio)."},
+{cat:"Obstrucción puntal",c:2,q:"La estenosis u obstrucción puntal afecta a:",
+ o:["La glándula","El saco","Los puntos lagrimales (inicio del drenaje)","El conducto"],
+ e:"La <b>obstrucción/estenosis puntal</b> afecta a los <b>puntos lagrimales</b>, dificultando el inicio del drenaje."},
+{cat:"Caso clínico · mucocele",c:3,case:true,
+ lead:"Paciente con una tumefacción del canto interno blanda, indolora, que no está enrojecida y que no refluye moco al presionarla.",
+ q:"El diagnóstico es:",
+ o:["Dacriocistitis aguda","Dacrioadenitis","Dacriocistitis crónica","Mucocele del saco lagrimal"],
+ e:"Dilatación <b>indolora</b>, no inflamada, que <b>no refluye</b> = <b>mucocele del saco lagrimal</b>."},
+{cat:"Gérmenes",c:0,q:"El germen Gram− que puede causar dacriocistitis aguda es:",
+ o:["Pseudomonas aeruginosa","S. aureus","Streptococcus β-hemolítico","Propionibacterium"],
+ e:"Entre los Gram−, la <b>Pseudomonas aeruginosa</b> puede causar dacriocistitis aguda (predominan los Gram+)."},
+{cat:"DDx pediátrico",c:1,ddx:true,q:"La obstrucción de la vía lagrimal en el RECIÉN NACIDO, a diferencia del adulto:",
+ o:["Se trata con DCR de entrada","Se debe a la válvula de Hasner y suele resolverse con masaje/sondaje","Es un tumor","Es por dacrioadenitis"],
+ e:"La obstrucción <b>congénita</b> (válvula de <b>Hasner</b>) suele resolverse con <b>masaje/sondaje</b>; el adulto requiere DCR."},
+{cat:"Ojo seco",c:2,q:"En el ojo seco, fenómenos etiológicos clave son:",
+ o:["Solo la edad","Solo el sexo","Inestabilidad e hiperosmolaridad de la lágrima, inflamación y anomalías neurosensoriales","Una infección bacteriana"],
+ e:"El <b>ojo seco</b> implica <b>inestabilidad e hiperosmolaridad</b> de la lágrima, <b>inflamación</b> y daño/anomalías neurosensoriales de la superficie."},
+{cat:"Caso clínico · dacrioadenitis",c:3,case:true,
+ lead:"Joven con dolor e hinchazón en la parte externa del párpado superior de un ojo, que adopta forma de 'S itálica', sin reflujo de pus por el canto interno.",
+ q:"El diagnóstico es:",
+ o:["Dacriocistitis aguda","Mucocele","Ojo seco","Dacrioadenitis aguda"],
+ e:"Edema superoexterno con ptosis en 'S itálica' = <b>dacrioadenitis aguda</b> (no afecta al canto interno como la dacriocistitis)."},
+{cat:"Tratamiento",c:0,q:"Las vías de abordaje de la dacriocistorrinostomía incluyen:",
+ o:["Externa, endonasal y transcanalicular (láser)","Solo externa","Solo con láser","Solo endonasal"],
+ e:"La <b>DCR</b> puede ser <b>externa</b> (80-90% éxito), <b>endonasal</b> o <b>transcanalicular (láser)</b>; a veces stent lacrimonasal."},
+{cat:"DDx tumefacción",c:1,ddx:true,q:"Asocie correctamente la tumefacción del canto interno:",
+ o:["Aguda dolorosa con pus = crónica","Indolora con moco = aguda","Aguda dolorosa con pus = dacriocistitis aguda; indolora con moco = crónica; indolora sin reflujo = mucocele","Todas son lo mismo"],
+ e:"<b>Aguda dolorosa con pus</b> = dacriocistitis aguda; <b>indolora con moco</b> = crónica; <b>indolora sin reflujo</b> = mucocele."},
+{cat:"Ojo seco",c:2,q:"El ojo seco es, en cuanto a frecuencia:",
+ o:["Una patología rara","Solo de ancianos","Uno de los principales motivos de consulta oftalmológica","Exclusivo de mujeres"],
+ e:"El <b>ojo seco</b> es <b>uno de los principales motivos de consulta</b> oftalmológica."},
+{cat:"Anatomía",c:3,q:"El conducto nasolagrimal drena la lágrima hacia:",
+ o:["La córnea","La conjuntiva","El saco","La nariz (meato inferior)"],
+ e:"El <b>conducto nasolagrimal</b> drena la lágrima hacia la <b>nariz</b> (meato inferior)."},
+{cat:"Caso clínico · DDx ojo seco/obstrucción",c:0,case:true,ddx:true,
+ lead:"Dos pacientes con lagrimeo: uno con sensación de arenilla y escozor que empeora con el viento (vía permeable); otro con lagrimeo constante sin irritación y antecedentes de dacriocistitis.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Ojo seco y epífora por obstrucción","Ambos ojo seco","Ambos obstrucción","Obstrucción y ojo seco"],
+ e:"Arenilla/escozor con vía permeable = <b>ojo seco</b>; lagrimeo sin irritación con dacriocistitis previa = <b>epífora por obstrucción</b>."},
+{cat:"Tumores",c:1,q:"¿Por qué NO se biopsia el adenoma pleomorfo?",
+ o:["Porque es invisible","Por el riesgo de malignización y siembra al romper la cápsula","Porque no se puede acceder","Porque es benigno y no importa"],
+ e:"No se biopsia por el <b>riesgo de malignización y siembra</b>; se extirpa completo sin romper la cápsula."},
+{cat:"Dacriocistitis",c:2,q:"La dacriocistitis se asienta sobre una:",
+ o:["Glándula lagrimal inflamada","Córnea ulcerada","Obstrucción de la vía lagrimal (estasis en el saco)","Retina isquémica"],
+ e:"La <b>dacriocistitis</b> aparece sobre una <b>obstrucción de la vía lagrimal</b> que produce estasis e infección del saco."},
+{cat:"Caso clínico · canaliculitis",c:3,case:true,
+ lead:"Paciente con ojo rojo crónico, secreción y un punto lagrimal abultado del que sale material al presionar el canalículo.",
+ q:"El diagnóstico más probable es:",
+ o:["Dacrioadenitis","Mucocele","Ojo seco","Canaliculitis"],
+ e:"Secreción a la presión del canalículo con punto abultado = <b>canaliculitis</b> (patología de la vía excretora)."},
+{cat:"Epífora",c:0,q:"La bomba lagrimal impulsa la lágrima por:",
+ o:["El parpadeo (contracción del orbicular)","La gravedad exclusivamente","El latido cardíaco","La presión intraocular"],
+ e:"La <b>bomba lagrimal</b> funciona con el <b>parpadeo</b> (orbicular); su insuficiencia causa epífora conjuntival."},
+{cat:"Tratamiento",c:1,q:"El stent lacrimonasal se utiliza:",
+ o:["En el ojo seco","Para mantener permeable la vía tras la cirugía","En tumores","En la dacrioadenitis"],
+ e:"El <b>stent lacrimonasal</b> puede emplearse para mantener permeable la vía lagrimal tras la cirugía/reintervenciones."},
+{cat:"DDx",c:2,ddx:true,q:"Un dolor intenso con eritema del canto interno y fiebre orienta a:",
+ o:["Ojo seco","Mucocele","Dacriocistitis aguda (puede complicarse con celulitis)","Dacrioadenitis"],
+ e:"Dolor intenso + eritema del canto interno (± fiebre) = <b>dacriocistitis aguda</b>, que puede complicarse con celulitis preseptal."},
+{cat:"Película lagrimal",c:3,q:"La inestabilidad de la película lagrimal afecta a la visión porque:",
+ o:["No afecta a la visión","Solo da picor","Aumenta la PIO","La película es parte de la superficie refractiva (su rotura distorsiona la imagen)"],
+ e:"La <b>película lagrimal</b> es parte de la superficie refractiva; su inestabilidad distorsiona la imagen y fluctúa la visión."},
+{cat:"Caso clínico · tumor maligno",c:0,case:true,
+ lead:"Paciente con masa de la glándula lagrimal de crecimiento rápido, dolorosa, con destrucción ósea en el TAC.",
+ q:"¿Qué sospechas y cuál es la conducta?",
+ o:["Carcinoma de glándula lagrimal; se puede biopsiar (signos de agresividad)","Adenoma pleomorfo; no biopsiar","Dacrioadenitis; AINEs","Mucocele; observar"],
+ e:"Crecimiento rápido + dolor + destrucción ósea = <b>carcinoma de glándula lagrimal</b>; sí se biopsia y tiene alta mortalidad."},
+{cat:"Anatomía",c:1,q:"Las glándulas de Meibomio aportan a la lágrima su componente:",
+ o:["Acuoso","Lipídico (capa externa que evita la evaporación)","Mucínico","Celular"],
+ e:"Las <b>glándulas de Meibomio</b> aportan la <b>capa lipídica</b> de la lágrima (evita la evaporación); su disfunción causa ojo seco evaporativo."},
+{cat:"Ojo seco",c:2,q:"Una prueba para evaluar la producción acuosa de lágrima es:",
+ o:["La gonioscopia","La tonometría","El test de Schirmer","La campimetría"],
+ e:"El <b>test de Schirmer</b> mide la producción acuosa de lágrima; el BUT mide la estabilidad de la película."},
+{cat:"DDx pediátrico/adulto",c:3,ddx:true,q:"La obstrucción de la vía lagrimal del adulto se diferencia de la del niño en que:",
+ o:["El niño se opera siempre","El adulto se resuelve solo","Ambas se tratan igual","En el adulto el tratamiento de elección es la DCR; en el niño, masaje/sondaje (Hasner)"],
+ e:"En el <b>adulto</b> → <b>DCR</b>; en el <b>recién nacido</b> (válvula de Hasner) → masaje/sondaje."},
+{cat:"Caso clínico · complicación",c:0,case:true,
+ lead:"Paciente con dacriocistitis aguda no tratada que desarrolla enrojecimiento y edema difuso del párpado, sin afectación de la motilidad ni proptosis.",
+ q:"¿Qué complicación ha aparecido?",
+ o:["Celulitis preseptal","Celulitis orbitaria","Glaucoma","Catarata"],
+ e:"Edema palpebral sin afectación de la motilidad ni proptosis = <b>celulitis preseptal</b> (complicación de la dacriocistitis)."},
+{cat:"Dacrioadenitis",c:1,q:"La dacrioadenitis crónica suele asociarse a:",
+ o:["Una infección banal","Enfermedades sistémicas (sarcoidosis, Sjögren, IgG4)","Un traumatismo","Un defecto de refracción"],
+ e:"La <b>dacrioadenitis crónica</b> se asocia con frecuencia a <b>enfermedades sistémicas</b> (sarcoidosis, Sjögren, enfermedad por IgG4)."},
+{cat:"Epífora",c:2,q:"La epífora es:",
+ o:["Sequedad ocular","Dolor ocular","El lagrimeo / desbordamiento de lágrima","Visión borrosa"],
+ e:"La <b>epífora</b> es el <b>desbordamiento de lágrima</b> (lagrimeo) por las mejillas."},
+{cat:"Tumores",c:3,q:"En la imagen (TAC/RMN), el carcinoma de glándula lagrimal muestra:",
+ o:["Una masa bien delimitada","Ausencia de lesión","Una catarata","Signos de agresividad (destrucción ósea, bordes irregulares)"],
+ e:"El <b>carcinoma</b> muestra <b>signos de agresividad</b> en imagen (destrucción ósea, bordes irregulares), a diferencia del adenoma."},
+{cat:"Caso clínico · ojo seco Sjögren",c:0,case:true,
+ lead:"Mujer con artritis reumatoide y sequedad ocular y bucal intensa.",
+ q:"El ojo seco en este contexto se debe a:",
+ o:["Síndrome de Sjögren secundario","Obstrucción de la vía lagrimal","Un tumor","Una dacriocistitis"],
+ e:"En la AR, el ojo seco se debe al <b>síndrome de Sjögren secundario</b> (afectación de la glándula lagrimal)."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación CORRECTA:",
+ o:["El adenoma pleomorfo se biopsia siempre","El ojo seco cursa con vía obstruida","La dacriocistitis crónica es dolorosa con pus","Ojo seco = vía permeable; epífora conjuntival = obstrucción; adenoma pleomorfo no se biopsia"],
+ e:"Resumen: <b>ojo seco</b> = vía permeable; <b>epífora conjuntival</b> = obstrucción/bomba; <b>adenoma pleomorfo</b> no se biopsia."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación FALSA:",
+ o:["La dacriocistitis aguda refluye pus y duele","El adenoma pleomorfo es el tumor más frecuente de la glándula lagrimal","El mucocele es indoloro y no refluye","El carcinoma de glándula lagrimal es benigno y no se biopsia"],
+ e:"FALSA: el <b>carcinoma</b> de glándula lagrimal es <b>maligno</b> (alta mortalidad) y <b>sí se biopsia</b>."},
+{cat:"Síntesis · DDx",c:3,ddx:true,q:"Asocie correctamente:",
+ o:["Dacrioadenitis = canto interno","Dacriocistitis = glándula","Mucocele = dolor con pus","Dacrioadenitis = glándula (superoexterna, S itálica); dacriocistitis = saco (canto interno)"],
+ e:"<b>Dacrioadenitis</b> = glándula (superoexterna, 'S itálica'); <b>dacriocistitis</b> = saco (canto interno, dolor y pus)."},
+{cat:"Síntesis · global",c:0,q:"Resumen del tema:",
+ o:["Secretora (dacrioadenitis, adenoma pleomorfo que no se biopsia) + película (ojo seco, vía permeable) + excretora (epífora, dacriocistitis, DCR)","Solo ojo seco","Solo tumores","Solo dacriocistitis"],
+ e:"Resumen: <b>secretora</b> (dacrioadenitis; adenoma pleomorfo que no se biopsia); <b>película</b> (ojo seco con vía permeable); <b>excretora</b> (epífora, dacriocistitis, DCR)."}
+];
+
+const figMap={figDacrio,figVia,figSitalica,figOjoseco};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas el sistema lagrimal. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo dacriocistitis vs dacrioadenitis y los tumores.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza ojo seco vs epífora y el tratamiento.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T21 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
