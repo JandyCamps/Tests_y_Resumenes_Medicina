@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dietoterapia — Farmacología</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white;
+    padding: 28px 32px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(229,57,53,0.12);
+  }
+  .header-pill {
+    display: inline-block;
+    background: rgba(229,57,53,0.25);
+    color: #ff8a80;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .tabs {
+    display: flex;
+    background: #1a1a2e;
+    padding: 0 20px;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .tab:hover { color: rgba(255,255,255,0.8); }
+  .tab.active { color: #ff8a80; border-bottom-color: #e53935; }
+
+  .content { padding: 20px; max-width: 860px; margin: 0 auto; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #e53935;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .concepto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .concepto-item {
+    background: #f8f9ff;
+    border-radius: 10px;
+    padding: 14px;
+    border-left: 3px solid #3f51b5;
+  }
+  .concepto-item.green { border-color: #2e7d32; }
+  .concepto-item.teal { border-color: #00695c; }
+  .concepto-item.amber { border-color: #e65100; }
+  .concepto-item h3 { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 5px; }
+  .concepto-item p { font-size: 12.5px; color: #555; line-height: 1.5; }
+
+  .bio-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .bio-table th {
+    background: #1a1a2e;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .bio-table th:first-child { border-radius: 8px 0 0 0; }
+  .bio-table th:last-child { border-radius: 0 8px 0 0; }
+  .bio-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; }
+  .bio-table tr:hover td { background: #fafafa; }
+  .marker-badge {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #fce4e4;
+    color: #c62828;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag {
+    font-size: 11.5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag.red { background: #fce4e4; color: #c62828; }
+  .tag.blue { background: #e3f2fd; color: #1565c0; }
+  .tag.green { background: #e8f5e9; color: #2e7d32; }
+  .tag.amber { background: #fff3e0; color: #e65100; }
+  .tag.purple { background: #f3e5f5; color: #6a1b9a; }
+  .tag.teal { background: #e0f2f1; color: #00695c; }
+
+  .eval-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .eval-item:last-child { border-bottom: none; }
+  .eval-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: #f0f4f8;
+  }
+  .eval-content h4 { font-size: 13.5px; font-weight: 600; color: #1a1a2e; margin-bottom: 3px; }
+  .eval-content p { font-size: 12.5px; color: #666; line-height: 1.4; }
+
+  .fase2-table-wrap { overflow-x: auto; }
+  .fase2-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12.5px;
+  }
+  .fase2-table thead tr th {
+    padding: 13px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    color: white;
+    border-bottom: 3px solid rgba(255,255,255,0.2);
+  }
+  .fase2-table thead tr th:first-child { border-radius: 10px 0 0 0; }
+  .fase2-table thead tr th:last-child { border-radius: 0 10px 0 0; }
+  .th-row { background: #1a1a2e; }
+  .th-metil { background: #4527a0; }
+  .th-sulf { background: #00695c; }
+  .th-gluc { background: #b71c1c; }
+
+  .fase2-table tbody tr:nth-child(even) td { background: #fafafa; }
+  .fase2-table tbody tr:hover td { background: #f0f4ff; }
+  .fase2-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #efefef;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .fase2-table td:first-child {
+    font-weight: 700;
+    color: #333;
+    font-size: 12px;
+    background: #f5f5f5;
+    white-space: nowrap;
+    border-right: 2px solid #e0e0e0;
+  }
+
+  .dot-list { list-style: none; }
+  .dot-list li { padding: 1.5px 0; }
+  .dot-list li::before { content: '· '; color: #aaa; }
+
+  .badge-met { display:inline-block; background:#ede7f6; color:#4527a0; border-radius:4px; padding:1px 6px; font-size:11px; font-weight:600; }
+  .badge-sul { display:inline-block; background:#e0f2f1; color:#00695c; border-radius:4px; padding:1px 6px; font-size:11px; font-weight:600; }
+  .badge-glu { display:inline-block; background:#fce4e4; color:#b71c1c; border-radius:4px; padding:1px 6px; font-size:11px; font-weight:600; }
+
+  .dietas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dieta-card {
+    background: white;
+    border-radius: 10px;
+    padding: 14px;
+    border-top: 3px solid #3f51b5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .dieta-card.med { border-color: #2e7d32; }
+  .dieta-card.dash { border-color: #0277bd; }
+  .dieta-card.veg { border-color: #558b2f; }
+  .dieta-card.fod { border-color: #6a1b9a; }
+  .dieta-card.ceto { border-color: #e65100; }
+  .dieta-card.hipo { border-color: #00838f; }
+  .dieta-card h3 { font-size: 13.5px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+
+  .eje-flow {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 6px; margin: 16px 0;
+  }
+  .eje-node {
+    background: #1a1a2e;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .eje-node.neg { background: #b71c1c; }
+  .eje-arrow { color: #999; font-size: 18px; }
+
+  .flashcard {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    min-height: 140px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: transform 0.15s;
+    margin-bottom: 12px;
+  }
+  .flashcard:hover { transform: translateY(-2px); }
+  .flashcard .q { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+  .flashcard .a { font-size: 14px; color: #555; margin-top: 12px; display: none; }
+  .flashcard.flipped .a { display: block; }
+  .flashcard.flipped .q { color: #e53935; }
+  .flashcard .hint { font-size: 11px; color: #bbb; margin-top: 16px; }
+  .fc-nav { display: flex; gap: 10px; justify-content: center; }
+  .fc-nav button {
+    background: #f0f4f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+  }
+  .fc-nav button:hover { background: #e0e4e8; }
+  .fc-counter { text-align: center; font-size: 12px; color: #aaa; margin-bottom: 10px; }
+
+  .section-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .section-head h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .section-num {
+    background: #e53935;
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .highlight-box {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: #555;
+  }
+  .highlight-box strong { color: #e65100; }
+
+  @media (max-width: 540px) {
+    .concepto-grid, .dietas-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-pill">Farmacología · Dietoterapia</div>
+  <h1>Evaluación nutricional &amp; Dietas terapéuticas</h1>
+  <p>Seminarios 1, 3 — Apuntes interactivos para examen</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('conceptos', this)">📚 Conceptos base</button>
+  <button class="tab" onclick="showTab('evaluacion', this)">🔬 Evaluación</button>
+  <button class="tab" onclick="showTab('fase2', this)">⚗️ Fase II hepática</button>
+  <button class="tab" onclick="showTab('dietas', this)">🥗 Dietas</button>
+  <button class="tab" onclick="showTab('flash', this)">🃏 Flashcards</button>
+</div>
+
+<!-- TAB 1 -->
+<div id="tab-conceptos" class="section active content">
+  <div class="section-head">
+    <div class="section-num">1</div>
+    <h2>Conceptos fundamentales</h2>
+  </div>
+  <div class="concepto-grid">
+    <div class="concepto-item">
+      <h3>🍽️ Alimentación</h3>
+      <p>Acto <strong>voluntario, cultural y emocional</strong>. Depende del contexto: horarios, estrés, economía, cultura, relación emocional con la comida.</p>
+    </div>
+    <div class="concepto-item green">
+      <h3>🔄 Nutrición</h3>
+      <p>Proceso <strong>involuntario</strong>. Depende de: digestión → absorción → transporte → metabolismo → eliminación.</p>
+    </div>
+    <div class="concepto-item teal">
+      <h3>📋 Dietética</h3>
+      <p>Traduce la fisiología en pautas concretas: menús, combinaciones, horarios, técnicas culinarias.</p>
+    </div>
+    <div class="concepto-item amber">
+      <h3>💊 Dietoterapia</h3>
+      <p>Aplicación <strong>clínica</strong> de la nutrición para prevenir, tratar y controlar enfermedades.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#fce4e4">💡</div>Ejemplos de dietoterapia clínica</div>
+    <div class="tags">
+      <span class="tag purple">FODMAP → SII / SIBO</span>
+      <span class="tag amber">Cetogénica → Epilepsia</span>
+      <span class="tag blue">DASH → HTA</span>
+      <span class="tag teal">Baja histamina → Metiladores lentos</span>
+    </div>
+    <div class="highlight-box">
+      <strong>Idea clave:</strong> La salud depende de <em>cómo procesamos</em> lo que comemos, no solo de lo que comemos. No se puede prescribir dieta sin conocer el contexto del paciente.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#e8f5e9">🧠</div>Eje cerebro – intestino – inmunidad</div>
+    <div class="eje-flow">
+      <div class="eje-node">Estrés crónico</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">↑ Cortisol</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">↓ Ácido clorhídrico</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">Disbiosis</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">↑ Permeabilidad intestinal</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">Inflamación</div>
+      <div class="eje-arrow">→</div>
+      <div class="eje-node neg">Ansiedad / niebla mental</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2 -->
+<div id="tab-evaluacion" class="section content">
+  <div class="section-head">
+    <div class="section-num">2</div>
+    <h2>Evaluación nutricional completa</h2>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#e3f2fd">🗣️</div>A — Historia dietética</div>
+    <div class="eval-item">
+      <div class="eval-icon">⏰</div>
+      <div class="eval-content"><h4>Ritmo circadiano alimentario</h4><p>Horarios de comidas, número de tomas, distribución calórica</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">❤️</div>
+      <div class="eval-content"><h4>Relación emocional con la comida</h4><p>Comida compulsiva, restricción, ansiedad alimentaria</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🏭</div>
+      <div class="eval-content"><h4>Ultraprocesados, alcohol, café, tabaco</h4><p>Cantidad, frecuencia y contexto de consumo</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">💊</div>
+      <div class="eval-content"><h4>Medicación crónica y suplementos</h4><p>Posibles interacciones fármaco-nutriente</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🤢</div>
+      <div class="eval-content"><h4>Síntomas digestivos postprandiales</h4><p>Distensión, diarrea, reflujo, dolor abdominal tras las comidas</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#f3e5f5">📏</div>B — Antropometría (no solo el IMC)</div>
+    <div class="tags">
+      <span class="tag blue">IMC</span>
+      <span class="tag red">Perímetro abdominal</span>
+      <span class="tag amber">Relación cintura/talla</span>
+      <span class="tag green">Bioimpedancia</span>
+      <span class="tag purple">Distribución grasa vs masa magra</span>
+    </div>
+    <div class="highlight-box">⚠️ El IMC solo no es suficiente. Un paciente puede tener IMC normal con alta grasa visceral.</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#e8f5e9">🧪</div>C — Bioquímica clave</div>
+    <table class="bio-table">
+      <thead>
+        <tr><th>Marcador alterado</th><th>Manifestaciones clínicas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="marker-badge">Ferritina ↓</span></td><td>Fatiga, caída de cabello, disnea, síndrome de piernas inquietas</td></tr>
+        <tr><td><span class="marker-badge">Vitamina D ↓</span></td><td>↓ Inmunidad, inflamación crónica, alteración del estado de ánimo</td></tr>
+        <tr><td><span class="marker-badge">B12 ↓</span></td><td>Parestesias, niebla mental, anemia macrocítica</td></tr>
+        <tr><td><span class="marker-badge">HOMA-IR ↑</span></td><td>Resistencia a la insulina, riesgo metabólico elevado</td></tr>
+        <tr><td><span class="marker-badge">Perfil lipídico ↑</span></td><td>Inflamación sistémica, riesgo cardiovascular</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TAB 3 -->
+<div id="tab-fase2" class="section content">
+  <div class="section-head">
+    <div class="section-num">3</div>
+    <h2>Rutas metabólicas hepáticas — Fase II</h2>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#ede7f6">⚗️</div>Tabla comparativa: Metilación · Sulfatación · Glucuronidación</div>
+    <div class="fase2-table-wrap">
+    <table class="fase2-table">
+      <thead>
+        <tr>
+          <th class="th-row" style="width:140px">Aspecto</th>
+          <th class="th-metil">🟣 Metilación</th>
+          <th class="th-sulf">🟢 Sulfatación</th>
+          <th class="th-gluc">🔴 Glucuronidación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>¿Qué es?</td>
+          <td>Transferencia de un grupo <strong>–CH₃</strong> a moléculas diana</td>
+          <td>Transferencia de un grupo <strong>sulfato</strong> para neutralizar sustancias</td>
+          <td>Conjugación con <strong>ácido glucurónico</strong> para excretar por bilis u orina</td>
+        </tr>
+        <tr>
+          <td>¿Qué detoxifica?</td>
+          <td><ul class="dot-list"><li>Hormonas (estrógenos)</li><li>Neurotransmisores</li><li>Toxinas</li><li>ADN (epigenética)</li><li>Fosfolípidos</li></ul></td>
+          <td><ul class="dot-list"><li>Hormonas</li><li>Fármacos</li><li>Toxinas ambientales</li><li>Neurotransmisores</li><li>Aditivos alimentarios</li></ul></td>
+          <td><ul class="dot-list"><li>Estrógenos</li><li>Bilirrubina</li><li>Fármacos</li><li>BPA y disruptores endocrinos</li><li>Alcohol</li></ul></td>
+        </tr>
+        <tr>
+          <td>Síntomas si falla</td>
+          <td><ul class="dot-list"><li>Intolerancia a histamina</li><li>Ansiedad / irritabilidad</li><li>Migrañas</li><li>Fatiga crónica</li><li>Problemas de sueño</li><li>Dominancia estrogénica</li><li>PMS / irregularidades menstruales</li><li>Sensibilidad a tóxicos</li></ul></td>
+          <td><ul class="dot-list"><li>Intolerancia a salicilatos</li><li>Reacciones a medicamentos</li><li>Migrañas</li><li>Dolor articular</li><li>Problemas cutáneos</li><li>Intolerancia a crucíferas</li><li>Empeoramiento con NAC/cisteína</li></ul></td>
+          <td><ul class="dot-list"><li>Dominancia estrogénica</li><li>Migrañas / PMS</li><li>Acné hormonal</li><li>Retención de tóxicos</li><li>Fatiga</li><li>Problemas hepáticos</li></ul></td>
+        </tr>
+        <tr>
+          <td>Nutrientes clave</td>
+          <td><div class="tags"><span class="tag purple">B9 (metilfolato)</span><span class="tag purple">B12</span><span class="tag purple">B6</span><span class="tag purple">B2</span><span class="tag purple">Magnesio</span><span class="tag purple">Colina</span><span class="tag purple">Betaína (TMG)</span><span class="tag purple">Metionina</span></div></td>
+          <td><div class="tags"><span class="tag teal">Azufre (sulfatos)</span><span class="tag teal">Molibdeno</span><span class="tag teal">Vitamina B6</span></div></td>
+          <td><div class="tags"><span class="tag red">Magnesio</span><span class="tag red">B3</span><span class="tag red">B6</span><span class="tag red">Flavonoides</span><span class="tag red">D-glucarato (crucíferas)</span><span class="tag red">Glucurónico (frutas)</span></div></td>
+        </tr>
+        <tr>
+          <td>Qué la bloquea</td>
+          <td><ul class="dot-list"><li>Déficit de vitaminas B</li><li>Estrés crónico</li><li>Tóxicos ambientales</li><li>Disbiosis intestinal</li></ul></td>
+          <td><ul class="dot-list"><li>AAS, ibuprofeno, diclofenaco</li><li>NAC, cisteína, taurina en exceso</li><li>Alcohol</li><li>Estrés crónico</li><li>Disbiosis intestinal</li></ul></td>
+          <td><ul class="dot-list"><li>Alcohol</li><li>β-glucuronidasa bacteriana (disbiosis)</li><li>Dieta pobre en fibra</li><li>Estrés crónico</li></ul></td>
+        </tr>
+        <tr>
+          <td>Dietoterapia ✅ aumentar</td>
+          <td><ul class="dot-list"><li>Vegetales ricos en folatos</li><li>Huevos (colina)</li><li>Verduras de hoja verde</li><li>Alimentos anti-histamina</li></ul></td>
+          <td><ul class="dot-list"><li>Legumbres (judías, azukis, habas)</li><li>Trigo sarraceno</li><li>Semillas calabaza y girasol</li><li>Algas (cochayuyo)</li><li>Pulpo, calamar, sepia</li><li>Nueces de Brasil</li><li>Miso, tempeh</li></ul></td>
+          <td><ul class="dot-list"><li>Crucíferas (brócoli, kale)</li><li>Cítricos</li><li>Manzana</li><li>Té verde</li><li>Semillas de lino</li><li>Fibra soluble</li></ul></td>
+        </tr>
+        <tr>
+          <td>Dietoterapia ❌ reducir</td>
+          <td><ul class="dot-list"><li>Alimentos ricos en histamina</li><li>Tóxicos ambientales</li><li>Alcohol</li></ul></td>
+          <td><ul class="dot-list"><li>Ajo, cebolla, puerro</li><li>Crucíferas</li><li>Frutas ricas en salicilatos</li><li>AINEs (si es posible)</li></ul></td>
+          <td><ul class="dot-list"><li>Alcohol</li><li>Dieta pobre en fibra</li><li>Procesados</li></ul></td>
+        </tr>
+        <tr>
+          <td>Punto clave 🎯</td>
+          <td><span class="badge-met">Dominancia estrogénica + histamina</span></td>
+          <td><span class="badge-sul">Salicilatos + AINEs la bloquean</span></td>
+          <td><span class="badge-glu">La disbiosis reactiva β-glucuronidasa</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="highlight-box">
+      ⚠️ <strong>Denominador común de las 3 rutas:</strong> el estrés crónico y la disbiosis intestinal bloquean todas las vías de Fase II. La dominancia estrogénica puede aparecer si falla la metilación O la glucuronidación.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:#ede7f6">🌿</div>Alimentos que frenan la aromatasa (dominancia estrogénica)</div>
+    <div class="tags">
+      <span class="tag purple">Regaliz</span><span class="tag purple">Champiñones</span><span class="tag purple">Lino</span><span class="tag purple">Sésamo</span><span class="tag purple">Cacao</span><span class="tag purple">Té verde</span><span class="tag purple">Cítricos</span><span class="tag purple">Frutos rojos</span><span class="tag purple">Granadas</span><span class="tag purple">Perejil</span><span class="tag purple">Apio</span><span class="tag purple">Espárragos</span><span class="tag purple">Avellanas</span><span class="tag purple">Pistachos</span><span class="tag purple">Piñones</span>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4 -->
+<div id="tab-dietas" class="section content">
+  <div class="section-head">
+    <div class="section-num">4</div>
+    <h2>Dietas saludables y preventivas</h2>
+  </div>
+  <div class="dietas-grid">
+    <div class="dieta-card med">
+      <h3>🫒 Mediterránea</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag green">Más estudiada</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>↓ riesgo cardiovascular</li><li>↓ inflamación sistémica</li><li>↓ mortalidad global</li><li>↑ función cognitiva</li><li>↑ salud de microbiota</li>
+      </ul>
+    </div>
+    <div class="dieta-card dash">
+      <h3>🫀 DASH</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag blue">Indicada en HTA</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>Alta en frutas y verduras</li><li>Lácteos desnatados</li><li>Baja en sodio</li><li>↓ presión arterial</li>
+      </ul>
+    </div>
+    <div class="dieta-card veg">
+      <h3>🌱 Vegetariana</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag amber">Planificación obligatoria</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>Saludable si bien planificada</li><li>Suplementar: B12 (obligatorio)</li><li>Vigilar: Fe, ω-3, calcio, zinc</li>
+      </ul>
+    </div>
+    <div class="dieta-card fod">
+      <h3>🫙 FODMAP</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag purple">SII / SIBO</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>Reduce fermentación excesiva</li><li>Fases: restricción → reintroducción → personalización</li>
+      </ul>
+    </div>
+    <div class="dieta-card ceto">
+      <h3>🥑 Cetogénica</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag amber">Epilepsia refractaria</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>&lt;10% carbohidratos</li><li>Alta en grasas</li><li>Síndrome metabólico</li>
+      </ul>
+    </div>
+    <div class="dieta-card hipo">
+      <h3>🥦 Hipotóxica-basocolítica</h3>
+      <div class="tags" style="margin-bottom:8px"><span class="tag teal">Anti-inflamatoria</span></div>
+      <ul class="dot-list" style="font-size:12.5px;color:#555">
+        <li>Rica en fibra y fermentados</li><li>↓ procesados, grasas animales, azúcar</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-title"><div class="icon" style="background:#fce4e4">⚠️</div>Dietas terapéuticas específicas</div>
+    <div class="eval-item">
+      <div class="eval-icon">🐟</div>
+      <div class="eval-content"><h4>Baja en histamina → metiladores lentos</h4><p>Evitar: pescado azul, embutidos, fermentados, tomate, espinacas, alcohol</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🧄</div>
+      <div class="eval-content"><h4>Baja en azufre/salicilatos → sulfatadores lentos</h4><p>Evitar: ajo, cebolla, crucíferas, salicilatos, AINEs</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🫀</div>
+      <div class="eval-content"><h4>Cardiovascular</h4><p>Alta carga antioxidante, predominio vegetal, AOVE, frutos secos, pescado azul</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🫁</div>
+      <div class="eval-content"><h4>Cirrosis hepática</h4><p>Normo-hiperproteica + colación nocturna. Evitar ayunos prolongados</p></div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">🩸</div>
+      <div class="eval-content"><h4>Enfermedad renal</h4><p>Ajuste proteínas según estadio. Control de sodio, potasio y fósforo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5 -->
+<div id="tab-flash" class="section content">
+  <div class="section-head">
+    <div class="section-num">5</div>
+    <h2>Flashcards de repaso</h2>
+  </div>
+  <p style="font-size:13px;color:#888;margin-bottom:14px">Haz clic en la tarjeta para ver la respuesta. Navega con los botones.</p>
+  <div class="fc-counter" id="fc-counter">1 / 12</div>
+  <div class="flashcard" id="flashcard" onclick="flipCard()">
+    <div class="q" id="fc-q">¿Cuál es la diferencia entre alimentación y nutrición?</div>
+    <div class="a" id="fc-a">Alimentación es un acto voluntario y cultural. Nutrición es el proceso involuntario de digestión, absorción, transporte, metabolismo y eliminación.</div>
+    <div class="hint">↙ toca para ver respuesta</div>
+  </div>
+  <div class="fc-nav">
+    <button onclick="prevCard()">← Anterior</button>
+    <button onclick="nextCard()">Siguiente →</button>
+  </div>
+</div>
+
+<script>
+  const flashcards = [
+    { q: "¿Cuál es la diferencia entre alimentación y nutrición?", a: "Alimentación es un acto voluntario y cultural. Nutrición es el proceso involuntario de digestión, absorción, transporte, metabolismo y eliminación." },
+    { q: "¿Qué es la dietoterapia? Pon 2 ejemplos.", a: "Aplicación clínica de la nutrición para prevenir, tratar y controlar enfermedades. Ej: FODMAP en SII, cetogénica en epilepsia." },
+    { q: "Ferritina baja → ¿qué síntomas?", a: "Fatiga, caída de cabello, disnea y síndrome de piernas inquietas." },
+    { q: "¿Qué rutas forman la Fase II hepática?", a: "Metilación, Sulfatación y Glucuronidación (entre otras)." },
+    { q: "¿Qué detoxifica principalmente la METILACIÓN?", a: "Hormonas (estrógenos), neurotransmisores, toxinas, ADN (epigenética) y fosfolípidos." },
+    { q: "¿Qué bloquea la SULFATACIÓN?", a: "AAS, ibuprofeno, diclofenaco; NAC, cisteína o taurina en exceso; alcohol; estrés crónico; disbiosis intestinal." },
+    { q: "¿Qué enzima bacteriana anula la glucuronidación?", a: "La β-glucuronidasa, producida en disbiosis intestinal. Re-activa los estrógenos ya conjugados." },
+    { q: "¿Qué vitaminas son esenciales para la metilación?", a: "B9 (metilfolato), B12, B6, B2 + magnesio, colina, betaína (TMG) y metionina." },
+    { q: "¿Qué síntoma comparten las 3 rutas Fase II cuando fallan?", a: "Las tres pueden provocar migrañas, fatiga y dominancia estrogénica." },
+    { q: "¿Qué alimentos frenan la aromatasa?", a: "Regaliz, champiñones, lino, sésamo, cacao, té verde, cítricos, frutos rojos, granadas, perejil, apio, espárragos y frutos secos." },
+    { q: "¿Qué suplemento es obligatorio en dieta vegetariana?", a: "B12 (cobalamina). Además vigilar hierro, omega-3, calcio y zinc." },
+    { q: "Cadena: estrés → … → niebla mental (completa el eje)", a: "Estrés → ↑ cortisol → ↓ ácido clorhídrico → disbiosis → ↑ permeabilidad intestinal → inflamación → alteración de neurotransmisores → ansiedad / niebla mental." }
+  ];
+
+  let current = 0;
+
+  function showCard(i) {
+    const fc = document.getElementById('flashcard');
+    fc.classList.remove('flipped');
+    document.getElementById('fc-q').textContent = flashcards[i].q;
+    document.getElementById('fc-a').textContent = flashcards[i].a;
+    document.getElementById('fc-counter').textContent = (i+1) + ' / ' + flashcards.length;
+  }
+
+  function flipCard() {
+    document.getElementById('flashcard').classList.toggle('flipped');
+  }
+
+  function nextCard() {
+    current = (current + 1) % flashcards.length;
+    showCard(current);
+  }
+
+  function prevCard() {
+    current = (current - 1 + flashcards.length) % flashcards.length;
+    showCard(current);
+  }
+
+  function showTab(name, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
