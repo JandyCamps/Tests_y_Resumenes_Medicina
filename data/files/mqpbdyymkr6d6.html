@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repaso T12 · Bloque Retina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --vasc:#1a5e86;--vascbg:#e3eff7;--mac:#9a4d12;--macbg:#f6ecde;--her:#7a3a8f;--herbg:#f1e6f4;--vit:#1f6f4a;--vitbg:#e4f3ea;--ped:#b06a1f;--pedbg:#f7ecdb;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.vasc{color:var(--vasc);background:var(--vascbg)}.chip.mac{color:var(--mac);background:var(--macbg)}
+  .chip.her{color:var(--her);background:var(--herbg)}.chip.vit{color:var(--vit);background:var(--vitbg)}.chip.ped{color:var(--ped);background:var(--pedbg)}.chip.r{color:var(--r);background:var(--rbg)}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.vasc{color:var(--vasc);background:var(--vascbg)}.pill.mac{color:var(--mac);background:var(--macbg)}.pill.her{color:var(--her);background:var(--herbg)}.pill.vit{color:var(--vit);background:var(--vitbg)}.pill.ped{color:var(--ped);background:var(--pedbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 12</p>
+  <h1>Repaso del Bloque Retina</h1>
+  <p>Síntesis acumulativa de toda la retina (T07–T11) organizada para los <b>diagnósticos diferenciales transversales</b> de examen, más los temas pediátricos del repaso (ROP, Coats, retinoblastoma, leucocoria). Incluye al final un <b>"OJO CUIDADO"</b> de todo el bloque.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#mapa">0 · Mapa del bloque retina</a>
+    <a href="#ddx1">I · Pérdida visual brusca indolora</a>
+    <a href="#ddx2">II · Metamorfopsia y mácula</a>
+    <a href="#ddx3">III · Mancha rojo cereza</a>
+    <a href="#ddx4">IV · Electrofisiología y distrofias</a>
+    <a href="#rop">V · Retinopatía del prematuro (ROP)</a>
+    <a href="#coats">VI · Enfermedad de Coats</a>
+    <a href="#rb">VII · Retinoblastoma</a>
+    <a href="#leuco">VIII · Leucocoria (DDx)</a>
+    <a href="#tum">IX · Tumores coroideos</a>
+    <a href="#ojo">★ OJO CUIDADO del bloque</a>
+  </div>
+</section>
+
+<section id="mapa">
+  <h2><span class="romnum">0</span> Mapa del bloque retina</h2>
+  <p class="lead">Seis grandes apartados; cada uno con su entidad estrella:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Bloque</th><th>Entidades clave</th></tr></thead>
+    <tbody>
+      <tr><td class="h"><span class="pill vasc">Vascular</span></td><td>Retinopatía <b>diabética</b> (RDNP 4-2-1 / RDP), <b>hipertensiva</b> (Keith-Wagener), <b>oclusiones</b> (OVCR/ORVR; OACR/ORA), <b>ROP</b>, <b>Coats</b></td></tr>
+      <tr><td class="h"><span class="pill mac">Mácula</span></td><td><b>DMAE</b> seca/húmeda, <b>MER</b>, <b>agujero macular</b>, <b>CSC</b>, maculopatía <b>tóxica</b></td></tr>
+      <tr><td class="h"><span class="pill her">Heredo</span></td><td><b>Retinosis pigmentaria</b>, <b>Stargardt</b>, <b>Best</b>, <b>distrofia de conos</b></td></tr>
+      <tr><td class="h"><span class="pill vit">Vítreo-retina</span></td><td><b>DVP</b>, degeneraciones periféricas (<b>lattice</b>), <b>DR</b> (regmatógeno/traccional/exudativo), persistencia de vítreo primario</td></tr>
+      <tr><td class="h"><span class="pill ped">Tumoral</span></td><td><b>Melanoma</b> de coroides, nevus, <b>hemangioma</b>, <b>metástasis</b>, <b>retinoblastoma</b></td></tr>
+      <tr><td class="h">Inflam.</td><td>Uveítis posteriores (tema aparte)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="ddx1">
+  <h2><span class="romnum">I</span> Pérdida visual brusca e INDOLORA <span class="chip r">DDx estrella</span></h2>
+  <p class="lead">El gran diagnóstico diferencial del bloque. La clave es <b>cómo</b> se pierde la visión.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Entidad</th><th>Pista distintiva</th><th>Fondo de ojo</th></tr></thead>
+    <tbody>
+      <tr><td class="h">DR regmatógeno</td><td><b>Fotopsias/miodesopsias</b> → <b>cortina</b> periférica que avanza</td><td>Retina elevada + desgarro</td></tr>
+      <tr><td class="h">OVCR</td><td>Brusca, factores cardiovasculares</td><td><b>Hemorragias en llama</b> + venas tortuosas</td></tr>
+      <tr><td class="h">OACR</td><td>Brusca, <b>profunda</b>, DPAR; descartar <b>ACG</b></td><td><b>Blanqueamiento + mancha rojo cereza</b></td></tr>
+      <tr><td class="h">DMAE húmeda</td><td>Central + <b>metamorfopsia</b>; anciano con drusas</td><td>Hemorragia/fluido macular (MNV)</td></tr>
+      <tr><td class="h">Hemorragia vítrea (RDP)</td><td>Diabético; medios opacos</td><td>No se ve el fondo</td></tr>
+      <tr><td class="h">Neuritis/NOIA</td><td>NOIA arterítica (ACG) indolora; neuritis con dolor con los movimientos</td><td>Edema de papila o normal</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Truco</span> <b>Cortina periférica</b> → DR. <b>Mancha central + metamorfopsia</b> → mácula (DMAE). <b>Hemorragias en llama</b> → OVCR. <b>Mancha rojo cereza</b> → OACR.</div>
+</section>
+
+<section id="ddx2">
+  <h2><span class="romnum">II</span> Metamorfopsia y patología macular</h2>
+  <p>La <b>metamorfopsia</b> (líneas onduladas, rejilla de Amsler) y la <b>↓ visión central</b> orientan a la mácula:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Entidad</th><th>Clave</th><th>Tratamiento</th></tr></thead>
+    <tbody>
+      <tr><td class="h">DMAE seca</td><td>Drusas + atrofia, sin fluido (anciano)</td><td>Suplementos (AREDS)</td></tr>
+      <tr><td class="h">DMAE húmeda</td><td><b>Fluido/MNV</b> (anciano)</td><td><b>AntiVEGF</b></td></tr>
+      <tr><td class="h">MER</td><td>Brillo celofánico, pliegues</td><td>Vitrectomía + pelado</td></tr>
+      <tr><td class="h">Agujero macular</td><td>Defecto foveal en OCT</td><td>Vitrectomía + pelado MLI + gas</td></tr>
+      <tr><td class="h">CSC</td><td><b>Varón joven, corticoides</b>; "humo de chimenea"</td><td>Retirar corticoides / observar</td></tr>
+      <tr><td class="h">Maculopatía tóxica</td><td><b>"Ojo de buey"</b>, antipalúdicos</td><td>Suspender fármaco</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="ddx3">
+  <h2><span class="romnum">III</span> Mancha rojo cereza</h2>
+  <p><b>OACR</b> (la más frecuente en el adulto), <b>depósitos lisosomales</b> (Tay-Sachs/Niemann-Pick, niño bilateral), <b>edema de Berlín</b> (conmoción retiniana traumática, transitoria) e <b>intoxicaciones</b> (metanol/CO).</p>
+</section>
+
+<section id="ddx4">
+  <h2><span class="romnum">IV</span> Electrofisiología y distrofias</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Distrofia</th><th>Clave clínica</th><th>Electrofisiología / imagen</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Retinosis pigmentaria</td><td><b>Nictalopía</b> + campo en cañón; espículas óseas</td><td>ERG <b>escotópico</b> bajo (bastones)</td></tr>
+      <tr><td class="h">Stargardt</td><td>↓central &lt;20 a (AR, ABCA4)</td><td><b>Silencio coroideo</b> en AFG</td></tr>
+      <tr><td class="h">Best</td><td>↓central tardía (AD, buen pronóstico)</td><td><b>EOG alterado + ERG normal</b></td></tr>
+      <tr><td class="h">Distrofia de conos</td><td><b>Fotofobia</b> + escotoma central + discromatopsia</td><td>ERG <b>fotópico</b> alterado; "ojo de buey"</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Recuerda</span> <b>EOG</b> = EPR (Arden); <b>ERG</b> fotópico = conos / escotópico = bastones; <b>PEV</b> = corteza/vía óptica.</div>
+</section>
+
+<section id="rop">
+  <h2><span class="romnum">V</span> Retinopatía del prematuro (ROP) <span class="chip ped">pediátrica</span></h2>
+  <p class="lead">Antes llamada "fibroplasia retrolental". Vasculopatía proliferativa del prematuro; <b>causa de DR traccional</b> y de leucocoria.</p>
+  <ul>
+    <li><b>Prevención/cribado:</b> revisión a las <b>5 semanas del parto</b>; examinar a todo bebé <b>&lt;30 semanas o &lt;1300 g</b> (o &lt;35 semanas/&lt;1800 g si recibieron oxígeno).</li>
+    <li><b>Estadiaje:</b> 1) línea de demarcación · 2) cresta monticular · 3) proliferación fibrovascular extrarretiniana · 4) DR parcial · 5) DR total (<b>leucocoria</b>). <b>Enfermedad "plus"</b> = dilatación y tortuosidad vascular (indica actividad).</li>
+    <li><b>Tratamiento:</b> según zona y estadío → <b>fotocoagulación con láser</b> o <b>antiVEGF</b>.</li>
+  </ul>
+</section>
+
+<section id="coats">
+  <h2><span class="romnum">VI</span> Enfermedad de Coats <span class="chip ped">pediátrica</span></h2>
+  <ul>
+    <li><b>Telangiectasias retinianas</b> con exudación; típicamente varones jóvenes, unilateral.</li>
+    <li>Causa de <b>leucocoria</b> y de <b>DR exudativo</b>.</li>
+  </ul>
+</section>
+
+<section id="rb">
+  <h2><span class="romnum">VII</span> Retinoblastoma <span class="chip r">no fallar</span></h2>
+  <ul>
+    <li><b>Tumor intraocular maligno más frecuente de la infancia</b>; gen <b>RB1</b>; aparece en los <b>primeros 2 años de vida</b>.</li>
+    <li>Presentación más frecuente: <b>leucocoria</b> (también estrabismo, glaucoma, mala visión, inflamación).</li>
+    <li>Masa intraocular con <b>calcificaciones</b>.</li>
+    <li>Tratamiento: quimioterapia, crioterapia, braquiterapia o <b>enucleación</b> según el caso.</li>
+  </ul>
+  <div class="alarm"><span class="lbl">Urgente</span> Toda <b>leucocoria</b> infantil debe estudiarse con prioridad para descartar <b>retinoblastoma</b> (lo más grave).</div>
+</section>
+
+<section id="leuco">
+  <h2><span class="romnum">VIII</span> Leucocoria: diagnóstico diferencial <span class="chip ped">ordenar</span></h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Causa</th><th>Matiz</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Catarata congénita</td><td><b>La más frecuente</b></td></tr>
+      <tr><td class="h">Retinoblastoma</td><td><b>La más grave</b> (maligno)</td></tr>
+      <tr><td class="h">Retinopatía del prematuro (ROP)</td><td>Estadío 5 (DR total)</td></tr>
+      <tr><td class="h">Enfermedad de Coats</td><td>Telangiectasias + exudación</td></tr>
+      <tr><td class="h">Persistencia de vítreo primario hiperplásico</td><td>Congénita</td></tr>
+      <tr><td class="h">Toxocariasis</td><td>Granuloma</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Memoriza</span> Leucocoria: <b>la más frecuente = catarata congénita</b>; <b>la más grave = retinoblastoma</b>.</div>
+</section>
+
+<section id="tum">
+  <h2><span class="romnum">IX</span> Tumores coroideos (repaso)</h2>
+  <p><b>Melanoma de coroides</b> = maligno intraocular <b>primario</b> más frecuente del adulto (braquiterapia/enucleación). <b>Metástasis</b> = tumor intraocular <b>más frecuente en general</b> (pulmón/mama, bilaterales). <b>Hemangioma</b> = benigno (wash-out en ICG, TFD). <b>Retinoblastoma</b> = el más frecuente de la infancia.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO del bloque retina</h2>
+  <p class="lead" style="border-color:#e7b3aa">Las trampas transversales que más se repiten en el bloque.</p>
+  <div class="trap"><span class="t">1 · Cómo se pierde la visión orienta el diagnóstico</span> <b>Cortina periférica</b> = DR; <b>mancha central + metamorfopsia</b> = mácula (DMAE); <b>hemorragias en llama</b> = OVCR; <b>mancha rojo cereza</b> = OACR.</div>
+  <div class="trap"><span class="t">2 · RDNP grave = 4-2-1; RDP = neovasos; EMD = causa más frecuente de baja visión en diabético</span> Y miopía magna = factor protector de RD.</div>
+  <div class="trap"><span class="t">3 · DMAE: seca (sin fluido, suplementos) vs húmeda (fluido/MNV, antiVEGF)</span> La metamorfopsia se vigila con la rejilla de Amsler; OCT es la prueba reina.</div>
+  <div class="trap"><span class="t">4 · OACR del anciano → descartar arteritis de células gigantes</span> Pedir VSG/PCR; corticoides urgentes para salvar el otro ojo.</div>
+  <div class="trap"><span class="t">5 · EOG alterado + ERG normal = enfermedad de Best</span> Silencio coroideo = Stargardt; nictalopía + espículas = RP; fotofobia + ERG fotópico alterado = distrofia de conos.</div>
+  <div class="trap"><span class="t">6 · DVP agudo sintomático → fondo de ojo bajo MIDRIASIS</span> Para descartar rotura retiniana. Solo el DR regmatógeno se precede de fotopsias/miodesopsias.</div>
+  <div class="trap"><span class="t">7 · DR: regmatógeno (rotura, quirúrgico) / traccional (RDP-ROP) / exudativo (tumor-HTA maligna-Harada, médico)</span> El exudativo se trata la enfermedad de base.</div>
+  <div class="trap"><span class="t">8 · Melanoma = maligno primario más frecuente del adulto; metástasis = el más frecuente global</span> Retinoblastoma = el más frecuente de la infancia.</div>
+  <div class="trap"><span class="t">9 · Leucocoria: la más frecuente = catarata congénita; la más grave = retinoblastoma</span> Toda leucocoria infantil se estudia con prioridad.</div>
+  <div class="trap"><span class="t">10 · ROP: cribado a las 5 semanas; enfermedad "plus" = actividad; estadío 5 = leucocoria</span> Tratamiento con láser o antiVEGF; es causa de DR traccional.</div>
+  <div class="trap"><span class="t">11 · Coats = telangiectasias → leucocoria + DR exudativo</span> No confundir con retinoblastoma (que es una masa con calcificaciones).</div>
+  <div class="trap"><span class="t">12 · Exudados duros (lípidos) vs algodonosos (isquemia)</span> Y estrella macular = exudados duros (HTA); manchas de Elschnig = coroidopatía hipertensiva.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia como repaso del bloque retina (T07–T11) a partir del material del Tema 12. Para los detalles concretos de cada entidad, consulta el resumen específico de su tema. Las ilustraciones de los resúmenes individuales son esquemas originales (no fotografías).</p></section>
+
+</div>
+</body>
+</html>
