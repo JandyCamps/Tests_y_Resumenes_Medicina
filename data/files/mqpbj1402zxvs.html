@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T02 · Patología de la Conjuntiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;
+    --teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;
+    --good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;
+    --line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:25px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}
+  .stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}
+  .tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}
+  .figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}
+  .opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+  .opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}
+  .explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}
+  .verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}
+  .cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+  .cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}
+  .scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}
+  .results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T02</p>
+    <h1>Patología de la Conjuntiva</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+
+  <section class="jumpwrap">
+    <h3>Navegación rápida</h3>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<script>
+/* ---- Figuras SVG (esquemas propios) ---- */
+const figFoliculo=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Conjuntiva tarsal con nódulos redondeados y vaso periférico">
+<text x="160" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Conjuntiva tarsal (signo A)</text>
+<rect x="20" y="24" width="280" height="118" rx="10" fill="#f7ddd0"/>
+<g><ellipse cx="80" cy="90" rx="26" ry="22" fill="#f6e2c2" stroke="#d6a45f"/><ellipse cx="160" cy="90" rx="26" ry="22" fill="#f6e2c2" stroke="#d6a45f"/><ellipse cx="240" cy="90" rx="26" ry="22" fill="#f6e2c2" stroke="#d6a45f"/>
+<path d="M54 90 Q80 66 106 90" stroke="#c98a3a" stroke-width="1.6" fill="none"/><path d="M134 90 Q160 66 186 90" stroke="#c98a3a" stroke-width="1.6" fill="none"/><path d="M214 90 Q240 66 266 90" stroke="#c98a3a" stroke-width="1.6" fill="none"/></g>
+</svg>`;
+const figPapila=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Conjuntiva tarsal con elevaciones poligonales en empedrado y vaso central">
+<text x="160" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Conjuntiva tarsal superior (signo B)</text>
+<rect x="20" y="24" width="280" height="118" rx="10" fill="#f3d3da"/>
+<g><polygon points="55,120 90,60 125,120" fill="#e7b9c4" stroke="#c98aa0"/><polygon points="120,124 155,58 190,124" fill="#e7b9c4" stroke="#c98aa0"/><polygon points="185,120 220,62 255,120" fill="#e7b9c4" stroke="#c98aa0"/>
+<line x1="90" y1="120" x2="90" y2="70" stroke="#a33a5a" stroke-width="2.2"/><line x1="155" y1="124" x2="155" y2="68" stroke="#a33a5a" stroke-width="2.2"/><line x1="220" y1="120" x2="220" y2="72" stroke="#a33a5a" stroke-width="2.2"/></g>
+</svg>`;
+const figTrantas=`<svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Limbo corneal con nódulos gelatinosos blanquecinos">
+<text x="160" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Limbo corneal</text>
+<ellipse cx="160" cy="95" rx="120" ry="62" fill="#f6f2ea" stroke="#cfc8bb"/>
+<circle cx="160" cy="95" r="52" fill="#a9b7c4" opacity=".5"/><circle cx="160" cy="95" r="52" fill="none" stroke="#7f93a3"/>
+<circle cx="160" cy="95" r="22" fill="#2a2a2a"/>
+<g fill="#f4ead0" stroke="#cdb784"><circle cx="118" cy="60" r="6"/><circle cx="135" cy="50" r="6"/><circle cx="186" cy="49" r="6"/><circle cx="205" cy="62" r="6"/><circle cx="112" cy="128" r="6"/><circle cx="208" cy="128" r="6"/></g>
+</svg>`;
+const figPterigion=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con lesión triangular carnosa que invade la córnea desde el lado nasal">
+<ellipse cx="160" cy="80" rx="130" ry="62" fill="#f6f2ea" stroke="#cfc8bb"/>
+<circle cx="160" cy="80" r="48" fill="#9a6a3c"/><circle cx="160" cy="80" r="48" fill="none" stroke="#5e3d1e"/><circle cx="160" cy="80" r="21" fill="#1a1a1a"/>
+<polygon points="35,62 162,80 35,98" fill="#eebfae" stroke="#cf7f6c"/>
+<path d="M70 72 L150 80 M70 88 L150 80" stroke="#cf7f6c" stroke-width="1" fill="none"/>
+</svg>`;
+const figPinguecula=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con depósito amarillento junto al limbo que no toca la córnea">
+<ellipse cx="160" cy="80" rx="130" ry="62" fill="#f6f2ea" stroke="#cfc8bb"/>
+<circle cx="160" cy="80" r="48" fill="#9a6a3c"/><circle cx="160" cy="80" r="48" fill="none" stroke="#5e3d1e"/><circle cx="160" cy="80" r="21" fill="#1a1a1a"/>
+<ellipse cx="95" cy="80" rx="20" ry="11" fill="#f2dd8f" stroke="#d9b86a"/>
+</svg>`;
+const figInjection=`<svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dos patrones de ojo rojo: hiperemia difusa periférica frente a inyección alrededor de la córnea">
+<text x="90" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Patrón A</text>
+<text x="250" y="14" text-anchor="middle" style="font:600 12px Spectral,serif;fill:#0f4d57">Patrón B</text>
+<ellipse cx="90" cy="92" rx="78" ry="48" fill="#f4d9d3"/><ellipse cx="90" cy="92" rx="78" ry="48" fill="none" stroke="#cfa9a2"/>
+<g stroke="#c9534a" stroke-width="1.4"><line x1="20" y1="80" x2="48" y2="88"/><line x1="20" y1="104" x2="50" y2="98"/><line x1="160" y1="80" x2="132" y2="88"/><line x1="160" y1="104" x2="130" y2="98"/></g>
+<circle cx="90" cy="92" r="32" fill="#9a6a3c"/><circle cx="90" cy="92" r="32" fill="none" stroke="#5e3d1e"/><circle cx="90" cy="92" r="14" fill="#1a1a1a"/>
+<ellipse cx="250" cy="92" rx="78" ry="48" fill="#f7f1ec" stroke="#cfa9a2"/>
+<g stroke="#bf3d34" stroke-width="1.6"><line x1="250" y1="56" x2="250" y2="68"/><line x1="285" y1="70" x2="276" y2="80"/><line x1="215" y1="70" x2="224" y2="80"/><line x1="285" y1="114" x2="276" y2="104"/><line x1="215" y1="114" x2="224" y2="104"/><line x1="250" y1="128" x2="250" y2="116"/></g>
+<circle cx="250" cy="92" r="32" fill="#9a6a3c"/><circle cx="250" cy="92" r="32" fill="none" stroke="#5e3d1e"/><circle cx="250" cy="92" r="14" fill="#1a1a1a"/>
+</svg>`;
+const figHiperaguda=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo muy rojo con abundante secreción amarillo-verdosa">
+<ellipse cx="150" cy="80" rx="130" ry="60" fill="#f0cfc8"/><ellipse cx="150" cy="80" rx="130" ry="60" fill="none" stroke="#cf9a92"/>
+<g stroke="#bf3d34" stroke-width="1.3" opacity=".8"><line x1="28" y1="70" x2="70" y2="80"/><line x1="28" y1="96" x2="72" y2="86"/><line x1="270" y1="70" x2="230" y2="80"/><line x1="270" y1="96" x2="228" y2="86"/></g>
+<circle cx="150" cy="80" r="44" fill="#9a6a3c"/><circle cx="150" cy="80" r="44" fill="none" stroke="#5e3d1e"/><circle cx="150" cy="80" r="20" fill="#1a1a1a"/>
+<g fill="#d9c24a"><ellipse cx="150" cy="128" rx="46" ry="12"/><ellipse cx="110" cy="120" rx="14" ry="8"/><ellipse cx="195" cy="122" rx="16" ry="9"/></g>
+</svg>`;
+const figHemorragia=`<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ojo con mancha roja homogénea sobre la esclera temporal">
+<ellipse cx="160" cy="80" rx="130" ry="60" fill="#f8f4ee"/><ellipse cx="160" cy="80" rx="130" ry="60" fill="none" stroke="#cfc8bb"/>
+<path d="M198 50 Q280 60 285 80 Q280 104 200 110 Q210 80 198 50Z" fill="#c0312a"/>
+<circle cx="150" cy="80" r="46" fill="#9a6a3c"/><circle cx="150" cy="80" r="46" fill="none" stroke="#5e3d1e"/><circle cx="150" cy="80" r="20" fill="#1a1a1a"/>
+</svg>`;
+
+/* ---- Banco de preguntas (basado en T02). correct: 0=a 1=b 2=c 3=d ---- */
+const Q=[
+{cat:"Semiología",c:3,
+ q:"¿Cuál de los siguientes datos NO es propio de una conjuntivitis y debe hacer pensar en otra patología?",
+ o:["Picor y sensación de cuerpo extraño","Ojo rojo con secreción","Lagrimeo y fotofobia leve","Dolor intenso con pérdida de agudeza visual"],
+ e:"La conjuntivitis cursa SIN dolor verdadero y SIN ↓AV, con pupila normal. <b>Dolor + pérdida de visión</b> orienta a córnea, úvea o glaucoma, no a conjuntiva."},
+
+{cat:"Semiología",c:1,
+ q:"La hiperemia de una conjuntivitis es característicamente:",
+ o:["Máxima alrededor del limbo (periquerática)","Máxima en los fondos de saco y menor junto al limbo","Sectorial y nodular","Localizada solo en la carúncula"],
+ e:"La hiperemia <b>conjuntival</b> predomina en <b>fondos de saco</b> y disminuye hacia el limbo. La inyección ciliar/periquerática (máxima junto a córnea) es signo de patología más grave."},
+
+{cat:"Semiología",c:2,
+ q:"Sobre la localización de papilas y folículos, lo correcto es:",
+ o:["Ambos predominan en el párpado inferior","Ambos predominan en el párpado superior","Las papilas predominan en el párpado superior y los folículos en el inferior","Los folículos predominan en el párpado superior y las papilas en el inferior"],
+ e:"<b>Papilas → párpado superior</b> (inmune/alergia); <b>folículos → párpado inferior</b> (vírica/clamidia/tóxica)."},
+
+{cat:"Semiología · Imagen",c:0,figSrc:"figFoliculo",figcap:"Reacción tisular conjuntival.",
+ q:"El signo A de la imagen son nódulos redondeados con un vaso que los rodea por la periferia. ¿Qué representa y a qué orienta?",
+ o:["Folículos (linfoides) → vírica/Chlamydia","Papilas → alérgica","Flicténulas → S. aureus","Quemosis → edema alérgico"],
+ e:"Los <b>folículos</b> son agregados linfoides con <b>vascularización periférica</b> (centro pálido). Orientan a conjuntivitis <b>vírica, por Chlamydia o tóxica</b>."},
+
+{cat:"Semiología · Imagen",c:1,figSrc:"figPapila",figcap:"Reacción tisular conjuntival.",
+ q:"El signo B muestra elevaciones poligonales 'en empedrado' con un vaso que emerge por su centro. Se trata de:",
+ o:["Folículos, típicos de adenovirus","Papilas, típicas de conjuntivitis inmune/alérgica","Nódulos de Trantas","Seudomembranas"],
+ e:"Las <b>papilas</b> tienen un <b>vaso central</b> y aspecto en empedrado; son propias de la inflamación crónica <b>inmune/alérgica</b> (y del cuerpo extraño/LC)."},
+
+{cat:"Semiología",c:2,
+ q:"La quemosis conjuntival consiste en:",
+ o:["Cicatrización del fórnix","Agregados linfoides subepiteliales","Edema acuoso por exudación a través de la pared vascular","Depósito de fibrina sobre el epitelio"],
+ e:"La <b>quemosis</b> es <b>edema acuoso</b> de la conjuntiva por daño endotelial vascular y exudación; aparece en alergia aguda, víricas intensas y gonococo."},
+
+{cat:"Semiología",c:3,
+ q:"Las flicténulas conjuntivales se deben a:",
+ o:["Infección directa por adenovirus","Reacción tóxica a colirios","Depósito de calcio","Hipersensibilidad a antígenos de S. aureus palpebral"],
+ e:"Las <b>flicténulas</b> (vesículas íntegras o ulceradas) reflejan <b>hipersensibilidad a antígenos de <i>Staphylococcus aureus</i></b> de los párpados."},
+
+{cat:"Semiología · DDx",c:0,ddx:true,
+ q:"¿En cuál de estas entidades NO esperaría encontrar seudomembranas?",
+ o:["Conjuntivitis bacteriana simple por S. epidermidis","Queratoconjuntivitis epidémica (adenovirus)","Conjuntivitis gonocócica","Síndrome de Stevens-Johnson"],
+ e:"Las seudomembranas (exudado coagulado que se retira fácil) aparecen en <b>adenovirus, gonococo, SJS y conjuntivitis leñosa</b>; no en una bacteriana banal."},
+
+{cat:"Caso clínico · Bacteriana",c:1,case:true,
+ lead:"Mujer de 30 años, 2 días con ambos ojos rojos y 'pegados' al despertar por costras amarillentas. No dolor, visión normal, sin ganglios palpables.",
+ q:"Diagnóstico y conducta más probable:",
+ o:["Conjuntivitis vírica; solo lavados","Conjuntivitis bacteriana simple; antibiótico tópico de amplio espectro 5–7 días","Uveítis anterior; corticoide tópico","Conjuntivitis alérgica; antihistamínico"],
+ e:"Secreción <b>mucopurulenta con legañas matutinas y SIN adenopatía</b> = bacteriana simple. Autolimitada, pero se pauta <b>ATB tópico 5–7 días</b>."},
+
+{cat:"Bacteriana",c:2,
+ q:"El patógeno más frecuente de las conjuntivitis bacterianas (y de la blefaritis) es:",
+ o:["Streptococcus pneumoniae","Haemophilus influenzae","Staphylococcus aureus","Neisseria gonorrhoeae"],
+ e:"<b>S. aureus</b> (aureus &gt; epidermidis) es el germen nº 1 de conjuntivitis bacteriana y de blefaritis. <i>S. pneumoniae</i> y <i>H. influenzae</i> son más típicos en niños."},
+
+{cat:"Bacteriana",c:3,
+ q:"¿Por qué la conjuntivitis bacteriana simple NO suele producir adenopatías?",
+ o:["Porque el drenaje linfático conjuntival no existe","Porque produce inmunosupresión local","Porque se asocia siempre a antibiótico","Porque la bacteria coloniza la conjuntiva pero no la invade"],
+ e:"Las bacterias banales <b>colonizan</b> (no invaden) la conjuntiva, por eso <b>no dan adenopatía</b>. El gonococo, que SÍ invade, sí la produce."},
+
+{cat:"Caso clínico · DDx neonatal",c:0,case:true,ddx:true,
+ lead:"Recién nacido de 3 días con edema palpebral intenso y secreción purulenta amarillo-verdosa muy abundante en ambos ojos; se aprecia infiltrado corneal marginal.",
+ q:"El agente más probable y la actitud son:",
+ o:["Neisseria gonorrhoeae; urgencia, ceftriaxona sistémica + tratamiento tópico","Chlamydia trachomatis; eritromicina oral en 2 semanas","Adenovirus; tratamiento sintomático","Staphylococcus; pomada tópica y alta"],
+ e:"Oftalmia neonatal <b>precoz (2–4 días)</b>, hiperpurulenta y con riesgo corneal = <b>gonococo</b>. Urgencia con riesgo de perforación → ceftriaxona/cefotaxima sistémica. La de Chlamydia aparece más tarde (7–14 días)."},
+
+{cat:"Bacteriana hiperaguda",c:1,
+ q:"¿Qué hace de la conjuntivitis gonocócica una urgencia oftalmológica?",
+ o:["Produce cataratas precoces","Invade la conjuntiva y puede ulcerar/perforar la córnea","Es resistente a todo antibiótico","Causa desprendimiento de retina"],
+ e:"<i>N. gonorrhoeae</i> <b>invade</b> (no coloniza): da seudomembranas, gran quemosis y sobre todo <b>infiltración/ulceración corneal marginal progresiva con riesgo de perforación</b>. Es una urgencia médica."},
+
+{cat:"Caso clínico · Imagen",c:2,case:true,figSrc:"figHiperaguda",figcap:"Aspecto del ojo afectado.",
+ lead:"Varón joven sexualmente activo con un ojo rojo de aparición hiperaguda, párpado muy edematoso y la secreción que se muestra.",
+ q:"Ante esta secreción purulenta amarillo-verdosa muy abundante, el diagnóstico y tratamiento son:",
+ o:["Conjuntivitis alérgica; corticoide tópico","Queratoconjuntivitis epidémica; sintomático","Conjuntivitis gonocócica; cefalosporina de 3ª generación sistémica + antibiótico tópico","Pterigion inflamado; lágrimas"],
+ e:"Secreción <b>hiperpurulenta</b> + contexto oculogenital = <b>gonococo</b>. Tto: <b>ceftriaxona/cefotaxima sistémica + penicilina tópica</b>; cultivo y cribado de ETS."},
+
+{cat:"Víricas",c:3,
+ q:"La tríada clínica que mejor define a una conjuntivitis vírica típica es:",
+ o:["Papilas + dolor + miosis","Secreción purulenta + adenopatía + fiebre","Quemosis + hipertensión ocular + halos","Folículos + adenopatía preauricular + secreción serosa"],
+ e:"La conjuntivitis vírica es <b>folicular</b>, con <b>adenopatía preauricular</b> y <b>secreción serosa (acuosa)</b>; suele empezar unilateral muy asimétrica y es muy contagiosa."},
+
+{cat:"Víricas",c:0,
+ q:"La queratoconjuntivitis epidémica (QCE) está producida por:",
+ o:["Adenovirus serotipos 8 y 19","Adenovirus serotipos 3, 4 y 7","Picornavirus","Poxvirus"],
+ e:"La <b>QCE</b> la causan los <b>adenovirus 8 y 19</b>. Los serotipos 3, 4 y 7 dan la fiebre faringoconjuntival."},
+
+{cat:"Víricas",c:1,
+ q:"Respecto a la afectación corneal de la QCE, lo característico es:",
+ o:["Úlcera dendrítica que tiñe con fluoresceína","Infiltrados subepiteliales que pueden persistir meses o años y bajar la visión","Pannus inferior","Edema estromal discoide"],
+ e:"En la QCE la córnea evoluciona de queratitis difusa a focal y, a partir del día 14, <b>infiltrados subepiteliales</b> que pueden durar <b>meses o años</b> reduciendo la AV."},
+
+{cat:"Caso clínico · DDx vírica",c:2,case:true,ddx:true,
+ lead:"Niño de 7 años con fiebre, dolor de garganta y ambos ojos rojos con secreción acuosa y ganglio preauricular; el resto de la familia con cuadro respiratorio.",
+ q:"El diagnóstico más probable es:",
+ o:["Queratoconjuntivitis epidémica (adenovirus 8/19)","Conjuntivitis gonocócica","Fiebre faringoconjuntival (adenovirus 3/4/7)","Tracoma"],
+ e:"Conjuntivitis vírica + <b>síntomas sistémicos (fiebre y faringitis) en un niño</b> = <b>fiebre faringoconjuntival</b>. La QCE no da fiebre y deja más secuelas corneales."},
+
+{cat:"DDx víricas",c:3,ddx:true,
+ q:"Comparando QCE y FFC, ¿cuál es FALSA?",
+ o:["La FFC cursa con fiebre y faringitis","La QCE puede dejar seudomembranas y cicatriz/simbléfaron","La QCE tiene afectación corneal más frecuente y persistente","La FFC produce simbléfaron y queratitis grave con secuelas"],
+ e:"La <b>FFC NO produce seudomembranas ni cicatrización</b> y su queratitis es leve y poco frecuente (30%). La QCE es la que deja secuelas corneales y cicatriciales."},
+
+{cat:"Víricas",c:0,
+ q:"La conjuntivitis hemorrágica aguda está causada típicamente por:",
+ o:["Picornavirus","Adenovirus 8","Poxvirus","Chlamydia"],
+ e:"La conjuntivitis <b>hemorrágica aguda</b> la produce un <b>picornavirus</b>. El <b>Molluscum contagiosum</b> (poxvirus) da otra forma de conjuntivitis vírica."},
+
+{cat:"Víricas",c:2,
+ q:"En el tratamiento de una conjuntivitis vírica típica, lo correcto es:",
+ o:["Corticoide tópico de entrada en todos los casos","Antibiótico sistémico obligatorio","Tratamiento sintomático e higiene; antibiótico tópico solo como profilaxis","Aciclovir oral siempre"],
+ e:"Las víricas se tratan de forma <b>sintomática</b> (lavados, higiene; muy contagiosas). El <b>ATB tópico solo como profilaxis</b> de sobreinfección y el corticoide solo excepcionalmente."},
+
+{cat:"Chlamydia",c:1,
+ q:"La conjuntivitis de inclusión del adulto se debe a serotipos de Chlamydia y su mecanismo de contagio es:",
+ o:["Serotipos A–C, por moscas","Serotipos D–K, enfermedad de transmisión sexual","Serotipos 8 y 19, por fómites","Serotipos B–F, por agua contaminada"],
+ e:"La inclusión del adulto la causan los serotipos <b>D–K</b> y es una <b>ETS</b> (reservorio cérvix/uretra). Hay que tratar también a la pareja."},
+
+{cat:"Caso clínico · Chlamydia",c:3,case:true,
+ lead:"Varón de 28 años con conjuntivitis folicular de un ojo que no cura en 6 semanas pese a antibiótico tópico; presenta adenopatía preauricular y un fino pannus en la córnea superior. Refiere uretritis reciente.",
+ q:"¿Cuál es la actitud correcta?",
+ o:["Más antibiótico tópico de amplio espectro","Corticoide tópico por probable alergia","Aciclovir oral por herpes","Tetraciclina o azitromicina sistémica + tópica, tratar a la pareja y cribar ETS"],
+ e:"Conjuntivitis folicular <b>crónica + micropannus superior + adenopatía + contexto de ETS</b> = <b>Chlamydia (inclusión del adulto)</b>. Tratamiento sistémico + tópico y manejo de la pareja/ETS."},
+
+{cat:"Chlamydia · neonatal",c:0,
+ q:"La conjuntivitis de inclusión del recién nacido (Chlamydia) se distingue por:",
+ o:["Aparecer a los 7–14 días, secreción serosa→mucopurulenta sin folículos y posible neumonitis","Aparecer en las primeras 48 h con secreción hiperpurulenta","Cursar con papilas gigantes","Dar siempre simbléfaron precoz"],
+ e:"La inclusión neonatal aparece a los <b>7–14 días</b>, <b>sin folículos</b> (el RN no los desarrolla), y puede asociar <b>rinitis/neumonitis</b>. Tto: eritromicina sistémica + tetraciclina tópica."},
+
+{cat:"Caso clínico · DDx neonatal",c:1,case:true,ddx:true,
+ lead:"Dos recién nacidos con conjuntivitis: el primero a los 2 días con secreción hiperpurulenta; el segundo a los 10 días con secreción serosa que se hace mucopurulenta y tos.",
+ q:"Los agentes más probables son, respectivamente:",
+ o:["Chlamydia y gonococo","Gonococo (precoz, hiperpurulento) y Chlamydia (tardío, con neumonitis)","Adenovirus y estafilococo","Ambos por Chlamydia"],
+ e:"El <b>momento de aparición</b> es la clave: <b>gonococo muy precoz</b> (2–4 días, hiperpurulento, riesgo corneal) vs <b>Chlamydia más tardía</b> (7–14 días, con afectación general/neumonitis)."},
+
+{cat:"Chlamydia · Tracoma",c:2,
+ q:"El tracoma está producido por serotipos A–C de Chlamydia y es:",
+ o:["Una conjuntivitis aguda autolimitada banal","Una causa rara de patología corneal","La principal causa infecciosa de ceguera en el mundo","Una degeneración no inflamatoria"],
+ e:"El <b>tracoma</b> (serotipos <b>A–C</b>) es la <b>principal causa infecciosa de ceguera</b> a nivel mundial; cursa como conjuntivitis folicular crónica de predominio en tarso superior."},
+
+{cat:"Chlamydia · Tracoma",c:3,
+ q:"En el tracoma, las cicatrices lineales transversales de la conjuntiva tarsal superior se denominan:",
+ o:["Nódulos de Trantas","Fositas de Herbert","Líneas de Schwalbe","Líneas de Arlt"],
+ e:"Las <b>líneas de Arlt</b> son cicatrices tarsales superiores. Las <b>fositas de Herbert</b> son folículos limbares que se rompen; ambas son típicas del tracoma."},
+
+{cat:"Chlamydia · Tracoma",c:0,
+ q:"La estrategia SAFE de la OMS para el tracoma incluye:",
+ o:["Surgery, Antibiotics, Face hygiene, Environment","Screening, Aciclovir, Fluoresceína, Educación","Surgery, Aines, Fototerapia, Enucleación","Sulfamidas, Antihistamínicos, Frío, Esteroides"],
+ e:"<b>SAFE</b>: <b>S</b>urgery (triquiasis), <b>A</b>ntibiotics (azitromicina), <b>F</b>ace hygiene y <b>E</b>nvironment (medidas ambientales: letrinas, evitar propagación)."},
+
+{cat:"Caso clínico · Tracoma",c:1,case:true,
+ lead:"Cooperante que vuelve de una zona endémica con varios pacientes con conjuntivitis folicular crónica del tarso superior, algunos ya con triquiasis y opacidad corneal.",
+ q:"¿Cuál es el agente y la fase avanzada que describe?",
+ o:["Adenovirus en fase de infiltrados subepiteliales","Chlamydia A–C (tracoma) en fase de secuelas (entropión, triquiasis, opacidad corneal)","Gonococo en fase de perforación","Alergia vernal con úlcera en escudo"],
+ e:"Cuadro endémico crónico con <b>triquiasis y opacidad corneal</b> = <b>tracoma en fase IV (secuelas)</b>. La cicatrización causa entropión → triquiasis → leucoma."},
+
+{cat:"DDx adenopatías",c:2,ddx:true,
+ q:"¿En cuál de estos cuadros NO esperaría adenopatía preauricular?",
+ o:["Conjuntivitis vírica por adenovirus","Conjuntivitis por Chlamydia","Conjuntivitis alérgica estacional","Síndrome oculoglandular de Parinaud"],
+ e:"La adenopatía preauricular aparece en <b>víricas, Chlamydia, gonococo y Parinaud</b>. Las <b>alérgicas NO dan adenopatía</b> (su sello es el picor y las papilas)."},
+
+{cat:"Alérgicas",c:3,
+ q:"El conjunto de síntomas/signos que mejor orienta a una conjuntivitis alérgica es:",
+ o:["Secreción purulenta + adenopatía","Folículos + secreción serosa","Dolor + miosis + Tyndall","Picor + papilas + secreción mucosa, bilateral"],
+ e:"La alergia conjuntival se caracteriza por <b>picor</b> (síntoma cardinal), <b>papilas</b> y <b>secreción mucosa</b>, de forma bilateral. El tratamiento de base es el corticoide/antihistamínico tópico."},
+
+{cat:"Alérgicas",c:0,
+ q:"La diferencia entre conjuntivitis alérgica estacional (CAE) y perenne (CAP) es el alérgeno:",
+ o:["CAE por polen (estacional); CAP por ácaros, polvo y moho (todo el año)","CAE por ácaros; CAP por polen","Ambas por polen","Ambas por lentes de contacto"],
+ e:"<b>CAE = polen</b> (estacional) y <b>CAP = ácaros/polvo/moho</b> (perenne). Ambas son hipersensibilidad <b>tipo I (IgE)</b> y son las alérgicas más frecuentes."},
+
+{cat:"Alérgicas · Imagen",c:1,figSrc:"figPapila",figcap:"Eversión del tarso superior.",
+ q:"En un niño con picor estacional intenso se evierte el párpado superior y se observa este patrón. ¿Cómo se llama y en qué cuadro es típico?",
+ o:["Folículos; típicos de adenovirus","Papilas gigantes 'en empedrado'; típicas de la queratoconjuntivitis vernal","Seudomembranas; típicas de gonococo","Nódulos de Trantas; típicos de tracoma"],
+ e:"Las <b>papilas gigantes tarsales 'en empedrado' (1–8 mm)</b> son el signo tarsal de la <b>queratoconjuntivitis vernal (QCV)</b>."},
+
+{cat:"Alérgicas · QCV",c:2,
+ q:"La queratoconjuntivitis vernal (QCV) es típica de:",
+ o:["Adultos mayores en otoño","Portadores de lentes de contacto","Niños y jóvenes atópicos, en primavera-verano, autolimitada hasta la pubertad","Pacientes inmunodeprimidos crónicos"],
+ e:"La <b>QCV</b> afecta a <b>niños/jóvenes atópicos</b>, es recurrente en <b>primavera-verano</b> y suele autolimitarse hacia la pubertad. Hipersensibilidad I y IV."},
+
+{cat:"Alérgicas · Imagen",c:3,figSrc:"figTrantas",figcap:"Detalle del limbo.",
+ q:"En un niño con QCV se observan en el limbo nódulos gelatinosos blanquecinos. ¿De qué se trata?",
+ o:["Fositas de Herbert","Pinguécula limbar","Flicténulas estafilocócicas","Nódulos de Trantas (eosinófilos y células epiteliales descamadas)"],
+ e:"Los <b>nódulos de Trantas</b> son acúmulos gelatinosos de <b>eosinófilos y epitelio descamado</b> alrededor del limbo; son la forma <b>limbar</b> de la QCV."},
+
+{cat:"Alérgicas · QCV",c:0,
+ q:"La complicación corneal más característica de la queratoconjuntivitis vernal es:",
+ o:["Úlcera 'en escudo' que puede dejar leucoma","Úlcera dendrítica herpética","Edema discoide central","Pannus inferior"],
+ e:"La QCV puede dar <b>úlcera 'en escudo'</b> (que evoluciona a leucoma) y se asocia a ectasias como el <b>queratocono</b>."},
+
+{cat:"Caso clínico · DDx alérgicas",c:1,case:true,ddx:true,
+ lead:"Adulto de 35 años, varón, con picor ocular bilateral TODO el año, eccema en los párpados desde la infancia, papilas en el tarso inferior y catarata incipiente.",
+ q:"¿Qué forma de alergia ocular es más probable?",
+ o:["Queratoconjuntivitis vernal","Queratoconjuntivitis atópica (QCA)","Conjuntivitis papilar gigante","Conjuntivitis alérgica estacional"],
+ e:"<b>Adulto con dermatitis atópica palpebral crónica</b>, papilas <b>inferiores</b> y asociación a <b>cataratas/queratocono</b> = <b>QCA</b>. La vernal es de niños, estacional y con papilas superiores."},
+
+{cat:"DDx QCV vs QCA",c:2,ddx:true,
+ q:"¿Cuál es la diferencia clave entre la queratoconjuntivitis vernal (QCV) y la atópica (QCA)?",
+ o:["La QCV es del adulto y la QCA del niño","Solo la QCA cursa con picor","La QCV es del niño/estacional con papilas superiores; la QCA del adulto con dermatitis palpebral crónica y papilas inferiores","Ninguna afecta a la córnea"],
+ e:"<b>QCV</b>: niño, estacional, papilas tarsales <b>superiores</b>, Trantas. <b>QCA</b>: adulto, crónica todo el año, <b>dermatitis eccematosa palpebral</b>, papilas <b>inferiores</b>, cataratas. Ambas afectan a la córnea."},
+
+{cat:"Caso clínico · CPG",c:3,case:true,
+ lead:"Mujer de 24 años usuaria de lentes de contacto blandas, con picor que empeora al quitarse las lentillas, depósitos en la lente y, al evertir el párpado, papilas tarsales muy grandes (>1 mm).",
+ q:"El diagnóstico es:",
+ o:["Queratoconjuntivitis vernal","Tracoma","Conjuntivitis tóxica por conservantes","Conjuntivitis papilar gigante (CPG)"],
+ e:"<b>Portadora de LC + picor al retirarlas + papilas tarsales gigantes</b> = <b>CPG</b> (trauma mecánico crónico, hipersensibilidad tipo IV). Suele requerir suspender/ajustar las lentillas."},
+
+{cat:"Alérgicas",c:0,
+ q:"La conjuntivitis papilar gigante (CPG) se asocia clásicamente a:",
+ o:["Portadores de lentes de contacto, suturas o prótesis (trauma mecánico)","Exposición solar crónica","Déficit de vitamina A","Infección por adenovirus"],
+ e:"La <b>CPG</b> es la conjuntivitis típica de <b>portadores de LC</b> (también suturas, prótesis, cuerpos extraños) por trauma mecánico repetido."},
+
+{cat:"Alérgicas · tratamiento",c:2,
+ q:"A diferencia de las víricas y bacterianas, el pilar del tratamiento de las conjuntivitis alérgicas es:",
+ o:["El antibiótico sistémico","El antiviral tópico","El corticoide tópico (y antihistamínicos/estabilizadores de mastocitos)","La oclusión ocular"],
+ e:"En las inmunes/alérgicas se usan <b>corticoides tópicos</b> (y antihistamínicos/estabilizadores). En las víricas el corticoide es excepcional y en las bacterianas se usa antibiótico."},
+
+{cat:"Alérgicas · diagnóstico",c:1,ddx:true,
+ q:"¿Qué prueba se usa para confirmar una dermatoconjuntivitis alérgica de contacto (DCAC)?",
+ o:["Prick test cutáneo","Pruebas epicutáneas (parche)","Cultivo conjuntival","Tonometría"],
+ e:"La <b>DCAC</b> (hipersensibilidad de contacto) se confirma con <b>pruebas epicutáneas/parche</b>. En CAE/CAP se usan los <b>prick tests</b>."},
+
+{cat:"Mucocutáneas",c:0,
+ q:"El penfigoide de membranas mucosas (PMM/POC) se basa en una hipersensibilidad:",
+ o:["Tipo II, con anticuerpos anti-membrana basal","Tipo I, mediada por IgE","Tipo III, por inmunocomplejos","Tipo IV, celular pura"],
+ e:"El <b>PMM/POC</b> es hipersensibilidad <b>tipo II</b> con <b>anticuerpos anti-membrana basal</b>; enfermedad ampollosa subepitelial crónica de mucosas."},
+
+{cat:"Mucocutáneas",c:3,
+ q:"El síndrome de Stevens-Johnson (SJS) se caracteriza por:",
+ o:["Curso crónico e indolente","Hipersensibilidad tipo II anti-membrana basal","No afectar nunca a la conjuntiva","Curso agudo, tipo III, desencadenado por fármacos o infecciones"],
+ e:"El <b>SJS</b> es un cuadro <b>agudo</b> (hipersensibilidad <b>tipo III</b>) desencadenado por <b>fármacos (sulfamidas, antiepilépticos, AINE) o infecciones (HSV, EBV)</b>, con conjuntivitis membranosa bilateral."},
+
+{cat:"Caso clínico · SJS",c:1,case:true,
+ lead:"Paciente que 10 días después de iniciar un antiepiléptico desarrolla fiebre, lesiones ampollosas en piel y mucosa oral, y una conjuntivitis membranosa bilateral con ulceración.",
+ q:"El diagnóstico más probable es:",
+ o:["Penfigoide ocular cicatricial","Síndrome de Stevens-Johnson","Conjuntivitis vernal","Tracoma fase II"],
+ e:"Inicio <b>agudo</b> tras un <b>fármaco</b>, con bullas en piel/mucosas y conjuntivitis membranosa = <b>SJS</b>. Es una enfermedad que amenaza la vida; manejo con lubricación y tratamiento de complicaciones."},
+
+{cat:"DDx mucocutáneas",c:2,ddx:true,
+ q:"¿Qué afirmación distingue mejor al PMM/POC del SJS?",
+ o:["El PMM es agudo y el SJS crónico","Ambos son hipersensibilidad tipo I","El PMM/POC es crónico y progresivo (anti-MB, tipo II); el SJS es agudo y desencadenado por fármacos/infección (tipo III)","Ninguno produce simbléfaron"],
+ e:"<b>PMM/POC</b> = <b>crónico</b>, anti-membrana basal (tipo II). <b>SJS</b> = <b>agudo</b>, gatillo farmacológico/infeccioso (tipo III). Ambos pueden cicatrizar y producir simbléfaron y ceguera."},
+
+{cat:"Mucocutáneas · diagnóstico",c:0,
+ q:"El diagnóstico del penfigoide ocular cicatricial se confirma mediante:",
+ o:["Biopsia conjuntival con inmunofluorescencia","Cultivo de exudado","Test de Schirmer","Gonioscopia"],
+ e:"Además del cuadro clínico (fibrosis subconjuntival, acortamiento del fondo de saco inferior, simbléfaron), el PMM se confirma con <b>biopsia conjuntival e inmunofluorescencia</b>."},
+
+{cat:"Mucocutáneas · complicaciones",c:1,
+ q:"La fusión cicatricial entre la conjuntiva bulbar y la palpebral que aparece en POC, SJS y QCE grave se denomina:",
+ o:["Anquilobléfaron","Simbléfaron","Pannus","Triquiasis"],
+ e:"El <b>simbléfaron</b> es la adherencia cicatricial bulbo-palpebral. El <b>anquilobléfaron</b> es la fusión de los bordes palpebrales entre sí."},
+
+{cat:"Caso clínico · Parinaud",c:2,case:true,
+ lead:"Joven con un ojo rojo unilateral con nódulos granulomatosos en la conjuntiva rodeados de folículos, y un ganglio preauricular grande y DOLOROSO. Tiene un gato en casa.",
+ q:"El diagnóstico más probable es:",
+ o:["Conjuntivitis vírica banal","Conjuntivitis alérgica","Síndrome oculoglandular de Parinaud (p. ej. por arañazo de gato)","Pterigion inflamado"],
+ e:"Conjuntivitis <b>granulomatosa unilateral</b> + <b>adenopatía dolorosa</b> + contacto con gato = <b>Parinaud</b> (Bartonella). Tto: ciprofloxacino o cotrimoxazol oral."},
+
+{cat:"DDx Parinaud",c:3,ddx:true,
+ q:"¿Qué rasgo diferencia la adenopatía del síndrome de Parinaud de la de una conjuntivitis vírica?",
+ o:["Es bilateral","Es indolora","Nunca se asocia a conjuntivitis","Es ipsilateral, granulomatosa y DOLOROSA"],
+ e:"En Parinaud la adenopatía es <b>ipsilateral, grave y dolorosa</b>, con conjuntivitis <b>granulomatosa</b>; la adenopatía vírica es típicamente indolora."},
+
+{cat:"Tóxicas",c:0,
+ q:"La conjuntivitis tóxica/medicamentosa (por colirios) cursa típicamente con:",
+ o:["Reacción folicular, sobre todo inferior","Papilas gigantes superiores","Hemorragia masiva","Granuloma con adenopatía dolorosa"],
+ e:"El uso prolongado de colirios/conservantes produce una <b>reacción folicular</b> (predominio inferior). Es una causa de folículos junto a víricas y Chlamydia."},
+
+{cat:"Caso clínico · Hemorragia",c:1,case:true,
+ lead:"Varón de 60 años en tratamiento anticoagulante consulta alarmado porque tras un golpe de tos amaneció con una mancha roja intensa y homogénea en el blanco del ojo. No tiene dolor, secreción ni pérdida de visión.",
+ q:"La conducta correcta es:",
+ o:["Antibiótico tópico urgente","Tranquilizar: hemorragia subconjuntival benigna y autolimitada","Corticoide oral","Derivación urgente por sospecha de uveítis"],
+ e:"Mancha roja homogénea, <b>indolora, sin secreción ni ↓AV</b>, tras Valsalva = <b>hemorragia subconjuntival</b>, benigna y autorresolutiva (reabsorbe en 1–2 semanas)."},
+
+{cat:"Imagen · DDx",c:3,figSrc:"figHemorragia",figcap:"Aspecto del ojo.",
+ q:"La imagen muestra una mancha roja homogénea, indolora, que no blanquea, sin secreción. Se trata de:",
+ o:["Conjuntivitis bacteriana","Inyección ciliar de una uveítis","Pterigion vascularizado","Hemorragia subconjuntival"],
+ e:"Una <b>placa roja homogénea</b> (sangre bajo la conjuntiva), sin vasos individuales visibles, indolora y sin secreción = <b>hemorragia subconjuntival</b>."},
+
+{cat:"Degeneraciones",c:2,
+ q:"La pinguécula se caracteriza por:",
+ o:["Ser un crecimiento triangular que invade la córnea","Aparecer solo en climas fríos","Ser un depósito blanco-amarillo a las III o IX horas que NO atraviesa el limbo","Malignizar con frecuencia"],
+ e:"La <b>pinguécula</b> es una lesión benigna, bilateral y muy frecuente: depósito <b>blanco-amarillo limbar (III/IX h)</b> que <b>NO cruza el limbo</b>. Si se inflama → pingueculitis."},
+
+{cat:"Degeneraciones",c:0,
+ q:"El pterigion se diferencia de la pinguécula porque:",
+ o:["Es fibrovascular, triangular y cruza el limbo invadiendo la córnea","Es un depósito de calcio","Nunca afecta a la visión","Es de origen infeccioso"],
+ e:"El <b>pterigion</b> es un crecimiento <b>fibrovascular triangular que atraviesa el limbo e invade la córnea</b>; se asocia a climas cálidos (UVA + sequedad). Comparte la AP de la pinguécula."},
+
+{cat:"Caso clínico · Imagen",c:1,case:true,figSrc:"figPterigion",figcap:"Ojo del paciente (lado nasal).",
+ lead:"Agricultor de 55 años de un país soleado consulta por sensación de cuerpo extraño y enrojecimiento; presenta la lesión que se muestra, que ha ido creciendo hacia el centro de la córnea.",
+ q:"Diagnóstico y criterio quirúrgico:",
+ o:["Pinguécula; nunca se opera","Pterigion; cirugía si progresa hacia el eje visual (o por estética), con injerto conjuntival","Carcinoma escamoso; enucleación","Nódulo de Trantas; corticoide"],
+ e:"Lesión <b>triangular carnosa que invade la córnea</b> en un paciente con exposición solar = <b>pterigion</b>. Se opera (extirpación + injerto) si <b>progresa hacia el eje visual</b> o por motivos estéticos."},
+
+{cat:"DDx · Imagen",c:2,ddx:true,figSrc:"figPinguecula",figcap:"Lesión yuxtalímbica.",
+ q:"Esta lesión amarillenta junto al limbo NO contacta con la córnea. ¿Cuál es y qué la diferencia del pterigion?",
+ o:["Pterigion; cruza el limbo","Nevus; pigmentado","Pinguécula; no atraviesa el limbo (a diferencia del pterigion)","Melanoma; maligno"],
+ e:"Depósito amarillo limbar que <b>respeta la córnea</b> = <b>pinguécula</b>. La clave diferencial con el pterigion es que <b>la pinguécula NO cruza el limbo</b>."},
+
+{cat:"Caso clínico · Degeneración",c:3,case:true,
+ lead:"Paciente con una pinguécula conocida que acude por enrojecimiento y molestias localizadas sobre la lesión, sin secreción ni afectación corneal.",
+ q:"El cuadro y su tratamiento son:",
+ o:["Pterigion; cirugía urgente","Conjuntivitis bacteriana; antibiótico 7 días","Melanoma; biopsia","Pingueculitis; ciclo corto de corticoide tópico"],
+ e:"La inflamación de una pinguécula = <b>pingueculitis</b>, que se trata con un <b>ciclo corto de corticoide tópico</b>. La pinguécula no inflamada no suele tratarse."},
+
+{cat:"Degeneraciones",c:0,
+ q:"¿Cuál de las siguientes es una degeneración conjuntival (no un tumor)?",
+ o:["Conjuntivocalasia","Melanoma","Carcinoma escamoso","Neoplasia intraepitelial"],
+ e:"Entre las degeneraciones figuran <b>pinguécula, pterigion, concreciones, conjuntivocalasia</b> (pliegues laxos) y quiste de retención. Las otras opciones son tumores malignos."},
+
+{cat:"Tumores",c:1,
+ q:"El nevus conjuntival se caracteriza por:",
+ o:["Ser siempre maligno","Ser benigno, similar a los cutáneos y crecer durante la adolescencia","Originar tracoma","No pigmentarse nunca"],
+ e:"El <b>nevus</b> es un tumor <b>benigno</b>, pigmentado o no, semejante a los cutáneos, que tiende a <b>crecer en la adolescencia</b>."},
+
+{cat:"Caso clínico · Tumores",c:2,case:true,
+ lead:"Mujer de 65 años con una mancha pigmentada plana en la conjuntiva bulbar que ha aumentado de tamaño y desarrollado un nódulo elevado y vascularizado.",
+ q:"¿Cuál es la lesión que más preocupa y su origen habitual?",
+ o:["Pinguécula pigmentada","Hemorragia subconjuntival","Melanoma conjuntival, que puede originarse de una melanosis adquirida primaria (MAP), de un nevus o de novo","Conjuntivitis crónica"],
+ e:"Una <b>mácula pigmentada que crece y desarrolla un nódulo</b> obliga a descartar <b>melanoma</b>, que surge de <b>MAP</b>, de un nevus o de novo."},
+
+{cat:"Tumores",c:3,
+ q:"La neoplasia intraepitelial conjuntival (CIN) representa un espectro que evoluciona a:",
+ o:["Melanoma","Linfoma","Retinoblastoma","Displasia → carcinoma in situ → carcinoma escamoso"],
+ e:"La <b>CIN</b> es la vía epitelial: <b>displasia → carcinoma in situ → carcinoma escamoso</b>. Tratamiento: extirpación + crioterapia; en extensos, colirio de mitomicina C, 5-FU o interferón."},
+
+{cat:"Imagen · DDx ojo rojo",c:0,ddx:true,figSrc:"figInjection",figcap:"Dos patrones de inyección.",
+ q:"¿Cuál de los dos patrones (A: hiperemia difusa de predominio periférico / B: enrojecimiento máximo alrededor de la córnea) corresponde a una conjuntivitis?",
+ o:["El patrón A (hiperemia conjuntival difusa, máxima en fondos de saco)","El patrón B (inyección ciliar/periquerática)","Ninguno, ambos son uveítis","Ambos por igual"],
+ e:"La conjuntivitis da <b>hiperemia conjuntival difusa</b> (máxima en fondos de saco, patrón A). La <b>inyección ciliar/periquerática</b> (patrón B, máxima junto a córnea) indica patología más profunda (uveítis, queratitis, glaucoma)."},
+
+{cat:"Caso clínico · DDx ojo rojo",c:1,case:true,ddx:true,
+ lead:"Paciente con un ojo rojo unilateral, dolor profundo, fotofobia marcada, visión algo borrosa; a la exploración la pupila está en miosis y hay celularidad en cámara anterior.",
+ q:"El diagnóstico es:",
+ o:["Conjuntivitis vírica","Uveítis anterior (NO es conjuntivitis)","Hemorragia subconjuntival","Pterigion"],
+ e:"<b>Dolor + fotofobia + miosis + Tyndall</b> en cámara anterior = <b>uveítis anterior</b>. La conjuntivitis no duele, no baja la visión y tiene pupila normal."},
+
+{cat:"Caso clínico · DDx ojo rojo",c:2,case:true,ddx:true,
+ lead:"Mujer de 60 años con ojo rojo unilateral muy doloroso, cefalea y vómitos, halos alrededor de las luces y visión borrosa; la córnea está turbia y la pupila en midriasis media arreactiva.",
+ q:"¿Qué cuadro hay que descartar de forma urgente?",
+ o:["Conjuntivitis alérgica","Pinguécula","Glaucoma agudo de ángulo cerrado","Hemorragia subconjuntival"],
+ e:"<b>Dolor intenso + cefalea/vómitos + halos + córnea edematosa + midriasis media fija</b> = <b>glaucoma agudo</b> (PIO muy elevada). Es una urgencia; no es una conjuntivitis."},
+
+{cat:"Semiología · DDx",c:3,ddx:true,
+ q:"Una conjuntivitis típica se distingue de las causas graves de ojo rojo porque presenta:",
+ o:["Pupila en midriasis y dolor","Inyección ciliar y Tyndall","↓AV marcada y halos","Pupila normal, sin dolor y con agudeza visual conservada"],
+ e:"El triaje del ojo rojo es <b>pupila + dolor + AV</b>: conjuntivitis = <b>pupila normal, sin dolor, AV conservada</b> + secreción. Cualquier desviación obliga a descartar úvea/córnea/glaucoma."},
+
+{cat:"Caso clínico · DDx trampa",c:1,case:true,ddx:true,
+ lead:"Usuario de lentes de contacto con ojo rojo unilateral, DOLOR intenso, fotofobia y visión borrosa; con fluoresceína se aprecia un defecto epitelial corneal redondeado.",
+ q:"Aunque sea portador de lentillas, lo más urgente a descartar es:",
+ o:["Conjuntivitis papilar gigante","Queratitis/úlcera corneal infecciosa","Conjuntivitis alérgica estacional","Pinguécula"],
+ e:"En un portador de LC con <b>dolor, ↓AV y defecto corneal que tiñe</b>, la prioridad NO es la CPG (que no duele ni baja la visión) sino una <b>queratitis/úlcera corneal</b> infecciosa: es una urgencia."},
+
+{cat:"Take-home",c:0,
+ q:"Señale la afirmación CORRECTA sobre el tratamiento antibiótico en conjuntivitis:",
+ o:["Se usa como tratamiento en bacterianas (incluida Chlamydia) y como profilaxis en víricas","Solo se usa en las alérgicas","Está contraindicado en las bacterianas","Es el tratamiento de elección de la conjuntivitis alérgica"],
+ e:"El colirio antibiótico es <b>tratamiento</b> en bacterianas (incluida Chlamydia, junto al sistémico) y <b>profilaxis</b> en víricas. En las inmunes se usan corticoides."},
+
+{cat:"DDx secreción",c:2,ddx:true,
+ q:"Relacione el tipo de secreción con la etiología más probable:",
+ o:["Purulenta → alérgica","Acuosa → bacteriana","Purulenta → bacteriana; serosa/acuosa → vírica; mucosa-viscosa → inmune","Mucosa → bacteriana"],
+ e:"Regla clave: <b>purulenta = bacteriana</b>, <b>serosa/acuosa = vírica</b>, <b>mucosa/viscosa con picor = inmune/alérgica</b>."},
+
+{cat:"Bacteriana",c:3,
+ q:"En una conjuntivitis bacteriana simple, ¿cuánto tiempo conviene mantener el antibiótico tópico?",
+ o:["Una sola dosis","12 horas","Hasta que desaparezca la secreción (1 día)","5 a 7 días, aunque mejore antes"],
+ e:"Aunque mejora rápido, se recomienda mantener el ATB tópico de amplio espectro <b>5–7 días</b> para evitar recaídas."},
+
+{cat:"Víricas",c:0,
+ q:"Respecto al inicio y lateralidad de la conjuntivitis adenovírica, lo típico es:",
+ o:["Comienzo unilateral muy asimétrico que luego se bilateraliza","Bilateral simétrica desde el primer día","Siempre estrictamente unilateral","Alternante día a día"],
+ e:"Las víricas suelen empezar <b>unilaterales, muy asimétricas</b>, y a los 2–7 días se bilateralizan (autoinoculación). Son muy contagiosas por fómites."},
+
+{cat:"Chlamydia",c:1,
+ q:"Si una conjuntivitis de inclusión del adulto no se trata, la evolución típica es:",
+ o:["Curación espontánea en 48 h","Conjuntivitis folicular crónica (3–18 meses) con infiltrados subepiteliales y micropannus superior","Perforación corneal inmediata","Catarata aguda"],
+ e:"Sin tratamiento, la inclusión del adulto se cronifica <b>(3–18 meses)</b> con <b>infiltrados subepiteliales y micropannus corneal superior</b>."},
+
+{cat:"Alérgicas",c:2,
+ q:"Respecto al picor de la conjuntivitis alérgica estacional, es cierto que:",
+ o:["Mejora de forma definitiva al frotar el ojo","No responde a antihistamínicos","Aunque frotar alivia momentáneamente, debe EVITARSE porque empeora el cuadro","Es indoloro porque no hay inflamación"],
+ e:"El frotamiento alivia de forma transitoria pero <b>libera más mediadores y empeora</b> la reacción; debe evitarse. La CAE es una rinoconjuntivitis ligada al ambiente."},
+
+{cat:"Mucocutáneas",c:0,
+ q:"¿Cuál de los siguientes fármacos es un desencadenante típico del síndrome de Stevens-Johnson?",
+ o:["Sulfamidas, antiepilépticos y AINE","Lágrimas artificiales","Antihistamínicos tópicos","Vitamina A tópica"],
+ e:"El SJS se desencadena por <b>fármacos (sulfamidas, antiepilépticos, AINE)</b> o infecciones (HSV, EBV). Es un cuadro agudo grave."},
+
+{cat:"Clasificación",c:3,
+ q:"Dentro de las conjuntivitis no infecciosas inmunológicas mucocutáneas se incluyen:",
+ o:["Conjuntivitis vernal y atópica","Tracoma y conjuntivitis de inclusión","Pinguécula y pterigion","Penfigoide ocular cicatricial, Stevens-Johnson y conjuntivitis leñosa"],
+ e:"Las <b>mucocutáneas</b> son POC, SJS y conjuntivitis leñosa. La vernal y atópica son alérgicas; tracoma e inclusión son por Chlamydia."},
+
+{cat:"Caso clínico · DDx folículos",c:1,case:true,ddx:true,
+ lead:"Paciente que usa desde hace meses un colirio antiglaucomatoso y desarrolla ojo rojo crónico con folículos de predominio inferior, sin adenopatía ni secreción purulenta.",
+ q:"La causa más probable de esta conjuntivitis folicular es:",
+ o:["Infección por adenovirus","Reacción tóxica/medicamentosa al colirio","Conjuntivitis bacteriana","Alergia estacional"],
+ e:"Folículos <b>crónicos de predominio inferior</b> en un paciente con uso prolongado de colirios = <b>conjuntivitis tóxica/medicamentosa</b> (causa de folículos junto a víricas y Chlamydia)."},
+
+{cat:"Tumores",c:2,
+ q:"En tumores conjuntivales malignos extensos (CIN/carcinoma escamoso), una opción terapéutica es:",
+ o:["Antibiótico tópico prolongado","Solo observación","Quimioterapia en colirio (mitomicina C, 5-FU o interferón), además de extirpación + crioterapia","Corticoide oral crónico"],
+ e:"El tratamiento incluye <b>extirpación + crioterapia</b>; en tumores extensos se emplea <b>quimioterapia tópica (mitomicina C, 5-FU o interferón)</b>."},
+
+{cat:"DDx pterigion/pinguécula",c:0,ddx:true,
+ q:"Ambas son lesiones por exposición solar y comparten anatomía patológica, pero solo una invade la córnea. ¿Cuál?",
+ o:["El pterigion invade la córnea; la pinguécula no","La pinguécula invade la córnea; el pterigion no","Ninguna toca la córnea","Ambas malignizan"],
+ e:"AP idéntica, pero el <b>pterigion cruza el limbo e invade la córnea</b> (puede amenazar el eje visual), mientras que la <b>pinguécula respeta el limbo</b>."},
+
+{cat:"Semiología · DDx",c:1,ddx:true,
+ q:"¿Qué reacción tisular es MÁS sugestiva de una conjuntivitis vírica que de una alérgica?",
+ o:["Papilas gigantes","Folículos","Quemosis aislada","Secreción mucosa filamentosa"],
+ e:"Los <b>folículos</b> orientan a vírica/Chlamydia; las <b>papilas</b> y la secreción mucosa con picor orientan a alérgica."},
+
+{cat:"Caso clínico · Bacteriana vs vírica",c:3,case:true,ddx:true,
+ lead:"Dos pacientes con ojo rojo: el primero con secreción espesa amarillenta y ojos pegados, sin ganglios; el segundo con secreción acuosa, folículos y ganglio preauricular doloroso al tacto leve.",
+ q:"Los diagnósticos más probables son, respectivamente:",
+ o:["Vírica y bacteriana","Alérgica y bacteriana","Ambas alérgicas","Bacteriana (secreción purulenta, sin adenopatía) y vírica (acuosa, folículos, adenopatía)"],
+ e:"<b>Secreción purulenta + sin adenopatía = bacteriana</b>; <b>secreción acuosa + folículos + adenopatía = vírica</b>. La secreción y la adenopatía son los discriminadores clave."},
+
+{cat:"Chlamydia · neonatal",c:0,
+ q:"En la oftalmia neonatorum, el orden cronológico aproximado de aparición es:",
+ o:["Gonococo (2–4 días) → bacteriana no gonocócica (5–20 días) → Chlamydia de inclusión (7–14 días)","Chlamydia primero, gonococo al mes","Todas aparecen el primer día","Solo aparece por alergia"],
+ e:"La <b>gonocócica es la más precoz</b> (2–4 días, hiperpurulenta y peligrosa). La de Chlamydia aparece a los 7–14 días y la bacteriana no gonocócica entre 5–20 días."},
+
+{cat:"Alérgicas · QCA",c:2,
+ q:"La queratoconjuntivitis atópica se asocia frecuentemente a todas las siguientes EXCEPTO:",
+ o:["Queratocono","Cataratas","Hemorragia subconjuntival recurrente como rasgo definitorio","Queratitis herpética y microbianas"],
+ e:"La QCA asocia <b>queratocono, cataratas y queratitis herpética/microbianas</b>; la hemorragia subconjuntival recurrente no es un rasgo definitorio suyo."},
+
+{cat:"Mucocutáneas",c:1,
+ q:"El penfigoide de membranas mucosas afecta a la conjuntiva en torno a qué porcentaje de casos:",
+ o:["10%","65%","5%","100%"],
+ e:"El PMM es una enfermedad ampollosa subepitelial de mucosas; la <b>conjuntiva se afecta en ~65%</b> de los casos (subtipo ocular = POC)."},
+
+{cat:"Caso clínico · DDx alérgica vs vírica",c:3,case:true,ddx:true,
+ lead:"Adolescente con ambos ojos rojos en primavera, PICOR intensísimo, lagrimeo y secreción mucosa filante; al evertir el párpado superior, papilas grandes en empedrado. Sin fiebre ni adenopatía.",
+ q:"El diagnóstico más probable es:",
+ o:["Fiebre faringoconjuntival","Conjuntivitis gonocócica","Tracoma","Queratoconjuntivitis vernal"],
+ e:"<b>Picor intenso + papilas en empedrado + estacional + sin adenopatía</b> = <b>QCV</b>. La ausencia de folículos/adenopatía descarta la vírica; la ausencia de fiebre descarta la FFC."},
+
+{cat:"Bacteriana hiperaguda",c:0,
+ q:"El tratamiento de la conjuntivitis gonocócica del adulto incluye:",
+ o:["Cefalosporina de 3ª generación sistémica (ceftriaxona/cefotaxima) + antibiótico tópico","Solo lágrimas artificiales","Aciclovir oral","Corticoide tópico aislado"],
+ e:"Por tratarse de una infección invasora y sistémica, el gonococo requiere <b>antibiótico sistémico (ceftriaxona/cefotaxima)</b> además del tópico (penicilina); cultivo y cribado de ETS."},
+
+{cat:"Take-home",c:1,
+ q:"Señale la asociación CORRECTA:",
+ o:["Conjuntivitis papilar gigante ↔ adenovirus","Conjuntivitis típica del portador de lentes de contacto ↔ papilar gigante (CPG)","Tracoma ↔ serotipos D–K","Trantas ↔ tracoma"],
+ e:"La <b>CPG es la conjuntivitis típica del portador de LC</b>. El tracoma es por serotipos A–C; los nódulos de Trantas son de la QCV."},
+
+{cat:"Semiología",c:2,
+ q:"El drenaje linfático de la conjuntiva se dirige a los ganglios:",
+ o:["Cervicales posteriores","Occipitales","Preauriculares y submandibulares","Axilares"],
+ e:"La conjuntiva drena a los ganglios <b>preauriculares y submandibulares</b>; por eso las infecciones víricas, por Chlamydia, gonococo y el Parinaud dan adenopatía en esa zona."},
+
+{cat:"Caso clínico · DDx escleritis",c:3,case:true,ddx:true,
+ lead:"Paciente con ojo rojo y dolor; la hiperemia es sectorial/nodular, la pupila es normal y no hay secreción ni ↓AV. Tiene una enfermedad reumatológica de base.",
+ q:"¿Qué entidad del diagnóstico diferencial del ojo rojo es más compatible?",
+ o:["Conjuntivitis alérgica","Glaucoma agudo","Uveítis con miosis","Epiescleritis/escleritis"],
+ e:"Hiperemia <b>sectorial/nodular</b>, sin secreción, con pupila normal y trasfondo reumatológico orienta a <b>epiescleritis/escleritis</b>, no a una conjuntivitis."},
+
+{cat:"Alérgicas",c:0,
+ q:"La conjuntivitis alérgica estacional/perenne es, en cuanto a frecuencia y mecanismo:",
+ o:["Muy frecuente (prevalencia ~21% en España), por hipersensibilidad tipo I (IgE)","Rara, por hipersensibilidad tipo II","Infecciosa por adenovirus","Por depósito de inmunocomplejos (tipo III)"],
+ e:"Las CAE/CAP son <b>muy frecuentes</b> (~21% en España) y se deben a <b>hipersensibilidad tipo I mediada por IgE</b> frente a aeroalérgenos."},
+
+{cat:"Tumores · pigmentadas",c:1,
+ q:"Entre las lesiones pigmentadas conjuntivales benignas se incluye:",
+ o:["El carcinoma escamoso","La melanosis ocular congénita","El melanoma de novo","La MAP que ya ha malignizado"],
+ e:"Las lesiones pigmentadas <b>benignas</b> incluyen la <b>melanosis epitelial</b> y la <b>melanosis ocular congénita</b>. La MAP y el melanoma son la vía maligna."},
+
+{cat:"Caso clínico · DDx QCE",c:2,case:true,ddx:true,
+ lead:"Brote en una residencia: varios adultos con ojo rojo muy contagioso, secreción acuosa, gran adenopatía preauricular, algunos con seudomembranas y, semanas después, visión borrosa por opacidades subepiteliales en la córnea.",
+ q:"El cuadro corresponde a:",
+ o:["Conjuntivitis bacteriana epidémica","Fiebre faringoconjuntival","Queratoconjuntivitis epidémica (adenovirus 8/19)","Conjuntivitis alérgica perenne"],
+ e:"Brote muy contagioso, <b>seudomembranas e infiltrados subepiteliales persistentes</b> que bajan la visión, sin síntomas sistémicos = <b>QCE</b> (adenovirus 8 y 19)."},
+
+{cat:"Take-home",c:3,
+ q:"Indique la afirmación FALSA:",
+ o:["La conjuntivitis es la patología conjuntival más frecuente","La gonocócica es una urgencia porque puede ulcerar la córnea","El tracoma es la principal causa infecciosa de ceguera mundial","Las alérgicas se tratan de elección con antibiótico sistémico"],
+ e:"Las conjuntivitis <b>alérgicas se tratan con corticoides/antihistamínicos tópicos</b>, NO con antibiótico sistémico. El resto de afirmaciones son correctas."}
+];
+
+/* ---- Estado y render ---- */
+const figMap={figFoliculo,figPapila,figTrantas,figPterigion,figPinguecula,figInjection,figHiperaguda,figHemorragia};
+const answers=new Array(Q.length).fill(null);
+let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),
+      qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+
+function render(){
+  const q=Q[cur];
+  qnum.textContent=String(cur+1).padStart(2,"0");
+  qtag.textContent=q.cat;
+  qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}
+  else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";
+  const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{
+    const b=document.createElement("button");b.className="opt";
+    b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}
+    else b.onclick=()=>choose(i);
+    opts.appendChild(b);
+  });
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}
+  else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;
+  $("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";
+  updateStats();refreshGrid();
+}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){
+  const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);
+  $("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la patología conjuntival y los diagnósticos diferenciales. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo los DDx entre entidades parecidas.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; conviene reforzar las diferencias entre conjuntivitis y los casos clínicos.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T02 y repite el test; fíjate en secreción, folículo vs papila y adenopatías.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;
+  $("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});
+}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
