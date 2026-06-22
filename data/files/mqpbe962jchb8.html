@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen T24 · Traumatología Ocular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;--teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;--amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --cont:#1a5e86;--contbg:#e3eff7;--abi:#b23a32;--abibg:#fbe7e4;--quim:#9a4d12;--quimbg:#f6ecde;--orb:#7a3a8f;--orbbg:#f1e6f4;--r:#b23a32;--rbg:#fbe7e4;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:900px;margin:0 auto}h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:32px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:600px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.cont{color:var(--cont);background:var(--contbg)}.chip.abi{color:var(--abi);background:var(--abibg)}
+  .chip.quim{color:var(--quim);background:var(--quimbg)}.chip.orb{color:var(--orb);background:var(--orbbg)}.chip.r{color:var(--r);background:var(--rbg)}.chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}ol{margin:8px 0;padding-left:22px}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}.dz .meta{font-size:13px;color:var(--soft);margin:0 0 8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.cont{color:var(--cont);background:var(--contbg)}.pill.abi{color:var(--abi);background:var(--abibg)}.pill.quim{color:var(--quim);background:var(--quimbg)}.pill.orb{color:var(--orb);background:var(--orbbg)}.pill.r{color:var(--r);background:var(--rbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}@media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{background:linear-gradient(135deg,#fbe7e4,#fdf0e4);border:1.5px solid #e7b3aa;border-radius:18px;padding:26px 28px;margin-top:22px}
+  .ojo h2{color:var(--r)}.ojo h2 .romnum{background:var(--r)}
+  .trap{background:#fff;border:1px solid #f0cdc6;border-left:5px solid var(--r);border-radius:0 12px 12px 0;padding:12px 15px;margin:12px 0;font-size:14.5px;box-shadow:0 4px 14px -10px rgba(178,58,50,.5)}
+  .trap .t{display:block;font-family:'Spectral',serif;font-weight:700;color:var(--r);font-size:15px;margin-bottom:3px}.trap b{color:#7a2a25}
+  @media print{body{background:#fff;padding:0}section,.cover,.ojo{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="cover">
+  <p class="eb">Oftalmología · 4º Medicina · Tema 24</p>
+  <h1>Traumatología Ocular</h1>
+  <p>Resumen del ojo rojo traumático: <b>contusión / globo cerrado</b> (hipema, conmoción retiniana), <b>globo abierto / perforante</b> (CEIO, estallido), <b>causticación química</b> (la gran emergencia) y los <b>traumatismos de párpados y órbita</b> (blow-out). Incluye al final el apartado <b>"OJO CUIDADO"</b>.</p>
+</div>
+
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#urgencias">0 · Prioridad: el factor tiempo</a>
+    <a href="#superficie">I · Superficie y párpados</a>
+    <a href="#contuso">II · Trauma contuso (globo cerrado)</a>
+    <a href="#hipema">III · Hipema</a>
+    <a href="#abierto">IV · Globo abierto / perforante</a>
+    <a href="#ceio">V · Cuerpos extraños</a>
+    <a href="#quimico">VI · Causticación química</a>
+    <a href="#orbita">VII · Órbita: fractura blow-out</a>
+    <a href="#ddx">VIII · DDx</a>
+    <a href="#ojo">★ OJO CUIDADO</a>
+  </div>
+</section>
+
+<section id="urgencias">
+  <h2><span class="romnum">0</span> Prioridad: el factor tiempo</h2>
+  <p class="lead">En el trauma ocular, la rapidez de actuación marca el pronóstico.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Prioridad</th><th>Cuadros</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Emergencia INMEDIATA (minutos)</td><td><b>Causticación química</b> (lavado YA), oclusión de la arteria central de la retina, hemorragia orbitaria a tensión</td></tr>
+      <tr><td class="h">Urgente (horas)</td><td><b>Herida perforante (ojo abierto)</b> ± CEIO, endoftalmitis, celulitis orbitaria, fractura con afectación del NO, <b>hipema con ↑PIO</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">La nº 1</span> La <b>causticación química</b> es la <b>única emergencia que se trata antes de explorar</b>: lavado ocular abundante con suero o agua lo más inmediato posible.</div>
+</section>
+
+<section id="superficie">
+  <h2><span class="romnum">I</span> Superficie ocular y párpados <span class="chip cont">leve / a vigilar</span></h2>
+  <ul>
+    <li><b>Hiposfagma (hemorragia subconjuntival):</b> sangre bajo la conjuntiva; <b>asintomático, banal</b>, no requiere tratamiento si es espontáneo o por mínimo trauma. <b>Alarma:</b> una hemorragia subconjuntival <b>sin límite posterior</b> sugiere fractura del techo orbitario.</li>
+    <li><b>Erosión/úlcera corneal:</b> dolor, fotofobia, tinción con fluoresceína; tto: ciclopléjico + antibiótico tópico ± AINE.</li>
+    <li><b>Hematoma palpebral ("ojo morado"):</b> trauma contuso; <b>frío local</b>. Descartar daño del globo/órbita; el <b>hematoma "en anteojos"</b> sugiere fractura de la base del cráneo.</li>
+    <li><b>Laceraciones palpebrales:</b> en el canto interno cuidado con el <b>canalículo y el tendón cantal</b> (suturar/tutorizar con silicona 3-6 meses; corregir en las primeras 48 h).</li>
+  </ul>
+</section>
+
+<section id="contuso">
+  <h2><span class="romnum">II</span> Traumatismo contuso (globo cerrado) <span class="chip cont">contusión</span></h2>
+  <p class="lead">La pared del globo está íntegra, pero la onda contusa daña estructuras internas.</p>
+  <ul>
+    <li><b>Cristalino:</b> catarata o <b>luxación/subluxación</b> traumática.</li>
+    <li><b>Úvea:</b> iritis traumática, <b>hipema</b>, <b>recesión angular</b> (riesgo de glaucoma tardío), midriasis traumática.</li>
+    <li><b>Retina:</b> <b>conmoción retiniana (edema de Berlín)</b>, desgarros, diálisis, hemovítreo.</li>
+    <li><b>Coroides:</b> rotura coroidea.</li>
+    <li><b>Estallido del globo:</b> trauma contuso grave que rompe el globo por su zona más débil (la herida quirúrgica en operados, o paralela al limbo / bajo los músculos); cursa con <b>cámara anterior estrecha, PIO baja y limitación de movimientos</b>.</li>
+  </ul>
+</section>
+
+<section id="hipema">
+  <h2><span class="romnum">III</span> Hipema (hifema) <span class="chip cont">¡es un signo!</span></h2>
+  <p class="lead"><b>Sangre en la cámara anterior</b> (desde el iris o el cuerpo ciliar) que forma un <b>nivel</b> que hay que medir. <b>Es indicio de traumatismo grave.</b></p>
+  <ul>
+    <li><b>Evolución:</b> puede <b>recidivar a los 3-5 días</b>. A medio plazo, un <b>7% desarrolla glaucoma</b>.</li>
+    <li><b>Tratamiento:</b> observación, <b>dormir con el cabezal elevado</b>, ciclopléjico y corticoides tópicos (acompaña iritis); tratar la PIO si está alta.</li>
+    <li><b>Evacuación quirúrgica</b> si: <b>PIO &gt;60 mmHg &gt;48 h</b>, o <b>PIO &gt;25 mmHg &gt;5 días con hifema total</b> (para evitar daño del nervio óptico o tinción hemática de la córnea).</li>
+    <li>Revisión al mes para descartar <b>recesión angular</b> y lesiones del fondo.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 320 150" role="img" aria-label="Hipema: nivel de sangre en la cámara anterior">
+      <ellipse cx="160" cy="78" rx="135" ry="56" fill="#f3d4cd" opacity=".5"/>
+      <circle cx="160" cy="78" r="70" fill="#cfe3ea" stroke="#7fa6b5"/>
+      <circle cx="160" cy="78" r="24" fill="#1a1a1a"/>
+      <path d="M92 78 a68 68 0 0 0 136 0 q-68 30 -136 0Z" fill="#9c2b22"/>
+      <text x="160" y="142" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">nivel hemático inferior en cámara anterior (hipema)</text>
+    </svg>
+    <figcaption>Hipema: nivel de sangre en la cámara anterior. <b>Es un signo de traumatismo grave</b>; vigilar la PIO y la recidiva.</figcaption>
+  </figure>
+</section>
+
+<section id="abierto">
+  <h2><span class="romnum">IV</span> Globo abierto / herida perforante <span class="chip abi">URGENCIA</span></h2>
+  <p class="lead">Herida de <b>espesor completo</b> en la pared del globo (córnea/esclera). Muy graves, manejo individualizado.</p>
+  <ul>
+    <li><b>Sospecha de perforación:</b> <b>hipotonía</b> (PIO baja), <b>atalamia</b> (cámara anterior plana), <b>desviación/deformidad pupilar</b> o de iris, prolapso de contenido (úvea), test de Seidel positivo.</li>
+    <li><b>Conducta:</b> enviar al oftalmólogo <b>sin instilar ningún colirio</b>, proteger con un cono/protector (no parche compresivo), <b>antibiótico intravenoso</b>, <b>en ayunas</b> (para no demorar la cirugía), profilaxis antitetánica.</li>
+  </ul>
+  <div class="alarm"><span class="lbl">No tocar</span> Ante una <b>perforación</b>: no presionar, no echar colirios, no manipular el contenido prolapsado. Proteger, antibiótico IV, ayunas y cirugía urgente.</div>
+</section>
+
+<section id="ceio">
+  <h2><span class="romnum">V</span> Cuerpos extraños</h2>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Superficiales (no penetrantes)</h4>
+      <ul>
+        <li><b>Subtarsales:</b> producen abrasiones lineales (evertir el párpado para buscarlos).</li>
+        <li><b>Corneales:</b> si son metálicos dejan un <b>anillo de óxido</b>.</li>
+        <li><b>Tto:</b> extraer el cuerpo extraño y el anillo de óxido + ciclopléjico, antibiótico tópico y AINE tópico.</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>CEIO (cuerpo extraño intraocular)</h4>
+      <ul>
+        <li>Es un tipo de <b>traumatismo perforante</b> (sospechar ante trabajos con metal/martillo).</li>
+        <li>Requiere imagen (TAC; evitar RM si es metálico) y extracción quirúrgica.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="quimico">
+  <h2><span class="romnum">VI</span> Causticación química <span class="chip quim">emergencia nº 1</span></h2>
+  <ul>
+    <li>El contacto de un cáustico con la superficie ocular obliga al <b>lavado ocular abundante</b> con suero o agua <b>lo más inmediato posible</b> (antes que cualquier otra exploración).</li>
+    <li>Los <b>álcalis</b> (lejía, amoniaco, cal) son <b>más graves</b> que los ácidos: penetran en profundidad (necrosis por licuefacción); los ácidos coagulan y "se autolimitan".</li>
+    <li>Signos de gravedad: isquemia limbar (palidez), opacidad corneal.</li>
+  </ul>
+  <div class="key"><span class="lbl">Regla de oro</span> En la <b>causticación</b>, primero <b>LAVAR</b> y después preguntar/explorar. Los <b>álcalis</b> son peores que los ácidos.</div>
+</section>
+
+<section id="orbita">
+  <h2><span class="romnum">VII</span> Órbita: fractura blow-out <span class="chip orb">suelo orbitario</span></h2>
+  <ul>
+    <li>Tras un <b>impacto contuso</b> (pelota, puño), la presión fractura el <b>suelo orbitario</b> (la pared más débil).</li>
+    <li><b>Clínica:</b> <b>enoftalmos</b>, <b>limitación de la mirada vertical</b> (sobre todo la supraducción) por <b>atrapamiento del recto inferior</b> → diplopía vertical; hipoestesia infraorbitaria; enfisema.</li>
+    <li><b>Diagnóstico:</b> TAC. <b>Tratamiento:</b> cirugía si hay atrapamiento con diplopía o enoftalmos significativo.</li>
+  </ul>
+  <figure>
+    <svg width="100%" viewBox="0 0 300 150" role="img" aria-label="Fractura blow-out con atrapamiento del recto inferior">
+      <rect x="40" y="30" width="220" height="90" rx="10" fill="#eef3f5" stroke="#7fa6b5"/>
+      <circle cx="150" cy="70" r="30" fill="#9a6a3c"/><circle cx="150" cy="70" r="13" fill="#1a1a1a"/>
+      <path d="M120 110 q30 18 60 0" fill="none" stroke="#b23a32" stroke-width="3"/>
+      <path d="M135 118 q15 12 30 0" fill="#d65a4a" stroke="#a83228"/>
+      <text x="150" y="142" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">fractura del suelo: el recto inferior queda atrapado</text>
+    </svg>
+    <figcaption>Fractura blow-out del suelo orbitario: el <b>recto inferior</b> queda atrapado → enoftalmos y limitación de la elevación.</figcaption>
+  </figure>
+</section>
+
+<section id="ddx">
+  <h2><span class="romnum">VIII</span> Esquemas de diagnóstico diferencial</h2>
+  <h3>1 · Globo cerrado vs globo abierto</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Contuso (cerrado)</th><th>Perforante (abierto)</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Pared del globo</td><td>Íntegra</td><td><b>Herida de espesor completo</b></td></tr>
+      <tr><td class="h">PIO</td><td>Variable (hipema → puede subir)</td><td><b>Hipotonía</b></td></tr>
+      <tr><td class="h">Signos</td><td>Hipema, conmoción retiniana, recesión angular</td><td><b>Atalamia, deformidad pupilar, prolapso uveal, Seidel +</b></td></tr>
+      <tr><td class="h">Conducta</td><td>Tratar según hallazgo</td><td>No colirios, proteger, ATB IV, ayunas, cirugía</td></tr>
+    </tbody>
+  </table></div>
+  <h3>2 · Hiposfagma vs hipema</h3>
+  <p><b>Hiposfagma</b> = sangre <b>subconjuntival</b> (banal). <b>Hipema</b> = sangre en la <b>cámara anterior</b> (signo de trauma grave; vigilar PIO).</p>
+  <h3>3 · Emergencia vs urgencia</h3>
+  <p>Lavar <b>inmediatamente</b> la causticación; el resto (perforante, hipema con ↑PIO, fractura con NO) son urgencias de horas.</p>
+</section>
+
+<div class="ojo" id="ojo">
+  <h2><span class="romnum">★</span> OJO CUIDADO — lo más preguntable</h2>
+  <p class="lead" style="border-color:#e7b3aa">Trampas clásicas de la traumatología ocular.</p>
+  <div class="trap"><span class="t">1 · Causticación = emergencia nº 1: LAVAR antes de explorar</span> Suero o agua abundante, de inmediato. Los <b>álcalis</b> son peores que los ácidos.</div>
+  <div class="trap"><span class="t">2 · Hiposfagma (hemorragia subconjuntival) = banal y asintomático</span> No requiere tratamiento si es espontáneo o por mínimo trauma; sin límite posterior → sospechar fractura del techo.</div>
+  <div class="trap"><span class="t">3 · Hipema = sangre en cámara anterior = ¡SIGNO de trauma grave!</span> Recidiva a los 3-5 días; 7% desarrolla glaucoma; dormir incorporado; evacuar si PIO muy alta mantenida.</div>
+  <div class="trap"><span class="t">4 · Sospecha de perforación: hipotonía + atalamia + deformidad pupilar</span> Enviar al oftalmólogo <b>sin colirios</b>, con <b>antibiótico IV</b> y <b>en ayunas</b>; proteger sin presionar.</div>
+  <div class="trap"><span class="t">5 · Fractura blow-out (suelo orbitario) = enoftalmos + limitación de la mirada vertical</span> Por <b>atrapamiento del recto inferior</b> tras impacto contuso; ± hipoestesia infraorbitaria.</div>
+  <div class="trap"><span class="t">6 · Cuerpo extraño corneal metálico = anillo de óxido</span> Hay que extraer el cuerpo extraño y el anillo; ciclopléjico + antibiótico + AINE tópicos.</div>
+  <div class="trap"><span class="t">7 · CEIO = sospechar ante trabajos con metal/martillo</span> Es un traumatismo perforante; imagen (TAC) y extracción quirúrgica.</div>
+  <div class="trap"><span class="t">8 · Estallido del globo: rompe por la zona más débil</span> En operados, por la herida quirúrgica; cursa con CA estrecha, PIO baja y limitación de movimientos.</div>
+  <div class="trap"><span class="t">9 · Conmoción retiniana (edema de Berlín)</span> Blanqueamiento retiniano tras contusión; suele ser autolimitada.</div>
+  <div class="trap"><span class="t">10 · Hematoma "en anteojos" = posible fractura de base de cráneo</span> El hematoma palpebral simple se trata con frío local, descartando daño del globo/órbita.</div>
+  <div class="trap"><span class="t">11 · Laceración del canto interno → cuidado con canalículo y tendón cantal</span> Reparar en las primeras 48 h y tutorizar con silicona 3-6 meses.</div>
+  <div class="trap"><span class="t">12 · La recesión angular postraumática puede dar glaucoma tardío</span> Revisar el ángulo al mes tras un hipema/contusión.</div>
+</div>
+
+<section><p class="note">Documento de elaboración propia a partir del Tema 24 (y referencias del T26 de urgencias). Ilustraciones esquemáticas originales (no fotografías). La fractura orbitaria enlaza con el T23 y las urgencias con el T26.</p></section>
+
+</div>
+</body>
+</html>
