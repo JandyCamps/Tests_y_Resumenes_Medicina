@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T25 · Farmacología y Preventiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:22px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T25</p>
+    <h1>Farmacología Ocular y Preventiva</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const Q=[
+{cat:"Vías",c:1,q:"¿Cuál de estas NO es una vía de administración de fármacos oftalmológicos?",
+ o:["Tópica","Intramuscular profunda exclusiva del ojo","Intravítrea","Intracamerular"],
+ e:"Las vías son <b>tópica, periocular, intracamerular, intravítrea y sistémica</b>; no existe una vía 'intramuscular exclusiva del ojo'."},
+{cat:"Vías",c:2,q:"La cefuroxima intracamerular se utiliza en la cirugía de catarata para:",
+ o:["Dilatar la pupila","Anestesiar","Profilaxis de la endoftalmitis","Bajar la PIO"],
+ e:"La <b>cefuroxima intracamerular</b> es la profilaxis estándar de la <b>endoftalmitis</b> en la cirugía de catarata."},
+{cat:"Midriáticos",c:0,q:"La fenilefrina es un midriático que actúa:",
+ o:["Contrayendo el músculo dilatador del iris (sin cicloplejía)","Paralizando el esfínter","Como ciclopléjico","Como miótico"],
+ e:"La <b>fenilefrina</b> es <b>simpaticomimética</b>: contrae el dilatador del iris y produce midriasis <b>sin cicloplejía</b>."},
+{cat:"Midriáticos",c:1,q:"¿Cuál de estos fármacos produce cicloplejía (parálisis del músculo ciliar)?",
+ o:["Fenilefrina","Atropina","Pilocarpina","Timolol"],
+ e:"La <b>atropina</b> (parasimpaticolítico) paraliza el esfínter y el músculo ciliar → midriasis + <b>cicloplejía</b>."},
+{cat:"Midriáticos",c:2,q:"El midriático parasimpaticolítico de acción más CORTA, útil para explorar el fondo, es:",
+ o:["Atropina","Ciclopentolato","Tropicamida","Pilocarpina"],
+ e:"La <b>tropicamida</b> es de acción corta, ideal para la <b>exploración del fondo de ojo</b>."},
+{cat:"Midriáticos",c:3,q:"Para la refracción ciclopléjica en niños se usa preferentemente:",
+ o:["Fenilefrina","Timolol","Pilocarpina","Atropina/ciclopentólico (parasimpaticolíticos)"],
+ e:"Para la <b>refracción en niños e hipermétropes</b> se usan parasimpaticolíticos (<b>atropina/ciclopentolato</b>) por su efecto ciclopléjico."},
+{cat:"Midriáticos",c:0,q:"El efecto ciclopléjico de los parasimpaticolíticos sirve para:",
+ o:["Aliviar el dolor del espasmo ciliar (queratitis, uveítis)","Bajar la PIO","Tratar infecciones","Cerrar el ángulo"],
+ e:"La <b>cicloplejía</b> alivia el <b>dolor del espasmo ciliar</b> (queratitis, uveítis) y permite la refracción."},
+{cat:"Antiglaucomatosos",c:1,q:"Los betabloqueantes (timolol) bajan la PIO porque:",
+ o:["Aumentan la salida trabecular","Disminuyen la secreción de humor acuoso","Dilatan la pupila","Cierran el ángulo"],
+ e:"Los <b>betabloqueantes</b> (timolol) <b>disminuyen la secreción</b> de humor acuoso."},
+{cat:"Antiglaucomatosos",c:2,q:"El timolol está contraindicado en:",
+ o:["Hipertensión leve","Diabetes","Asma, ICC y bloqueo cardíaco","Miopía"],
+ e:"El <b>timolol</b> está contraindicado en <b>asma, ICC y bloqueo cardíaco</b> (riesgo de broncoespasmo y bradicardia)."},
+{cat:"Antiglaucomatosos",c:3,q:"Las prostaglandinas (latanoprost) bajan la PIO por:",
+ o:["Disminuir la secreción","Cerrar el ángulo","Contraer la pupila","Aumentar el flujo uveoescleral"],
+ e:"Las <b>prostaglandinas</b> (latanoprost) <b>aumentan el flujo uveoescleral</b>; son muy potentes."},
+{cat:"Antiglaucomatosos",c:0,q:"Un efecto adverso LOCAL típico de las prostaglandinas es:",
+ o:["Hiperpigmentación del iris e hipertricosis (pestañas)","Broncoespasmo","Bradicardia","Parestesias"],
+ e:"Las <b>prostaglandinas</b> dan <b>hiperpigmentación del iris e hipertricosis</b> (crecimiento de pestañas)."},
+{cat:"Antiglaucomatosos",c:1,q:"Los grupos de PRIMERA elección en el glaucoma crónico son:",
+ o:["Mióticos y alfa-agonistas","Betabloqueantes y prostaglandinas","Inhibidores de la anhidrasa carbónica","Anestésicos"],
+ e:"Los de <b>primera elección</b> son los <b>betabloqueantes y las prostaglandinas</b>."},
+{cat:"Antiglaucomatosos",c:2,q:"La pilocarpina (miótico) baja la PIO porque:",
+ o:["Disminuye la secreción","Aumenta el flujo uveoescleral","Aumenta la salida por la malla trabecular (vía clásica)","Cierra el ángulo"],
+ e:"La <b>pilocarpina</b> (colinérgico/miótico) <b>aumenta la salida</b> por la <b>malla trabecular</b> (vía clásica)."},
+{cat:"Antiglaucomatosos",c:3,q:"Un efecto adverso LOCAL de los mióticos (pilocarpina) es:",
+ o:["Midriasis","Hipertricosis","Hiperpigmentación del iris","Miopización (espasmo de acomodación)"],
+ e:"Los <b>mióticos</b> producen <b>miopización</b> (por contracción del músculo ciliar) y cefalea colinérgica."},
+{cat:"Antiglaucomatosos",c:0,q:"La acetazolamida (inhibidor de la anhidrasa carbónica sistémico):",
+ o:["Es una sulfamida; da parestesias, malestar y alteraciones GI","Es un betabloqueante","Dilata la pupila","Es un anestésico"],
+ e:"La <b>acetazolamida</b> es una <b>sulfamida</b>; disminuye la secreción de acuoso y da <b>parestesias, malestar y molestias GI</b>."},
+{cat:"Antiglaucomatosos",c:1,q:"La brimonidina y la apraclonidina son:",
+ o:["Betabloqueantes","Alfa-agonistas (↓secreción y ↑uveoescleral)","Prostaglandinas","Mióticos"],
+ e:"La <b>brimonidina y la apraclonidina</b> son <b>alfa-agonistas</b>; dan somnolencia, fatiga y conjuntivitis alérgica (apraclonidina: taquifilaxia)."},
+{cat:"Caso clínico · timolol",c:2,case:true,
+ lead:"Paciente asmático al que se le prescribe un colirio de timolol para el glaucoma; al poco refiere disnea y sibilancias.",
+ q:"¿Qué ha ocurrido?",
+ o:["Una alergia banal","Un efecto deseado","Broncoespasmo por el betabloqueante (contraindicado en asma)","Una infección"],
+ e:"El <b>timolol</b>, aunque tópico, pasa a la circulación y puede causar <b>broncoespasmo</b>: está contraindicado en el asma."},
+{cat:"Anestésicos",c:3,q:"Los anestésicos tópicos (tetracaína, oxibuprocaína):",
+ o:["Se pautan para casa","Curan las úlceras","Bajan la PIO","Solo se usan para la exploración; NO se pautan para uso domiciliario (son tóxicos para el epitelio corneal)"],
+ e:"Los <b>anestésicos tópicos</b> solo se usan para explorar; <b>no se pautan para casa</b> porque son tóxicos para el epitelio corneal."},
+{cat:"Intravítreos",c:0,q:"La indicación principal de los antibióticos intravítreos es:",
+ o:["La endoftalmitis","La conjuntivitis","El ojo seco","La presbicia"],
+ e:"Los <b>antibióticos intravítreos</b> se usan sobre todo en la <b>endoftalmitis</b>."},
+{cat:"Intravítreos",c:1,q:"Los corticoides intravítreos depot se usan en:",
+ o:["Solo conjuntivitis","Uveítis, endoftalmitis y edema macular (RD, oclusiones venosas)","Glaucoma agudo","Presbicia"],
+ e:"Los <b>corticoides depot intravítreos</b> se usan en <b>uveítis, endoftalmitis y edema macular</b> (retinopatía diabética, oclusiones venosas)."},
+{cat:"Iatrogenia · óptico",c:2,q:"El fármaco antituberculoso que produce NEUROPATÍA ÓPTICA es:",
+ o:["Rifampicina","Pirazinamida","Etambutol","Estreptomicina"],
+ e:"El <b>etambutol</b> produce <b>neuropatía óptica</b> (dosis &gt;15 mg/kg/día; escotoma central, alteración de los colores)."},
+{cat:"Iatrogenia · óptico",c:3,q:"La neuropatía óptica por etambutol:",
+ o:["Es indolora y leve siempre","No existe","Es irrelevante","Da escotoma central y alteración de los colores; puede progresar tras suspenderlo"],
+ e:"La toxicidad del <b>etambutol</b> da <b>↓AV, escotoma central, ↓CV y alteración de los colores</b>; puede progresar incluso 2 meses tras suspenderlo."},
+{cat:"Iatrogenia · mácula",c:0,q:"La hidroxicloroquina (AR, LES, malaria) produce:",
+ o:["Maculopatía 'en ojo de buey' (dosis-dependiente)","Neuropatía óptica","Catarata congénita","Glaucoma agudo"],
+ e:"La <b>hidroxicloroquina</b> produce una <b>maculopatía 'en ojo de buey'</b> dosis-dependiente; requiere FO y CV periódicos."},
+{cat:"Iatrogenia · córnea",c:1,q:"La córnea verticillata (depósitos corneales) es típica de:",
+ o:["Etambutol","Amiodarona (también sales de oro, cloroquina y enf. de Fabry)","Timolol","Pilocarpina"],
+ e:"La <b>córnea verticillata</b> es típica de la <b>amiodarona</b> (también sales de oro, cloroquina y enfermedad de Fabry)."},
+{cat:"Iatrogenia · catarata",c:2,q:"Los corticoides producen un tipo característico de catarata:",
+ o:["Nuclear","Cortical","Subcapsular posterior","Congénita"],
+ e:"Los <b>corticoides</b> producen <b>catarata subcapsular posterior</b> (también el busulfán y las radiaciones ionizantes)."},
+{cat:"Iatrogenia · glaucoma",c:3,q:"Los corticoides pueden producir glaucoma de ángulo:",
+ o:["Cerrado","Maligno","Neovascular","Abierto (glaucoma corticoideo, reversible al suspenderlos)"],
+ e:"Los <b>corticoides</b> producen <b>glaucoma de ángulo abierto</b> (corticoideo), reversible al suspenderlos; más frecuente en miopes, diabéticos y familiares de glaucoma."},
+{cat:"Iatrogenia · glaucoma",c:0,q:"Los fármacos que cierran el ángulo (glaucoma de ángulo cerrado) son los que:",
+ o:["Dilatan la pupila (simpaticomiméticos, anticolinérgicos, adrenalina, topiramato)","Bajan la PIO","Contraen la pupila","No afectan a la pupila"],
+ e:"El <b>glaucoma de ángulo cerrado</b> lo desencadenan los fármacos que <b>dilatan la pupila</b> (simpaticomiméticos, anticolinérgicos, adrenalina) y el <b>topiramato</b>."},
+{cat:"Iatrogenia · IFIS",c:1,q:"El síndrome del iris flácido intraoperatorio (IFIS) se asocia a:",
+ o:["Corticoides","Bloqueadores α-1 (tamsulosina, doxazosina)","Etambutol","Timolol"],
+ e:"El <b>IFIS</b> se asocia a los <b>bloqueadores α-1</b> (tamsulosina, doxazosina); se maneja con fenilefrina intraoperatoria."},
+{cat:"Caso clínico · IFIS",c:2,case:true,
+ lead:"Varón con hiperplasia prostática en tratamiento con tamsulosina que va a operarse de cataratas; el cirujano anticipa dificultades con la dilatación pupilar.",
+ q:"¿Qué complicación se prevé y cómo se maneja?",
+ o:["Endoftalmitis; antibiótico","Glaucoma agudo; iridotomía","IFIS (iris flácido); fenilefrina intraoperatoria","Hipema; reposo"],
+ e:"La <b>tamsulosina</b> (α-bloqueante) produce <b>IFIS</b>; se maneja con <b>fenilefrina intraoperatoria</b> y técnica adaptada."},
+{cat:"Iatrogenia · retina",c:3,q:"La pseudo-retinosis pigmentaria por fármacos se asocia a:",
+ o:["Etambutol","Amiodarona","Timolol","Clorpromazina y tioridazina"],
+ e:"La <b>pseudo-retinosis pigmentaria</b> se asocia a los antipsicóticos <b>clorpromazina y tioridazina</b>."},
+{cat:"Iatrogenia · uveítis",c:0,q:"¿Qué fármacos sistémicos pueden producir uveítis?",
+ o:["Rifabutina y bifosfonatos","Timolol","Pilocarpina","Tropicamida"],
+ e:"La <b>rifabutina y los bifosfonatos</b> pueden producir <b>uveítis</b>."},
+{cat:"Iatrogenia · ojo seco",c:1,q:"¿Cuál de estos grupos produce ojo seco como efecto adverso?",
+ o:["Betabloqueantes tópicos","Antidepresivos tricíclicos, antihistamínicos, anticolinérgicos, diuréticos, retinoides","Antibióticos","Lágrimas artificiales"],
+ e:"Producen <b>ojo seco</b> los <b>anticolinérgicos, tricíclicos, antihistamínicos, diuréticos, retinoides (isotretinoína), tamoxifeno</b>, etc."},
+{cat:"Caso clínico · etambutol",c:2,case:true,
+ lead:"Paciente en tratamiento antituberculoso que a los 3 meses refiere pérdida de visión, dificultad para distinguir colores y un escotoma central en ambos ojos.",
+ q:"¿Qué fármaco es el responsable?",
+ o:["Rifampicina","Isoniazida","Etambutol (neuropatía óptica tóxica)","Pirazinamida"],
+ e:"Pérdida visual + escotoma central + discromatopsia a los 2-8 meses de tuberculostáticos = <b>neuropatía óptica por etambutol</b>."},
+{cat:"Caso clínico · hidroxicloroquina",c:3,case:true,
+ lead:"Mujer con LES en tratamiento crónico con hidroxicloroquina; en una revisión rutinaria se detecta una alteración macular bilateral 'en ojo de buey'.",
+ q:"La conducta es:",
+ o:["Subir la dosis","AntiVEGF","Cirugía macular","Suspender el fármaco (toxicidad dosis-dependiente)"],
+ e:"La <b>maculopatía por hidroxicloroquina</b> obliga a <b>suspender el fármaco</b> (es dosis-dependiente)."},
+{cat:"Caso clínico · amiodarona",c:0,case:true,
+ lead:"Paciente cardiópata en tratamiento con amiodarona en el que se observan depósitos corneales en forma de remolino (verticillata), generalmente asintomáticos.",
+ q:"¿Cuál es la actitud habitual?",
+ o:["Observar (suelen ser asintomáticos y reversibles al suspender)","Trasplante de córnea","Cirugía urgente","Enucleación"],
+ e:"La <b>córnea verticillata por amiodarona</b> suele ser <b>asintomática y reversible</b> al suspender el fármaco; se observa."},
+{cat:"Iatrogenia · glaucoma",c:1,q:"El glaucoma corticoideo es más frecuente en:",
+ o:["Hipermétropes","Miopes, diabéticos y familiares de glaucoma","Niños sanos","Ancianos sin antecedentes"],
+ e:"El <b>glaucoma corticoideo</b> es más frecuente en <b>miopes, diabéticos y familiares de glaucoma</b>."},
+{cat:"Preventiva",c:2,q:"La oftalmología preventiva se basa fundamentalmente en:",
+ o:["La cirugía","Los trasplantes","El cribado de patologías frecuentes y tratables","Los antibióticos"],
+ e:"La <b>oftalmología preventiva</b> se basa en el <b>cribado</b> de las patologías frecuentes y tratables (ceguera evitable)."},
+{cat:"Preventiva",c:3,q:"¿Cuál de estas patologías es objeto de cribado en oftalmología preventiva?",
+ o:["Solo la presbicia","Solo el daltonismo","Solo el orzuelo","Ambliopía, retinopatía diabética, ROP y glaucoma"],
+ e:"Se criban la <b>ambliopía/estrabismo, la retinopatía diabética, la retinopatía del prematuro (ROP) y el glaucoma</b>."},
+{cat:"Preventiva",c:0,q:"El cribado de la retinopatía diabética es importante porque:",
+ o:["Es una causa importante de ceguera evitable detectable precozmente","No existe","Es un tumor","No tiene tratamiento"],
+ e:"La <b>retinopatía diabética</b> es una causa importante de <b>ceguera evitable</b>; el cribado del fondo permite tratarla a tiempo."},
+{cat:"Preventiva",c:1,q:"El cribado de la retinopatía del prematuro (ROP) se hace en:",
+ o:["Todos los recién nacidos","Recién nacidos de riesgo (prematuridad, bajo peso, oxígeno)","Solo adultos","Solo diabéticos"],
+ e:"La <b>ROP</b> se criba en los <b>recién nacidos de riesgo</b> (prematuridad, bajo peso, oxigenoterapia)."},
+{cat:"Midriáticos",c:2,q:"Para potenciar la dilatación en la exploración del fondo se combinan:",
+ o:["Dos betabloqueantes","Dos mióticos","Un simpaticomimético y un parasimpaticolítico","Dos anestésicos"],
+ e:"Se combinan un <b>simpaticomimético (fenilefrina)</b> y un <b>parasimpaticolítico (tropicamida)</b> para potenciar la midriasis."},
+{cat:"Antiglaucomatosos · DDx",c:3,ddx:true,q:"Asocie mecanismo y fármaco antiglaucomatoso:",
+ o:["Betabloqueante = aumenta salida","Prostaglandina = disminuye secreción","Pilocarpina = cierra el ángulo","Betabloqueante = ↓secreción; prostaglandina = ↑uveoescleral; pilocarpina = ↑trabecular"],
+ e:"<b>Betabloqueante</b> = ↓secreción; <b>prostaglandina</b> = ↑uveoescleral; <b>pilocarpina</b> = ↑salida trabecular."},
+{cat:"Iatrogenia · DDx",c:0,ddx:true,q:"Asocie fármaco y toxicidad ocular:",
+ o:["Etambutol → neuropatía óptica; hidroxicloroquina → maculopatía; amiodarona → córnea verticillata; corticoides → glaucoma/catarata","Todos dan ojo seco","Todos dan glaucoma","Ninguno tiene toxicidad ocular"],
+ e:"<b>Etambutol</b> → neuropatía óptica; <b>hidroxicloroquina</b> → maculopatía 'en ojo de buey'; <b>amiodarona</b> → córnea verticillata; <b>corticoides</b> → glaucoma y catarata subcapsular posterior."},
+{cat:"Caso clínico · corticoides",c:1,case:true,
+ lead:"Paciente que usa colirio de corticoide de forma prolongada por su cuenta y acude con la PIO elevada.",
+ q:"¿Qué ha ocurrido y cuál es la conducta?",
+ o:["Glaucoma agudo; iridotomía","Glaucoma corticoideo; suspender el corticoide (y/o hipotensores)","Catarata; cirugía","Conjuntivitis; antibiótico"],
+ e:"El uso crónico de <b>corticoides</b> puede causar <b>glaucoma corticoideo</b> (ángulo abierto); se <b>suspende el corticoide</b> y, si no es posible, se añaden hipotensores."},
+{cat:"Anestésicos",c:2,q:"El abuso de anestésicos tópicos produce:",
+ o:["Mejoría de la úlcera","Midriasis","Queratopatía tóxica grave (úlceras que no curan)","Glaucoma"],
+ e:"El abuso de <b>anestésicos tópicos</b> produce una <b>queratopatía tóxica grave</b> (por eso nunca se pautan para casa)."},
+{cat:"Antiglaucomatosos",c:3,q:"El betaxolol, frente al timolol, tiene la ventaja de:",
+ o:["Ser más potente","Dilatar la pupila","No bajar la PIO","Ser más cardioselectivo (algo más seguro en broncópatas)"],
+ e:"El <b>betaxolol</b> es más <b>cardioselectivo</b> que el timolol (algo más seguro en broncópatas), aunque menos potente."},
+{cat:"Iatrogenia",c:0,q:"Los retinoides sistémicos (isotretinoína) producen como efecto adverso ocular:",
+ o:["Ojo seco","Glaucoma agudo","Catarata congénita","Neuropatía óptica"],
+ e:"La <b>isotretinoína</b> (retinoide) produce <b>ojo seco</b> (entre otros efectos sobre la superficie ocular)."},
+{cat:"Caso clínico · midriático",c:1,case:true,
+ lead:"Pediatra que necesita hacer una refracción fiable a un niño hipermétrope con sospecha de acomodación excesiva.",
+ q:"¿Qué fármaco usará?",
+ o:["Fenilefrina sola","Un ciclopléjico (atropina/ciclopentolato) para bloquear la acomodación","Timolol","Pilocarpina"],
+ e:"Para una <b>refracción fiable en niños</b> se usa un <b>ciclopléjico</b> (atropina/ciclopentolato) que bloquea la acomodación."},
+{cat:"Iatrogenia · catarata",c:2,q:"Además de los corticoides, producen catarata subcapsular posterior:",
+ o:["El timolol","La pilocarpina","El busulfán y las radiaciones ionizantes","La tropicamida"],
+ e:"La <b>catarata subcapsular posterior</b> la producen los corticoides, el <b>busulfán</b> y las <b>radiaciones ionizantes</b>."},
+{cat:"Preventiva",c:3,q:"El glaucoma crónico se incluye en el cribado porque:",
+ o:["Es muy doloroso","Da síntomas precoces","Es contagioso","Es asintomático hasta fases avanzadas (la detección precoz evita la ceguera)"],
+ e:"El <b>glaucoma crónico</b> es <b>asintomático</b> hasta fases avanzadas; el cribado de PIO/papila permite tratarlo antes de la pérdida visual."},
+{cat:"Antiglaucomatosos",c:0,q:"Las prostaglandinas, comparadas con los betabloqueantes, son:",
+ o:["Más potentes, con efectos secundarios sobre todo locales y precio más elevado","Menos potentes","Con efectos sistémicos graves","Más baratas"],
+ e:"Las <b>prostaglandinas</b> son <b>más potentes</b>, con efectos secundarios principalmente <b>locales</b> y precio más alto; los betabloqueantes son más baratos pero con efectos sistémicos potencialmente graves."},
+{cat:"Caso clínico · acetazolamida",c:1,case:true,
+ lead:"Paciente que recibe acetazolamida oral por un glaucoma y refiere hormigueos en manos y pies y malestar general.",
+ q:"¿A qué se deben estos síntomas?",
+ o:["A una alergia","A los efectos adversos de la acetazolamida (parestesias, malestar GI)","A una infección","Al glaucoma"],
+ e:"La <b>acetazolamida</b> (sulfamida) produce <b>parestesias, malestar general y alteraciones GI</b>."},
+{cat:"Iatrogenia · óptico",c:2,q:"La toxicidad por isoniazida sobre el nervio óptico, comparada con el etambutol, es:",
+ o:["Mayor e irreversible","Igual","Inexistente","Menor y reversible"],
+ e:"La toxicidad de la <b>isoniazida</b> sobre el nervio óptico es <b>menor y reversible</b> que la del etambutol."},
+{cat:"Midriáticos",c:3,q:"La atropina, como midriático/ciclopléjico, se caracteriza por:",
+ o:["Acción muy corta","No producir cicloplejía","Ser un simpaticomimético","Ser el más potente y de acción más prolongada (días)"],
+ e:"La <b>atropina</b> es el parasimpaticolítico <b>más potente y prolongado</b> (efecto de días)."},
+{cat:"Iatrogenia · glaucoma",c:0,q:"El topiramato puede desencadenar:",
+ o:["Un glaucoma agudo de ángulo cerrado","Neuropatía óptica","Catarata","Ojo seco"],
+ e:"El <b>topiramato</b> puede desencadenar un <b>glaucoma agudo de ángulo cerrado</b> (por desplazamiento del cuerpo ciliar)."},
+{cat:"Caso clínico · DDx toxicidad",c:1,case:true,ddx:true,
+ lead:"Dos pacientes: uno en tratamiento antituberculoso con escotoma central y discromatopsia; otro con LES y una maculopatía 'en ojo de buey'.",
+ q:"Los fármacos responsables son, respectivamente:",
+ o:["Hidroxicloroquina y etambutol","Etambutol y hidroxicloroquina","Ambos etambutol","Ambos hidroxicloroquina"],
+ e:"Escotoma central/discromatopsia en TBC = <b>etambutol</b> (neuropatía óptica); maculopatía 'en ojo de buey' en LES = <b>hidroxicloroquina</b>."},
+{cat:"Vías",c:2,q:"La vía periocular incluye:",
+ o:["Solo la oral","Solo la intravítrea","Subconjuntival, subtenoniana y retrobulbar","Solo la tópica"],
+ e:"La vía <b>periocular</b> incluye la <b>subconjuntival, subtenoniana y retrobulbar</b>."},
+{cat:"Antiglaucomatosos",c:3,q:"¿Qué grupo antiglaucomatoso aumenta el flujo de salida por la malla trabecular?",
+ o:["Betabloqueantes","Prostaglandinas","Inhibidores de la anhidrasa carbónica","Mióticos (pilocarpina)"],
+ e:"Los <b>mióticos (pilocarpina)</b> aumentan la salida por la <b>malla trabecular</b> (vía clásica)."},
+{cat:"Iatrogenia · ojo seco",c:0,q:"El tamoxifeno y los anticonceptivos orales pueden producir:",
+ o:["Ojo seco","Glaucoma agudo","Neuropatía óptica","Catarata congénita"],
+ e:"El <b>tamoxifeno y los anticonceptivos orales</b> figuran entre los fármacos que producen <b>ojo seco</b> (el tamoxifeno también puede dar depósitos retinianos)."},
+{cat:"Preventiva",c:1,q:"La detección precoz de la ambliopía es importante porque:",
+ o:["No tiene tratamiento","Solo afecta a adultos","Es necesario tratarla dentro del periodo plástico de desarrollo visual","Es contagiosa"],
+ e:"La <b>ambliopía</b> debe tratarse dentro del <b>periodo plástico</b> del desarrollo visual; de ahí la importancia del cribado infantil."},
+{cat:"Iatrogenia",c:2,q:"La rifabutina, usada en infecciones por micobacterias, puede producir:",
+ o:["Glaucoma","Catarata","Uveítis","Neuropatía óptica"],
+ e:"La <b>rifabutina</b> puede producir <b>uveítis</b> (como los bifosfonatos)."},
+{cat:"Antiglaucomatosos",c:3,q:"Un efecto adverso sistémico de los alfa-agonistas (brimonidina) es:",
+ o:["Broncoespasmo","Bradicardia","Parestesias","Somnolencia y fatiga"],
+ e:"Los <b>alfa-agonistas</b> (brimonidina) dan <b>somnolencia y fatiga</b> (y conjuntivitis alérgica local)."},
+{cat:"Caso clínico · anestésico",c:0,case:true,
+ lead:"Paciente con una erosión corneal al que, por error, se le entrega un anestésico tópico para usar en casa varios días; vuelve con una úlcera que no cicatriza.",
+ q:"¿Qué ha ocurrido?",
+ o:["Queratopatía tóxica por abuso de anestésico (no se pautan para domicilio)","Una infección banal","Una alergia","Un glaucoma"],
+ e:"El <b>abuso de anestésico tópico</b> produce una <b>queratopatía tóxica</b> con úlceras que no curan; por eso nunca se pautan para casa."},
+{cat:"Iatrogenia · córnea",c:1,q:"La córnea verticillata consiste en:",
+ o:["Una úlcera","Depósitos en remolino en el epitelio basal corneal","Un edema","Una catarata"],
+ e:"La <b>córnea verticillata</b> son <b>depósitos en remolino</b> en el epitelio basal de la córnea (amiodarona, cloroquina, Fabry)."},
+{cat:"Intravítreos",c:2,q:"Los antiVEGF intravítreos se utilizan en:",
+ o:["Glaucoma agudo","Conjuntivitis","DMAE húmeda, edema macular diabético y oclusiones venosas","Ojo seco"],
+ e:"Los <b>antiVEGF intravítreos</b> se usan en la <b>DMAE húmeda, el edema macular diabético y las oclusiones venosas</b>."},
+{cat:"Caso clínico · DDx glaucoma fármaco",c:3,case:true,ddx:true,
+ lead:"Dos pacientes con la PIO elevada: uno por uso crónico de corticoides; otro tras tomar topiramato.",
+ q:"Los mecanismos son, respectivamente:",
+ o:["Cerrado y abierto","Ambos cerrados","Ambos abiertos","Ángulo abierto (corticoides) y ángulo cerrado (topiramato)"],
+ e:"Los <b>corticoides</b> dan glaucoma de <b>ángulo abierto</b>; el <b>topiramato</b>, de <b>ángulo cerrado</b>."},
+{cat:"Midriáticos",c:0,q:"¿Qué midriático NO produce cicloplejía?",
+ o:["Fenilefrina","Atropina","Ciclopentolato","Tropicamida"],
+ e:"La <b>fenilefrina</b> (simpaticomimético) produce midriasis pero <b>NO cicloplejía</b>; los parasimpaticolíticos sí."},
+{cat:"Antiglaucomatosos",c:1,q:"Los inhibidores de la anhidrasa carbónica tópicos (dorzolamida, brinzolamida) pueden dar:",
+ o:["Broncoespasmo","Conjuntivitis alérgica","Hipertricosis","Midriasis"],
+ e:"Los <b>inhibidores de la anhidrasa carbónica tópicos</b> pueden dar <b>conjuntivitis alérgica</b> (son derivados de sulfamidas)."},
+{cat:"Iatrogenia",c:2,q:"La enfermedad de Fabry produce un depósito corneal similar al de:",
+ o:["El timolol","La pilocarpina","La amiodarona/cloroquina (córnea verticillata)","La atropina"],
+ e:"La <b>enfermedad de Fabry</b> produce una <b>córnea verticillata</b> igual que la amiodarona y la cloroquina."},
+{cat:"Caso clínico · preventiva",c:3,case:true,
+ lead:"Diabético tipo 2 de larga evolución, asintomático visualmente, que acude a su revisión anual.",
+ q:"¿Qué cribado oftalmológico está indicado?",
+ o:["Ninguno","Solo refracción","Solo PIO","Cribado del fondo de ojo (retinopatía diabética)"],
+ e:"Todo diabético debe seguir un <b>cribado periódico del fondo de ojo</b> para detectar la <b>retinopatía diabética</b> de forma precoz."},
+{cat:"Antiglaucomatosos",c:0,q:"En el tratamiento del glaucoma, la vía preferente de los hipotensores es:",
+ o:["Tópica","Oral","Intravenosa","Intramuscular"],
+ e:"La vía preferente de los hipotensores en el glaucoma es la <b>tópica</b> (se asocian colirios si es necesario)."},
+{cat:"Iatrogenia",c:1,q:"La apraclonidina presenta el fenómeno de:",
+ o:["Hipertricosis","Taquifilaxia (pérdida de eficacia con el uso prolongado)","Broncoespasmo","Miopización"],
+ e:"La <b>apraclonidina</b> (alfa-agonista) presenta <b>taquifilaxia</b> (pierde eficacia con el uso prolongado)."},
+{cat:"Caso clínico · DDx midriático",c:2,case:true,ddx:true,
+ lead:"Se quiere dilatar la pupila a dos pacientes: a uno solo para ver el fondo rápidamente; a otro, un niño, para una refracción fiable.",
+ q:"¿Qué fármacos son más apropiados, respectivamente?",
+ o:["Atropina y fenilefrina","Pilocarpina y timolol","Tropicamida (corta) y atropina/ciclopentolato (cicloplejía)","Timolol y pilocarpina"],
+ e:"Para ver el fondo, <b>tropicamida</b> (acción corta); para la refracción en el niño, un <b>ciclopléjico</b> (atropina/ciclopentolato)."},
+{cat:"Iatrogenia · retina",c:3,q:"Los antipsicóticos clorpromazina y tioridazina pueden producir:",
+ o:["Glaucoma","Catarata congénita","Neuropatía óptica","Pseudo-retinosis pigmentaria (toxicidad retiniana)"],
+ e:"La <b>clorpromazina y la tioridazina</b> producen <b>pseudo-retinosis pigmentaria</b> (toxicidad retiniana)."},
+{cat:"Vías",c:0,q:"La vía tópica, aunque local, puede dar efectos sistémicos porque:",
+ o:["El fármaco se absorbe por la mucosa nasal/conjuntival y pasa a la circulación","No se absorbe","Solo actúa en la córnea","Es intravenosa"],
+ e:"La vía <b>tópica</b> puede dar efectos sistémicos porque el fármaco se <b>absorbe</b> (mucosa conjuntival/nasolagrimal) y pasa a la circulación (p. ej. timolol)."},
+{cat:"Antiglaucomatosos",c:1,q:"En un paciente glaucomatoso con asma grave, ¿qué grupo conviene EVITAR?",
+ o:["Prostaglandinas","Betabloqueantes (timolol) por riesgo de broncoespasmo","Inhibidores de la anhidrasa carbónica","Alfa-agonistas"],
+ e:"En el asma grave conviene <b>evitar los betabloqueantes</b> (timolol) por el riesgo de <b>broncoespasmo</b>; se prefieren prostaglandinas u otros."},
+{cat:"Iatrogenia · catarata",c:2,q:"Un paciente con uso prolongado de corticoides (orales o tópicos) puede desarrollar:",
+ o:["Catarata nuclear","Catarata cortical","Catarata subcapsular posterior","Catarata congénita"],
+ e:"Los <b>corticoides</b> producen característicamente <b>catarata subcapsular posterior</b>."},
+{cat:"Caso clínico · uveítis fármaco",c:3,case:true,
+ lead:"Paciente con osteoporosis tratada con bifosfonatos que presenta un ojo rojo doloroso con Tyndall en la cámara anterior.",
+ q:"¿Qué hay que considerar?",
+ o:["Una conjuntivitis","Un glaucoma","Una catarata","Una uveítis inducida por bifosfonatos"],
+ e:"Los <b>bifosfonatos</b> (como la rifabutina) pueden inducir <b>uveítis</b>; hay que considerarlo en el contexto del fármaco."},
+{cat:"Preventiva",c:0,q:"La maculopatía por antipalúdicos se previene mediante:",
+ o:["Controles oftalmológicos periódicos (FO y campo visual) en pacientes en tratamiento crónico","Antibióticos","Cirugía profiláctica","No se puede prevenir"],
+ e:"La <b>maculopatía por antipalúdicos</b> se previene con <b>controles periódicos</b> (fondo de ojo y campo visual) y ajustando la dosis."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación CORRECTA:",
+ o:["La fenilefrina produce cicloplejía","El timolol es seguro en el asma","Los anestésicos tópicos se pautan para casa","Betabloqueantes y prostaglandinas = 1ª elección; etambutol → neuropatía óptica; corticoides → glaucoma/catarata"],
+ e:"Resumen: <b>betabloqueantes y prostaglandinas</b> = 1ª elección; <b>etambutol</b> → neuropatía óptica; <b>corticoides</b> → glaucoma y catarata subcapsular posterior."},
+{cat:"Síntesis",c:2,q:"Señale la afirmación FALSA:",
+ o:["La hidroxicloroquina da maculopatía en ojo de buey","La amiodarona da córnea verticillata","La tamsulosina produce IFIS","El timolol es un midriático ciclopléjico"],
+ e:"FALSA: el <b>timolol</b> es un <b>betabloqueante</b> antiglaucomatoso (↓secreción de acuoso), no un midriático ciclopléjico."},
+{cat:"Síntesis · DDx",c:3,ddx:true,q:"Asocie correctamente fármaco-toxicidad:",
+ o:["Etambutol = catarata; amiodarona = glaucoma","Corticoides = neuropatía óptica","Tamsulosina = maculopatía","Etambutol = neuropatía óptica; amiodarona = córnea verticillata; corticoides = glaucoma/catarata; tamsulosina = IFIS"],
+ e:"<b>Etambutol</b> = neuropatía óptica; <b>amiodarona</b> = córnea verticillata; <b>corticoides</b> = glaucoma/catarata subcapsular; <b>tamsulosina</b> = IFIS."},
+{cat:"Síntesis · global",c:0,q:"Resumen del tema:",
+ o:["Fármacos oftálmicos (vías, midriáticos, antiglaucomatosos, intravítreos) + iatrogenia sistémica + preventiva (cribado)","Solo antiglaucomatosos","Solo iatrogenia","Solo cribado"],
+ e:"El tema integra los <b>fármacos oftalmológicos</b> (vías, midriáticos, antiglaucomatosos, intravítreos), la <b>iatrogenia</b> por fármaco sistémico y la <b>oftalmología preventiva</b> (cribado)."}
+];
+
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la farmacología y la iatrogenia ocular. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo la tabla de iatrogenia y los antiglaucomatosos.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza midriáticos vs ciclopléjicos y los efectos adversos sistémicos.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T25 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
