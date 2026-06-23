@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmacología Antineoplásica · T18 + T19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#eef1f2; --paper:#fff; --ink:#15262d; --soft:#4a5b62;
+    --teal:#0f4d57; --teal2:#0a3037; --teal-soft:#e7f0f1;
+    --amber:#cf8327; --amber-soft:#f7edda; --line:#dbe2e4;
+    --blue:#1a5e86; --bluebg:#e3eff7;
+    --green:#1f6f4a; --greenbg:#e4f3ea;
+    --red:#b23a32; --redbg:#fbe7e4;
+    --purple:#7a3a8f; --purplebg:#f1e6f4;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.65; -webkit-font-smoothing: antialiased;
+    padding: 24px 16px 80px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1, h2, h3 { font-family: 'Spectral', serif; line-height: 1.2; }
+
+  /* ── COVER ── */
+  .cover {
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    color: #eaf3f3; border-radius: 20px; padding: 34px 32px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 14px 40px -20px rgba(10,48,55,.5);
+  }
+  .cover::after {
+    content: ""; position: absolute; right: -50px; top: -50px;
+    width: 210px; height: 210px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #1c6b76, #0a3037 70%);
+    box-shadow: inset 0 0 0 18px rgba(207,131,39,.22); opacity: .5;
+  }
+  .cover .eb { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: #8fc3c7; font-weight: 600; margin: 0 0 8px; }
+  .cover h1 { font-size: 34px; font-weight: 700; margin: 0 0 8px; position: relative; z-index: 1; }
+  .cover p { margin: 0; color: #bcd7d9; font-size: 15px; position: relative; z-index: 1; max-width: 580px; }
+
+  /* ── SECTIONS ── */
+  section {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 18px; padding: 26px 28px; margin-top: 22px;
+    box-shadow: 0 10px 30px -22px rgba(10,48,55,.4);
+  }
+  h2 {
+    font-size: 24px; color: var(--teal); margin: 0 0 4px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  h2 .romnum {
+    font-size: 15px; font-weight: 700; color: #fff;
+    background: var(--teal); border-radius: 8px; padding: 3px 11px;
+    font-family: 'Inter', sans-serif; letter-spacing: .04em;
+  }
+  h2 .romnum.red { background: var(--red); }
+  h2 .romnum.amber { background: var(--amber); }
+  .lead {
+    color: var(--soft); font-size: 14.5px; margin: 6px 0 20px;
+    border-bottom: 1px solid var(--line); padding-bottom: 16px;
+  }
+  h3 {
+    font-size: 18px; color: var(--teal2); margin: 26px 0 10px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  h3 .chip {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; border-radius: 6px; padding: 3px 9px;
+    font-family: 'Inter', sans-serif;
+  }
+  .chip.blue  { color: var(--blue);   background: var(--bluebg); }
+  .chip.green { color: var(--green);  background: var(--greenbg); }
+  .chip.red   { color: var(--red);    background: var(--redbg); }
+  .chip.amber { color: var(--amber);  background: var(--amber-soft); }
+  .chip.n     { color: var(--soft);   background: #eef2f3; }
+  p { margin: 8px 0; } ul { margin: 8px 0; padding-left: 20px; } li { margin: 4px 0; }
+  b, strong { font-weight: 600; }
+
+  /* ── KEY / ALARM ── */
+  .key {
+    border-left: 4px solid var(--amber); background: var(--amber-soft);
+    border-radius: 0 12px 12px 0; padding: 11px 14px; margin: 12px 0; font-size: 14.5px;
+  }
+  .key b { color: var(--teal2); }
+  .key .lbl, .alarm .lbl {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; margin-right: 8px;
+  }
+  .key .lbl { color: var(--amber); }
+  .alarm {
+    border-left: 4px solid var(--red); background: var(--redbg);
+    border-radius: 0 12px 12px 0; padding: 11px 14px; margin: 12px 0; font-size: 14.5px;
+  }
+  .alarm .lbl { color: var(--red); }
+  .info-box {
+    border-left: 4px solid var(--blue); background: var(--bluebg);
+    border-radius: 0 12px 12px 0; padding: 11px 14px; margin: 12px 0; font-size: 14.5px;
+  }
+  .info-box .lbl { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-right: 8px; color: var(--blue); }
+
+  /* ── DRUG CARDS ── */
+  .dz {
+    border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px; margin: 14px 0; background: #fcfdfd;
+    position: relative; overflow: hidden;
+  }
+  .dz::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%; background: var(--teal);
+  }
+  .dz.red::before   { background: var(--red); }
+  .dz.amber::before { background: var(--amber); }
+  .dz.green::before { background: var(--green); }
+  .dz.blue::before  { background: var(--blue); }
+  .dz h4 {
+    margin: 0 0 4px; font-family: 'Spectral', serif;
+    font-size: 15px; color: var(--teal2);
+  }
+  .dz .meta { font-size: 12.5px; color: var(--soft); margin: 0 0 8px; font-style: italic; }
+  .dz .lbl-small {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--soft); margin-top: 8px; display: block;
+  }
+  .dz p { font-size: 13.5px; margin: 4px 0; }
+  .hi  { color: var(--red);   font-weight: 600; }
+  .gr  { color: var(--green); font-weight: 600; }
+  .bl  { color: var(--blue);  font-weight: 600; }
+  .am  { color: var(--amber); font-weight: 600; }
+  mark { background: rgba(207,131,39,.2); color: #8a5a10; padding: 0 3px; border-radius: 2px; }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media(max-width:700px) { .grid2,.grid3 { grid-template-columns: 1fr; } }
+
+  /* ── TABLES ── */
+  .tablewrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 500px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--teal); color: #eaf3f3; font-weight: 600; font-size: 12.5px; }
+  tbody tr:nth-child(even) { background: #f6f9f9; }
+  td.h { font-weight: 600; color: var(--teal2); background: var(--teal-soft) !important; white-space: nowrap; }
+
+  /* ── TOC ── */
+  .toc { columns: 2; column-gap: 28px; font-size: 14px; }
+  @media(max-width:600px) { .toc { columns: 1; } }
+  .toc a { color: var(--teal); text-decoration: none; display: block; padding: 3px 0; border-bottom: 1px dotted var(--line); }
+  .toc a:hover { color: var(--amber); }
+
+  /* ── OJO CARDS ── */
+  .ojo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 14px; margin-top: 16px; }
+  .ojo-card { background: var(--redbg); border: 1px solid rgba(178,58,50,.3); border-radius: 14px; padding: 16px 18px; }
+  .ojo-card .ojo-title { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; font-family: 'Inter', sans-serif; }
+  .ojo-card p { font-size: 13.5px; margin: 5px 0; }
+
+  /* ── SCHEMA ── */
+  .schema-block {
+    background: var(--teal-soft); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; margin-top: 16px;
+    font-family: 'Inter', monospace; font-size: 13px; line-height: 2;
+    color: var(--ink); overflow-x: auto; white-space: pre;
+  }
+  .schema-block .s-title { color: var(--teal); font-weight: 700; font-size: 14px; }
+  .schema-block .s-sub   { color: var(--green); font-weight: 600; }
+  .schema-block .s-drug  { color: var(--amber); font-weight: 600; }
+  .schema-block .s-tox   { color: var(--red); font-size: 12px; }
+  .schema-block .s-use   { color: var(--soft); font-size: 12px; }
+
+  /* ── FIGURE ── */
+  figure { margin: 18px 0; background: #f5f8f8; border: 1px solid var(--line); border-radius: 14px; padding: 16px; text-align: center; }
+  figure svg { max-width: 100%; height: auto; }
+  figcaption { font-size: 12.5px; color: var(--soft); margin-top: 10px; font-style: italic; }
+
+  .note { font-size: 12.5px; color: var(--soft); background: #f3f6f6; border-radius: 10px; padding: 10px 14px; margin: 14px 0; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 20px; padding: 2px 9px; }
+  .pill.red   { color: var(--red);   background: var(--redbg); }
+  .pill.blue  { color: var(--blue);  background: var(--bluebg); }
+  .pill.green { color: var(--green); background: var(--greenbg); }
+  .pill.amber { color: var(--amber); background: var(--amber-soft); }
+
+  @media print { body { background:#fff; padding:0; } section,.cover { box-shadow:none; break-inside:avoid; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- COVER -->
+<div class="cover">
+  <p class="eb">UFV Madrid · Farmacología General y PT 2025-2026 · Temas 18 + 19</p>
+  <h1>Fármacos Antineoplásicos</h1>
+  <p>Resumen integrado de Citotóxicos · Terapia Dirigida · Inmunoterapia — con esquema visual y alertas de examen.</p>
+</div>
+
+<!-- ÍNDICE -->
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#t18">T18 · Citotóxicos</a>
+    <a href="#antimetab">1 · Antimetabolitos</a>
+    <a href="#alquil">2 · Alquilantes</a>
+    <a href="#bleomicina">3 · Bleomicina</a>
+    <a href="#topoisom">4 · Topoisomerasas</a>
+    <a href="#antimitot">5 · Antimitóticos</a>
+    <a href="#t19">T19 · Terapia Dirigida</a>
+    <a href="#hormonas">1 · Hormonoterapia</a>
+    <a href="#mab">2 · AcMonoclonales</a>
+    <a href="#tki">3 · TKI</a>
+    <a href="#inmuno">4 · Checkpoints</a>
+    <a href="#cart">5 · CAR-T</a>
+    <a href="#esquema">Esquema global</a>
+    <a href="#ojo">⚠ OJO examen</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ TEMA 18 ═══════════════════ -->
+<section id="t18">
+  <h2><span class="romnum">T18</span> Fármacos Citotóxicos</h2>
+  <p class="lead">Los citotóxicos inhiben <em>inespecíficamente</em> la replicación celular. Su gran limitación es la <mark>toxicidad en tejidos sanos de división rápida</mark> (médula ósea, epitelio GI, folículo piloso, gónadas). Por eso se administran en <strong>ciclos</strong> — para dar tiempo a la recuperación de tejidos normales.</p>
+  <div class="key"><span class="lbl">Clasificación</span> <span class="pill blue">Específicos de fase</span> actúan en una fase concreta del ciclo · <span class="pill amber">Inespecíficos</span> actúan en todo el ciclo.</div>
+
+  <!-- ANTIMETABOLITOS -->
+  <h3 id="antimetab">1. Antimetabolitos <span class="chip blue">Fase S — inhiben síntesis ADN</span></h3>
+  <div class="grid2">
+    <div class="dz amber">
+      <h4>Metotrexato (MTX)</h4>
+      <p class="meta">Análogo ácido fólico · Oral / Parenteral</p>
+      <p><strong>Mec:</strong> Inhibe <mark>dihidrofolato reductasa</mark> → impide síntesis de purinas y pirimidinas.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Tumores sólidos y sanguíneos. A dosis bajas: AR, psoriasis.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>Mielodepresión, mucositis GI grave, hepatotoxicidad.</p>
+      <span class="lbl-small">Rescate</span>
+      <p class="gr"><strong>Leucovorina</strong> → reduce tox en células normales.</p>
+    </div>
+    <div class="dz">
+      <h4>Pemetrexed / Raltitrexed</h4>
+      <p class="meta">Análogos ácido fólico · IV</p>
+      <p>Similar al MTX. <strong>Pemetrexed</strong> → cáncer de pulmón no microcítico.</p>
+    </div>
+    <div class="dz amber">
+      <h4>5-Fluorouracilo (5-FU)</h4>
+      <p class="meta">Análogo uracilo · IV</p>
+      <p><strong>Doble mecanismo:</strong> ① Inhibe <mark>timidilato sintetasa</mark> ② Se incorpora al ARN → ARN anómalo.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Mama, gástrico, colorrectal.</p>
+      <span class="lbl-small">Potenciador</span>
+      <p class="gr">+ Leucovorina → ↑ eficacia en c. colorrectal.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>GI (vómitos, estomatitis), mielodepresión (leucopenia).</p>
+    </div>
+    <div class="dz">
+      <h4>Capecitabina</h4>
+      <p class="meta">Análogo uracilo — profármaco oral del 5-FU</p>
+      <p>Se convierte en 5-FU en el tumor.</p>
+      <span class="lbl-small">Toxicidad específica</span>
+      <p><mark>Síndrome mano-pie</mark> (eritrodisestesia palmoplantar): eritema, descamación, ampollas en palmas y plantas.</p>
+    </div>
+    <div class="dz">
+      <h4>Citarabina (ARA-C)</h4>
+      <p class="meta">Análogo citosina · IV (↓ biodisponibilidad oral)</p>
+      <p><strong>Mec:</strong> Se fosforila → <mark>ara-CTP</mark> → inhibe competitivamente ADN polimerasa.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Leucemias (LMA), linfomas.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>Mielodepresión <em>intensa</em>, náuseas/vómitos/diarrea.</p>
+    </div>
+    <div class="dz green">
+      <h4>Gemcitabina</h4>
+      <p class="meta">Análogo citosina · ↓ mielotox</p>
+      <p>Tumores sólidos: páncreas, pulmón no microcítico.</p>
+    </div>
+    <div class="dz">
+      <h4>6-Mercaptopurina / 6-Tioguanina</h4>
+      <p class="meta">Análogos purinas · Oral</p>
+      <p><strong>Mec:</strong> Se activan → interfieren síntesis adenina/guanina. La 6-TG también se incorpora al ADN.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Leucemias.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>Mielodepresión (pancitopenia), GI.</p>
+    </div>
+  </div>
+
+  <!-- ALQUILANTES -->
+  <h3 id="alquil">2. Agentes Alquilantes del ADN <span class="chip n">Inespecíficos de ciclo — más eficaces en G₂</span></h3>
+  <div class="alarm"><span class="lbl">Clase</span> Forman <mark>enlaces cruzados</mark> (crosslinks) en el ADN → impiden transcripción y replicación. Son carcinogénicos (neoplasias secundarias). Tox común: mielotoxicidad, alopecia, esterilidad.</div>
+
+  <div class="grid2">
+    <div class="dz amber">
+      <h4>Ciclofosfamida</h4>
+      <p class="meta">Mostaza nitrogenada — ProFármaco · Oral/IV</p>
+      <p>Activación hepática por CYP450 → mostaza fosforamida (alquilante) + <mark>acroleína</mark>.</p>
+      <span class="lbl-small">⚠ Toxicidad especial</span>
+      <p class="hi">Cistitis hemorrágica</p>
+      <p>por acumulación de acroleína en vejiga.</p>
+      <span class="lbl-small">Prevención</span>
+      <p class="gr">Co-administrar MESNA (rico en -SH) + hidratación abundante.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Mama, leucemias, linfomas.</p>
+    </div>
+    <div class="dz">
+      <h4>Ifosfamida</h4>
+      <p class="meta">Mostaza nitrogenada · IV</p>
+      <p>Análogo de ciclofosfamida. Gran incidencia de cistitis hemorrágica → siempre + MESNA.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Tumores sólidos (ovario, pulmón).</p>
+    </div>
+    <div class="dz">
+      <h4>Clorambucilo / Melfalán</h4>
+      <p class="meta">Mostazas nitrogenadas</p>
+      <p>Agentes alquilantes clásicos. Usos en LLC, mieloma, linfomas.</p>
+    </div>
+    <div class="dz amber">
+      <h4>Carmustina / Lomustina</h4>
+      <p class="meta">Nitrosoureas · Oral/IV</p>
+      <p class="gr">Liposolubles → atraviesan BHE → tumores cerebrales (glioblastoma, meninges).</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>Mielodepresión <em>diferida</em> (3–6 semanas). Toxicidad renal.</p>
+    </div>
+    <div class="dz red">
+      <h4>Cisplatino</h4>
+      <p class="meta">Compuesto de platino · IV</p>
+      <p><strong>Mec:</strong> Forma metabolitos con carga + → <mark>puentes intracadena</mark> en guaninas → distorsiona ADN → apoptosis.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p class="hi">Nefrotoxicidad</p>
+      <p class="gr">Prevención: manitol + hidratación IV.</p>
+      <p class="hi">Muy emetógeno, ototóxico, neuropatía periférica.</p>
+      <p>Baja mielodepresión (diferenciador).</p>
+      <span class="lbl-small">Usos</span>
+      <p>Testículo, ovario, vejiga, pulmón.</p>
+    </div>
+    <div class="dz">
+      <h4>Carboplatino</h4>
+      <p class="meta">Compuesto de platino · IV</p>
+      <p>Vs. cisplatino: <span class="gr">menos nefrotox</span>, <span class="hi">más mielotox</span>.</p>
+    </div>
+    <div class="dz">
+      <h4>Oxaliplatino</h4>
+      <p class="meta">Compuesto de platino · IV</p>
+      <p class="gr">Menos emetógeno que cisplatino.</p>
+      <span class="lbl-small">Toxicidad especial</span>
+      <p><mark>Neuropatía periférica sensitiva inducida por frío</mark>.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Cáncer colorrectal.</p>
+    </div>
+  </div>
+
+  <!-- BLEOMICINA -->
+  <h3 id="bleomicina">3. Agente Intercalante del ADN <span class="chip green">Fase G₂</span></h3>
+  <div class="dz green">
+    <h4>Bleomicina</h4>
+    <p class="meta">Antibiótico · IV</p>
+    <p><strong>Mec:</strong> Se intercala en ADN + forma radicales libres (catalizados por Fe) → <mark>rotura cadena ADN</mark>.</p>
+    <span class="lbl-small">Toxicidades especiales</span>
+    <p class="hi">Fibrosis pulmonar</p>
+    <p>Cutánea: eritema, descamación, exantema en latigazo.</p>
+    <span class="lbl-small">Lo que NO tiene</span>
+    <p class="gr"><mark>ESCASA mielodepresión</mark> y <mark>NO emetógena</mark> — diferenciador importante.</p>
+    <span class="lbl-small">Usos</span>
+    <p>Carcinoma de testículo, Linfoma de Hodgkin.</p>
+  </div>
+
+  <!-- TOPOISOMERASAS -->
+  <h3 id="topoisom">4. Inhibidores de Topoisomerasas</h3>
+  <div class="info-box"><span class="lbl">Recuerda</span> Topo I → corta 1 cadena · Topo II → corta ambas cadenas. Los inhibidores impiden el resellado → rotura permanente → muerte celular.</div>
+  <div class="grid2">
+    <div class="dz blue">
+      <h4>Etopósido / Tenipósido</h4>
+      <p class="meta">Inhib. Topo II — Derivados podofilotoxina · IV</p>
+      <p>Forman <mark>complejo covalente</mark> Topo II–Fármaco–ADN → rotura ADN y evitan resellado.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p>Mielodepresión, náuseas/vómitos, alopecia, reacciones hipersensibilidad.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Testículo, pulmón, leucemias, linfomas.</p>
+    </div>
+    <div class="dz red">
+      <h4>Doxorrubicina / Epirrubicina</h4>
+      <p class="meta">Antraciclina — Inhib. Topo II · IV</p>
+      <p><strong>Triple mec:</strong> ① Inhiben Topo II ② Intercalantes ADN ③ Radicales libres.</p>
+      <span class="lbl-small">⚠ Toxicidad especial</span>
+      <p class="hi">Cardiotoxicidad (miocardiopatía dilatada)</p>
+      <p class="gr">Prevención: Dexrazoxano (quelante Fe).</p>
+      <p><strong>Doxorrubicina liposomal</strong> → ↓ tox cardiaca.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Mama (doxo/epirubicina), leucemias (daunorrubicina/idarrubicina).</p>
+    </div>
+    <div class="dz">
+      <h4>Daunorrubicina / Idarrubicina</h4>
+      <p class="meta">Antraciclina — Inhib. Topo II · IV</p>
+      <p>Misma clase. Cardiotoxicidad igual.</p>
+      <span class="lbl-small">Usos</span><p>Leucemias.</p>
+    </div>
+    <div class="dz amber">
+      <h4>Irinotecán / Topotecán</h4>
+      <p class="meta">Inhib. Topo I — Deriv. camptotecina · IV</p>
+      <p>Estabilizan el complejo fragmentado → escisión cadenas ADN → muerte celular.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p><mark>Diarrea grave</mark> (característica), mielodepresión.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Colorrectal, ovario, pulmón NM.</p>
+    </div>
+  </div>
+
+  <!-- ANTIMITÓTICOS -->
+  <h3 id="antimitot">5. Antimitóticos — Inhibidores de Microtúbulos</h3>
+  <div class="grid2">
+    <div class="dz amber">
+      <h4>Vincristina / Vinblastina / Vinorelbina</h4>
+      <p class="meta">Alcaloides de la Vinca</p>
+      <p><strong>Mec:</strong> Se unen a tubulina → <mark>impiden polimerización</mark> → no se forma huso mitótico.</p>
+      <span class="lbl-small">Vincristina (IV)</span>
+      <p><span class="hi">Neurotox. periférica</span> sensitiva y motora. <span class="gr">ESCASA mielodepresión</span>. Usos: linfomas, leucemias.</p>
+      <span class="lbl-small">Vinblastina (IV)</span>
+      <p><span class="gr">Escasa neurotox</span>. <span class="hi">Mielodepresión</span> (neutropenia). Usos: testículo, sarcoma, linfomas.</p>
+      <span class="lbl-small">Vinorelbina (Oral)</span>
+      <p>Usos: pulmón NM, mama.</p>
+    </div>
+    <div class="dz red">
+      <h4>Paclitaxel / Docetaxel</h4>
+      <p class="meta">Taxanos — Taxus spp.</p>
+      <p><strong>Mec:</strong> Se unen a β-tubulina → <mark>impiden desensamblaje</mark> → microtúbulo rígido → apoptosis.</p>
+      <span class="lbl-small">Toxicidad especial</span>
+      <p class="hi">Reacciones hipersensibilidad</p>
+      <p class="gr">Premedicar con antiH1 + corticoides.</p>
+      <p>Neuropatía periférica, mielodepresión (neutropenia), alopecia.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Mama, ovario, pulmón, próstata.</p>
+    </div>
+  </div>
+
+  <!-- RESISTENCIA -->
+  <h3>Resistencia Farmacológica</h3>
+  <ul>
+    <li>Inducción de bombas de expulsión: <strong>Glucoproteína P (gp-P / MDR1)</strong> — afecta a doxorrubicina, vincristina, etopósido, paclitaxel y bleomicina.</li>
+    <li>Disminución afinidad diana / sobreexpresión diana.</li>
+    <li>Alteración activación/inactivación del fármaco.</li>
+    <li>↑ Reparación del ADN (ERCC1↑ en platinos).</li>
+    <li>Resistencia a la apoptosis (mut. p53).</li>
+    <li>Localización resguardada (SNC).</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════ TEMA 19 ═══════════════════ -->
+<section id="t19">
+  <h2><span class="romnum">T19</span> Terapia Dirigida e Inmunoterapia</h2>
+  <p class="lead">Los citotóxicos tienen 3 grandes limitaciones: resistencia tumoral, incapacidad para erradicar metástasis (actúan solo en células en división) y toxicidad en tejidos sanos. La <strong>terapia dirigida</strong> bloquea una diana molecular específica de la célula tumoral; la <strong>inmunoterapia</strong> activa el sistema inmune del paciente para destruir las células tumorales.</p>
+
+  <!-- HORMONOTERAPIA -->
+  <h3 id="hormonas">1. Hormonas y Fármacos Potenciadores</h3>
+  <div class="info-box"><span class="lbl">Principio</span> Algunas neoplasias derivan de tejidos regulados por hormonas (mama, próstata, endometrio) → se usan análogos hormonales. <strong>Glucocorticoides</strong> (prednisona/dexametasona) → linfopenia → remisión de síndromes linfoproliferativos.</div>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Análogos GnRH</h4>
+      <p class="meta">Agonistas / Antagonistas</p>
+      <p>Reducen producción de andrógenos/estrógenos por feedback negativo (agonistas en uso continuo) o bloqueo directo (antagonistas).</p>
+      <span class="lbl-small">Usos</span><p>Próstata, mama.</p>
+    </div>
+    <div class="dz">
+      <h4>Antiandrógenos</h4>
+      <p class="meta">Ciproterona · Bicalutamida · Flutamida</p>
+      <p>Bloquean receptor de andrógenos.</p>
+      <span class="lbl-small">Usos</span><p>Cáncer de próstata.</p>
+    </div>
+    <div class="dz amber">
+      <h4>Tamoxifeno</h4>
+      <p class="meta">MSRE — Modulador selectivo receptor estrogénico</p>
+      <p>Bloquea receptor de estrógenos en mama. Agonista parcial en hueso y útero.</p>
+      <span class="lbl-small">Usos</span><p>Cáncer de mama RE+.</p>
+    </div>
+    <div class="dz">
+      <h4>Fulvestrant</h4>
+      <p class="meta">Antagonista puro RE</p>
+      <p>Bloquea y degrada el receptor de estrógenos.</p>
+      <span class="lbl-small">Usos</span><p>Mama avanzado, posmenopausia.</p>
+    </div>
+    <div class="dz">
+      <h4>Anastrozol / Letrozol</h4>
+      <p class="meta">Inhibidores aromatasa</p>
+      <p>Bloquean la conversión periférica de andrógenos → estrógenos (aromatasa).</p>
+      <span class="lbl-small">Usos</span><p>Mama posmenopáusica.</p>
+    </div>
+    <div class="dz green">
+      <h4>Palbociclib / Ribociclib / Abemaciclib</h4>
+      <p class="meta">Inhibidores CDK 4/6 · Oral</p>
+      <p>&gt;50% mama luminal tiene <mark>hiperactividad complejo ciclina D-CDK4/6</mark>.</p>
+      <p><strong>Mec:</strong> Impiden paso de células a ciclo mitótico (parada G0/G1). Usados en resistencia hormonal.</p>
+    </div>
+    <div class="dz">
+      <h4>Alpelisib / Capivasertib / Everolimus</h4>
+      <p class="meta">Inhib. ruta PI3K/Akt/mTOR · Oral</p>
+      <p>Ruta de "escape" al tratamiento hormonal:</p>
+      <p><strong>Alpelisib</strong> → PI3K · <strong>Capivasertib</strong> → Akt · <strong>Everolimus</strong> → mTOR.</p>
+    </div>
+  </div>
+
+  <!-- ANTICUERPOS MONOCLONALES -->
+  <h3 id="mab">2. Anticuerpos Monoclonales <span class="chip n">sufijo -mab · Parenteral IV/SC</span></h3>
+  <div class="info-box">
+    <span class="lbl">¿Qué son?</span> IgG con unión selectiva a una diana. <strong>Mecanismo:</strong> neutralizan ligando/receptor (inhiben señalización) o inducen ADCC, activación complemento, fagocitosis.
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tipo</th><th>% Humano</th><th>Ejemplo</th><th>Tolerabilidad</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Murino (-omab)</td><td>0%</td><td>Muromomab</td><td class="hi">Alta tox</td></tr>
+      <tr><td class="h">Quimérico (-ximab)</td><td>65–70%</td><td>Rituximab, Cetuximab</td><td class="am">Media</td></tr>
+      <tr><td class="h">Humanizado (-zumab)</td><td>90–95%</td><td>Trastuzumab, Bevacizumab</td><td class="gr">Baja</td></tr>
+      <tr><td class="h">Humano (-umab)</td><td>100%</td><td>Adalimumab, Daratumumab</td><td class="gr">Mínima</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><strong>Toxicidad de clase:</strong> Reacciones anafilácticas — fiebre, escalofríos, disnea, broncoespasmo.</p>
+
+  <h3 style="margin-top:22px">▸ Tumores Sólidos</h3>
+  <div class="grid2">
+    <div class="dz amber">
+      <h4>Trastuzumab / Pertuzumab</h4>
+      <p class="meta">Anti-HER2 — Humanizados</p>
+      <p><strong>Mec:</strong> Bloquea receptor HER2 → inhibe señalización, ADCC, apoptosis.</p>
+      <span class="lbl-small">⚠ Toxicidad especial</span>
+      <p class="hi">Cardiotoxicidad (↓FEVI), reversible.</p>
+      <p>Con quimioterapia → riesgo de IC grave.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Mama HER2+, gástrico HER2+.</p>
+    </div>
+    <div class="dz">
+      <h4>Cetuximab / Panitumumab</h4>
+      <p class="meta">Anti-EGFR (HER1/ErbB-1) · Quimérico / Humano</p>
+      <p><strong>Mec:</strong> Bloquean EGFR con alta afinidad → inhiben señalización RAS. Cetuximab también desencadena ADCC.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p><mark>Rash cutáneo acneiforme</mark>, diarrea, tox. pulmonar.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Colorrectal (RAS wt), cabeza y cuello.</p>
+    </div>
+    <div class="dz red">
+      <h4>Bevacizumab</h4>
+      <p class="meta">Anti-VEGF (antiangiogénico) — Humanizado</p>
+      <p><strong>Mec:</strong> Impide unión VEGF a VEGFR → bloquea cascada angiogénica.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p class="hi">HTA, riesgo hemorragia, tromboembolismo, perforación intestinal.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Colorrectal, mama, pulmón, ovario, GBM.</p>
+    </div>
+  </div>
+  <div class="info-box" style="margin-top:14px"><span class="lbl">ADC</span> Anticuerpo conjugado (Ac + citotóxico). <strong>T-DM1 / Trastuzumab deruxtecán</strong> → mama HER2+. Con isótopos: <strong>Ibritumomab tiuxetán</strong> (Anti-CD20 + Ytrio-90) → linfomas CD20+.</div>
+
+  <h3 style="margin-top:22px">▸ Neoplasias Sanguíneas</h3>
+  <div class="grid3">
+    <div class="dz red">
+      <h4>Rituximab</h4>
+      <p class="meta">Anti-CD20 — Quimérico</p>
+      <p>CDC + ADCC + apoptosis sobre linfocitos B.</p>
+      <span class="lbl-small">Usos</span><p>LLC, linfomas no-Hodgkin. No oncológico: AR.</p>
+      <span class="lbl-small">Toxicidad</span><p>Tormenta de citoquinas, infecciones.</p>
+    </div>
+    <div class="dz">
+      <h4>Alemtuzumab</h4>
+      <p class="meta">Anti-CD52 — Humanizado</p>
+      <p>CD52 en linfocitos T, B y monocitos. CDC + ADCC.</p>
+      <span class="lbl-small">Usos</span><p>LLC.</p>
+    </div>
+    <div class="dz">
+      <h4>Daratumumab</h4>
+      <p class="meta">Anti-CD38 — Humano</p>
+      <p>CD38 ↑↑ expresada en células de mieloma. CDC + ADCC.</p>
+      <span class="lbl-small">Usos</span><p>Mieloma múltiple.</p>
+    </div>
+  </div>
+
+  <!-- TKI -->
+  <h3 id="tki">3. Inhibidores de Tirosin Kinasa (TKI) <span class="chip green">pequeña molécula · Oral · sufijo -inib</span></h3>
+  <div class="tablewrap"><table>
+    <thead>
+      <tr><th>Diana</th><th>AcMonoclonal</th><th>TKI</th><th>Usos</th><th>Toxicidad</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="h">HER2</td>
+        <td>Trastuzumab, Pertuzumab</td>
+        <td><strong>Lapatinib, Tucatinib</strong></td>
+        <td>Mama HER2+</td>
+        <td>Depende del fármaco combinado</td>
+      </tr>
+      <tr>
+        <td class="h">EGFR</td>
+        <td>Cetuximab, Panitumumab</td>
+        <td><strong>Erlotinib, Gefitinib, Osimertinib</strong></td>
+        <td>Pulmón NM con mutación EGFR</td>
+        <td>Rash cutáneo grave, diarrea, neumonitis</td>
+      </tr>
+      <tr>
+        <td class="h">VEGFR</td>
+        <td>Bevacizumab</td>
+        <td><strong>Sunitinib, Sorafenib, Pazopanib</strong></td>
+        <td>Colon, riñón, hepatocarcinoma, GIST</td>
+        <td>HTA, riesgo hemorrágico/tromboembolismo</td>
+      </tr>
+      <tr>
+        <td class="h">BCR-ABL</td>
+        <td>—</td>
+        <td><strong>Imatinib, Dasatinib, Nilotinib</strong></td>
+        <td>LMC, GIST</td>
+        <td>Edema, náuseas, mielodepresión leve</td>
+      </tr>
+      <tr>
+        <td class="h">BRAF/MEK</td>
+        <td>—</td>
+        <td><strong>Dabrafenib, Trametinib</strong></td>
+        <td>Melanoma (BRAF V600E)</td>
+        <td>Fiebre, fatiga, fotosensibilidad</td>
+      </tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">Imatinib ★</span> 1er TKI aprobado (2000) → revolucionó la terapia dirigida. Inhibe BCR-ABL (cromosoma Filadelfia) en LMC. También inhibe PDGFR → GIST. Dasatinib y nilotinib: 2ª generación para resistencia a imatinib.</div>
+
+  <!-- CHECKPOINTS -->
+  <h3 id="inmuno">4. Inhibidores de Checkpoints Inmunitarios</h3>
+  <div class="info-box"><span class="lbl">Estrategia</span> Los checkpoints son reguladores negativos de linfocitos T. Los tumores los explotan para escapar. Bloquearlos = "quitar el freno" → los linfocitos T reconocen y destruyen las células tumorales.</div>
+  <div class="grid2">
+    <div class="dz red">
+      <h4>Ipilimumab / Tremelimumab</h4>
+      <p class="meta">Anti-CTLA-4 · linfocito T</p>
+      <p>CTLA-4 actúa en la <strong>fase de activación</strong> del linfocito T (ganglio linfático).</p>
+      <span class="lbl-small">Usos</span>
+      <p>Melanoma, carcinoma renal, colorrectal, hepatocarcinoma, mesotelioma.</p>
+      <p>Terapia doble: <mark>ipilimumab + nivolumab</mark>.</p>
+    </div>
+    <div class="dz amber">
+      <h4>Nivolumab / Pembrolizumab</h4>
+      <p class="meta">Anti-PD-1 · linfocito T</p>
+      <p>PD-1 actúa en la <strong>fase efectora</strong> (tejido tumoral). El tumor expresa PD-L1 para inhibir al linfocito T.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Pulmón, linfoma Hodgkin, mama triple negativo, colorrectal MSI-H, urotelial… Monoterapia: <strong>pembrolizumab</strong>.</p>
+    </div>
+    <div class="dz">
+      <h4>Atezolizumab / Avelumab / Durvalumab</h4>
+      <p class="meta">Anti-PD-L1 · célula tumoral</p>
+      <p>Bloquean PD-L1 en la célula tumoral → reactivan el linfocito T.</p>
+      <p><strong>Avelumab:</strong> anti-PD-L1 + ADCC mediada por NK.</p>
+      <span class="lbl-small">Usos</span><p>Urotelial, pulmón, Merkel (avelumab).</p>
+    </div>
+    <div class="dz">
+      <h4>Relatlimab</h4>
+      <p class="meta">Anti-LAG-3 · linfocito T</p>
+      <p>Nueva diana (LAG-3). Aprobado en combinación con nivolumab → melanoma avanzado.</p>
+    </div>
+  </div>
+  <div class="alarm" style="margin-top:14px"><span class="lbl">Toxicidad de clase (irAEs)</span> Colitis/diarrea, rash/prurito, trastornos endocrinos (hipofisitis, tiroiditis, insuficiencia suprarrenal), hepatitis, neumonitis. Manejo: corticoides/inmunosupresores. ↑ frecuencia en administración conjunta (ej: ipilimumab + nivolumab).</div>
+
+  <!-- CAR-T -->
+  <h3 id="cart">5. Terapias Celulares — CAR-T</h3>
+  <div class="grid2">
+    <div class="dz red">
+      <h4>Terapia CAR-T</h4>
+      <p class="meta">Chimeric Antigen Receptor T cells</p>
+      <p>Linfocitos T <em>autólogos</em> modificados ex vivo para expresar un receptor quimérico (CAR) contra un antígeno tumoral (ej. CD19 en linfocitos B).</p>
+      <span class="lbl-small">Proceso</span>
+      <p>Extracción sangre → laboratorio (gen CAR) → expansión → infusión al paciente.</p>
+      <span class="lbl-small">Toxicidad</span>
+      <p class="hi">Síndrome de liberación de citoquinas (CRS), Neurotoxicidad, Infecciones.</p>
+      <p><em>Pretratamiento:</em> quimioterapia de linfodepleción + antipirético + antihistamínico.</p>
+      <span class="lbl-small">Usos</span>
+      <p>Leucemias linfoblásticas agudas, linfomas no-Hodgkin refractarios.</p>
+      <span class="lbl-small">⚠ Alerta AEMPS 2024</span>
+      <p>Riesgo de <mark>neoplasias malignas secundarias de células T</mark> → seguimiento de por vida.</p>
+    </div>
+    <div class="dz green">
+      <h4>Otros enfoques de inmunoterapia</h4>
+      <span class="lbl-small">Citoquinas</span>
+      <p><strong>IFN-α:</strong> adyuvante en melanoma y leucemia de células pilosas.</p>
+      <p><strong>IL-2:</strong> estimula linfocitos T. Histórico en melanoma y carcinoma renal.</p>
+      <span class="lbl-small">Vacunas antitumorales</span>
+      <p><strong>Preventivas:</strong> VPH → previene cáncer de cuello uterino.</p>
+      <p><strong>Terapéuticas:</strong> en desarrollo. Cáncer de próstata.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ESQUEMA GLOBAL -->
+<section id="esquema">
+  <h2><span class="romnum">∑</span> Esquema global — mapa visual del temario</h2>
+  <div class="schema-block">
+<span class="s-title">FÁRMACOS ANTINEOPLÁSICOS</span>
+│
+├── <span class="s-sub">A) CITOTÓXICOS (T18)</span> — inespecíficos — tox: mielodepresión, GI, alopecia, esterilidad
+│   │
+│   ├── 1. ANTIMETABOLITOS [Fase S]
+│   │   ├── Análogos ácido fólico → <span class="s-drug">Metotrexato</span> [rescate: leucovorina] <span class="s-tox">↑mielotox, mucositis, hepatotox</span>
+│   │   ├── Análogos uracilo    → <span class="s-drug">5-FU</span> [oral ProF: capecitabina] <span class="s-tox">GI, leucopenia | capecitabina: sd. mano-pie</span>
+│   │   ├── Análogos citosina   → <span class="s-drug">Citarabina</span> iv | <span class="s-drug">Gemcitabina</span> (↓mielotox)
+│   │   └── Análogos purinas    → <span class="s-drug">6-MP / 6-TG</span> oral <span class="s-tox">pancitopenia</span>
+│   │
+│   ├── 2. ALQUILANTES [inespecíficos — más eficaces G₂]
+│   │   ├── Mostazas nitrogenadas
+│   │   │   ├── <span class="s-drug">Ciclofosfamida</span> (ProF) <span class="s-tox">cistitis hemorrágica (acroleína)</span> → prevenir: MESNA
+│   │   │   ├── <span class="s-drug">Ifosfamida</span>     <span class="s-tox">cistitis hemorrágica (alta)</span> → MESNA siempre
+│   │   │   └── Clorambucilo / Melfalán
+│   │   ├── Nitrosoureas → <span class="s-drug">Carmustina / Lomustina</span> [liposolubles→BHE] <span class="s-use">tumores cerebrales</span> <span class="s-tox">mielotox diferida 3-6sem</span>
+│   │   └── Compuestos platino
+│   │       ├── <span class="s-drug">Cisplatino</span>     <span class="s-tox">nefrotox★ + emetógeno + ototóxico</span> | baja mielotox
+│   │       ├── <span class="s-drug">Carboplatino</span>  <span class="s-tox">↑mielotox, ↓nefrotox</span>
+│   │       └── <span class="s-drug">Oxaliplatino</span>  <span class="s-tox">neuropatía periférica inducida por FRÍO</span> <span class="s-use">colorrectal</span>
+│   │
+│   ├── 3. INTERCALANTE → <span class="s-drug">Bleomicina</span> iv <span class="s-tox">fibrosis pulmonar | cutánea</span> [ESCASA mielotox, NO emetógena]
+│   │
+│   ├── 4. INHIB. TOPOISOMERASAS
+│   │   ├── Topo II: <span class="s-drug">Etopósido/Tenipósido</span> | <span class="s-drug">Doxorrubicina/Epirrubicina</span> <span class="s-tox">CARDIOTOX (dexrazoxano)</span>
+│   │   └── Topo I:  <span class="s-drug">Irinotecán/Topotecán</span> <span class="s-tox">diarrea grave + mielotox</span>
+│   │
+│   └── 5. ANTIMITÓTICOS
+│       ├── Alcaloides Vinca → <span class="s-drug">Vincristina</span> <span class="s-tox">NEUROTOX</span> (escasa mielotox) | <span class="s-drug">Vinblastina</span> <span class="s-tox">MIELOTOX</span> (escasa neurotox)
+│       └── Taxanos → <span class="s-drug">Paclitaxel/Docetaxel</span> <span class="s-tox">hipersensibilidad (premedicar) + neuropatía periférica</span>
+│
+└── <span class="s-sub">B) TERAPIA DIRIGIDA + INMUNOTERAPIA (T19)</span>
+    │
+    ├── 1. HORMONAS
+    │   ├── Antiestrógenos: <span class="s-drug">Tamoxifeno</span> (MSRE) | <span class="s-drug">Fulvestrant</span> (ant. puro) | <span class="s-drug">Anastrozol/Letrozol</span> (inhib. aromatasa)
+    │   ├── Antiandrógenos: <span class="s-drug">Bicalutamida, Flutamida, Ciproterona</span>
+    │   ├── CDK4/6: <span class="s-drug">Palbociclib / Ribociclib / Abemaciclib</span> (oral, parada G0/G1)
+    │   └── PI3K/Akt/mTOR: <span class="s-drug">Alpelisib</span>(PI3K) | <span class="s-drug">Capivasertib</span>(Akt) | <span class="s-drug">Everolimus</span>(mTOR)
+    │
+    ├── 2. AcMONOCLONALES (-mab) parenteral IV/SC
+    │   ├── TUMORES SÓLIDOS
+    │   │   ├── Anti-HER2:  <span class="s-drug">Trastuzumab</span> <span class="s-tox">CARDIOTOX</span> | <span class="s-drug">Pertuzumab</span> <span class="s-use">mama HER2+, gástrico</span>
+    │   │   ├── Anti-EGFR:  <span class="s-drug">Cetuximab</span> (quimér.) | <span class="s-drug">Panitumumab</span> (humano) <span class="s-tox">rash acneiforme</span> <span class="s-use">colorrectal/cabeza-cuello</span>
+    │   │   └── Anti-VEGF:  <span class="s-drug">Bevacizumab</span> <span class="s-tox">HTA, hemorragia, tromboembolismo</span> <span class="s-use">colorrectal, mama, pulmón...</span>
+    │   ├── NEOPLASIAS SANGUÍNEAS
+    │   │   ├── Anti-CD20: <span class="s-drug">Rituximab</span> <span class="s-tox">tormenta citoquinas</span> <span class="s-use">LLC, L.no Hodgkin, AR</span>
+    │   │   ├── Anti-CD52: <span class="s-drug">Alemtuzumab</span> <span class="s-use">LLC</span>
+    │   │   └── Anti-CD38: <span class="s-drug">Daratumumab</span> <span class="s-use">Mieloma múltiple</span>
+    │   └── ADC (Ac+citotóxico): <span class="s-drug">T-DM1 / Trastuzumab deruxtecán</span> | radionúclidos: <span class="s-drug">Ibritumomab tiuxetán</span>
+    │
+    ├── 3. TKI (-inib) ORAL
+    │   ├── Anti-HER2:  <span class="s-drug">Lapatinib, Tucatinib</span> <span class="s-use">mama HER2+</span>
+    │   ├── Anti-EGFR:  <span class="s-drug">Erlotinib, Gefitinib, Osimertinib</span> <span class="s-use">pulmón NM-EGFR mut.</span> <span class="s-tox">rash, diarrea, neumonitis</span>
+    │   ├── Anti-VEGFR: <span class="s-drug">Sunitinib, Sorafenib, Pazopanib</span> <span class="s-use">riñón, hígado, GIST</span> <span class="s-tox">HTA, hemorragia</span>
+    │   ├── Anti-BCR-ABL: <span class="s-drug">Imatinib</span>★(1er TKI 2000) | <span class="s-drug">Dasatinib, Nilotinib</span> <span class="s-use">LMC, GIST</span>
+    │   └── Anti-BRAF/MEK: <span class="s-drug">Dabrafenib, Trametinib</span> <span class="s-use">Melanoma BRAF V600E</span>
+    │
+    └── 4. INMUNOTERAPIA
+        ├── Inhib. checkpoint (-mab parenteral)
+        │   ├── Anti-CTLA-4: <span class="s-drug">Ipilimumab</span> <span class="s-use">melanoma</span> (doble con nivolumab)
+        │   ├── Anti-PD-1:   <span class="s-drug">Nivolumab, Pembrolizumab</span> <span class="s-use">pulmón, melanoma, linfoma...</span>
+        │   └── Anti-PD-L1:  <span class="s-drug">Atezolizumab, Avelumab, Durvalumab</span>
+        │   [TOX CLASE: colitis, endocrinopatías, hepatitis, neumonitis → corticoides]
+        ├── Terapia CAR-T <span class="s-tox">CRS + neurotox</span> <span class="s-use">leucemias/linfomas refractarios</span>
+        └── Otros: IFN-α, IL-2 | Vacunas: VPH (preventiva)
+</div>
+</section>
+
+<!-- OJO EXAMEN -->
+<section id="ojo">
+  <h2><span class="romnum red">⚠</span> OJO Examen — cosas en las que te pueden pillar</h2>
+  <div class="ojo-grid">
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Toxicidades EXCLUSIVAS por fármaco</div>
+      <p>• <strong>Cisplatino:</strong> nefrotox + ototox. NO es el más mielotóxico → eso es <strong>carboplatino</strong>.</p>
+      <p>• <strong>Oxaliplatino:</strong> neuropatía periférica inducida por <strong>frío</strong> (única en su clase).</p>
+      <p>• <strong>Bleomicina:</strong> <strong>fibrosis pulmonar</strong> + ESCASA mielodepresión. Diferenciador clave.</p>
+      <p>• <strong>Doxorrubicina:</strong> <strong>cardiotoxicidad</strong> (miocardiopatía). Usar dexrazoxano o forma liposomal.</p>
+      <p>• <strong>Capecitabina:</strong> síndrome mano-pie (eritrodisestesia palmoplantar).</p>
+      <p>• <strong>Irinotecán:</strong> diarrea grave (no confundir con otros inhibidores de topoisomerasa).</p>
+      <p>• <strong>Trastuzumab:</strong> cardiotox (↓FEVI) → NO igual que doxorrubicina, pero ojo si van juntos.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Rescates y Protectores</div>
+      <p>• <strong>Metotrexato → Leucovorina</strong> (rescate que ↓ tox en células normales).</p>
+      <p>• <strong>5-FU + Leucovorina</strong> = ↑ eficacia (no rescate, es potenciación).</p>
+      <p>• <strong>Ciclofosfamida/Ifosfamida → MESNA</strong> (previene cistitis hemorrágica por acroleína).</p>
+      <p>• <strong>Cisplatino → Manitol + hidratación IV</strong> (previene nefrotox).</p>
+      <p>• <strong>Doxorrubicina → Dexrazoxano</strong> (quelante Fe, cardioprotector).</p>
+      <p>• <strong>Paclitaxel → AntiH1 + corticoides</strong> (premedicación anti-hipersensibilidad).</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Profármacos — trampa habitual</div>
+      <p>• <strong>Ciclofosfamida:</strong> ProF → activación hepática (CYP450). No activo tal cual.</p>
+      <p>• <strong>Capecitabina:</strong> ProF oral del 5-FU → conversión en el tumor.</p>
+      <p>• <strong>Citarabina:</strong> necesita fosforilación intracelular → ara-CTP. Baja biodisponibilidad oral → siempre IV.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Alcaloides Vinca — Vincristina vs. Vinblastina</div>
+      <p>Ambos inhiben polimerización de microtúbulos, PERO sus toxicidades son opuestas:</p>
+      <p>• <strong>Vincristina → NEUROTOXICIDAD</strong> periférica + escasa mielotox.</p>
+      <p>• <strong>Vinblastina → MIELOTOXICIDAD</strong> (neutropenia) + escasa neurotox.</p>
+      <p>→ Esta diferencia es un clásico de examen.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Taxanos vs. Alcaloides Vinca — mecanismo opuesto</div>
+      <p>• Vinca: impiden <strong>polimerización</strong> de tubulina (no se forma el microtúbulo).</p>
+      <p>• Taxanos: impiden <strong>desensamblaje</strong> (microtúbulo se forma pero queda rígido e inútil).</p>
+      <p>Ambos paran la mitosis pero por mecanismos contrarios.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Nitrosoureas — timing de mielodepresión</div>
+      <p>• <strong>Carmustina/Lomustina:</strong> mielodepresión <strong>diferida 3–6 semanas</strong> (no inmediata).</p>
+      <p>• Son liposolubles → atraviesan BHE → tumores cerebrales.</p>
+      <p>Este doble dato (diferida + BHE) es muy preguntable.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ AcMonoclonales — sufijos y origen</div>
+      <p>• <strong>-omab</strong> = murino (más tóxico).</p>
+      <p>• <strong>-ximab</strong> = quimérico (Rituximab, Cetuximab).</p>
+      <p>• <strong>-zumab</strong> = humanizado (Trastuzumab, Bevacizumab, Pembrolizumab).</p>
+      <p>• <strong>-umab</strong> = humano (Panitumumab, Daratumumab).</p>
+      <p>→ A más % humano, mejor tolerado (no implica mayor eficacia).</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ TKI vs. AcMonoclonales — diferencia clave</div>
+      <p>• <strong>TKI</strong> (-inib): pequeña molécula, administración <strong>ORAL</strong>, actúan intracelularmente.</p>
+      <p>• <strong>AcMonoclonales</strong> (-mab): proteína grande, administración <strong>PARENTERAL</strong> (IV/SC), actúan extracelularmente.</p>
+      <p>Ambos pueden tener la misma diana (ej. EGFR → cetuximab vs. erlotinib).</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Imatinib — el pionero</div>
+      <p>• <strong>1er TKI aprobado (2000)</strong> → revolucionó la oncología.</p>
+      <p>• Diana: <strong>BCR-ABL</strong> (cromosoma Filadelfia) → LMC.</p>
+      <p>• También inhibe PDGFR → GIST.</p>
+      <p>• Dasatinib y nilotinib = 2ª gen para resistencia a imatinib.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Terapia CAR-T — alerta 2024</div>
+      <p>• Riesgo de <strong>neoplasias malignas secundarias de células T</strong> (AEMPS 2024).</p>
+      <p>• Los pacientes tratados deben ser vigilados de por vida.</p>
+      <p>• Toxicidad aguda más temida: síndrome de liberación de citoquinas (CRS).</p>
+      <p>• Requiere pretratamiento con quimioterapia de linfodepleción.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Checkpoints — qué frena qué</div>
+      <p>• <strong>CTLA-4</strong>: freno en la <strong>fase de ACTIVACIÓN</strong> (ganglio linfático). Lo bloquea: ipilimumab.</p>
+      <p>• <strong>PD-1/PD-L1</strong>: freno en la <strong>fase EFECTORA</strong> (tejido tumoral). PD-1 en linfocito T, PD-L1 en célula tumoral.</p>
+      <p>• Toxicidad de clase: colitis, endocrinopatías, neumonitis → manejo con corticoides.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Cistitis hemorrágica — pregunta clásica</div>
+      <p>• La causa es la <strong>acroleína</strong> (metabolito de ciclofosfamida/ifosfamida) que se acumula en vejiga.</p>
+      <p>• Prevención: <strong>MESNA</strong> (grupos -SH) que neutraliza acroleína + <strong>hidratación</strong>.</p>
+      <p>• Ifosfamida tiene mayor incidencia que ciclofosfamida.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Bevacizumab vs. Cetuximab — confusión frecuente</div>
+      <p>• <strong>Bevacizumab:</strong> Anti-VEGF → antiangiogénico. Tox: HTA, hemorragia, trombosis.</p>
+      <p>• <strong>Cetuximab:</strong> Anti-EGFR → antiproliferativo. Tox: rash acneiforme, diarrea.</p>
+      <p>Ambos para c. colorrectal pero con mecanismos e indicaciones diferentes (KRAS wt para cetuximab).</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Rituximab — uso no oncológico</div>
+      <p>Anti-CD20, pero también tiene aplicación en <strong>enfermedades autoinmunes</strong> (artritis reumatoide).</p>
+      <p>Tox más característica: reacciones infusionales + <strong>tormenta de citoquinas</strong>.</p>
+    </div>
+
+    <div class="ojo-card">
+      <div class="ojo-title">⚡ Leucovorina — dos usos distintos</div>
+      <p>• Con <strong>Metotrexato</strong>: reduce toxicidad en células normales (rescate).</p>
+      <p>• Con <strong>5-FU</strong>: aumenta la eficacia antitumoral (potenciación, no rescate).</p>
+      <p>→ Mismo fármaco, dos funciones opuestas según el contexto.</p>
+    </div>
+
+  </div>
+  <p class="note" style="margin-top:20px">Documento de elaboración propia a partir de los Temas 18 y 19. Para el reconocimiento visual real y los esquemas cinéticos conviene repasar las diapositivas oficiales.</p>
+</section>
+
+</div><!-- /wrap -->
+</body>
+</html>
