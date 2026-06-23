@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T26 · Urgencias Oftalmológicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:22px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T26 · CIERRE</p>
+    <h1>Urgencias Oftalmológicas</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figGlaucoma=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Glaucoma agudo: ojo rojo con córnea edematosa y midriasis media">
+<ellipse cx="120" cy="75" rx="105" ry="50" fill="#f3a89c"/><circle cx="120" cy="75" r="56" fill="#cdd6da" opacity=".85"/><circle cx="120" cy="75" r="28" fill="#7a7f82"/><circle cx="120" cy="75" r="28" fill="none" stroke="#555" stroke-width="2"/>
+<text x="120" y="142" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">córnea edematosa turbia + midriasis media</text></svg>`;
+const figRojoCereza=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mancha rojo cereza en la oclusión de arteria central de la retina">
+<circle cx="120" cy="75" r="66" fill="#f0e3d0"/><circle cx="120" cy="75" r="14" fill="#c0392b"/>
+<g stroke="#d8b89a" stroke-width="2" fill="none"><path d="M120 75 L60 40"/><path d="M120 75 L185 45"/><path d="M120 75 L70 115"/><path d="M120 75 L180 110"/></g>
+<text x="120" y="146" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">retina pálida con mancha rojo-cereza (OACR)</text></svg>`;
+const figUveitis=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uveítis anterior: inyección ciliar y miosis">
+<ellipse cx="120" cy="75" rx="105" ry="50" fill="#f3b7ad" opacity=".7"/><circle cx="120" cy="75" r="56" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="120" cy="75" r="14" fill="#1a1a1a"/>
+<g stroke="#b23a32" stroke-width="1.6"><path d="M64 75 L80 75"/><path d="M160 75 L176 75"/><path d="M120 119 L120 131"/></g>
+<text x="120" y="146" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">inyección ciliar + miosis (uveítis)</text></svg>`;
+const figDR=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desprendimiento de retina con cortina superior">
+<circle cx="120" cy="75" r="66" fill="#dd9a45" stroke="#b8752f"/><path d="M54 75 a66 66 0 0 1 132 0 q-66 -34 -132 0Z" fill="#cfd8e0" opacity=".9"/>
+<text x="120" y="146" text-anchor="middle" style="font:400 10px Inter;fill:#5a3a1a">'cortina' que asciende (desprendimiento)</text></svg>`;
+
+const Q=[
+{cat:"Síndromes",c:1,q:"Los tres grandes síndromes de urgencia oftalmológica son:",
+ o:["Catarata, glaucoma y presbicia","Ojo rojo traumático, ojo rojo no traumático y pérdida aguda de visión","Conjuntivitis, orzuelo y blefaritis","Miopía, hipermetropía y astigmatismo"],
+ e:"Los tres síndromes son: <b>ojo rojo traumático</b>, <b>ojo rojo no traumático</b> y <b>pérdida aguda de visión</b>."},
+{cat:"Factor tiempo",c:2,q:"¿Cuál de estas es una EMERGENCIA inmediata (de minutos)?",
+ o:["Glaucoma agudo","Endoftalmitis","Oclusión de la arteria central de la retina","Hipema con PIO normal"],
+ e:"Las emergencias de <b>minutos</b> son la <b>causticación</b>, la <b>OACR</b> y la <b>hemorragia orbitaria a tensión</b>."},
+{cat:"Factor tiempo",c:3,q:"¿Cuál de estas NO es una emergencia inmediata sino una urgencia de horas?",
+ o:["Causticación química","Oclusión de la arteria central de la retina","Hemorragia orbitaria a tensión","Glaucoma agudo de ángulo cerrado"],
+ e:"El <b>glaucoma agudo</b> es una urgencia de horas; las emergencias de minutos son causticación, OACR y hemorragia orbitaria a tensión."},
+{cat:"Ojo rojo · DDx",c:0,ddx:true,q:"Un ojo rojo SIN dolor, con buena AV, secreción y pupila normal corresponde a:",
+ o:["Conjuntivitis","Glaucoma agudo","Uveítis","Queratitis"],
+ e:"Ojo rojo <b>sin dolor</b>, buena AV, secreción y <b>pupila normal</b> = <b>conjuntivitis</b>."},
+{cat:"Ojo rojo · DDx",c:1,ddx:true,q:"Un ojo rojo doloroso con la pupila en MIDRIASIS media, edema corneal y PIO muy alta es:",
+ o:["Conjuntivitis","Glaucoma agudo de ángulo cerrado","Uveítis","Epiescleritis"],
+ e:"Dolor + <b>midriasis media</b> + edema corneal + PIO altísima = <b>glaucoma agudo de ángulo cerrado</b>."},
+{cat:"Imagen · glaucoma",c:2,figSrc:"figGlaucoma",figcap:"Ojo del paciente con dolor intenso.",
+ q:"Este ojo rojo con córnea edematosa turbia y midriasis media, con cefalea y vómitos, corresponde a:",
+ o:["Conjuntivitis","Uveítis","Glaucoma agudo","Epiescleritis"],
+ e:"Córnea edematosa + midriasis media + cefalea/vómitos = <b>glaucoma agudo</b>."},
+{cat:"Ojo rojo · DDx",c:3,ddx:true,q:"Un ojo rojo doloroso con la pupila en MIOSIS y Tyndall en cámara anterior es:",
+ o:["Conjuntivitis","Glaucoma agudo","Queratitis","Uveítis anterior"],
+ e:"Dolor + <b>miosis</b> + <b>Tyndall</b> = <b>uveítis anterior</b>."},
+{cat:"Imagen · uveítis",c:0,figSrc:"figUveitis",figcap:"Segmento anterior del paciente.",
+ q:"Este ojo con inyección ciliar (periquerática) y miosis, con dolor y fotofobia, corresponde a:",
+ o:["Uveítis anterior","Conjuntivitis","Glaucoma agudo","Hemorragia subconjuntival"],
+ e:"Inyección ciliar + miosis + dolor/fotofobia = <b>uveítis anterior</b>."},
+{cat:"Ojo rojo · DDx",c:1,ddx:true,q:"Un ojo rojo doloroso con tinción de fluoresceína POSITIVA (defecto epitelial) es:",
+ o:["Conjuntivitis","Queratitis / úlcera corneal","Glaucoma agudo","Episcleritis"],
+ e:"Dolor + <b>fluoresceína positiva</b> (defecto/lesión corneal) = <b>queratitis/úlcera corneal</b>."},
+{cat:"Algoritmo",c:2,q:"En el algoritmo del ojo rojo, tras confirmar que hay dolor, lo siguiente que se valora es:",
+ o:["La AV","La PIO","La pupila (midriasis = glaucoma; miosis = uveítis)","El campo visual"],
+ e:"Tras el dolor, se valora la <b>pupila</b>: <b>midriasis</b> → glaucoma; <b>miosis</b> → uveítis; normal → fluoresceína."},
+{cat:"Pérdida visión",c:3,q:"El primer eje para clasificar la pérdida aguda de visión es:",
+ o:["La edad","El sexo","La lateralidad","La presencia o ausencia de DOLOR"],
+ e:"La pérdida aguda de visión se clasifica primero según el <b>dolor</b>: indolora (vascular/retina) vs dolorosa (inflamatoria/glaucoma)."},
+{cat:"Pérdida indolora",c:0,q:"¿Cuál de estas es una causa de pérdida aguda de visión INDOLORA?",
+ o:["Oclusión de la arteria central de la retina","Uveítis","Queratitis","Glaucoma agudo"],
+ e:"La <b>OACR</b> da pérdida aguda <b>indolora</b>; uveítis, queratitis y glaucoma agudo son dolorosas."},
+{cat:"OACR",c:1,q:"El signo fundoscópico típico de la oclusión de la arteria central de la retina es:",
+ o:["Hemorragias en llamarada","Mancha rojo-cereza (retina pálida)","Drusas","Exudados algodonosos aislados"],
+ e:"La <b>OACR</b> muestra una retina pálida isquémica con <b>mancha rojo-cereza</b> en la fóvea."},
+{cat:"Imagen · OACR",c:2,figSrc:"figRojoCereza",figcap:"Fondo de ojo del paciente.",
+ q:"Esta retina pálida con una mancha rojo-cereza central, en un paciente con pérdida brusca e indolora de visión, corresponde a:",
+ o:["OVCR","DMAE","Oclusión de la arteria central de la retina","Desprendimiento de retina"],
+ e:"Retina pálida + mancha rojo-cereza + pérdida brusca indolora = <b>OACR</b> (emergencia; descartar ACG)."},
+{cat:"OACR",c:3,q:"Ante una oclusión de la arteria central de la retina hay que descartar siempre:",
+ o:["Una catarata","Un glaucoma","Una conjuntivitis","Una arteritis de células gigantes (ACG)"],
+ e:"En toda <b>OACR</b> (sobre todo en ancianos) hay que descartar una <b>arteritis de células gigantes</b>."},
+{cat:"Pérdida dolorosa",c:0,q:"¿Cuál de estas causa pérdida aguda de visión DOLOROSA?",
+ o:["Glaucoma agudo","Desprendimiento de retina","Oclusión venosa","Hemorragia vítrea"],
+ e:"El <b>glaucoma agudo</b> (y la uveítis, queratitis, endoftalmitis) dan pérdida visual <b>dolorosa</b>; DR, OVCR y hemovítreo son indoloras."},
+{cat:"Caso clínico · OACR",c:1,case:true,
+ lead:"Varón de 70 años con pérdida brusca, profunda e indolora de visión en un ojo; el fondo muestra una retina pálida con mancha rojo-cereza.",
+ q:"Diagnóstico y actitud:",
+ o:["DMAE; antiVEGF","Oclusión de la arteria central de la retina; emergencia, descartar ACG","Conjuntivitis; colirio","Catarata; cirugía"],
+ e:"Pérdida brusca indolora + mancha rojo-cereza = <b>OACR</b>; es una <b>emergencia</b> y hay que descartar ACG."},
+{cat:"DR",c:2,q:"El desprendimiento de retina regmatógeno se manifiesta con:",
+ o:["Dolor intenso","Ojo rojo","Miodesopsias, fotopsias y una 'cortina' en el campo visual","Secreción purulenta"],
+ e:"El <b>DR</b> da <b>miodesopsias, fotopsias</b> y una <b>'cortina'</b> que avanza en el campo visual (indoloro)."},
+{cat:"Imagen · DR",c:3,figSrc:"figDR",figcap:"Fondo de ojo del paciente.",
+ q:"Este área de retina elevada y grisácea que forma una 'cortina' superior corresponde a:",
+ o:["OACR","DMAE","Glaucoma","Desprendimiento de retina"],
+ e:"Retina elevada con 'cortina' = <b>desprendimiento de retina</b> (urgencia, sobre todo si amenaza la mácula)."},
+{cat:"OVCR",c:0,q:"La oclusión de la vena central de la retina (OVCR) se caracteriza por:",
+ o:["Hemorragias retinianas difusas 'en llamarada' y FRCV","Mancha rojo-cereza","Drusas","Una cortina"],
+ e:"La <b>OVCR</b> muestra <b>hemorragias difusas 'en llamarada'</b> en un paciente con factores de riesgo cardiovascular."},
+{cat:"Maculopatía aguda",c:1,q:"Un anciano con metamorfopsia, desprendimiento seroso macular y drusas en el otro ojo tiene probablemente:",
+ o:["OACR","DMAE húmeda (exudativa)","Glaucoma agudo","Conjuntivitis"],
+ e:"Metamorfopsia + desprendimiento seroso macular + drusas = <b>DMAE húmeda</b> (tratamiento: antiVEGF)."},
+{cat:"Transitoria",c:2,q:"La amaurosis fugax es:",
+ o:["Una pérdida permanente","Una conjuntivitis","Una pérdida monocular transitoria (AIT) que obliga a estudiar la carótida","Un aura migrañosa"],
+ e:"La <b>amaurosis fugax</b> es una pérdida monocular transitoria (accidente isquémico transitorio); hay que estudiar la <b>carótida</b>."},
+{cat:"Transitoria · DDx",c:3,ddx:true,q:"Un escotoma centelleante que migra por el campo visual seguido de cefalea sugiere:",
+ o:["Amaurosis fugax","OACR","Glaucoma","Aura migrañosa"],
+ e:"El <b>escotoma centelleante</b> que migra + cefalea = <b>aura migrañosa</b> (fenómeno cortical benigno)."},
+{cat:"Anamnesis",c:0,q:"En un usuario de lentes de contacto con queratitis hay que pensar en:",
+ o:["Pseudomonas o Acanthamoeba","Estafilococo coagulasa negativo solo","Virus exclusivamente","Hongos exclusivamente"],
+ e:"En portadores de <b>lentes de contacto</b> (o nadadores), la queratitis suele ser por <b>Pseudomonas o Acanthamoeba</b>."},
+{cat:"Tratamiento",c:1,q:"El anestésico tópico en la urgencia oftalmológica:",
+ o:["Se pauta para casa","Solo se usa para la exploración, nunca como tratamiento","Cura las úlceras","Baja la PIO"],
+ e:"El <b>anestésico tópico</b> solo se usa para <b>explorar</b>, nunca como tratamiento (es tóxico para el epitelio corneal)."},
+{cat:"Tratamiento",c:2,q:"El dolor de una queratitis/úlcera se alivia con:",
+ o:["Anestésico tópico domiciliario","Corticoides","Midriáticos (reducen el espasmo) y analgesia oral","AntiVEGF"],
+ e:"El dolor corneal se calma con <b>midriáticos</b> (reducen el espasmo ciliar) y <b>analgesia oral</b>, no con anestésicos domiciliarios."},
+{cat:"Caso clínico · ojo rojo DDx",c:3,case:true,ddx:true,
+ lead:"Mujer de 30 años con pérdida de visión, dolor, ojo rojo y fotofobia de 5 días; pupila en miosis y Tyndall en cámara anterior.",
+ q:"El diagnóstico es:",
+ o:["Conjuntivitis","Glaucoma agudo","Hemorragia subconjuntival","Uveítis anterior"],
+ e:"Dolor + fotofobia + miosis + Tyndall = <b>uveítis anterior</b>."},
+{cat:"Conjuntivitis",c:0,q:"La conjuntivitis se caracteriza por:",
+ o:["Ojo rojo y secreción SIN dolor ni pérdida visual, con pupila normal","Dolor intenso y midriasis","Edema corneal","↓AV marcada"],
+ e:"La <b>conjuntivitis</b> da ojo rojo y secreción <b>sin dolor ni pérdida visual</b>, con <b>pupila normal</b>."},
+{cat:"Urgencia · conjuntivitis",c:1,q:"¿Qué conjuntivitis es una urgencia por su agresividad (riesgo de perforación)?",
+ o:["La alérgica","La gonocócica (hiperaguda)","La vírica leve","La tóxica"],
+ e:"La <b>conjuntivitis gonocócica</b> (hiperaguda) es una urgencia por su agresividad y riesgo de perforación corneal."},
+{cat:"Ojo rojo no traumático",c:2,q:"¿Cuál de estas es una causa de ojo rojo no traumático de origen escleral?",
+ o:["Conjuntivitis","Dacriocistitis","Escleritis / epiescleritis","Glaucoma agudo"],
+ e:"La <b>escleritis/epiescleritis</b> es la causa escleral de ojo rojo no traumático (la escleritis es profunda y muy dolorosa)."},
+{cat:"Caso clínico · glaucoma agudo",c:3,case:true,
+ lead:"Mujer de 65 años hipermétrope con dolor ocular intenso, visión borrosa, halos de colores, cefalea y vómitos; el ojo está rojo, la córnea turbia y la pupila en midriasis media.",
+ q:"Diagnóstico y actitud:",
+ o:["Conjuntivitis; colirio","Migraña; analgesia","Uveítis; corticoides","Glaucoma agudo de ángulo cerrado; urgencia, bajar la PIO"],
+ e:"Dolor + halos + cefalea/vómitos + córnea turbia + midriasis media = <b>glaucoma agudo</b>; urgencia para bajar la PIO."},
+{cat:"Pérdida indolora",c:0,q:"La hemorragia vítrea produce:",
+ o:["Pérdida de visión indolora con miodesopsias/'telaraña' y fondo no visible","Dolor intenso","Ojo rojo con secreción","Midriasis fija"],
+ e:"La <b>hemorragia vítrea</b> da pérdida <b>indolora</b> con miodesopsias/'telaraña' y dificultad para ver el fondo."},
+{cat:"Anamnesis",c:1,q:"Un traumatismo con material VEGETAL que produce una queratitis orienta a:",
+ o:["Pseudomonas","Aspergillus (hongo)","Acanthamoeba","Herpes"],
+ e:"El traumatismo <b>vegetal</b> orienta a una queratitis <b>fúngica (Aspergillus)</b>."},
+{cat:"Anamnesis",c:2,q:"Una erupción vesiculosa periocular con queratitis orienta a:",
+ o:["Pseudomonas","Hongos","Herpes","Acanthamoeba"],
+ e:"Las <b>vesículas perioculares</b> con queratitis orientan a una infección <b>herpética</b>."},
+{cat:"Pérdida visión · DDx",c:3,ddx:true,q:"Diferencie pérdida aguda indolora y dolorosa:",
+ o:["Indolora = uveítis; dolorosa = DR","Indolora = glaucoma; dolorosa = OACR","Ambas son iguales","Indolora = vascular/retina (DR, OACR, OVCR, DMAE); dolorosa = inflamatoria/glaucoma (uveítis, queratitis, endoftalmitis, glaucoma)"],
+ e:"<b>Indolora</b> = vascular/retina (DR, OACR, OVCR, DMAE, hemovítreo); <b>dolorosa</b> = inflamatoria/glaucoma (uveítis, queratitis, endoftalmitis, glaucoma agudo)."},
+{cat:"Caso clínico · DR",c:0,case:true,
+ lead:"Miope magno que refiere 'moscas volantes', destellos de luz y una 'cortina' negra que avanza desde abajo, sin dolor ni ojo rojo.",
+ q:"El diagnóstico más probable es:",
+ o:["Desprendimiento de retina","Conjuntivitis","Glaucoma agudo","Uveítis"],
+ e:"Miodesopsias + fotopsias + 'cortina' en un miope, sin dolor = <b>desprendimiento de retina</b>."},
+{cat:"Endoftalmitis",c:1,q:"Una pérdida de visión DOLOROSA con ojo rojo e hipopión días tras una cirugía intraocular sugiere:",
+ o:["Conjuntivitis","Endoftalmitis","DMAE","OVCR"],
+ e:"Dolor + hipopión + cirugía reciente = <b>endoftalmitis</b> (urgencia: antibióticos intravítreos ± vitrectomía)."},
+{cat:"Anamnesis",c:2,q:"¿Qué antecedente es clave preguntar ante un ojo rojo doloroso con sospecha de glaucoma?",
+ o:["Alergias alimentarias","El uso de colirios y la hipermetropía/ángulo estrecho","La dieta","El ejercicio"],
+ e:"En la sospecha de <b>glaucoma agudo</b> importa el antecedente de <b>hipermetropía/ángulo estrecho</b> y el uso de colirios/fármacos midriáticos."},
+{cat:"Exploración",c:3,q:"La tinción con fluoresceína sirve para:",
+ o:["Medir la PIO","Ver el fondo","Medir la AV","Detectar defectos epiteliales corneales (queratitis/úlcera)"],
+ e:"La <b>fluoresceína</b> tiñe los <b>defectos epiteliales</b> corneales (queratitis, úlceras, erosiones)."},
+{cat:"Caso clínico · queratitis LC",c:0,case:true,
+ lead:"Joven portador de lentes de contacto que duerme con ellas, con ojo rojo doloroso, fotofobia y un infiltrado corneal blanquecino que tiñe con fluoresceína.",
+ q:"Diagnóstico y germen a sospechar:",
+ o:["Úlcera corneal infecciosa (Pseudomonas/Acanthamoeba)","Conjuntivitis alérgica","Glaucoma agudo","Hemorragia subconjuntival"],
+ e:"Infiltrado corneal que tiñe + lente de contacto = <b>úlcera corneal infecciosa</b> (sospechar <b>Pseudomonas/Acanthamoeba</b>)."},
+{cat:"Órbita",c:1,q:"La celulitis orbitaria, frente a la preseptal, presenta:",
+ o:["AV normal","↓AV, alteración de la motilidad y exoftalmos no reductible","Solo edema palpebral","Picor"],
+ e:"La <b>celulitis orbitaria</b> presenta <b>↓AV, alteración de la MOE y exoftalmos no reductible</b> (urgencia)."},
+{cat:"Pérdida visión",c:2,q:"La metamorfopsia (visión distorsionada de las líneas) orienta a una patología de:",
+ o:["La córnea","El cristalino","La mácula","El nervio óptico"],
+ e:"La <b>metamorfopsia</b> orienta a una patología <b>macular</b> (DMAE, membrana epirretiniana, edema macular)."},
+{cat:"Caso clínico · amaurosis fugax",c:3,case:true,
+ lead:"Varón de 68 años con HTA que refiere episodios de pérdida de visión monocular de unos minutos, 'como un telón que baja', que se recuperan por completo.",
+ q:"¿Qué es y qué hay que estudiar?",
+ o:["Aura migrañosa; nada","Glaucoma; PIO","Conjuntivitis; colirio","Amaurosis fugax (AIT); estudiar la carótida"],
+ e:"Pérdida monocular transitoria 'como un telón' = <b>amaurosis fugax</b> (AIT); hay que estudiar la <b>carótida</b> (riesgo de ictus/OACR)."},
+{cat:"Epiescleritis · DDx",c:0,ddx:true,q:"La epiescleritis, frente a la escleritis, es:",
+ o:["Más superficial y menos dolorosa (benigna)","Más profunda y dolorosa","Una infección","Un tumor"],
+ e:"La <b>epiescleritis</b> es <b>superficial y poco dolorosa</b> (benigna); la <b>escleritis</b> es profunda, muy dolorosa y se asocia a enfermedades sistémicas."},
+{cat:"Factor tiempo",c:1,q:"El desprendimiento de retina con mácula ON (aún aplicada) es:",
+ o:["Banal","Una urgencia (operar pronto para salvar la mácula)","Crónico","Sin tratamiento"],
+ e:"El <b>DR con mácula ON</b> es una <b>urgencia</b>: reaplicar pronto para evitar que se desprenda la mácula (mejor pronóstico visual)."},
+{cat:"OACR",c:2,q:"El pronóstico visual de la oclusión de la arteria central de la retina es:",
+ o:["Excelente siempre","Bueno con colirio","Malo (ventana terapéutica muy corta)","Sin importancia"],
+ e:"El pronóstico de la <b>OACR</b> es <b>malo</b> (la retina tolera mal la isquemia; la ventana es de minutos)."},
+{cat:"Caso clínico · conjuntivitis vs uveítis",c:3,case:true,ddx:true,
+ lead:"Dos pacientes con ojo rojo: A) bilateral, escozor, secreción, sin dolor, pupila normal y buena AV; B) unilateral, dolor, fotofobia, miosis y Tyndall.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Uveítis y conjuntivitis","Ambos conjuntivitis","Ambos uveítis","Conjuntivitis y uveítis anterior"],
+ e:"A (bilateral, secreción, sin dolor, pupila normal) = <b>conjuntivitis</b>; B (dolor, miosis, Tyndall) = <b>uveítis anterior</b>."},
+{cat:"Pérdida visión",c:0,q:"Las fotopsias (destellos) y las miodesopsias de aparición súbita obligan a descartar:",
+ o:["Un desgarro/desprendimiento de retina","Una conjuntivitis","Un orzuelo","Una presbicia"],
+ e:"Las <b>fotopsias + miodesopsias</b> súbitas obligan a descartar un <b>desgarro/desprendimiento de retina</b> (explorar el fondo)."},
+{cat:"Glaucoma agudo · tto",c:1,q:"El tratamiento inicial del glaucoma agudo de ángulo cerrado busca:",
+ o:["Dilatar la pupila","Bajar la PIO con hipotensores (y después iridotomía)","Poner antibiótico","Observar"],
+ e:"El <b>glaucoma agudo</b> se trata bajando la PIO (hipotensores tópicos/sistémicos, manitol) y después con <b>iridotomía</b>."},
+{cat:"Caso clínico · DMAE",c:2,case:true,
+ lead:"Mujer de 80 años con pérdida de visión central y metamorfopsia de pocos días; en la mácula hay exudados, hemorragias y un desprendimiento seroso; el otro ojo tiene drusas blandas.",
+ q:"El diagnóstico más probable es:",
+ o:["OACR","Desprendimiento de retina","DMAE exudativa (húmeda)","Retinosis pigmentaria"],
+ e:"Metamorfopsia + desprendimiento seroso macular + drusas = <b>DMAE exudativa (húmeda)</b>; tratamiento con antiVEGF."},
+{cat:"Anamnesis",c:3,q:"Un paciente que ha estado SOLDANDO sin protección y consulta por dolor ocular bilateral horas después tiene probablemente:",
+ o:["Glaucoma","Uveítis","Conjuntivitis bacteriana","Queratitis física/actínica (por UV)"],
+ e:"La exposición a <b>soldadura/UV</b> produce una <b>queratitis física/actínica</b> (dolor bilateral diferido)."},
+{cat:"Endoftalmitis",c:0,q:"La endoftalmitis es una urgencia porque:",
+ o:["Puede destruir el ojo rápidamente (panuveítis infecciosa)","Es banal","Solo da picor","No tiene tratamiento"],
+ e:"La <b>endoftalmitis</b> es una panuveítis infecciosa que puede <b>destruir el ojo</b> con rapidez: urgencia (ATB intravítreos ± vitrectomía)."},
+{cat:"DDx ojo rojo",c:1,ddx:true,q:"¿Qué dato distingue mejor el glaucoma agudo de la uveítis anterior?",
+ o:["El ojo rojo","La fotofobia","La pupila: MIDRIASIS media (glaucoma) vs MIOSIS (uveítis)","El lagrimeo"],
+ e:"La <b>pupila</b> es la clave: <b>midriasis media</b> en el glaucoma agudo; <b>miosis</b> en la uveítis."},
+{cat:"Caso clínico · ojo rojo no urgente",c:2,case:true,
+ lead:"Paciente con una mancha roja brillante y homogénea en la esclera, sin dolor, sin pérdida de visión y con pupila normal, tras un esfuerzo al toser.",
+ q:"El diagnóstico es:",
+ o:["Uveítis","Glaucoma","Hemorragia subconjuntival (hiposfagma)","Endoftalmitis"],
+ e:"Mancha roja homogénea indolora, sin ↓AV = <b>hemorragia subconjuntival (hiposfagma)</b>, banal."},
+{cat:"Pérdida visión",c:3,q:"La neuropatía óptica isquémica anterior (NOIA) arterítica:",
+ o:["Es banal","Cursa con ojo rojo","No afecta a la visión","Es una urgencia (descartar ACG y tratar con corticoides)"],
+ e:"La <b>NOIA arterítica</b> es una urgencia: descartar <b>ACG</b> y tratar con <b>corticoides</b> para salvar el otro ojo."},
+{cat:"Exploración",c:0,q:"El defecto pupilar aferente relativo (DPAR) indica:",
+ o:["Una lesión del nervio óptico o de la retina extensa del ojo afecto","Una catarata","Una conjuntivitis","Un orzuelo"],
+ e:"El <b>DPAR</b> indica una lesión del <b>nervio óptico</b> o una afectación retiniana extensa del ojo explorado."},
+{cat:"Caso clínico · MIR ojo rojo",c:1,case:true,ddx:true,
+ lead:"Ante una mujer de 30 años con pérdida de visión, dolor, ojo rojo y fotofobia de varios días, el DDx incluye varias entidades.",
+ q:"¿Cuál de estas NO encaja en ese cuadro (ojo rojo doloroso no traumático)?",
+ o:["Uveítis anterior","Conjuntivitis bacteriana banal (sin dolor ni ↓AV)","Úlcera corneal","Escleritis"],
+ e:"La <b>conjuntivitis banal</b> cursa <b>sin dolor ni ↓AV</b>, así que no encaja en un 'ojo rojo doloroso con pérdida visual'."},
+{cat:"Importancia",c:2,q:"La importancia de las urgencias oftalmológicas radica en que:",
+ o:["Son siempre banales","Nunca afectan a la visión","Un diagnóstico y derivación correctos pueden salvar la visión (síntomas similares, causas benignas o graves)","No tienen tratamiento"],
+ e:"Síntomas parecidos pueden venir de causas banales o graves; un <b>diagnóstico y derivación correctos</b> pueden marcar la diferencia entre <b>ver o quedar ciego</b>."},
+{cat:"OVCR · DDx",c:3,ddx:true,q:"Diferencie OACR y OVCR:",
+ o:["OACR = hemorragias en llamarada; OVCR = rojo-cereza","Ambas iguales","OACR = venosa; OVCR = arterial","OACR = retina pálida con mancha rojo-cereza; OVCR = hemorragias difusas 'en llamarada'"],
+ e:"<b>OACR</b> = retina pálida + mancha rojo-cereza (isquemia arterial); <b>OVCR</b> = hemorragias difusas 'en llamarada' (congestión venosa)."},
+{cat:"Caso clínico · celulitis",c:0,case:true,
+ lead:"Niño con fiebre, edema palpebral, exoftalmos, dolor al mover el ojo y ↓AV tras una sinusitis.",
+ q:"Diagnóstico y actitud:",
+ o:["Celulitis orbitaria; ingreso + antibióticos IV","Conjuntivitis; colirio","Orzuelo; calor local","Glaucoma; hipotensores"],
+ e:"Fiebre + exoftalmos + dolor a la MOE + ↓AV tras sinusitis = <b>celulitis orbitaria</b>; urgencia con <b>ingreso + antibióticos IV</b>."},
+{cat:"Transitoria",c:1,q:"La pérdida visual transitoria de origen migrañoso se caracteriza por:",
+ o:["Ser monocular y permanente","Un escotoma centelleante que migra, seguido de cefalea","Ojo rojo","Dolor intenso"],
+ e:"El <b>aura migrañosa</b> da un <b>escotoma centelleante</b> que migra por el campo, seguido de cefalea (fenómeno cortical benigno)."},
+{cat:"Tratamiento",c:2,q:"Las úlceras corneales bacterianas se tratan con:",
+ o:["Anestésicos","Corticoides solos","Antibióticos tópicos concentrados cada hora (hasta el antibiograma)","Lágrimas"],
+ e:"Las <b>úlceras bacterianas</b> se tratan con <b>antibióticos tópicos concentrados cada hora</b> hasta tener el antibiograma."},
+{cat:"Caso clínico · DDx pérdida indolora",c:3,case:true,ddx:true,
+ lead:"Tres pacientes con pérdida visual brusca indolora: A) retina pálida con mancha rojo-cereza; B) hemorragias difusas en llamarada; C) 'cortina' con fotopsias y miodesopsias.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["OVCR, OACR, DR","DR, OACR, OVCR","DMAE, DR, OACR","OACR, OVCR, desprendimiento de retina"],
+ e:"A = <b>OACR</b> (rojo-cereza); B = <b>OVCR</b> (llamaradas); C = <b>desprendimiento de retina</b> (cortina/fotopsias)."},
+{cat:"Anamnesis",c:0,q:"En un inmunodeprimido con queratitis hay que pensar también en:",
+ o:["Candida (hongo)","Solo virus","Solo bacterias","Ninguna causa infecciosa"],
+ e:"En el <b>inmunodeprimido</b>, la queratitis puede ser por <b>Candida</b> (hongo), además de las causas habituales."},
+{cat:"Glaucoma agudo",c:1,q:"Los halos de colores alrededor de las luces en un ojo rojo doloroso orientan a:",
+ o:["Conjuntivitis","Glaucoma agudo (edema corneal)","Uveítis","Hemorragia subconjuntival"],
+ e:"Los <b>halos de colores</b> (por el edema corneal) son típicos del <b>glaucoma agudo</b>."},
+{cat:"Caso clínico · escleritis",c:2,case:true,
+ lead:"Mujer con artritis reumatoide y ojo muy doloroso, con una zona de enrojecimiento profundo violáceo que no blanquea con fenilefrina.",
+ q:"El diagnóstico es:",
+ o:["Conjuntivitis","Episcleritis banal","Escleritis","Glaucoma"],
+ e:"Dolor intenso + inyección profunda violácea que no blanquea + AR = <b>escleritis</b>."},
+{cat:"Pérdida visión",c:3,q:"El edema corneal de aparición súbita puede causar:",
+ o:["Dolor sin pérdida visual","Solo ojo rojo","Solo secreción","Pérdida de visión (visión borrosa, halos)"],
+ e:"El <b>edema corneal súbito</b> (p. ej. descompensación endotelial, glaucoma agudo) produce <b>visión borrosa y halos</b>."},
+{cat:"Síntesis · algoritmo",c:0,q:"En el algoritmo del ojo rojo, la conjuntivitis se distingue porque:",
+ o:["No hay dolor (rama 'NO dolor')","Hay midriasis","Hay edema corneal","Hay Tyndall"],
+ e:"La <b>conjuntivitis</b> está en la rama <b>'sin dolor'</b> del algoritmo (pupila normal, secreción, buena AV)."},
+{cat:"Caso clínico · perforante",c:1,case:true,
+ lead:"Paciente que trabajaba con una herramienta y nota dolor brusco; el ojo está hipotónico, con la cámara anterior plana y la pupila desviada hacia una herida corneal.",
+ q:"Diagnóstico y conducta:",
+ o:["Conjuntivitis; colirio","Herida perforante (ojo abierto); no colirios, antibiótico IV, ayunas y cirugía urgente","Glaucoma; hipotensores","Hiposfagma; alta"],
+ e:"Hipotonía + atalamia + pupila desviada hacia la herida = <b>perforación (ojo abierto)</b>; sin colirios, antibiótico IV, ayunas y cirugía urgente."},
+{cat:"Factor tiempo",c:2,q:"¿Cuál de estas urgencias comparte la prioridad de 'minutos' con la causticación?",
+ o:["El glaucoma agudo","La endoftalmitis","La oclusión de la arteria central de la retina","La conjuntivitis gonocócica"],
+ e:"La <b>OACR</b> comparte la prioridad de <b>minutos</b> con la causticación y la hemorragia orbitaria a tensión."},
+{cat:"DDx",c:3,ddx:true,q:"Un ojo rojo doloroso con pupila normal y fluoresceína NEGATIVA orienta a:",
+ o:["Queratitis","Uveítis","Glaucoma","Epiescleritis / escleritis"],
+ e:"Pupila normal + fluoresceína <b>negativa</b> (sin defecto epitelial) en un ojo rojo doloroso orienta a <b>epiescleritis/escleritis</b>."},
+{cat:"Caso clínico · transitoria DDx",c:0,case:true,ddx:true,
+ lead:"Dos pacientes con pérdida visual transitoria: uno de 70 años con HTA y pérdida monocular 'como un telón' de minutos; otra de 25 con escotoma centelleante que migra y luego cefalea.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Amaurosis fugax y aura migrañosa","Ambos migraña","Ambos amaurosis","Aura migrañosa y amaurosis fugax"],
+ e:"Anciano con 'telón' transitorio = <b>amaurosis fugax</b> (AIT); joven con escotoma centelleante + cefalea = <b>aura migrañosa</b>."},
+{cat:"Importancia",c:1,q:"Las implicaciones médico-legales de las urgencias oftalmológicas incluyen:",
+ o:["Ninguna","Accidentes laborales y agresiones","Solo la estética","Solo el coste"],
+ e:"Las urgencias oftalmológicas tienen implicaciones <b>médico-legales</b> (accidentes laborales, agresiones), además del riesgo visual."},
+{cat:"Pérdida visión",c:2,q:"La coriorretinopatía central serosa (CSC) produce:",
+ o:["Ojo rojo doloroso","Pérdida visual indolora con desprendimiento seroso macular (típica en varones jóvenes estresados)","Secreción purulenta","Midriasis fija"],
+ e:"La <b>CSC</b> da pérdida visual <b>indolora</b> con desprendimiento seroso macular, típica de <b>varones jóvenes</b> (estrés, corticoides)."},
+{cat:"Caso clínico · uveítis posterior",c:3,case:true,
+ lead:"Joven con visión borrosa, miodesopsias y fotopsias en un ojo; el fondo muestra un foco blanquecino activo junto a una cicatriz pigmentada.",
+ q:"El diagnóstico más probable es:",
+ o:["Glaucoma","Conjuntivitis","Catarata","Coriorretinitis (toxoplasmosis), una uveítis posterior"],
+ e:"Foco activo + cicatriz pigmentada con miodesopsias/fotopsias = <b>coriorretinitis (toxoplasmosis)</b>, una uveítis posterior."},
+{cat:"Síntesis",c:0,q:"Señale la afirmación CORRECTA:",
+ o:["Emergencias de minutos = causticación, OACR y hemorragia orbitaria; ojo rojo: dolor → pupila → fluoresceína; pérdida indolora = vascular","La conjuntivitis cursa con midriasis","El anestésico tópico se pauta para casa","El DR es doloroso"],
+ e:"Resumen: <b>emergencias de minutos</b> = causticación, OACR, hemorragia orbitaria; <b>ojo rojo</b>: dolor → pupila → fluoresceína; <b>pérdida indolora</b> = vascular/retina."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación FALSA:",
+ o:["El glaucoma agudo cursa con midriasis media y PIO alta","La OACR da mancha rojo-cereza","La conjuntivitis cursa con dolor intenso y ↓AV marcada","La uveítis cursa con miosis y Tyndall"],
+ e:"FALSA: la <b>conjuntivitis</b> cursa <b>sin dolor</b> y con buena AV (pupila normal); el dolor intenso y la ↓AV son de uveítis, queratitis o glaucoma."},
+{cat:"Síntesis · DDx",c:2,ddx:true,q:"Asocie correctamente:",
+ o:["Glaucoma = miosis; uveítis = midriasis","Conjuntivitis = dolor; queratitis = sin tinción","OACR = venosa; OVCR = arterial","Glaucoma = midriasis; uveítis = miosis; queratitis = fluoresceína +; conjuntivitis = sin dolor"],
+ e:"<b>Glaucoma</b> = midriasis; <b>uveítis</b> = miosis; <b>queratitis</b> = fluoresceína +; <b>conjuntivitis</b> = sin dolor."},
+{cat:"Síntesis · global",c:3,q:"Resumen integrador del tema (y de la asignatura):",
+ o:["Todo ojo rojo es una conjuntivitis","Toda pérdida visual es banal","Solo importan los traumatismos","3 síndromes (ojo rojo traumático, ojo rojo no traumático, pérdida aguda de visión) + factor tiempo + algoritmos (dolor/pupila/fluoresceína; indolora/dolorosa)"],
+ e:"Urgencias: <b>3 síndromes</b> (ojo rojo traumático, ojo rojo no traumático, pérdida aguda de visión), el <b>factor tiempo</b> (emergencia/urgencia) y los <b>algoritmos</b> (ojo rojo: dolor/pupila/fluoresceína; pérdida: indolora/dolorosa)."}
+];
+
+const figMap={figGlaucoma,figRojoCereza,figUveitis,figDR};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas las urgencias y has cerrado toda la asignatura. ¡A por el examen!";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo el algoritmo del ojo rojo y la pérdida indolora vs dolorosa.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza el factor tiempo y el DDx del ojo rojo doloroso.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T26 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
