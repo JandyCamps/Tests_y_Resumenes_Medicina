@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen Farmacología · Fármacos Antihipertensivos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef1f2;--paper:#fff;--ink:#15262d;--soft:#4a5b62;
+    --teal:#0f4d57;--teal2:#0a3037;--teal-soft:#e7f0f1;
+    --amber:#cf8327;--amber-soft:#f7edda;--line:#dbe2e4;
+    --ieca:#1a5e86;--iecabg:#e3eff7;
+    --ara:#1f6f4a;--arabg:#e4f3ea;
+    --bcc:#7a3a8f;--bccbg:#f1e6f4;
+    --bb:#c75000;--bbbg:#fde8d9;
+    --tia:#8a4b12;--tiabg:#f7edda;
+    --r:#b23a32;--rbg:#fbe7e4;
+    --ok:#1a6640;--okbg:#e0f0e6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;padding:24px 16px 80px}
+  .wrap{max-width:920px;margin:0 auto}
+  h1,h2,h3{font-family:'Spectral',serif;line-height:1.2}
+  .cover{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#eaf3f3;border-radius:20px;padding:34px 32px;position:relative;overflow:hidden;box-shadow:0 14px 40px -20px rgba(10,48,55,.5)}
+  .cover::after{content:"";position:absolute;right:-50px;top:-50px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 18px rgba(207,131,39,.22);opacity:.5}
+  .cover .eb{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 8px}
+  .cover h1{font-size:34px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .cover p{margin:0;color:#bcd7d9;font-size:15px;position:relative;z-index:1;max-width:620px}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin-top:22px;box-shadow:0 10px 30px -22px rgba(10,48,55,.4)}
+  h2{font-size:24px;color:var(--teal);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  h2 .romnum{font-size:15px;font-weight:700;color:#fff;background:var(--teal);border-radius:8px;padding:3px 11px;font-family:'Inter',sans-serif;letter-spacing:.04em}
+  .lead{color:var(--soft);font-size:14.5px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h3{font-size:18px;color:var(--teal2);margin:26px 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3 .chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 9px;font-family:'Inter',sans-serif}
+  .chip.ieca{color:var(--ieca);background:var(--iecabg)}
+  .chip.ara{color:var(--ara);background:var(--arabg)}
+  .chip.bcc{color:var(--bcc);background:var(--bccbg)}
+  .chip.bb{color:var(--bb);background:var(--bbbg)}
+  .chip.tia{color:var(--tia);background:var(--tiabg)}
+  .chip.r{color:var(--r);background:var(--rbg)}
+  .chip.ok{color:var(--ok);background:var(--okbg)}
+  .chip.n{color:var(--soft);background:#eef2f3}
+  p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}b,strong{font-weight:600}
+  .key{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .key b{color:var(--teal2)}.key .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-right:8px}
+  .alarm{border-left:4px solid var(--r);background:var(--rbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .alarm .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--r);margin-right:8px}
+  .okbox{border-left:4px solid var(--ok);background:var(--okbg);border-radius:0 12px 12px 0;padding:11px 14px;margin:12px 0;font-size:14.5px}
+  .okbox .lbl{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-right:8px}
+  .dz{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0;background:#fcfdfd}
+  .dz h4{margin:0 0 8px;font-family:'Spectral',serif;font-size:16.5px;color:var(--teal2)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:680px){.grid2,.grid3{grid-template-columns:1fr}}
+  .tablewrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--teal);color:#eaf3f3;font-weight:600;font-size:12.5px}
+  tbody tr:nth-child(even){background:#f6f9f9}
+  td.h{font-weight:600;color:var(--teal2);background:var(--teal-soft)!important;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px}
+  .pill.ieca{color:var(--ieca);background:var(--iecabg)}
+  .pill.ara{color:var(--ara);background:var(--arabg)}
+  .pill.bcc{color:var(--bcc);background:var(--bccbg)}
+  .pill.bb{color:var(--bb);background:var(--bbbg)}
+  .pill.tia{color:var(--tia);background:var(--tiabg)}
+  .pill.r{color:var(--r);background:var(--rbg)}
+  .pill.ok{color:var(--ok);background:var(--okbg)}
+  figure{margin:18px 0;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+  figure svg{max-width:100%;height:auto}figcaption{font-size:12.5px;color:var(--soft);margin-top:10px;font-style:italic}
+  .toc{columns:2;column-gap:28px;font-size:14px}
+  @media(max-width:600px){.toc{columns:1}}
+  .toc a{color:var(--teal);text-decoration:none;display:block;padding:3px 0;border-bottom:1px dotted var(--line)}.toc a:hover{color:var(--amber)}
+  .note{font-size:12.5px;color:var(--soft);background:#f3f6f6;border-radius:10px;padding:10px 14px;margin:14px 0}
+  .ojo{border:2px solid var(--r);background:var(--rbg);border-radius:14px;padding:18px 20px;margin:16px 0}
+  .ojo .ojtitle{font-family:'Spectral',serif;font-size:17px;font-weight:700;color:var(--r);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .ojo ul{margin:6px 0;padding-left:20px}
+  .ojo li{margin:5px 0;font-size:14.5px}
+  .farmtag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border-radius:20px;padding:3px 10px;margin:2px;border:1px solid currentColor}
+  .farmtag.ieca{color:var(--ieca);background:var(--iecabg)}
+  .farmtag.ara{color:var(--ara);background:var(--arabg)}
+  .farmtag.bcc{color:var(--bcc);background:var(--bccbg)}
+  .farmtag.bb{color:var(--bb);background:var(--bbbg)}
+  .farmtag.tia{color:var(--tia);background:var(--tiabg)}
+  .farmtag.r{color:var(--r);background:var(--rbg)}
+  .combo-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0;font-size:14px}
+  .plus{font-weight:700;color:var(--soft);font-size:16px}
+  .combo-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:6px}
+  .combo-label.ok{color:var(--ok);background:var(--okbg)}
+  .combo-label.warn{color:var(--tia);background:var(--tiabg)}
+  .combo-label.r{color:var(--r);background:var(--rbg)}
+  @media print{body{background:#fff;padding:0}section,.cover{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- PORTADA -->
+<div class="cover">
+  <p class="eb">Farmacología · Fármacos Antihipertensivos · Seminario HTA 2025</p>
+  <h1>Selección del Tratamiento Antihipertensivo</h1>
+  <p>Resumen farmacológico completo: mecanismos de acción, RAM, indicaciones preferentes, contraindicaciones y combinaciones. Orientado a examen.</p>
+</div>
+
+<!-- ÍNDICE -->
+<section>
+  <h2>Índice</h2>
+  <div class="toc">
+    <a href="#criterios">0 · Criterios de selección de fármacos</a>
+    <a href="#definicion">I · Definición y objetivos de PA</a>
+    <a href="#grupos">II · Grupos farmacológicos (mecanismo + RAM)</a>
+    <a href="#diureticos">II·A · Diuréticos</a>
+    <a href="#bcc">II·B · Bloqueantes de canales de calcio</a>
+    <a href="#sraa">II·C · Bloqueantes del SRAA (IECA / ARA II)</a>
+    <a href="#bb">II·D · Betabloqueantes</a>
+    <a href="#otros">II·E · Otros (alfa-bloqueantes, centrales, vasodilatadores)</a>
+    <a href="#combinaciones">III · Combinaciones: elección, aceptables, prohibidas</a>
+    <a href="#situaciones">IV · Selección según situación clínica</a>
+    <a href="#esquema">V · Esquema visual resumen</a>
+    <a href="#ojoexamen">VI · 👁 OJO CUIDADO — Lo más preguntable</a>
+  </div>
+</section>
+
+<!-- SECCIÓN 0 CRITERIOS -->
+<section id="criterios">
+  <h2><span class="romnum">0</span> Criterios de selección de fármacos</h2>
+  <p class="lead">La selección del medicamento es un proceso continuo, multidisciplinar y participativo basado en cuatro ejes.</p>
+  <div class="grid2">
+    <div class="dz">
+      <h4>1 · Eficacia / Efectividad</h4>
+      <p>Priorizar <b>variables de interés para el paciente</b>: mortalidad, ictus, infarto, insuficiencia renal. Las variables subrogadas (TA, proteinuria) son intermedias, no el fin.</p>
+      <p>Jerarquía de evidencia: <b>Metaanálisis/RS &gt; ECA &gt; Cohortes &gt; Casos-control &gt; Opinión expertos</b>.</p>
+    </div>
+    <div class="dz">
+      <h4>2 · Seguridad</h4>
+      <p>Farmacovigilancia: PRAC (Comité de la EMA). Conocer RAM frecuentes y graves de cada clase.</p>
+    </div>
+    <div class="dz">
+      <h4>3 · Coste</h4>
+      <p>Usar genéricos cuando la eficacia es equivalente. Los fármacos de primera línea son baratos y tienen amplia evidencia.</p>
+    </div>
+    <div class="dz">
+      <h4>4 · Conveniencia</h4>
+      <p>Posología 1 vez/día, combinaciones en un solo comprimido → mejora <b>adherencia</b>. La adherencia es el principal problema de la HTA.</p>
+    </div>
+  </div>
+  <div class="key"><span class="lbl">Clave farma</span> El objetivo de los antihipertensivos NO es bajar la TA en sí misma, sino reducir <b>morbimortalidad CV</b> (ictus, IAM, insuficiencia renal, muerte). La TA es una variable <b>subrogada</b>.</div>
+</section>
+
+<!-- SECCIÓN I DEFINICIÓN -->
+<section id="definicion">
+  <h2><span class="romnum">I</span> Definición y objetivos de PA</h2>
+  <p class="lead">Hipertensión: PA en consulta ≥ 140/90 mmHg (confirmada con AMPA o MAPA). "PA elevada": sistólica 120-139 o diastólica 70-89.</p>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Objetivo de PA (Guía ESC 2024)</h4>
+      <ul>
+        <li><b>Objetivo general:</b> 120-129 / 70-79 mmHg si se tolera bien</li>
+        <li><b>Nunca:</b> &lt; 120/70 mmHg (riesgo de hipotensión, caídas, daño renal)</li>
+        <li><b>PA diastólica:</b> mantener entre 70-80 mmHg</li>
+        <li><b>≥ 85 años sin fragilidad:</b> mismas recomendaciones si se tolera</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>¿Cuándo iniciar fármaco?</h4>
+      <ul>
+        <li><b>PA ≥ 140/90 mmHg</b> confirmada → iniciar tratamiento independientemente del RCV</li>
+        <li><b>PA elevada + RCV alto:</b> tratar tras 3 meses de cambios de estilo de vida si PA ≥ 130/80</li>
+        <li><b>PA elevada + RCV bajo/medio:</b> primero cambios de estilo de vida</li>
+        <li>El tratamiento debe mantenerse <b>de por vida</b>, incluso tras los 85 años</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alarm"><span class="lbl">Principio clave</span> Los cambios de <b>estilo de vida</b> (ejercicio, dieta, dejar de fumar, reducir sal/alcohol) son siempre parte del tratamiento, pero <b>nunca deben retrasar el fármaco</b> en pacientes con daño orgánico o RCV alto.</div>
+</section>
+
+<!-- SECCIÓN II GRUPOS -->
+<section id="grupos">
+  <h2><span class="romnum">II</span> Grupos farmacológicos: mecanismo y RAM</h2>
+  <p class="lead">Cuatro clases de primera línea con evidencia sólida de reducción de morbimortalidad CV. Los demás se reservan para situaciones especiales.</p>
+  <div class="key"><span class="lbl">Primera línea</span> Solo 4 clases tienen evidencia de reducir morbimortalidad en ECA: <b>IECA · ARA II · BCC · Diuréticos tiazídicos</b>. Los betabloqueantes son primera línea solo en indicaciones específicas (angina, IC-FEr, FA, post-IAM).</div>
+</section>
+
+<!-- DIURÉTICOS -->
+<section id="diureticos">
+  <h2><span class="romnum">II·A</span> Diuréticos <span class="chip tia">mecanismo: ↓ volumen</span></h2>
+  <p class="lead">Reducen la PA disminuyendo el volumen sanguíneo (retención de Na⁺/H₂O). Tres subtipos con características muy distintas.</p>
+
+  <h3>Tiazidas y análogos <span class="chip ok">1ª línea HTA</span></h3>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Fármacos</h4>
+      <p><b>Tiazidas:</b> hidroclorotiazida, altizida</p>
+      <p><b>Análogos (preferidos):</b> clortalidona, indapamida, xipamida</p>
+      <div class="key"><span class="lbl">Preferida</span> <b>Clortalidona &gt; hidroclorotiazida</b> (mayor vida media, mejor evidencia CV)</div>
+    </div>
+    <div class="dz">
+      <h4>Mecanismo de acción</h4>
+      <p>Inhiben el cotransportador Na⁺/Cl⁻ en el <b>túbulo contorneado distal</b> → ↓ reabsorción de Na⁺ → ↓ volumen → ↓ PA. Eficacia moderada (5-10% del Na⁺ filtrado).</p>
+      <p>Retienen <b>Ca²⁺</b> (útil en osteoporosis). Eliminan K⁺, Mg²⁺, aumentan ácido úrico.</p>
+    </div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>RAM</th><th>Precauciones</th><th>Contraindicaciones</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Hiperuricemia, <b>gota</b><br>Hipopotasemia<br>Hiponatremia<br>Fotosensibilidad<br>Hipercalcemia leve<br>↑ glucemia (resistencia insulina)</td>
+        <td>Síndrome metabólico<br>Intolerancia a glucosa<br>Antecedentes de gota<br>Embarazo (relativa)<br>Hiperpotasemia<br>Vigilar Na⁺, K⁺, ácido úrico, Ca²⁺</td>
+        <td><b>Gota</b> (contraindicación absoluta)<br>FG &lt; 30 ml/min: ↓ eficacia<br>(usar diurético de asa)</td>
+      </tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Interacción peligrosa</span> <b>Tiazidas + BB</b> → ↑ riesgo de diabetes de nueva aparición. Evitar en síndrome metabólico o alto riesgo de diabetes. También: no combinar tiazidas con ahorradores de K⁺ + AINE (Triple Whammy).</div>
+
+  <h3>Diuréticos de asa <span class="chip n">2ª línea HTA</span></h3>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Fármacos</h4>
+      <p>Furosemida, bumetanida, torasemida</p>
+    </div>
+    <div class="dz">
+      <h4>Características</h4>
+      <p>Inhiben el cotransportador Na⁺/K⁺/2Cl⁻ en el <b>asa de Henle</b>. Muy potentes (eliminan 20-25% del Na⁺ filtrado). <b>Útiles si FG &lt; 30 ml/min</b> (cuando las tiazidas pierden eficacia). Indicación principal: <b>IC descompensada</b>.</p>
+      <p class="note">⚠️ No son de primera elección en HTA. En ancianos: riesgo de deshidratación, caídas, hipopotasemia.</p>
+    </div>
+  </div>
+
+  <h3>Antagonistas de la aldosterona (ARM) <span class="chip bcc">HTA resistente / IC</span></h3>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Fármacos</h4>
+      <p><b>Espironolactona</b> (más usada, mayor evidencia), eplerenona (menos ginecomastia)</p>
+    </div>
+    <div class="dz">
+      <h4>Indicaciones clave</h4>
+      <ul>
+        <li><b>HTA resistente</b> (4º fármaco cuando fallan 3 fármacos a dosis óptimas)</li>
+        <li><b>IC-FEr</b> (reduce mortalidad)</li>
+        <li>Hiperaldosteronismo primario</li>
+      </ul>
+      <p><b>RAM:</b> <b>hiperpotasemia</b> (la más importante), ginecomastia e impotencia (espironolactona → cambiar a eplerenona).</p>
+      <p><b>Contraindicaciones:</b> FG &lt; 45 ml/min, K⁺ &gt; 4,5 mmol/L, con AINEs o suplementos de K⁺.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BCC -->
+<section id="bcc">
+  <h2><span class="romnum">II·B</span> Bloqueantes de Canales de Calcio (BCC) <span class="chip bcc">1ª línea HTA</span></h2>
+  <p class="lead">Inhiben los canales de Ca²⁺ tipo L → ↓ entrada de calcio en músculo liso vascular y cardiaco. Dos subgrupos con perfiles farmacológicos muy distintos.</p>
+
+  <div class="grid2">
+    <div class="dz">
+      <h4>Dihidropiridínicos (DHP)</h4>
+      <p class="note">amlodipino, felodipino, lercanidipino, nifedipino… (terminan en "-pino")</p>
+      <ul>
+        <li><b>Acción:</b> vasodilatación periférica predominante → ↓ resistencias periféricas → ↓ PA</li>
+        <li>Mínimo efecto cardiodepresor → pueden producir <b>taquicardia refleja</b> (sobre todo los de liberación rápida)</li>
+        <li><b>Efecto antianginoso</b> por vasodilatación coronaria</li>
+        <li><b>RAM principal:</b> <b>edema maleolar</b> (más en mujeres, no es edema por IC, no responde a diuréticos)</li>
+      </ul>
+      <div class="okbox"><span class="lbl">Preferidos</span> Los DHP son la opción de <b>primera elección entre los BCC</b> en la mayoría de casos de HTA. Amlodipino tiene la mejor evidencia.</div>
+    </div>
+    <div class="dz">
+      <h4>No dihidropiridínicos (no-DHP)</h4>
+      <p class="note">verapamilo, diltiazem → <b>Antiarrítmicos clase IV</b></p>
+      <ul>
+        <li><b>Acción:</b> vasodilatación (menos que DHP) + efecto <b>cardiodepresor</b> (cronotrópico y dromotrópico negativo): ↓ FC, ↓ conducción AV, ↓ contractilidad</li>
+        <li><b>Indicación especial:</b> HTA con taquicardia supraventricular, FA, angina de esfuerzo/vasoespástica</li>
+        <li><b>Verapamilo:</b> útil en FA para control de frecuencia</li>
+        <li><b>RAM:</b> estreñimiento (verapamilo), bradicardia, bloqueo AV</li>
+        <li><b>Interacciones CYP3A4</b> (muchas interacciones)</li>
+      </ul>
+      <div class="alarm"><span class="lbl">PROHIBIDO</span> No-DHP + Betabloqueante → riesgo grave de bradicardia y bloqueo AV. <b>No-DHP en IC-FEr: contraindicado.</b></div>
+    </div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>DHP (amlodipino...)</th><th>No-DHP (verapamilo, diltiazem)</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Vasodilatación</td><td>Intensa (periférica)</td><td>Moderada</td></tr>
+      <tr><td class="h">Efecto cardiaco</td><td>Mínimo (taquicardia refleja)</td><td><b>Marcado</b> (↓ FC, ↓ conducción AV)</td></tr>
+      <tr><td class="h">Indicación HTA</td><td>✓ Primera elección</td><td>Solo si arritmia concomitante</td></tr>
+      <tr><td class="h">IC-FEr</td><td>Permitido (amlodipino, felodipino)</td><td><b>Contraindicado</b></td></tr>
+      <tr><td class="h">Con BB</td><td>Se puede combinar</td><td><b>Evitar</b> (bradicardia + bloqueo)</td></tr>
+      <tr><td class="h">RAM principal</td><td>Edema maleolar</td><td>Estreñimiento, bradicardia, bloqueo AV</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- SRAA -->
+<section id="sraa">
+  <h2><span class="romnum">II·C</span> Bloqueantes del SRAA: IECA y ARA II <span class="chip ieca">1ª línea HTA</span></h2>
+  <p class="lead">El SRAA (Sistema Renina-Angiotensina-Aldosterona) es el eje neurohumoral más importante en la HTA. Angiotensina II produce vasoconstricción, retención hidrosalina, hipertrofia vascular y cardiaca, y daño glomerular.</p>
+
+  <div class="grid2">
+    <div class="dz">
+      <h4>IECA (inhibidores de la ECA)</h4>
+      <p class="note">enalapril, lisinopril, ramipril, perindopril, captopril...</p>
+      <ul>
+        <li>Bloquean la conversión de Angiotensina I → Angiotensina II</li>
+        <li>También inhiben la degradación de <b>bradicininas</b> → ↑ bradiquinina → <b>TOS</b> (RAM característica, más frecuente que con ARA II)</li>
+        <li>↑ prostaglandinas vasodilatadoras</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>ARA II (antagonistas del receptor AT1)</h4>
+      <p class="note">losartán, valsartán, candesartán, irbesartán, telmisartán, olmesartán...</p>
+      <ul>
+        <li>Bloquean directamente el receptor AT1 de la Angiotensina II</li>
+        <li><b>No afectan a las bradiquininas</b> → no producen tos (usar si intolerancia a IECA)</li>
+        <li>Olmesartán: asociado a enteropatía sprue-like (vigilar)</li>
+        <li>Se pueden usar si angioedema por IECA <b>después de 6 semanas</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Efectos farmacológicos y indicaciones especiales</h3>
+  <div class="grid2">
+    <div class="dz">
+      <h4>Efectos vasculares y cardíacos</h4>
+      <ul>
+        <li>↓ resistencia vascular periférica → vasodilatación</li>
+        <li>Mejoran el <b>remodelado vascular y cardíaco</b></li>
+        <li>↓ mortalidad post-IAM</li>
+        <li>Indicados en IC-FEr, post-IAM con disfunción VI</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Efectos renales (muy importante)</h4>
+      <ul>
+        <li>↓ presión intraglomerular → <b>antiproteinúrico</b></li>
+        <li>Frenan la progresión: normoalbuminuria → microalbuminuria → macroalbuminuria → ERT</li>
+        <li><b>Preferidos en DM con microalbuminuria</b> (mejor IECA que ARA II)</li>
+        <li>En ERC: iniciar con IECA/ARA II + BCC o diurético</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>RAM y contraindicaciones del SRAA</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>RAM</th><th>Mecanismo</th><th>Manejo</th></tr></thead>
+    <tbody>
+      <tr><td class="h">TOS SECA</td><td>↑ bradiquininas (solo IECA)</td><td>Cambiar a ARA II</td></tr>
+      <tr><td class="h">Hiperpotasemia</td><td>↓ aldosterona → retención K⁺</td><td>Vigilar K⁺; precaución con ahorradores K⁺, ERC</td></tr>
+      <tr><td class="h">Insuf. renal aguda</td><td>↓ presión eferen te (estenosis art. renal bilateral)</td><td>Contraindicados en estenosis bilateral</td></tr>
+      <tr><td class="h">Angioedema</td><td>↑ bradiquininas (IECA &gt; ARA II)</td><td>Contraindicado en angioedema previo por IECA</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alarm"><span class="lbl">Triple Whammy</span> <b>IECA/ARA II + AINE + Diurético = Riesgo de Insuficiencia Renal Aguda</b>. Los AINEs vasoconstringen la arteriola aferente, el IECA/ARA II dilata la eferente, y el diurético ↓ volumen → caída drástica del FG.</div>
+  <div class="alarm"><span class="lbl">Contraindicaciones absolutas</span> <b>Embarazo</b> (teratógenos: IECA, ARA II, Aliskiren). <b>Hiperpotasemia</b> (&gt;5,5 mmol/L). <b>Estenosis renal bilateral</b>. Angioedema previo por IECA. <b>NUNCA combinar IECA + ARA II</b> (mayor RAM sin beneficio).</div>
+</section>
+
+<!-- BETABLOQUEANTES -->
+<section id="bb">
+  <h2><span class="romnum">II·D</span> Betabloqueantes (BB) <span class="chip bb">Indicación específica</span></h2>
+  <p class="lead">No son de primera elección en HTA sin comorbilidad. Son fármacos de elección cuando hay indicación cardiovascular específica.</p>
+
+  <div class="grid2">
+    <div class="dz">
+      <h4>Mecanismo de acción</h4>
+      <ul>
+        <li>Bloquean receptores β₁ adrenérgicos cardíacos → ↓ FC (cronotrópico negativo), ↓ contractilidad (inotrópico negativo) → ↓ gasto cardíaco → ↓ PA</li>
+        <li>También ↓ secreción de renina → ↓ Angiotensina II</li>
+        <li>Efecto <b>antiarrítmico</b>, <b>antiisquémico</b> (↓ consumo O₂)</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Clasificación</h4>
+      <p><b>Cardioselectivos (β₁):</b> bisoprolol, metoprolol, atenolol, nebivolol, esmolol</p>
+      <p><b>No cardioselectivos (β₁+β₂):</b> propranolol, pindolol</p>
+      <p><b>α+β bloqueantes:</b> carvedilol, labetalol (útil en embarazo)</p>
+      <div class="okbox"><span class="lbl">En IC-FEr</span> Solo carvedilol, bisoprolol, nebivolol y metoprolol tienen evidencia en IC.</div>
+    </div>
+  </div>
+
+  <h3>Indicaciones de elección <span class="chip ok">cuándo SÍ usar BB</span></h3>
+  <ul>
+    <li><b>Cardiopatía isquémica / post-IAM:</b> carvedilol, bisoprolol, metoprolol ↓ riesgo de nuevo infarto y mortalidad</li>
+    <li><b>IC con FE reducida (IC-FEr):</b> junto a IECA/ARA II y ARM</li>
+    <li><b>Fibrilación auricular:</b> control de frecuencia ventricular</li>
+    <li><b>Angina sintomática</b></li>
+    <li><b>Embarazo:</b> labetalol (α+β); evitar atenolol</li>
+  </ul>
+
+  <h3>RAM de betabloqueantes</h3>
+  <div class="alarm"><span class="lbl">RAM importantes</span>
+    Bradicardia, bloqueo AV · Broncoespasmo (β₂: vías aéreas) · <b>Enmascaramiento de hipoglucemias</b> en diabéticos (no enmascara la sudoración) · <b>↑ riesgo de diabetes</b> (especialmente con tiazidas) · Frialdad de extremidades · Disfunción eréctil · Aumento de peso · Fatiga · Hipertrigliceridemia.
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Cardioselectivos</th><th>No cardioselectivos</th></tr></thead>
+    <tbody>
+      <tr><td class="h">Asma leve-moderada controlada</td><td>Posible con precaución (si indicación firme)</td><td><b>Contraindicados</b></td></tr>
+      <tr><td class="h">Asma grave</td><td><b>Contraindicados</b></td><td><b>Contraindicados</b></td></tr>
+      <tr><td class="h">EPOC</td><td>Seguros cuando están indicados</td><td>Precaución</td></tr>
+      <tr><td class="h">Diabetes</td><td>Precaución (enmascaran hipoglucemia)</td><td>Más riesgo (también β₂ pancreático)</td></tr>
+      <tr><td class="h">IC-FEr</td><td>Carvedilol, bisoprolol, nebivolol, metoprolol</td><td>No recomendados</td></tr>
+    </tbody>
+  </table></div>
+  <div class="key"><span class="lbl">En EPOC</span> Los BB cardioselectivos en EPOC son <b>seguros</b> cuando están indicados (IC, post-IAM). El EPOC <b>no contraindica</b> el uso de cardioselectivos. Sin embargo, si el paciente EPOC solo tiene HTA sin cardiopatía, se prefieren otros antihipertensivos.</div>
+</section>
+
+<!-- OTROS -->
+<section id="otros">
+  <h2><span class="romnum">II·E</span> Otros antihipertensivos <span class="chip n">segunda línea / indicaciones especiales</span></h2>
+  <p class="lead">Se usan como complemento cuando las clases de primera línea no son suficientes o están contraindicadas.</p>
+
+  <div class="grid2">
+    <div class="dz">
+      <h4>Alfa-1 bloqueantes</h4>
+      <p class="note">doxazosina, prazosina, terazosina, urapidil</p>
+      <ul>
+        <li>Vasodilatación arteriolar y venosa → ↓ resistencias periféricas</li>
+        <li><b>Indicación especial:</b> HTA + <b>hiperplasia benigna de próstata</b> (receptores α₁ en próstata → mejoran síntomas urinarios)</li>
+        <li><b>HTA resistente</b> como 4ª o 5ª opción</li>
+        <li><b>RAM:</b> <b>hipotensión ortostática</b> (especialmente en ancianos → caídas), cefalea, somnolencia. Precaución en la primera dosis.</li>
+        <li><b>NO usar en monoterapia</b> como primer escalón</li>
+        <li>Precaución en IC</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Antiadrenérgicos de acción central</h4>
+      <p class="note">metildopa, clonidina, moxonidina, rilmenidina</p>
+      <ul>
+        <li>Agonistas α₂ centrales (metildopa, clonidina) o receptores imidazólicos (moxonidina)</li>
+        <li>↓ actividad simpática central → ↓ PA</li>
+        <li><b>Metildopa:</b> fármaco de elección en <b>HTA del embarazo</b> (larga experiencia de seguridad); precaución: posible depresión postparto</li>
+        <li><b>Clonidina:</b> solo para crisis hipertensivas; evitar suspensión brusca (HTA de rebote)</li>
+        <li>Moxonidina, rilmenidina: segunda línea, mejor toleradas</li>
+        <li><b>RAM:</b> sedación, boca seca, hipotensión ortostática (especialmente en ancianos)</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Inhibidores directos de la renina</h4>
+      <p class="note">aliskiren</p>
+      <ul>
+        <li>Bloquea la renina → ↓ toda la cascada del SRAA</li>
+        <li><b>NO combinar con IECA o ARA II</b> (↑ hiperpotasemia, hipotensión, IR; contraindicado en diabéticos y con IR moderada-grave)</li>
+        <li>Vida media muy larga</li>
+        <li><b>Contraindicado en embarazo</b></li>
+        <li>Uso muy limitado en la práctica</li>
+      </ul>
+    </div>
+    <div class="dz">
+      <h4>Vasodilatadores directos</h4>
+      <p class="note">hidralazina, minoxidil, nitroprusiato</p>
+      <ul>
+        <li>Relajan directamente el músculo liso vascular</li>
+        <li><b>Hidralazina:</b> HTA grave en embarazo (iv hospitalario), alternativa a espironolactona en HTA resistente; RAM: síndrome lupus-like a dosis altas, taquicardia refleja, retención hidrosalina</li>
+        <li><b>Minoxidil:</b> HTA muy resistente; RAM: hirsutismo, derrame pericárdico; siempre con diurético de asa</li>
+        <li><b>Nitroprusiato:</b> crisis hipertensivas (iv, hospitalario únicamente)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COMBINACIONES -->
+<section id="combinaciones">
+  <h2><span class="romnum">III</span> Combinaciones de antihipertensivos</h2>
+  <p class="lead">La mayoría de pacientes necesitará ≥2 fármacos. Iniciar con 1 o 2 fármacos según cifras de PA, RCV, edad y situación clínica. Las combinaciones actúan sobre distintas vías fisiopatológicas.</p>
+
+  <h3>Combinaciones de elección <span class="chip ok">✓ recomendadas</span></h3>
+  <div class="dz">
+    <div class="combo-row"><span class="farmtag ieca">IECA</span><span class="plus">+</span><span class="farmtag bcc">BCC DHP</span><span class="combo-label ok">MEJOR COMBINACIÓN</span></div>
+    <div class="combo-row"><span class="farmtag ara">ARA II</span><span class="plus">+</span><span class="farmtag bcc">BCC DHP</span><span class="combo-label ok">ELECCIÓN</span></div>
+    <div class="combo-row"><span class="farmtag ieca">IECA</span><span class="plus">+</span><span class="farmtag tia">Tiazida</span><span class="combo-label ok">ELECCIÓN</span></div>
+    <div class="combo-row"><span class="farmtag ara">ARA II</span><span class="plus">+</span><span class="farmtag tia">Tiazida</span><span class="combo-label ok">ELECCIÓN</span></div>
+    <div class="combo-row"><span class="farmtag bcc">BCC DHP</span><span class="plus">+</span><span class="farmtag tia">Tiazida</span><span class="combo-label ok">ELECCIÓN</span></div>
+    <div class="combo-row"><span class="farmtag bcc">BCC DHP</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label ok">ELECCIÓN</span></div>
+  </div>
+
+  <h3>Combinaciones aceptables <span class="chip n">en contextos específicos</span></h3>
+  <div class="dz">
+    <div class="combo-row"><span class="farmtag tia">Tiazida</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label warn">PRECAUCIÓN ↑ DM nueva</span></div>
+    <div class="combo-row"><span class="farmtag tia">Tiazida</span><span class="plus">+</span><span class="farmtag n" style="color:#4a5b62;background:#eef2f3;border-color:#9fb3b6">Ahorrador K⁺</span><span class="combo-label warn">PRECAUCIÓN hiperpotasemia</span></div>
+    <p class="note">IECA/ARA II + ARM (espironolactona): usable en IC, pero vigilar hiperpotasemia. BB + IECA/ARA II: no sinérgica para HTA pero indicada en IC y post-IAM.</p>
+  </div>
+
+  <h3>Combinaciones menos efectivas <span class="chip r">evitar si posible</span></h3>
+  <div class="dz">
+    <div class="combo-row"><span class="farmtag ieca">IECA</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label warn">NO sinérgica (solo si IC/cardiopatía)</span></div>
+    <div class="combo-row"><span class="farmtag ara">ARA II</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label warn">NO sinérgica antihipertensiva</span></div>
+    <div class="combo-row"><span class="farmtag n" style="color:#4a5b62;background:#eef2f3;border-color:#9fb3b6">Central</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label warn">NO recomendada</span></div>
+  </div>
+
+  <h3>Combinaciones PROHIBIDAS <span class="chip r">✗ contraindicadas</span></h3>
+  <div class="alarm">
+    <div class="combo-row"><span class="farmtag ieca">IECA</span><span class="plus">+</span><span class="farmtag ara">ARA II</span><span class="combo-label r">PROHIBIDO</span><span style="font-size:13px"> → ↑ hiperpotasemia, hipotensión, fallo renal</span></div>
+    <div class="combo-row"><span class="farmtag ieca">IECA o ARA II</span><span class="plus">+</span><span class="farmtag r" style="color:var(--r);background:var(--rbg)">Aliskiren</span><span class="combo-label r">PROHIBIDO en diabéticos/IR</span></div>
+    <div class="combo-row"><span class="farmtag bcc" style="color:var(--bcc)">BCC no-DHP</span><span class="plus">+</span><span class="farmtag bb">BB</span><span class="combo-label r">PROHIBIDO</span><span style="font-size:13px"> → bradicardia grave, bloqueo AV</span></div>
+    <div class="combo-row"><span class="farmtag ieca">IECA/ARA II</span><span class="plus">+</span><span class="farmtag tia">Tiazida</span><span class="plus">+</span><span class="farmtag r" style="color:var(--r);background:var(--rbg)">AINE</span><span class="combo-label r">TRIPLE WHAMMY → IRA</span></div>
+    <p style="margin-top:8px;font-size:14px"><b>Tampoco:</b> IECA + ARA II + ahorrador de K⁺ = riesgo extremo de hiperpotasemia</p>
+  </div>
+</section>
+
+<!-- SITUACIONES CLÍNICAS -->
+<section id="situaciones">
+  <h2><span class="romnum">IV</span> Selección según situación clínica</h2>
+  <p class="lead">La comorbilidad del paciente orienta la elección del antihipertensivo. En algunos casos el fármaco antihipertensivo elegido trata simultáneamente varias condiciones.</p>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Situación clínica</th><th>Fármaco(s) preferido(s)</th><th>Evitar / Contraindicado</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="h">HTA sin comorbilidad</td>
+        <td><b>IECA o ARA II + BCC DHP</b> (combinación más recomendada) o + tiazida</td>
+        <td>Vasodilatadores directos, centrales (primera línea)</td>
+      </tr>
+      <tr>
+        <td class="h">Post-IAM / Angina estable</td>
+        <td><b>BB + IECA/ARA II</b>; si CI a BB: BCC no-DHP (verapamilo, diltiazem) — solo si no hay IC-FEr</td>
+        <td>Nifedipino de liberación rápida (↑ mortalidad)</td>
+      </tr>
+      <tr>
+        <td class="h">Angina vasoespástica</td>
+        <td>BCC (DHP o no-DHP), nitratos</td>
+        <td><b>BB</b> (pueden empeorar el vasoespasmo)</td>
+      </tr>
+      <tr>
+        <td class="h">IC con FE reducida (IC-FEr)</td>
+        <td><b>IECA o ARA II o sacubitrilo/valsartán + BB + ARM + iSGLT2</b></td>
+        <td><b>BCC no-DHP</b> (verapamilo, diltiazem): contraindicados. BCC DHP solo si necesario.</td>
+      </tr>
+      <tr>
+        <td class="h">FA (control frecuencia)</td>
+        <td>BB, verapamilo</td>
+        <td>Tiazidas (no controlan FC)</td>
+      </tr>
+      <tr>
+        <td class="h">Diabetes + microalbuminuria</td>
+        <td><b>IECA</b> (de elección) o ARA II; añadir BCC DHP o tiazida</td>
+        <td>Precaución con BB + tiazidas (↑ DM). Aliskiren contraindicado con IECA/ARA II.</td>
+      </tr>
+      <tr>
+        <td class="h">ERC / Proteinuria</td>
+        <td><b>IECA o ARA II + BCC o diurético</b>; si FG &lt; 30: furosemida en vez de tiazida</td>
+        <td>Tiazidas si FG &lt; 30. ARM si FG &lt; 45 / K⁺ &gt; 4,5</td>
+      </tr>
+      <tr>
+        <td class="h">Asma grave</td>
+        <td>IECA, ARA II, BCC, tiazidas</td>
+        <td><b>BB (todos)</b> están contraindicados</td>
+      </tr>
+      <tr>
+        <td class="h">EPOC (con indicación firme de BB)</td>
+        <td>IECA, ARA II, BCC; <b>BB cardioselectivos</b> si indicación firme (IC/post-IAM)</td>
+        <td>BB no cardioselectivos. Tiazidas: no de inicio en EPOC.</td>
+      </tr>
+      <tr>
+        <td class="h">Embarazo</td>
+        <td><b>Labetalol</b> (1ª línea), <b>nifedipino LP</b> (BCC DHP), <b>metildopa</b></td>
+        <td><b>IECA, ARA II, Aliskiren: TERATÓGENOS</b>. Tiazidas: contraindicación relativa.</td>
+      </tr>
+      <tr>
+        <td class="h">Gota / Hiperuricemia</td>
+        <td>IECA, ARA II (losartán tiene efecto uricosúrico), BCC</td>
+        <td><b>Tiazidas: contraindicadas en gota activa</b>. Diuréticos de asa: precaución.</td>
+      </tr>
+      <tr>
+        <td class="h">HTA + HBP (próstata)</td>
+        <td><b>Doxazosina</b> (α-bloqueante: trata ambas condiciones)</td>
+        <td>Precaución: hipotensión ortostática</td>
+      </tr>
+      <tr>
+        <td class="h">HTA resistente</td>
+        <td><b>Espironolactona</b> como 4º fármaco (si FG &gt; 45 y K⁺ normal); si intolerancia: eplerenona o doxazosina</td>
+        <td>Asegurar antes adherencia y descartar causas secundarias</td>
+      </tr>
+      <tr>
+        <td class="h">Anciano ≥ 85 años</td>
+        <td>BCC DHP de acción prolongada, IECA/ARA II, tiazida a dosis baja</td>
+        <td>BB (peores en HTA sistólica aislada), alfa-bloqueantes (caídas), diuréticos de asa (caídas)</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ESQUEMA VISUAL -->
+<section id="esquema">
+  <h2><span class="romnum">V</span> Esquema visual resumen</h2>
+
+  <h3>Mecanismo → fármaco → efecto</h3>
+  <figure>
+    <svg width="100%" viewBox="0 0 760 320" role="img" aria-label="Esquema mecanismo de acción antihipertensivos">
+      <!-- PA = GC x RP -->
+      <rect x="290" y="10" width="180" height="44" rx="10" fill="#0f4d57"/>
+      <text x="380" y="29" text-anchor="middle" style="font:700 13px Inter;fill:#eaf3f3">PRESIÓN ARTERIAL</text>
+      <text x="380" y="47" text-anchor="middle" style="font:400 11px Inter;fill:#8fc3c7">= Gasto Cardíaco × Resistencias</text>
+      <!-- Rama GC -->
+      <line x1="330" y1="54" x2="190" y2="95" stroke="#9fb3b6" stroke-width="1.5"/>
+      <rect x="90" y="95" width="200" height="50" rx="9" fill="#fde8d9" stroke="#e08040"/>
+      <text x="190" y="115" text-anchor="middle" style="font:700 12px Inter;fill:#9a4010">↓ Gasto Cardíaco</text>
+      <text x="190" y="132" text-anchor="middle" style="font:400 10.5px Inter;fill:#9a4010">BB (β₁: ↓ FC, ↓ contractilidad)</text>
+      <!-- Rama RP -->
+      <line x1="430" y1="54" x2="570" y2="95" stroke="#9fb3b6" stroke-width="1.5"/>
+      <rect x="470" y="95" width="220" height="50" rx="9" fill="#e3eff7" stroke="#5a9ec7"/>
+      <text x="580" y="115" text-anchor="middle" style="font:700 12px Inter;fill:#1a5e86">↓ Resistencias</text>
+      <text x="580" y="132" text-anchor="middle" style="font:400 10.5px Inter;fill:#1a5e86">BCC DHP, IECA/ARA II, Alfa-BL</text>
+      <!-- Rama volumen -->
+      <line x1="380" y1="54" x2="380" y2="95" stroke="#9fb3b6" stroke-width="1.5"/>
+      <rect x="290" y="95" width="180" height="50" rx="9" fill="#f7edda" stroke="#cf8327"/>
+      <text x="380" y="115" text-anchor="middle" style="font:700 12px Inter;fill:#8a4b12">↓ Volumen</text>
+      <text x="380" y="132" text-anchor="middle" style="font:400 10.5px Inter;fill:#8a4b12">Diuréticos (tiazidas, asa, ARM)</text>
+      <!-- Flecha -->
+      <line x1="190" y1="145" x2="380" y2="192" stroke="#9fb3b6" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <line x1="380" y1="145" x2="380" y2="192" stroke="#9fb3b6" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <line x1="580" y1="145" x2="380" y2="192" stroke="#9fb3b6" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <!-- SRAA -->
+      <rect x="210" y="192" width="340" height="50" rx="10" fill="#e4f3ea" stroke="#1f6f4a"/>
+      <text x="380" y="213" text-anchor="middle" style="font:700 12px Inter;fill:#1f6f4a">Bloqueo SRAA</text>
+      <text x="380" y="232" text-anchor="middle" style="font:400 10.5px Inter;fill:#2c4a3a">IECA: ↓ Ang II + ↑ bradiquininas → TOS</text>
+      <!-- RAM box -->
+      <rect x="20" y="255" width="340" height="50" rx="9" fill="#fbe7e4" stroke="#b23a32"/>
+      <text x="190" y="274" text-anchor="middle" style="font:700 11px Inter;fill:#b23a32">RAM críticas</text>
+      <text x="190" y="291" text-anchor="middle" style="font:400 10px Inter;fill:#7a2020">BB: broncoespasmo · IECA: TOS, hiperpotasemia</text>
+      <text x="190" y="308" text-anchor="middle" style="font:400 10px Inter;fill:#7a2020">Tiazidas: gota · ARM: ginecomastia, hiperpotasemia</text>
+      <!-- Embarazo box -->
+      <rect x="400" y="255" width="340" height="50" rx="9" fill="#f1e6f4" stroke="#7a3a8f"/>
+      <text x="570" y="274" text-anchor="middle" style="font:700 11px Inter;fill:#7a3a8f">TERATÓGENOS: nunca en embarazo</text>
+      <text x="570" y="291" text-anchor="middle" style="font:400 10px Inter;fill:#5a1a6f">IECA + ARA II + Aliskiren = PROHIBIDOS</text>
+      <text x="570" y="308" text-anchor="middle" style="font:400 10px Inter;fill:#5a1a6f">Usar: labetalol / nifedipino LP / metildopa</text>
+    </svg>
+    <figcaption>Ejes de acción antihipertensiva y los fármacos que actúan en cada uno. La RAM más preguntable de cada grupo está resaltada.</figcaption>
+  </figure>
+
+  <h3>Situaciones clínicas → fármacos de elección (resumen rápido)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Situación</th><th>1ª Elección</th><th>PROHIBIDO</th></tr></thead>
+    <tbody>
+      <tr><td class="h">HTA sin comorbilidad</td><td>IECA/ARA II + BCC DHP o tiazida</td><td>—</td></tr>
+      <tr><td class="h">Post-IAM / Angina</td><td>BB + IECA/ARA II</td><td>BCC no-DHP si IC-FEr</td></tr>
+      <tr><td class="h">IC-FEr</td><td>IECA + BB + ARM + iSGLT2</td><td>BCC no-DHP (verapamilo, diltiazem)</td></tr>
+      <tr><td class="h">DM + proteinuria</td><td>IECA (mejor) o ARA II</td><td>IECA + ARA II combinados</td></tr>
+      <tr><td class="h">Embarazo</td><td>Labetalol / Nifedipino LP / Metildopa</td><td>IECA, ARA II, Aliskiren</td></tr>
+      <tr><td class="h">Gota</td><td>IECA / ARA II / BCC</td><td>Tiazidas</td></tr>
+      <tr><td class="h">Asma grave</td><td>IECA / ARA II / BCC / Tiazidas</td><td>BB (todos)</td></tr>
+      <tr><td class="h">HBP</td><td>Doxazosina (α-bloqueante)</td><td>—</td></tr>
+      <tr><td class="h">Angina vasoespástica</td><td>BCC + nitratos</td><td>BB</td></tr>
+      <tr><td class="h">HTA resistente</td><td>Espironolactona (4ª opción)</td><td>IECA + ARA II + ARM juntos</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- OJO CUIDADO -->
+<section id="ojoexamen">
+  <h2><span class="romnum">VI</span> 👁 OJO CUIDADO — Lo más preguntable</h2>
+  <p class="lead">Puntos de alta probabilidad de aparición en examen de Farmacología sobre antihipertensivos.</p>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 1. TOS SECA: IECA sí, ARA II NO</div>
+    <ul>
+      <li>La tos seca es RAM <b>exclusiva de IECA</b> (por acumulación de bradiquininas al inhibir la ECA que también las degrada)</li>
+      <li>Los ARA II bloquean el receptor AT1 directamente → <b>NO afectan a bradiquininas → NO producen tos</b></li>
+      <li>Si un paciente con IECA tiene tos → cambiar a ARA II</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 2. TERATÓGENOS: IECA, ARA II y Aliskiren</div>
+    <ul>
+      <li>Los tres bloqueantes del SRAA están <b>absolutamente contraindicados en el embarazo</b></li>
+      <li>En embarazo: labetalol (α+β-bloqueante), nifedipino de liberación prolongada (BCC DHP), metildopa</li>
+      <li>Atenolol: evitar en embarazo. Tiazidas: contraindicación relativa.</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 3. TRIPLE WHAMMY: IECA/ARA II + AINE + Diurético = INSUFICIENCIA RENAL AGUDA</div>
+    <ul>
+      <li>AINE → vasoconstricción arteriola aferente (↓ entrada a glomérulo)</li>
+      <li>IECA/ARA II → vasodilatación arteriola eferente (↓ salida del glomérulo) → ↓ presión de filtración</li>
+      <li>Diurético → ↓ volumen circulante → ↓ perfusión renal</li>
+      <li>Los tres juntos → colapso del FG → IRA</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 4. HIPERPOTASEMIA: el riesgo compartido del SRAA</div>
+    <ul>
+      <li>IECA, ARA II, ARM (espironolactona, eplerenona): todos reducen aldosterona → ↑ K⁺</li>
+      <li>Combinar cualquiera de ellos aumenta el riesgo</li>
+      <li><b>IECA + ARA II + ARM: triple combinación peligrosa → hiperpotasemia grave</b></li>
+      <li>Contraindicados si K⁺ &gt; 5,5 mmol/L. ARM contraindicados si K⁺ &gt; 4,5 mmol/L o FG &lt; 45</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 5. BCC NO-DHP (verapamilo, diltiazem) en IC-FEr: CONTRAINDICADO</div>
+    <ul>
+      <li>Verapamilo y diltiazem tienen efecto cardiodepresor → en IC-FEr empeoran la función sistólica → contraindicados</li>
+      <li>Si hay IC-FEr y se necesita BCC: solo amlodipino o felodipino (DHP)</li>
+      <li>No-DHP + BB: bradicardia + bloqueo AV → también evitar</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 6. BB en ASMA: contraindicado en asma grave; cardioselectivos solo si indicación firme</div>
+    <ul>
+      <li>Los BB no cardioselectivos bloquean β₂ bronquiales → broncoespasmo → <b>contraindicados en asma</b></li>
+      <li>Los cardioselectivos (bisoprolol, metoprolol...) son más seguros pero también se deben evitar en asma grave</li>
+      <li>En asma leve-moderada controlada + IC o post-IAM: se pueden usar cardioselectivos con precaución</li>
+      <li>BB en EPOC: los cardioselectivos son <b>seguros y pueden usarse</b> cuando están indicados (IC-FEr, post-IAM)</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 7. BB ENMASCARAN la hipoglucemia (pero NO la sudoración)</div>
+    <ul>
+      <li>Los BB bloquean la taquicardia, temblor y ansiedad de la hipoglucemia (mediados por catecolaminas)</li>
+      <li><b>No bloquean la sudoración</b> (mediada por neuronas colinérgicas): el único signo que permanece</li>
+      <li>BB + Tiazidas: sinergia negativa → ↑↑ riesgo de diabetes de nueva aparición. Evitar en síndrome metabólico.</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 8. Tiazidas en GOTA: CONTRAINDICADAS</div>
+    <ul>
+      <li>Tiazidas → ↑ ácido úrico (compiten con su excreción renal) → precipitan ataques de gota</li>
+      <li>Si el paciente hipertenso tiene gota: IECA, ARA II (losartán tiene efecto uricosúrico añadido), o BCC</li>
+      <li>Diuréticos de asa también ↑ ácido úrico: precaución</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 9. IECA + ARA II juntos = COMBINACIÓN PROHIBIDA</div>
+    <ul>
+      <li>No ofrecen beneficio adicional antihipertensivo</li>
+      <li>Duplican los efectos adversos: ↑ hiperpotasemia, hipotensión, fallo renal, ictus</li>
+      <li>Contraindicado también: IECA/ARA II + Aliskiren en diabéticos o IR moderada-grave</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 10. Espironolactona: 4º fármaco en HTA RESISTENTE + ginecomastia</div>
+    <ul>
+      <li>HTA resistente: PA no controlada con 3 fármacos (incluyendo diurético) a dosis óptimas con buena adherencia</li>
+      <li>4ª opción: espironolactona; si no tolera (ginecomastia, impotencia) → eplerenona o doxazosina</li>
+      <li>Contraindicada si FG &lt; 45 ml/min o K⁺ &gt; 4,5 mmol/L</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 11. Variable subrogada vs. variable clínica de interés</div>
+    <ul>
+      <li>La <b>TA es una variable subrogada</b>: bajarla no es el objetivo, sino reducir ictus, IAM y muerte</li>
+      <li>No todos los fármacos que bajan la TA igual tienen los mismos beneficios CV: la clase farmacológica importa</li>
+      <li>Ejemplo: los BB son peores que IECA/ARA II/BCC para prevención de ictus (aunque bajen igual la PA)</li>
+    </ul>
+  </div>
+
+  <div class="ojo">
+    <div class="ojtitle">⚠️ 12. Objetivo de PA: 120-129 / 70-79 — nunca &lt; 120/70</div>
+    <ul>
+      <li>Guía ESC 2024: objetivo sistólico 120-129 mmHg si se tolera bien</li>
+      <li>PA &lt; 120/70 mmHg → riesgo de hipotensión, caídas (ancianos), disfunción renal (fenómeno en J)</li>
+      <li>En ≥ 85 años frágiles: mismos objetivos solo si se tolera; considerar desprescripción si PA disminuye sola</li>
+    </ul>
+  </div>
+
+  <p class="note">Resumen elaborado a partir del Seminario HTA 2025-2026 (Silvia Herrero Hernández, Farmacéutica Atención Primaria) y la Guía ESC 2024. Para profundizar, consultar las guías ESC 2024 sobre manejo de la PA elevada y la hipertensión.</p>
+</section>
+
+</div>
+</body>
+</html>
