@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test T24 · Traumatología Ocular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eaeef0;--paper:#fff;--ink:#13232a;--ink-soft:#46585f;--teal:#0f4d57;--teal-deep:#0a3037;--amber:#cf8327;--amber-soft:#f6ecdc;--good:#1f7a4d;--good-bg:#e3f3ea;--bad:#b23a32;--bad-bg:#fbe7e4;--line:#d9e0e3;--shadow:0 10px 30px -16px rgba(10,48,55,.35);}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:18px 14px 60px}
+  .wrap{max-width:760px;margin:0 auto}
+  header.top{background:linear-gradient(135deg,var(--teal),var(--teal-deep));color:#eaf3f3;border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1c6b76,#0a3037 70%);box-shadow:inset 0 0 0 14px rgba(207,131,39,.25);opacity:.55}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8fc3c7;font-weight:600;margin:0 0 6px}
+  header.top h1{font-family:'Spectral',serif;font-weight:700;font-size:23px;line-height:1.15;margin:0 0 4px;position:relative;z-index:1}
+  header.top p.sub{margin:0;font-size:13px;color:#bcd7d9;position:relative;z-index:1}
+  .stats{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 12px;flex:1;min-width:84px}
+  .stat .n{font-size:19px;font-weight:700;font-family:'Spectral',serif}.stat .l{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9fc8cb}
+  .stat.good .n{color:#9ff0c2}.stat.bad .n{color:#ffb3ab}
+  .progress{height:7px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:14px;overflow:hidden;position:relative;z-index:1}
+  .progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),#e8a850);border-radius:99px;transition:width .35s}
+  .card{background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 20px;margin-top:18px;border:1px solid var(--line)}
+  .qmeta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .qnum{font-family:'Spectral',serif;font-weight:700;font-size:14px;color:var(--teal);background:var(--amber-soft);border:1px solid #ecdcc3;border-radius:8px;padding:3px 10px}
+  .tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);background:#eef2f3;border-radius:7px;padding:3px 9px}
+  .tag.case{color:#8a4b12;background:#f6ecdc}.tag.ddx{color:#7a3a8f;background:#f1e6f4}
+  .stem{font-family:'Spectral',serif;font-size:18px;line-height:1.4;margin:0 0 16px;font-weight:600}
+  .stem .case-lead{display:block;font-weight:400;font-style:italic;color:var(--ink-soft);font-size:15px;margin-bottom:8px}
+  .figure{margin:0 0 16px;background:#f5f8f8;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+  .figure svg{max-width:100%;height:auto}.figcap{font-size:11.5px;color:var(--ink-soft);margin-top:6px;font-style:italic}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{display:flex;gap:11px;align-items:flex-start;width:100%;background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;cursor:pointer;font:inherit;font-size:14.5px;color:var(--ink);transition:.15s;text-align:left}
+  .opt:hover:not(.locked){border-color:var(--teal);background:#f3f8f8}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:#eef2f3;color:var(--ink-soft);font-weight:700;font-size:13px;display:grid;place-items:center;font-family:'Spectral',serif}
+  .opt .txt{padding-top:1px}.opt.locked{cursor:default}
+  .opt.correct{border-color:var(--good);background:var(--good-bg)}.opt.correct .key{background:var(--good);color:#fff}
+  .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.wrong .key{background:var(--bad);color:#fff}
+  .opt.dim{opacity:.6}
+  .explain{margin-top:14px;border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:0 12px 12px 0;padding:12px 14px;font-size:14px;display:none}
+  .explain.show{display:block;animation:fade .3s}.explain b{color:var(--teal-deep)}
+  .verdict{font-weight:700;font-family:'Spectral',serif;font-size:15px;margin-bottom:3px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .nav{display:flex;gap:10px;margin-top:18px;align-items:center}
+  .btn{font:inherit;font-weight:600;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;border:1.5px solid var(--teal);transition:.15s}
+  .btn.ghost{background:#fff;color:var(--teal)}.btn.ghost:hover{background:#eef6f6}
+  .btn.solid{background:var(--teal);color:#fff;margin-left:auto}.btn.solid:hover{background:var(--teal-deep)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .jumpwrap{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+  .jumpwrap h3{margin:0 0 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .cell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:#fbfcfc;font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .cell:hover{border-color:var(--teal)}.cell.cur{border-color:var(--teal);box-shadow:0 0 0 2px rgba(15,77,87,.2)}
+  .cell.ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}.cell.no{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+  .results{display:none;background:var(--paper);border-radius:18px;box-shadow:var(--shadow);padding:28px 24px;margin-top:18px;text-align:center;border:1px solid var(--line)}
+  .results.show{display:block}
+  .scoreBig{font-family:'Spectral',serif;font-size:58px;font-weight:700;color:var(--teal);line-height:1}.scoreBig small{font-size:24px;color:var(--ink-soft)}
+  .grade{font-family:'Spectral',serif;font-size:22px;font-weight:600;margin-top:8px}.results p{color:var(--ink-soft);font-size:14.5px}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(8,1fr)}.stem{font-size:16.5px}header.top h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Oftalmología · 4º Medicina · T24</p>
+    <h1>Traumatología Ocular</h1>
+    <p class="sub">80 preguntas · ≥20 casos clínicos · diagnóstico diferencial · respuesta razonada</p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="sPos">1<span style="font-size:13px;color:#9fc8cb">/80</span></div><div class="l">Pregunta</div></div>
+      <div class="stat good"><div class="n" id="sOk">0</div><div class="l">Aciertos</div></div>
+      <div class="stat bad"><div class="n" id="sNo">0</div><div class="l">Fallos</div></div>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+  </header>
+  <main class="card" id="card">
+    <div class="qmeta"><span class="qnum" id="qnum">01</span><span class="tag" id="qtag">Tema</span></div>
+    <div id="figure"></div>
+    <p class="stem" id="stem"></p>
+    <div class="opts" id="opts"></div>
+    <div class="explain" id="explain"></div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">← Anterior</button>
+      <button class="btn solid" id="next">Siguiente →</button>
+    </div>
+  </main>
+  <section class="results" id="results">
+    <div class="scoreBig"><span id="rOk">0</span><small>/80</small></div>
+    <div class="grade" id="rGrade"></div>
+    <p id="rMsg"></p>
+    <button class="btn solid" style="margin:14px auto 0" id="restart">Repetir test</button>
+  </section>
+  <section class="jumpwrap"><h3>Navegación rápida</h3><div class="grid" id="grid"></div></section>
+</div>
+
+<script>
+const figHipema=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hipema: nivel de sangre en cámara anterior">
+<ellipse cx="120" cy="75" rx="105" ry="50" fill="#f3d4cd" opacity=".5"/><circle cx="120" cy="75" r="56" fill="#cfe3ea" stroke="#7fa6b5"/><circle cx="120" cy="75" r="20" fill="#1a1a1a"/>
+<path d="M64 75 a56 56 0 0 0 112 0 q-56 26 -112 0Z" fill="#9c2b22"/></svg>`;
+const figPerf=`<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Perforación corneal con pupila deformada">
+<ellipse cx="120" cy="75" rx="105" ry="50" fill="#f3b7ad" opacity=".4"/><circle cx="120" cy="75" r="56" fill="#cfe3ea" stroke="#7fa6b5"/>
+<path d="M120 75 m-22 0 a22 22 0 1 0 44 0 a22 22 0 1 0 -44 0 M120 53 L150 40" fill="#1a1a1a"/>
+<path d="M120 53 Q150 40 165 30" stroke="#7a3a8f" stroke-width="4" fill="none"/>
+<text x="120" y="142" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">pupila deformada 'en gota' hacia la herida</text></svg>`;
+const figBlowout=`<svg viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fractura blow-out con atrapamiento del recto inferior">
+<rect x="36" y="28" width="208" height="90" rx="10" fill="#eef3f5" stroke="#7fa6b5"/><circle cx="140" cy="68" r="28" fill="#9a6a3c"/><circle cx="140" cy="68" r="12" fill="#1a1a1a"/>
+<path d="M112 108 q28 16 56 0" fill="none" stroke="#b23a32" stroke-width="3"/><path d="M126 116 q14 10 28 0" fill="#d65a4a" stroke="#a83228"/>
+<text x="140" y="140" text-anchor="middle" style="font:400 10px Inter;fill:#7a2a25">recto inferior atrapado en el suelo orbitario</text></svg>`;
+const figHiposfagma=`<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hemorragia subconjuntival (hiposfagma)">
+<ellipse cx="120" cy="68" rx="105" ry="42" fill="#fff" stroke="#cfd6da"/><path d="M20 68 Q60 50 110 56 Q70 78 20 80Z" fill="#c0392b"/><circle cx="140" cy="68" r="30" fill="#9a6a3c"/><circle cx="140" cy="68" r="13" fill="#1a1a1a"/>
+<text x="120" y="124" text-anchor="middle" style="font:400 11px Inter;fill:#7a2a25">sangre subconjuntival homogénea (hiposfagma)</text></svg>`;
+
+const Q=[
+{cat:"Prioridad",c:1,q:"La emergencia oftalmológica que se trata ANTES de explorar es:",
+ o:["El hipema","La causticación química (lavado inmediato)","La fractura orbitaria","El hiposfagma"],
+ e:"La <b>causticación química</b> es la emergencia que obliga a <b>lavar de inmediato</b> antes de cualquier exploración."},
+{cat:"Causticación",c:2,q:"Ante el contacto de un cáustico con la superficie ocular, lo primero es:",
+ o:["Tapar el ojo","Poner antibiótico","Lavado ocular abundante con suero o agua lo más inmediato posible","Derivar sin tratar"],
+ e:"En la <b>causticación</b> hay que hacer un <b>lavado ocular abundante</b> con suero o agua de inmediato (antes de explorar)."},
+{cat:"Causticación · DDx",c:3,ddx:true,q:"¿Qué tipo de cáustico es más grave para el ojo?",
+ o:["Los ácidos","Ninguno","Da igual","Los álcalis (penetran en profundidad por necrosis por licuefacción)"],
+ e:"Los <b>álcalis</b> son más graves que los ácidos: penetran por <b>necrosis por licuefacción</b>; los ácidos coagulan y se autolimitan."},
+{cat:"Hiposfagma",c:0,q:"La hemorragia subconjuntival (hiposfagma) es:",
+ o:["Asintomática, banal y no requiere tratamiento si es espontánea o por mínimo trauma","Una urgencia","Siempre signo de perforación","Una causa de ceguera"],
+ e:"El <b>hiposfagma</b> es <b>asintomático y banal</b>; no requiere tratamiento si es espontáneo o por traumatismo mínimo."},
+{cat:"Imagen · hiposfagma",c:1,figSrc:"figHiposfagma",figcap:"Ojo del paciente.",
+ q:"Esta sangre roja homogénea bajo la conjuntiva, sin dolor ni pérdida de visión, corresponde a:",
+ o:["Hipema","Hiposfagma (hemorragia subconjuntival)","Perforación","Causticación"],
+ e:"Sangre subconjuntival homogénea, indolora = <b>hiposfagma</b> (banal)."},
+{cat:"Hiposfagma · alarma",c:2,q:"Una hemorragia subconjuntival SIN límite posterior tras un traumatismo sugiere:",
+ o:["Conjuntivitis","Hipema","Fractura del techo orbitario","Catarata"],
+ e:"Una hemorragia subconjuntival <b>sin límite posterior</b> sugiere una <b>fractura del techo orbitario</b>."},
+{cat:"Hipema",c:3,q:"El hipema (hifema) es:",
+ o:["Sangre subconjuntival","Pus en cámara anterior","Edema corneal","Sangre en la cámara anterior (desde iris/cuerpo ciliar), que forma un nivel"],
+ e:"El <b>hipema</b> es <b>sangre en la cámara anterior</b> que forma un nivel; es un <b>signo de traumatismo grave</b>."},
+{cat:"Imagen · hipema",c:0,figSrc:"figHipema",figcap:"Cámara anterior del paciente.",
+ q:"Este nivel de sangre en la parte inferior de la cámara anterior tras un traumatismo corresponde a:",
+ o:["Hipema","Hiposfagma","Hipopión","Catarata"],
+ e:"Nivel <b>hemático</b> en la cámara anterior = <b>hipema</b> (si fuera blanco/purulento sería hipopión)."},
+{cat:"Hipema",c:1,q:"El hipema puede recidivar típicamente:",
+ o:["Al año","A los 3-5 días","Nunca","A las pocas horas siempre"],
+ e:"El <b>hipema</b> puede <b>recidivar a los 3-5 días</b>; a medio plazo un 7% desarrolla glaucoma."},
+{cat:"Hipema · tto",c:2,q:"El tratamiento conservador del hipema incluye:",
+ o:["Ejercicio físico","Tumbarse totalmente plano","Reposo con el cabezal elevado, ciclopléjico y corticoides tópicos","Antibiótico IV"],
+ e:"El <b>hipema</b> se maneja con reposo y <b>cabezal elevado</b>, <b>ciclopléjico y corticoides tópicos</b>, controlando la PIO."},
+{cat:"Hipema · tto",c:3,q:"Se indica evacuación quirúrgica del hipema si:",
+ o:["Siempre","Nunca","Si hay dolor leve","PIO >60 mmHg >48 h, o >25 mmHg >5 días con hifema total (evitar daño del NO o tinción corneal)"],
+ e:"Se evacúa el <b>hipema</b> si la <b>PIO &gt;60 &gt;48 h</b> o <b>&gt;25 &gt;5 días con hifema total</b>, para evitar daño del nervio óptico o tinción hemática corneal."},
+{cat:"Caso clínico · hipema",c:0,case:true,
+ lead:"Joven que recibe un pelotazo y presenta dolor, visión borrosa y un nivel de sangre en la cámara anterior; la PIO es de 22 mmHg.",
+ q:"Diagnóstico y conducta inicial:",
+ o:["Hipema; reposo con cabezal elevado, ciclopléjico/corticoide y control de PIO","Hiposfagma; alta","Conjuntivitis; antibiótico","Glaucoma crónico; láser"],
+ e:"Nivel hemático en cámara anterior tras contusión = <b>hipema</b>; reposo incorporado, ciclopléjico/corticoide y vigilancia de la PIO."},
+{cat:"Globo abierto",c:1,q:"Una herida perforante del globo se define como:",
+ o:["Una erosión superficial","Una herida de espesor completo en la pared del globo","Un hiposfagma","Una catarata"],
+ e:"La <b>herida perforante</b> es una herida de <b>espesor completo</b> en la pared del globo (córnea/esclera)."},
+{cat:"Globo abierto",c:2,q:"¿Qué signo hace sospechar una perforación ocular?",
+ o:["Picor","Lagrimeo","Hipotonía, atalamia o desviación/deformidad del iris","Secreción mucosa"],
+ e:"La <b>perforación</b> se sospecha ante <b>hipotonía, atalamia (CA plana) o deformidad pupilar/del iris</b> en un paciente traumático."},
+{cat:"Imagen · perforación",c:3,figSrc:"figPerf",figcap:"Segmento anterior del paciente.",
+ q:"Esta pupila deformada 'en gota' que apunta hacia una herida corneal sugiere:",
+ o:["Hipema","Conjuntivitis","Catarata","Perforación ocular (con prolapso/incarceración de iris)"],
+ e:"La <b>pupila deformada 'en gota'</b> hacia la herida indica <b>perforación</b> con incarceración del iris."},
+{cat:"Globo abierto · conducta",c:0,q:"Ante una perforación ocular, la conducta correcta es:",
+ o:["Enviar al oftalmólogo SIN colirios, con antibiótico IV, en ayunas y protegiendo el ojo","Echar colirio anestésico y parche compresivo","Presionar para reducir el prolapso","Esperar 24 h"],
+ e:"En la <b>perforación</b>: <b>no instilar colirios</b>, <b>antibiótico IV</b>, <b>ayunas</b>, proteger sin presionar y cirugía urgente."},
+{cat:"Globo abierto",c:1,q:"En una perforación NO se debe:",
+ o:["Proteger el ojo","Presionar el globo o manipular el contenido prolapsado","Dar antibiótico IV","Mantener en ayunas"],
+ e:"<b>No presionar</b> el globo ni manipular el contenido prolapsado (riesgo de extruir más contenido)."},
+{cat:"Estallido",c:2,q:"El estallido del globo por traumatismo contuso ocurre:",
+ o:["Por el centro de la córnea siempre","Por la zona más débil (herida quirúrgica previa, paralela al limbo o bajo los músculos)","Solo en niños","Nunca en operados"],
+ e:"El <b>estallido</b> se produce por la <b>zona más débil</b>: la herida quirúrgica en operados, o paralela al limbo / bajo los músculos en no operados."},
+{cat:"Estallido",c:3,q:"La clínica del estallido del globo incluye:",
+ o:["PIO alta","Exoftalmos","Midriasis aislada","Cámara anterior estrecha, PIO baja y limitación de movimientos"],
+ e:"El <b>estallido</b> cursa con <b>CA estrecha, PIO baja (hipotonía) y limitación de movimientos</b>."},
+{cat:"Cuerpos extraños",c:0,q:"Un cuerpo extraño corneal metálico deja característicamente:",
+ o:["Un anillo de óxido","Una catarata","Un hipema","Un exoftalmos"],
+ e:"Un cuerpo extraño <b>metálico</b> deja un <b>anillo de óxido</b> que también hay que extraer."},
+{cat:"Cuerpos extraños",c:1,q:"El tratamiento de un cuerpo extraño corneal superficial es:",
+ o:["Observación","Extracción del cuerpo extraño y del anillo de óxido + ciclopléjico, antibiótico y AINE tópicos","Antibiótico IV","Cirugía mayor"],
+ e:"Se <b>extrae el cuerpo extraño y el anillo de óxido</b> y se pauta <b>ciclopléjico + antibiótico tópico + AINE tópico</b>."},
+{cat:"Cuerpos extraños",c:2,q:"Los cuerpos extraños subtarsales producen:",
+ o:["Hipema","Catarata","Abrasiones lineales (hay que evertir el párpado)","Exoftalmos"],
+ e:"Los cuerpos extraños <b>subtarsales</b> producen <b>abrasiones lineales</b> en la córnea; hay que <b>evertir el párpado</b> para encontrarlos."},
+{cat:"CEIO",c:3,q:"El cuerpo extraño intraocular (CEIO) es:",
+ o:["Un cuerpo subtarsal","Un hiposfagma","Una catarata","Un tipo de traumatismo perforante"],
+ e:"El <b>CEIO</b> es un tipo de <b>traumatismo perforante</b> (sospechar en trabajos con metal/martillo)."},
+{cat:"Caso clínico · CEIO",c:0,case:true,
+ lead:"Trabajador que martilleaba metal sin gafas y nota dolor y visión borrosa; en la exploración hay una pequeña herida corneal autosellada y sospecha de cuerpo metálico intraocular.",
+ q:"¿Qué prueba y conducta?",
+ o:["TAC orbitaria (evitar RM si metálico) y extracción quirúrgica","RM urgente","Alta con colirio","Observación domiciliaria"],
+ e:"Ante sospecha de <b>CEIO metálico</b> se hace <b>TAC</b> (evitar RM por el metal) y se extrae quirúrgicamente."},
+{cat:"Órbita",c:1,q:"La fractura blow-out afecta típicamente a:",
+ o:["El techo orbitario","El suelo orbitario (pared más débil)","La pared lateral","El reborde superior"],
+ e:"La <b>fractura blow-out</b> afecta al <b>suelo orbitario</b> (la pared más débil) tras un impacto contuso."},
+{cat:"Órbita",c:2,q:"La fractura blow-out del suelo orbitario cursa con:",
+ o:["Exoftalmos y midriasis","Hipema y glaucoma","Enoftalmos y limitación de la mirada vertical (atrapamiento del recto inferior)","Leucocoria"],
+ e:"La <b>blow-out</b> cursa con <b>enoftalmos</b> y <b>limitación de la mirada vertical</b> por <b>atrapamiento del recto inferior</b> (diplopía vertical)."},
+{cat:"Imagen · blow-out",c:3,figSrc:"figBlowout",figcap:"Órbita del paciente.",
+ q:"Esta limitación de la elevación con el recto inferior atrapado en el suelo orbitario corresponde a:",
+ o:["Orbitopatía tiroidea","Celulitis","Parálisis del III par","Fractura blow-out"],
+ e:"Atrapamiento del recto inferior en el suelo orbitario tras contusión = <b>fractura blow-out</b>."},
+{cat:"Órbita",c:0,q:"La fractura blow-out puede asociar hipoestesia en:",
+ o:["El territorio infraorbitario (V2)","La frente","El cuero cabelludo","La lengua"],
+ e:"La <b>blow-out</b> puede asociar <b>hipoestesia infraorbitaria</b> (nervio infraorbitario, rama V2)."},
+{cat:"Caso clínico · blow-out",c:1,case:true,
+ lead:"Paciente que tras un puñetazo presenta diplopía al mirar hacia arriba, el ojo algo hundido y adormecimiento de la mejilla.",
+ q:"El diagnóstico más probable es:",
+ o:["Orbitopatía tiroidea","Fractura blow-out del suelo orbitario","Celulitis orbitaria","Hipema"],
+ e:"Diplopía vertical + enoftalmos + hipoestesia de la mejilla tras contusión = <b>fractura blow-out</b>."},
+{cat:"Párpados",c:2,q:"Una laceración del canto interno obliga a vigilar:",
+ o:["El cristalino","La retina","El canalículo y el tendón cantal interno","La córnea central"],
+ e:"En las laceraciones del <b>canto interno</b> hay que vigilar el <b>canalículo y el tendón cantal</b> (reparar en 48 h, tutorizar con silicona 3-6 meses)."},
+{cat:"Párpados",c:3,q:"El hematoma palpebral simple ('ojo morado') se trata con:",
+ o:["Antibiótico IV","Cirugía","Corticoides orales","Frío local (descartando daño del globo/órbita)"],
+ e:"El <b>hematoma palpebral</b> contuso se trata con <b>frío local</b>, descartando daño del globo u órbita."},
+{cat:"Párpados · alarma",c:0,q:"El hematoma palpebral 'en anteojos' (bilateral) debe hacer sospechar:",
+ o:["Fractura de la base del cráneo","Una conjuntivitis","Un orzuelo","Una catarata"],
+ e:"El hematoma 'en anteojos' (bilateral) sugiere una <b>fractura de la base del cráneo</b>."},
+{cat:"Contuso · retina",c:1,q:"La conmoción retiniana (edema de Berlín) consiste en:",
+ o:["Sangre en cámara anterior","Un blanqueamiento/edema retiniano tras contusión (suele ser autolimitado)","Una catarata","Un desprendimiento de coroides"],
+ e:"La <b>conmoción retiniana (edema de Berlín)</b> es un blanqueamiento/edema retiniano postcontusión, generalmente <b>autolimitado</b>."},
+{cat:"Contuso · cristalino",c:2,q:"Un traumatismo contuso puede producir en el cristalino:",
+ o:["Solo hiposfagma","Solo edema","Catarata o luxación/subluxación traumática","Solo midriasis"],
+ e:"El trauma contuso puede causar <b>catarata</b> o <b>luxación/subluxación</b> del cristalino."},
+{cat:"Contuso · ángulo",c:3,q:"La recesión angular postraumática es importante porque:",
+ o:["Cura sola sin riesgo","No existe","Mejora la visión","Puede producir un glaucoma tardío (revisar el ángulo al mes)"],
+ e:"La <b>recesión angular</b> postraumática puede dar <b>glaucoma tardío</b>; se revisa el ángulo al mes del hipema/contusión."},
+{cat:"DDx",c:0,ddx:true,q:"Diferencie hiposfagma e hipema:",
+ o:["Hiposfagma = subconjuntival (banal); hipema = cámara anterior (signo grave)","Son lo mismo","Hiposfagma es más grave","Hipema es subconjuntival"],
+ e:"<b>Hiposfagma</b> = sangre subconjuntival (banal); <b>hipema</b> = sangre en la cámara anterior (signo de trauma grave)."},
+{cat:"Caso clínico · causticación",c:1,case:true,
+ lead:"Operario al que le ha salpicado lejía (álcali) en un ojo; acude con dolor intenso y ojo rojo.",
+ q:"¿Cuál es la primera medida?",
+ o:["Hacer una TAC","Lavado ocular abundante inmediato con suero/agua","Poner antibiótico oral","Derivar sin tratar"],
+ e:"La <b>causticación por álcali</b> (más grave) exige <b>lavado ocular abundante inmediato</b> antes que cualquier otra cosa."},
+{cat:"Globo abierto",c:2,q:"El test de Seidel positivo indica:",
+ o:["Glaucoma","Catarata","Salida de humor acuoso por una perforación corneal (fluoresceína 'lavada')","Conjuntivitis"],
+ e:"El <b>test de Seidel positivo</b> muestra la <b>fuga de humor acuoso</b> por una perforación corneal (la fluoresceína se diluye)."},
+{cat:"Prioridad",c:3,q:"¿Cuál de estas NO es una emergencia inmediata (de minutos)?",
+ o:["Causticación química","Oclusión de la arteria central de la retina","Hemorragia orbitaria a tensión","Hiposfagma espontáneo"],
+ e:"El <b>hiposfagma</b> es banal; las emergencias inmediatas son la causticación, la oclusión arterial retiniana y la hemorragia orbitaria a tensión."},
+{cat:"Caso clínico · perforación",c:0,case:true,
+ lead:"Paciente que manipulaba un cristal y nota dolor brusco; tiene el ojo hipotónico, la cámara anterior plana y la pupila desviada hacia una herida corneal.",
+ q:"Diagnóstico y conducta:",
+ o:["Perforación ocular; no colirios, antibiótico IV, ayunas, proteger y cirugía urgente","Hiposfagma; alta","Conjuntivitis; colirio","Catarata; cirugía programada"],
+ e:"Hipotonía + atalamia + pupila desviada hacia la herida = <b>perforación ocular</b>; manejo sin colirios, antibiótico IV, ayunas y cirugía urgente."},
+{cat:"Órbita",c:1,q:"El diagnóstico de la fractura orbitaria se confirma con:",
+ o:["Ecografía abdominal","TAC","Campimetría","Gonioscopia"],
+ e:"La <b>fractura orbitaria</b> se confirma con <b>TAC</b> (valora el hueso y el atrapamiento muscular)."},
+{cat:"Contuso · coroides",c:2,q:"La rotura coroidea traumática:",
+ o:["Es un hiposfagma","Es una catarata","Es una rotura de la coroides/Bruch que puede dejar secuela macular","No existe"],
+ e:"La <b>rotura coroidea</b> es una rotura de la coroides y la membrana de Bruch que, si afecta a la mácula, deja secuela visual."},
+{cat:"Causticación",c:3,q:"Tras el lavado de una causticación, los signos de gravedad incluyen:",
+ o:["Picor leve","Lagrimeo","Secreción acuosa","Isquemia limbar (palidez) y opacidad corneal"],
+ e:"Los signos de gravedad de la <b>causticación</b> son la <b>isquemia limbar</b> (palidez perilímbica) y la opacidad corneal."},
+{cat:"Caso clínico · hiposfagma",c:0,case:true,
+ lead:"Paciente anciano que al despertar tiene una mancha roja brillante en la parte blanca del ojo, sin dolor ni pérdida de visión, tras un esfuerzo al toser.",
+ q:"Diagnóstico y conducta:",
+ o:["Hiposfagma; tranquilizar, no requiere tratamiento","Hipema; ingreso","Perforación; cirugía","Glaucoma; láser"],
+ e:"Mancha roja indolora sin pérdida visual tras un esfuerzo = <b>hiposfagma</b> (banal); solo tranquilizar."},
+{cat:"Globo abierto",c:1,q:"Ante una perforación, la profilaxis adicional que no hay que olvidar es:",
+ o:["Antifúngicos","La profilaxis antitetánica","Corticoides orales","AntiVEGF"],
+ e:"En las heridas perforantes hay que asegurar la <b>profilaxis antitetánica</b> (además del antibiótico IV)."},
+{cat:"Cuerpos extraños",c:2,q:"Para localizar un cuerpo extraño subtarsal hay que:",
+ o:["Hacer una TAC","Dilatar la pupila","Evertir el párpado superior","Medir la PIO"],
+ e:"El cuerpo extraño <b>subtarsal</b> se localiza <b>everitendo el párpado superior</b> (produce abrasiones lineales corneales)."},
+{cat:"Caso clínico · estallido",c:3,case:true,
+ lead:"Paciente operado de cataratas hace meses que recibe un golpe en el ojo y presenta hipotonía marcada, cámara anterior estrecha y limitación de los movimientos.",
+ q:"¿Qué hay que sospechar?",
+ o:["Hiposfagma","Conjuntivitis","Catarata residual","Estallido del globo (por la herida quirúrgica)"],
+ e:"En un ojo operado, un golpe puede causar <b>estallido</b> por la <b>herida quirúrgica</b> (hipotonía, CA estrecha, limitación)."},
+{cat:"Hipema",c:0,q:"El hipema acompaña frecuentemente a:",
+ o:["Una iritis traumática","Una conjuntivitis","Una presbicia","Un orzuelo"],
+ e:"El <b>hipema</b> suele acompañarse de <b>iritis traumática</b> (por eso se añaden ciclopléjico y corticoides)."},
+{cat:"Contuso",c:1,q:"En el traumatismo contuso (globo cerrado), la pared del globo:",
+ o:["Está perforada","Permanece íntegra (el daño es interno)","Siempre estalla","Tiene un CEIO"],
+ e:"En el <b>trauma contuso (cerrado)</b> la pared del globo <b>permanece íntegra</b>; el daño es de las estructuras internas."},
+{cat:"DDx contuso/abierto",c:2,ddx:true,q:"¿Qué dato apoya un globo ABIERTO frente a uno cerrado?",
+ o:["PIO alta","Hipema aislado","Hipotonía + atalamia + deformidad pupilar (Seidel +)","Edema de Berlín"],
+ e:"El <b>globo abierto</b> cursa con <b>hipotonía, atalamia y deformidad pupilar</b> (Seidel +); el cerrado mantiene la pared íntegra."},
+{cat:"Caso clínico · CEIO RM",c:3,case:true,
+ lead:"Sospecha de cuerpo extraño intraocular metálico tras martillear; el residente plantea pedir una RM.",
+ q:"¿Es correcto pedir RM?",
+ o:["Sí, siempre","Sí, es la primera prueba","Da igual","No: ante un CEIO metálico se evita la RM (se prefiere TAC)"],
+ e:"Ante un <b>CEIO metálico</b> se <b>evita la RM</b> (riesgo de movilización del metal); se prefiere la <b>TAC</b>."},
+{cat:"Causticación · DDx",c:0,ddx:true,q:"Comparando ácidos y álcalis en la causticación:",
+ o:["Los álcalis penetran más (licuefacción) y son más graves; los ácidos coagulan y se autolimitan","Los ácidos son peores","Son iguales","Ninguno daña el ojo"],
+ e:"Los <b>álcalis</b> penetran por <b>licuefacción</b> (más graves); los <b>ácidos</b> coagulan las proteínas y tienden a autolimitarse."},
+{cat:"Hipema",c:1,q:"La complicación a medio plazo más relevante del hipema es:",
+ o:["Conjuntivitis","Glaucoma (≈7%)","Presbicia","Orzuelo"],
+ e:"A medio plazo, un <b>7%</b> de los hipemas desarrolla <b>glaucoma</b> (por daño/recesión angular)."},
+{cat:"Órbita · tto",c:2,q:"La fractura blow-out se opera cuando:",
+ o:["Siempre, de urgencia","Nunca","Solo si hay hiposfagma","Hay atrapamiento con diplopía persistente o enoftalmos significativo"],
+ e:"La <b>blow-out</b> se opera si hay <b>atrapamiento con diplopía persistente o enoftalmos significativo</b>."},
+{cat:"Caso clínico · cuerpo extraño",c:3,case:true,
+ lead:"Paciente con sensación de cuerpo extraño y lagrimeo tras un día de viento; en la córnea se ve una mota metálica con un halo marronáceo alrededor.",
+ q:"Diagnóstico y tratamiento:",
+ o:["Hipema; reposo","Perforación; cirugía","Conjuntivitis; antibiótico oral","Cuerpo extraño corneal metálico con anillo de óxido; extracción + ciclopléjico/antibiótico/AINE"],
+ e:"Mota metálica con <b>anillo de óxido</b> = cuerpo extraño corneal; se extrae el cuerpo y el anillo + ciclopléjico, antibiótico y AINE tópicos."},
+{cat:"Prioridad",c:0,q:"La herida ocular perforante es una urgencia de:",
+ o:["Horas (situación urgente)","Días","Semanas","No es urgente"],
+ e:"La <b>herida perforante</b> es una <b>urgencia de horas</b> (la causticación es de minutos)."},
+{cat:"Párpados",c:1,q:"Las laceraciones canaliculares se deben corregir:",
+ o:["A la semana","En las primeras 48 horas (y tutorizar con silicona 3-6 meses)","Al mes","No se corrigen"],
+ e:"Las <b>laceraciones canaliculares</b> se corrigen en las <b>primeras 48 h</b>, suturando los bordes y tutorizando con silicona 3-6 meses."},
+{cat:"Contuso",c:2,q:"La midriasis traumática postcontusión se debe a:",
+ o:["Una infección","Una catarata","Lesión del esfínter del iris","Un glaucoma"],
+ e:"La <b>midriasis traumática</b> se debe a la <b>lesión del esfínter del iris</b> por la contusión."},
+{cat:"Caso clínico · DDx rojo traumático",c:3,case:true,ddx:true,
+ lead:"Tres pacientes traumáticos: A) mancha roja subconjuntival indolora; B) nivel de sangre en cámara anterior; C) ojo hipotónico con pupila deformada hacia una herida.",
+ q:"Los diagnósticos son, respectivamente:",
+ o:["Hipema, hiposfagma, perforación","Perforación, hipema, hiposfagma","Hiposfagma, perforación, hipema","Hiposfagma, hipema, perforación"],
+ e:"A = <b>hiposfagma</b>; B = <b>hipema</b>; C = <b>perforación</b> (hipotonía + pupila deformada)."},
+{cat:"Globo abierto",c:0,q:"En una perforación, el ojo se debe proteger con:",
+ o:["Un protector rígido/cono (sin presionar)","Un parche compresivo","Algodón a presión","Nada"],
+ e:"Se protege con un <b>protector rígido (cono)</b> sin presionar; nunca un parche compresivo (presionaría el globo)."},
+{cat:"Causticación",c:1,q:"La causticación química figura entre las:",
+ o:["Patologías banales","Emergencias inmediatas (de minutos)","Urgencias de días","Patologías crónicas"],
+ e:"La <b>causticación química</b> es una <b>emergencia inmediata</b> (minutos): lavado urgente."},
+{cat:"Contuso · retina",c:2,q:"Tras una contusión, ¿qué lesiones retinianas pueden aparecer?",
+ o:["Solo cataratas","Solo hiposfagma","Conmoción, desgarros, diálisis y hemovítreo","Solo midriasis"],
+ e:"La contusión puede producir <b>conmoción retiniana, desgarros, diálisis y hemovítreo</b> (vigilar el fondo)."},
+{cat:"Caso clínico · álcali",c:3,case:true,
+ lead:"Paciente con causticación por álcali; tras el lavado, la córnea está opaca y el limbo pálido en varios cuadrantes.",
+ q:"¿Qué indican estos signos?",
+ o:["Buen pronóstico","Causticación leve","No tienen valor","Gravedad (isquemia limbar y opacidad corneal indican peor pronóstico)"],
+ e:"La <b>isquemia limbar</b> y la opacidad corneal indican una causticación <b>grave</b> (peor pronóstico)."},
+{cat:"Órbita",c:0,q:"El enfisema orbitario/palpebral tras una fractura orienta a comunicación con:",
+ o:["Los senos paranasales","La vía lagrimal","El cráneo","La conjuntiva"],
+ e:"El <b>enfisema</b> indica comunicación de la órbita con los <b>senos paranasales</b> (típico de la fractura del suelo/pared medial)."},
+{cat:"Hipema",c:1,q:"El hipema, como signo, indica:",
+ o:["Una conjuntivitis","Un traumatismo grave que debe ver el oftalmólogo","Una alergia","Algo banal"],
+ e:"El <b>hipema</b> es un <b>signo de traumatismo grave</b> que debe valorar el oftalmólogo (vigilar PIO y fondo)."},
+{cat:"Contuso · DDx",c:2,ddx:true,q:"Un golpe contuso con visión borrosa y un blanqueamiento retiniano que se resuelve solo sugiere:",
+ o:["Desprendimiento de retina","Hemovítreo","Conmoción retiniana (edema de Berlín)","Rotura coroidea"],
+ e:"Blanqueamiento retiniano postcontusión que se resuelve = <b>conmoción retiniana (edema de Berlín)</b>."},
+{cat:"Globo abierto",c:3,q:"¿Por qué se mantiene en ayunas a un paciente con perforación ocular?",
+ o:["Para reducir la PIO","Para evitar el dolor","Por la alergia","Para no demorar la cirugía urgente (anestesia general)"],
+ e:"Se mantiene <b>en ayunas</b> para poder operar de urgencia bajo <b>anestesia general</b> sin demora."},
+{cat:"Cuerpos extraños",c:0,q:"Tras extraer un cuerpo extraño corneal, se pauta ciclopléjico para:",
+ o:["Aliviar el dolor del espasmo ciliar (y prevenir sinequias de la iritis)","Bajar la PIO","Dilatar para ver la retina","Tratar una infección"],
+ e:"El <b>ciclopléjico</b> alivia el <b>dolor del espasmo ciliar</b> reactivo y previene sinequias de la iritis acompañante."},
+{cat:"Caso clínico · blow-out vs III par",c:1,case:true,ddx:true,
+ lead:"Paciente con diplopía vertical tras un traumatismo; tiene enoftalmos, hipoestesia de la mejilla y la TAC muestra una fractura del suelo orbitario con tejido herniado.",
+ q:"El diagnóstico es:",
+ o:["Parálisis del III par","Fractura blow-out con atrapamiento del recto inferior","Orbitopatía tiroidea","Hipema"],
+ e:"Diplopía vertical + enoftalmos + hipoestesia + fractura del suelo en TAC = <b>blow-out con atrapamiento del recto inferior</b>."},
+{cat:"Prioridad",c:2,q:"Entre estas, la conducta INMEDIATA correcta ante una causticación es:",
+ o:["TAC primero","Antibiótico oral primero","Lavar primero, explorar después","Derivar sin tratar"],
+ e:"En la <b>causticación</b>: <b>lavar primero</b>, explorar/preguntar después."},
+{cat:"Globo abierto",c:3,q:"La atalamia en un paciente traumático significa:",
+ o:["PIO alta","Pupila dilatada","Hipema","Cámara anterior plana (signo de perforación)"],
+ e:"La <b>atalamia</b> es una <b>cámara anterior plana</b>; en el contexto traumático es un signo de <b>perforación</b>."},
+{cat:"Síntesis",c:0,q:"Señale la afirmación CORRECTA:",
+ o:["Causticación = lavar de inmediato (álcalis peores); hipema = signo grave; perforación = no colirios, ATB IV, ayunas","El hiposfagma es una urgencia","Los ácidos son peores que los álcalis","La perforación se trata con colirio anestésico y parche"],
+ e:"Resumen: <b>causticación</b> = lavar ya (álcalis peores); <b>hipema</b> = signo grave; <b>perforación</b> = no colirios, ATB IV, ayunas, proteger."},
+{cat:"Síntesis",c:1,q:"Señale la afirmación FALSA:",
+ o:["El hipema es sangre en la cámara anterior","El hiposfagma es banal","La blow-out se trata con observación si hay atrapamiento con diplopía persistente","La causticación es una emergencia inmediata"],
+ e:"FALSA: la <b>blow-out con atrapamiento y diplopía persistente</b> es indicación <b>quirúrgica</b>, no de observación."},
+{cat:"Síntesis · DDx",c:2,ddx:true,q:"Asocie correctamente:",
+ o:["Hiposfagma = cámara anterior; hipema = subconjuntival","Blow-out = techo; estallido = córnea central","Álcalis = leves; ácidos = graves","Hiposfagma = subconjuntival (banal); hipema = cámara anterior (grave); blow-out = suelo (enoftalmos/diplopía vertical)"],
+ e:"<b>Hiposfagma</b> = subconjuntival (banal); <b>hipema</b> = cámara anterior (grave); <b>blow-out</b> = suelo orbitario (enoftalmos + diplopía vertical)."},
+{cat:"Síntesis · global",c:3,q:"Resumen del tema:",
+ o:["Todo trauma es banal","Solo importa el hiposfagma","Solo la fractura","Emergencia (causticación) → urgencias (perforante, hipema con ↑PIO, fractura con NO); globo cerrado vs abierto; órbita = blow-out"],
+ e:"Trauma ocular: <b>emergencia</b> (causticación) → <b>urgencias</b> (perforante, hipema con ↑PIO, fractura con NO); <b>globo cerrado vs abierto</b>; órbita = <b>blow-out</b>."}
+];
+
+const figMap={figHipema,figPerf,figBlowout,figHiposfagma};
+const answers=new Array(Q.length).fill(null);let cur=0;
+const $=id=>document.getElementById(id);
+const stem=$("stem"),opts=$("opts"),explain=$("explain"),figure=$("figure"),qnum=$("qnum"),qtag=$("qtag"),bar=$("bar"),grid=$("grid");
+function buildGrid(){grid.innerHTML="";Q.forEach((_,i)=>{const b=document.createElement("button");b.className="cell";b.textContent=i+1;b.onclick=()=>{cur=i;render();window.scrollTo({top:0,behavior:"smooth"});};grid.appendChild(b);});}
+function refreshGrid(){[...grid.children].forEach((c,i)=>{c.classList.remove("cur","ok","no");if(i===cur)c.classList.add("cur");if(answers[i]!=null)c.classList.add(answers[i]===Q[i].c?"ok":"no");});}
+function updateStats(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const no=answers.filter((a,i)=>a!=null&&a!==Q[i].c).length;$("sOk").textContent=ok;$("sNo").textContent=no;$("sPos").innerHTML=(cur+1)+'<span style="font-size:13px;color:#9fc8cb">/80</span>';const done=answers.filter(a=>a!=null).length;bar.style.width=(done/Q.length*100)+"%";}
+function render(){const q=Q[cur];qnum.textContent=String(cur+1).padStart(2,"0");qtag.textContent=q.cat;qtag.className="tag"+(q.case?" case":(q.ddx?" ddx":""));
+  if(q.figSrc&&figMap[q.figSrc]){figure.innerHTML=`<div class="figure">${figMap[q.figSrc]}<div class="figcap">${q.figcap||""}</div></div>`;}else figure.innerHTML="";
+  stem.innerHTML=(q.lead?`<span class="case-lead">${q.lead}</span>`:"")+q.q;
+  const keys=["a","b","c","d"];opts.innerHTML="";const chosen=answers[cur];
+  q.o.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="key">${keys[i]}</span><span class="txt">${txt}</span>`;
+    if(chosen!=null){b.classList.add("locked");if(i===q.c)b.classList.add("correct");else if(i===chosen)b.classList.add("wrong");else b.classList.add("dim");}else b.onclick=()=>choose(i);opts.appendChild(b);});
+  if(chosen!=null){const ok=chosen===q.c;explain.className="explain show";explain.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'✓ Correcto':'✗ Incorrecto · la respuesta es '+keys[q.c]+')'}</div>${q.e}`;}else{explain.className="explain";explain.innerHTML="";}
+  $("prev").disabled=cur===0;$("next").textContent=cur===Q.length-1?"Ver resultados":"Siguiente →";updateStats();refreshGrid();}
+function choose(i){if(answers[cur]!=null)return;answers[cur]=i;render();}
+$("next").onclick=()=>{if(cur===Q.length-1)showResults();else{cur++;render();window.scrollTo({top:0,behavior:"smooth"});}};
+$("prev").onclick=()=>{if(cur>0){cur--;render();window.scrollTo({top:0,behavior:"smooth"});}};
+function showResults(){const ok=answers.filter((a,i)=>a===Q[i].c).length;const pct=Math.round(ok/Q.length*100);$("rOk").textContent=ok;let grade,msg;
+  if(pct>=90){grade="Sobresaliente · ¡examen de 10!";msg="Dominas la traumatología ocular. A por el examen.";}
+  else if(pct>=70){grade="Notable";msg="Buen nivel. Repasa los fallos en rojo, sobre todo globo abierto vs cerrado y el hipema.";}
+  else if(pct>=50){grade="Aprobado justo";msg="Base correcta; refuerza la causticación y la fractura blow-out.";}
+  else{grade="A reforzar";msg="Vuelve sobre el resumen del T24 (OJO CUIDADO) y repite el test.";}
+  $("rGrade").textContent=grade;$("rMsg").textContent=`${ok}/80 aciertos (${pct}%). ${msg}`;$("results").classList.add("show");$("results").scrollIntoView({behavior:"smooth"});}
+$("restart").onclick=()=>{answers.fill(null);cur=0;$("results").classList.remove("show");render();window.scrollTo({top:0,behavior:"smooth"});};
+buildGrid();render();
+</script>
+</body>
+</html>
