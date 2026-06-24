@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 4 · Eccemas y Dermatitis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --rust:#B0552F; --rust-bg:#F8E9E0;
+    --teal:#0E5B61; --teal-deep:#0A4448; --teal-bg:#E2F0EE;
+    --gold:#B07D2B; --gold-bg:#F8EFDD;
+    --plum:#7E4569; --plum-bg:#F3E8EF;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#7d3a1f,#B0552F 55%,#B07D2B);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#F0D6C4; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(32px,5.6vw,52px); line-height:1.04; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F3E2D6; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#E6C6B2; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--rust); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--rust)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s0 .num{background:var(--ink-soft)} .s1 .num{background:var(--rust)} .s2 .num{background:var(--teal)} .s3 .num{background:var(--gold)} .s4 .num{background:var(--plum)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; color:var(--teal-deep); letter-spacing:-.01em;}
+  .s1 h3{color:#8a4124} .s2 h3{color:#0A4448} .s3 h3{color:#8a5f1c} .s4 h3{color:#653655}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s0 .rule{background:linear-gradient(90deg,var(--ink-soft),transparent)} .s1 .rule{background:linear-gradient(90deg,var(--rust),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--teal),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--gold),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--plum),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.exo{border-left-color:var(--rust)} .card.ato{border-left-color:var(--teal)} .card.otro{border-left-color:var(--gold)} .card.sebo{border-left-color:var(--plum)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.exo .bug{background:var(--rust)} .card.ato .bug{background:var(--teal)} .card.otro .bug{background:var(--gold)} .card.sebo .bug{background:var(--plum)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.8px; min-width:560px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--rust)} .s2 thead th{background:var(--teal)} .s3 thead th{background:var(--gold)} .s4 thead th{background:var(--plum)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 4</p>
+    <h1>Eccemas y Dermatitis</h1>
+    <p>Resumen de estudio con lo esencial de cada eccema, lo que lo diferencia de los demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de E. Zamora (UFV) · contacto irritativa/alérgica · atópica · seborreica · dishidrótico · numular · asteatótico · estasis</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">0</span><a href="#concepto">Concepto e histología</a></li>
+      <li><span class="n">1</span><a href="#contacto">Dermatitis de contacto</a></li>
+      <li><span class="n">2</span><a href="#atopica">Dermatitis atópica</a></li>
+      <li><span class="n">3</span><a href="#otros">Otros eccemas endógenos</a></li>
+      <li><span class="n">4</span><a href="#sebo">Seborreica y de estasis</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 0 CONCEPTO =================== -->
+  <section id="concepto" class="s0">
+    <div class="sec-head"><span class="num">0</span><h2 class="title">Concepto e histología</h2></div>
+    <hr class="rule">
+    <p class="lead"><strong>Eccema = dermatitis</strong>: un <strong>patrón de respuesta inflamatoria</strong> de la piel con múltiples causas. Clínica común: <span class="hl">prurito + polimorfismo lesional</span> (eritema, edema, papulovesículas, descamación, liquenificación). La histología es compartida por todos, así que el diagnóstico es sobre todo <strong>clínico y etiológico</strong>.</p>
+
+    <figure>
+      <p class="fig-title">La histología cuenta la "edad" del eccema</p>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Histología del eccema por fases">
+        <defs>
+          <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E7CF"/><stop offset="1" stop-color="#EEC9A0"/></linearGradient>
+        </defs>
+        <!-- aguda -->
+        <g transform="translate(20,0)">
+          <text x="110" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#B0552F">AGUDA</text>
+          <rect x="20" y="40" width="180" height="60" fill="url(#sk)" stroke="#D9AE7C"/>
+          <circle cx="70" cy="62" r="8" fill="none" stroke="#2E6E8E" stroke-width="2"/><circle cx="120" cy="74" r="9" fill="none" stroke="#2E6E8E" stroke-width="2"/><circle cx="160" cy="60" r="7" fill="none" stroke="#2E6E8E" stroke-width="2"/>
+          <g fill="#0E5B61"><circle cx="55" cy="85" r="2"/><circle cx="95" cy="55" r="2"/><circle cx="140" cy="88" r="2"/><circle cx="175" cy="80" r="2"/></g>
+          <text x="110" y="125" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A" font-weight="600">Espongiosis</text>
+          <text x="110" y="142" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">edema entre células + vesículas</text>
+          <text x="110" y="158" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">exocitosis</text>
+        </g>
+        <text x="255" y="76" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <!-- subaguda -->
+        <g transform="translate(280,0)">
+          <text x="110" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#B0552F">SUBAGUDA</text>
+          <rect x="20" y="34" width="180" height="14" fill="#E7D2B5" stroke="#D9AE7C"/>
+          <rect x="20" y="48" width="180" height="52" fill="url(#sk)" stroke="#D9AE7C"/>
+          <text x="110" y="125" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A" font-weight="600">Acantosis +</text>
+          <text x="110" y="142" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">paraqueratosis</text>
+          <text x="110" y="158" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">epidermis engrosada</text>
+        </g>
+        <text x="515" y="76" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <!-- cronica -->
+        <g transform="translate(540,0)">
+          <text x="110" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#B0552F">CRÓNICA</text>
+          <rect x="20" y="28" width="180" height="20" fill="#DCC09E" stroke="#C99E6C"/>
+          <path d="M20,48 q15,18 30,0 q15,18 30,0 q15,18 30,0 q15,18 30,0 q15,18 30,0 q15,18 30,0" fill="none" stroke="#C99E6C" stroke-width="2"/>
+          <rect x="20" y="48" width="180" height="52" fill="url(#sk)" stroke="#D9AE7C"/>
+          <text x="110" y="125" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A" font-weight="600">Hiperqueratosis</text>
+          <text x="110" y="142" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">crestas y papilas elongadas</text>
+          <text x="110" y="158" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">= liquenificación clínica</text>
+        </g>
+        <text x="380" y="220" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#7E8A8E">Infiltrado linfohistiocitario perivascular superficial en todas las fases</text>
+      </svg>
+      <figcaption>Aguda (espongiosis/vesículas) → subaguda (acantosis-paraqueratosis) → crónica (hiperqueratosis = liquenificación).</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini ok"><h4>Eccemas EXÓGENOS (causa externa)</h4><ul>
+        <li>Dermatitis de contacto irritativa y alérgica.</li>
+        <li>Eccema de contacto fotoinducido (fototóxico/fotoalérgico).</li>
+        <li>Aerotransportada, erupción solar polimorfa, DC sistémica.</li>
+      </ul></div>
+      <div class="mini"><h4>Eccemas ENDÓGENOS (constitucionales)</h4><ul>
+        <li>Atópico · seborreico · dishidrótico · numular.</li>
+        <li>Asteatótico (xerodérmico/craquelé).</li>
+        <li>Liquen simple crónico · dermatitis de estasis.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 1 CONTACTO =================== -->
+  <section id="contacto" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Dermatitis de contacto</h2></div>
+    <hr class="rule">
+    <p class="lead">La gran disyuntiva: <strong>irritativa</strong> (daño tóxico directo, sin inmunidad) frente a <strong>alérgica</strong> (hipersensibilidad retardada <span class="hl">tipo IV</span> que necesita sensibilización previa).</p>
+
+    <figure>
+      <p class="fig-title">Irritativa vs alérgica: dos mecanismos distintos</p>
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mecanismo de la dermatitis de contacto">
+        <!-- irritativa -->
+        <g transform="translate(0,0)">
+          <rect x="20" y="20" width="340" height="260" rx="14" fill="#F8E9E0" stroke="#E0B79F"/>
+          <text x="190" y="48" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="17" fill="#8a4124">IRRITATIVA</text>
+          <text x="190" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#B0552F">NO inmunológica · sin sensibilización</text>
+          <g font-family="Inter" font-size="13" fill="#20303A" text-anchor="middle">
+            <rect x="80" y="88" width="220" height="34" rx="8" fill="#fff" stroke="#E0B79F"/><text x="190" y="110">Irritante daña la barrera</text>
+            <text x="190" y="138" fill="#B0552F" font-weight="700">↓</text>
+            <rect x="80" y="148" width="220" height="34" rx="8" fill="#fff" stroke="#E0B79F"/><text x="190" y="170">Daño directo al queratinocito</text>
+            <text x="190" y="198" fill="#B0552F" font-weight="700">↓</text>
+            <rect x="80" y="208" width="220" height="34" rx="8" fill="#fff" stroke="#E0B79F"/><text x="190" y="230">Citocinas → inflamación</text>
+          </g>
+          <text x="190" y="266" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#8a4124" font-weight="600">Cualquiera la sufre · solo zona de contacto</text>
+        </g>
+        <!-- alergica -->
+        <g transform="translate(400,0)">
+          <rect x="0" y="20" width="340" height="260" rx="14" fill="#E2F0EE" stroke="#9DC4C0"/>
+          <text x="170" y="48" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="17" fill="#0A4448">ALÉRGICA (tipo IV)</text>
+          <text x="170" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#0E5B61">inmunológica · requiere sensibilización</text>
+          <g font-family="Inter" font-size="12.5" fill="#20303A" text-anchor="middle">
+            <rect x="40" y="88" width="260" height="32" rx="8" fill="#fff" stroke="#9DC4C0"/><text x="170" y="108">Hapteno (&lt;500 Da) + Langerhans</text>
+            <text x="170" y="134" fill="#0E5B61" font-weight="700">↓ migra al ganglio</text>
+            <rect x="40" y="144" width="260" height="32" rx="8" fill="#fff" stroke="#9DC4C0"/><text x="170" y="164">Presentación al linfocito T</text>
+            <text x="170" y="190" fill="#0E5B61" font-weight="700">↓ T memoria</text>
+            <rect x="40" y="200" width="260" height="42" rx="8" fill="#fff" stroke="#9DC4C0"/><text x="170" y="218">Reexposición →</text><text x="170" y="234">eccema (24-72 h después)</text>
+          </g>
+          <text x="170" y="266" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#0A4448" font-weight="600">Solo sensibilizados · puede extenderse</text>
+        </g>
+      </svg>
+      <figcaption>La irritativa aparece desde el primer contacto; la alérgica necesita un contacto previo que sensibilice.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini warn"><h4>DC irritativa</h4><ul>
+        <li><b>Aguda:</b> agente potente, lesiones desde el 1er contacto, solo en la zona; fácil dx.</li>
+        <li><b>Crónica (acumulativa):</b> irritantes débiles repetidos (agua, jabón, rascado).</li>
+        <li>"Dermatitis del <b>ama de casa</b>", enfermeras, peluqueras; eritema, sequedad, fisuras.</li>
+        <li>Favorece el desarrollo de DC alérgica.</li>
+      </ul></div>
+      <div class="mini ok"><h4>DC alérgica</h4><ul>
+        <li>Hipersensibilidad retardada <b>tipo IV</b> (células de Langerhans).</li>
+        <li><b>Manos</b> = localización más frecuente; cara/párpados.</li>
+        <li>Sensibilidad cruzada, concomitante y múltiple.</li>
+        <li>Dx: <b>pruebas epicutáneas / del parche</b> (espalda alta, lectura 48 h y 72-96 h, TRUE TEST). Diagnostican el 80%.</li>
+      </ul></div>
+    </div>
+
+    <h3>Alérgenos que hay que conocer</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Alérgeno</th><th>Perfil / fuente</th><th>Dato de examen</th></tr></thead>
+      <tbody>
+        <tr><td>Níquel</td><td>Mujeres · bisutería, botones, hebillas, móviles</td><td><b>El alérgeno más frecuente en España</b>; "sarna del níquel" (eccema diseminado, prurito nocturno)</td></tr>
+        <tr><td>Cromo / cobalto</td><td>Varones · cemento; cromo en curtido de pieles</td><td>Cobalto va junto al níquel; cromo, ambiente laboral</td></tr>
+        <tr><td>Cosméticos</td><td>Mujeres jóvenes · cara, cuello, manos</td><td>Fragancias, bálsamo del Perú, conservantes (Kathon), <b>PPD</b></td></tr>
+        <tr><td>Medicamentos tópicos</td><td>Edad media-avanzada</td><td><b>Neomicina</b>, caínas; eccema de contacto <b>sistémico</b></td></tr>
+        <tr><td>Gomas</td><td>Usuarios de guantes</td><td>Tiuram, mercaptobenzotiazol, PPD; <b>síndrome PPPP</b> (púrpura, petequias, prurito, PPD+)</td></tr>
+        <tr><td>PPD (parafenilendiamina)</td><td>Tintes capilares y textiles, <b>tatuajes temporales</b></td><td>Reacción intensa en henna negra</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2">
+      <div class="mini"><h4>Eccema fototóxico</h4><ul>
+        <li>NO inmunológico (como una "quemadura exagerada").</li>
+        <li>Tiazidas, AINE, <b>doxiciclina</b>, furosemida.</li>
+      </ul></div>
+      <div class="mini"><h4>Eccema fotoalérgico</h4><ul>
+        <li>Inmunológico (necesita sensibilización + luz).</li>
+        <li><b>Protectores solares</b> (filtros).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 2 ATOPICA =================== -->
+  <section id="atopica" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Dermatitis atópica</h2></div>
+    <hr class="rule">
+    <p class="lead">Enfermedad inflamatoria pruriginosa, crónica y en <strong>brotes</strong>, con base genética y comienzo en la infancia. Forma parte de la <strong>marcha atópica</strong> (eccema → asma → rinoconjuntivitis). 20% de niños, 3% de adultos; <strong>80-90% debuta antes de los 5 años</strong>.</p>
+
+    <div class="card ato">
+      <h4>Por qué se produce <span class="bug">barrera + inmunidad</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Barrera defectuosa:</b> mutación en la <span class="hl">FILAGRINA</span> (20-50% de niños europeos con DA) → ↑ pérdida de agua transepidérmica, ↓ ceramidas → entran alérgenos.</li>
+        <li><b>Inmunidad:</b> ↑ IgE, eosinofilia; predominio <b>Th2 en la fase aguda</b> (IL-4, IL-13) y <b>Th1 en la crónica</b>.</li>
+        <li><b>S. aureus</b> coloniza y actúa como <b>superantígeno</b> que mantiene/exacerba el brote.</li>
+        <li>Genética: AF en 70%, concordancia 80% en gemelos monocigóticos.</li>
+      </ul>
+    </div>
+
+    <figure>
+      <p class="fig-title">Dónde aparece según la edad (clave de examen)</p>
+      <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Topografía de la dermatitis atópica por edades">
+        <!-- LACTANTE -->
+        <g transform="translate(40,0)">
+          <text x="90" y="24" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#0A4448">Lactante (2-6 m)</text>
+          <circle cx="90" cy="62" r="24" fill="#F2EAdd" stroke="#C9B58F"/>
+          <!-- cheeks affected -->
+          <circle cx="76" cy="66" r="7" fill="#B0552F" opacity=".55"/><circle cx="104" cy="66" r="7" fill="#B0552F" opacity=".55"/>
+          <rect x="70" y="86" width="40" height="70" rx="14" fill="#F2EAdd" stroke="#C9B58F"/>
+          <!-- limbs extensor -->
+          <rect x="50" y="92" width="14" height="58" rx="7" fill="#F2EAdd" stroke="#C9B58F"/><rect x="116" y="92" width="14" height="58" rx="7" fill="#F2EAdd" stroke="#C9B58F"/>
+          <circle cx="57" cy="120" r="6" fill="#B0552F" opacity=".5"/><circle cx="123" cy="120" r="6" fill="#B0552F" opacity=".5"/>
+          <text x="90" y="186" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Mejillas + cuero cabelludo</text>
+          <text x="90" y="203" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Superficie de EXTENSIÓN</text>
+          <text x="90" y="222" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#B0552F" font-weight="700">RESPETA centro facial</text>
+        </g>
+        <!-- INFANTIL -->
+        <g transform="translate(265,0)">
+          <text x="90" y="24" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#0A4448">Infantil (2-12 a)</text>
+          <circle cx="90" cy="62" r="22" fill="#F2EAdd" stroke="#C9B58F"/>
+          <rect x="72" y="84" width="36" height="74" rx="13" fill="#F2EAdd" stroke="#C9B58F"/>
+          <rect x="52" y="90" width="14" height="60" rx="7" fill="#F2EAdd" stroke="#C9B58F"/><rect x="114" y="90" width="14" height="60" rx="7" fill="#F2EAdd" stroke="#C9B58F"/>
+          <!-- flexures (elbows/knees) -->
+          <circle cx="59" cy="118" r="6" fill="#0E5B61" opacity=".55"/><circle cx="121" cy="118" r="6" fill="#0E5B61" opacity=".55"/>
+          <circle cx="80" cy="172" r="6" fill="#0E5B61" opacity=".55"/><circle cx="100" cy="172" r="6" fill="#0E5B61" opacity=".55"/>
+          <rect x="74" y="160" width="14" height="28" rx="6" fill="#F2EAdd" stroke="#C9B58F"/><rect x="92" y="160" width="14" height="28" rx="6" fill="#F2EAdd" stroke="#C9B58F"/>
+          <text x="90" y="208" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">FLEXURAS (codos, rodillas)</text>
+          <text x="90" y="225" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#0E5B61" font-weight="700">Liquenificación, xerosis</text>
+        </g>
+        <!-- ADULTO -->
+        <g transform="translate(490,0)">
+          <text x="90" y="24" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#0A4448">Adulto</text>
+          <circle cx="90" cy="62" r="22" fill="#F2EAdd" stroke="#C9B58F"/>
+          <circle cx="80" cy="58" r="4" fill="#7E4569" opacity=".6"/><circle cx="100" cy="58" r="4" fill="#7E4569" opacity=".6"/>
+          <rect x="72" y="84" width="36" height="74" rx="13" fill="#F2EAdd" stroke="#C9B58F"/>
+          <rect x="52" y="90" width="14" height="60" rx="7" fill="#F2EAdd" stroke="#C9B58F"/><rect x="114" y="90" width="14" height="60" rx="7" fill="#F2EAdd" stroke="#C9B58F"/>
+          <circle cx="59" cy="118" r="6" fill="#0E5B61" opacity=".55"/><circle cx="121" cy="118" r="6" fill="#0E5B61" opacity=".55"/>
+          <circle cx="50" cy="150" r="5" fill="#0E5B61" opacity=".55"/><circle cx="130" cy="150" r="5" fill="#0E5B61" opacity=".55"/>
+          <text x="90" y="190" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Flexuras + párpados/cuello</text>
+          <text x="90" y="207" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Dorso de manos</text>
+          <text x="90" y="225" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#0E5B61" font-weight="700">Eccema crónico/liquenificado</text>
+        </g>
+      </svg>
+      <figcaption>Lactante: mejillas y EXTENSIÓN (respeta centro de la cara) → niño/adulto: FLEXURAS.</figcaption>
+    </figure>
+
+    <h3>Estigmas atópicos y diagnóstico</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Signos asociados (pistas)</h4><ul>
+        <li>Pliegue infraorbitario de <b>Dennie-Morgan</b>.</li>
+        <li><b>Pitiriasis alba</b> (dartros volante).</li>
+        <li><b>Dermografismo blanco</b>, palidez facial.</li>
+        <li>Xerosis, queratosis folicular, queilitis.</li>
+        <li>Catarata subcapsular, queratocono, ictiosis vulgar.</li>
+      </ul></div>
+      <div class="mini"><h4>Criterios (prurito + 3 de…)</h4><ul>
+        <li>Inicio antes de los 2 años.</li>
+        <li>Historia de piel seca generalizada.</li>
+        <li>Afectación de pliegues (flexural visible).</li>
+        <li>AP/AF de atopia.</li>
+        <li>Gravedad: <b>EASI, SCORAD</b>; calidad de vida: DLQI.</li>
+      </ul></div>
+    </div>
+
+    <div class="card ato">
+      <h4>Tratamiento escalonado <span class="bug">tópico → sistémico</span></h4>
+      <ul>
+        <li><b>Base:</b> evitar irritantes/alérgenos, hidratación y cuidado de la barrera.</li>
+        <li><b>Tópico:</b> corticoides; inhibidores de la calcineurina (<b>tacrolimus, pimecrolimus</b>); fomentos astringentes.</li>
+        <li><b>Sistémico clásico:</b> corticoides, antihistamínicos, ciclosporina, azatioprina, metotrexato, micofenolato.</li>
+        <li><b>Biológicos/dirigidos:</b> <span class="hl">dupilumab (anti IL-4/IL-13)</span>, tralokinumab/lebrikizumab (IL-13), omalizumab (anti-IgE); <b>inhibidores de JAK</b> (baricitinib, upadacitinib, abrocitinib).</li>
+        <li>Fototerapia (UVB 311 nm, PUVA).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 3 OTROS =================== -->
+  <section id="otros" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Otros eccemas endógenos</h2></div>
+    <hr class="rule">
+    <p class="lead">Se distinguen por <strong>morfología + localización + paciente típico</strong>.</p>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Eccema</th><th>Lo que lo define</th><th>Paciente típico</th><th>Pista</th></tr></thead>
+      <tbody>
+        <tr><td>Dishidrótico (pómfolix)</td><td><b>Vesículas/ampollas en piel sana</b> de dedos, palmas y plantas, simétricas, periungueales; brotes</td><td>Mujeres 20-40 a; atopia en 50%</td><td>Prurito/quemazón precede; reacciones "ides" a dermatofitos; níquel; PUVA manos-pies</td></tr>
+        <tr><td>Numular (discoide)</td><td>Placas redondeadas <b>"en moneda"</b>, pruriginosas</td><td>Varones, mayores, invierno</td><td>Extremidades (inferiores) y tronco, bilateral. DD: psoriasis, tiña, micosis fungoide</td></tr>
+        <tr><td>Asteatótico (xerodérmico / craquelé)</td><td>Piel <b>cuarteada "en porcelana"</b> por fisuras del estrato córneo</td><td>Ancianos, invierno, exceso de jabón, diuréticos</td><td>Piernas, brazos, dorso de manos; tto = emolientes</td></tr>
+        <tr><td>Liquen simple crónico</td><td>Placa <b>liquenificada</b> por rascado repetido</td><td>—</td><td>Círculo vicioso prurito-rascado</td></tr>
+      </tbody>
+      <caption>Todos comparten histología (dermatitis espongiótica). En el dishidrótico y el numular, las pruebas de contacto a veces salen positivas.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 SEBO / ESTASIS =================== -->
+  <section id="sebo" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Dermatitis seborreica y de estasis</h2></div>
+    <hr class="rule">
+
+    <div class="card sebo">
+      <h4>Dermatitis seborreica <span class="bug">Malassezia (adulto)</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Placas <b>eritemato-escamosas</b> con escama <span class="hl">grasienta</span> en áreas seborreicas: cuero cabelludo, cejas, surco <b>nasogeniano</b>, retroauricular, preesternal.</li>
+        <li><b>NO es una enfermedad de la glándula sebácea</b> (alteración cualitativa del sebo). En adultos, papel de <em>Malassezia</em> → mejora con antifúngicos.</li>
+        <li><b>Marcador a tener en cuenta:</b> extensa/severa en <b>VIH</b> (30-80%) y en enfermedades neurológicas (<b>Parkinson</b>, parálisis facial).</li>
+        <li>"Caspa", blefaritis, "falsa tiña amiantácea".</li>
+        <li>Tto: imidazoles, corticoides tópicos, metronidazol; champús de sulfuro de selenio / piritiona de zinc / antifúngicos.</li>
+      </ul>
+    </div>
+
+    <div class="card sebo">
+      <h4>Seborreica INFANTIL <span class="bug">costra láctea</span></h4>
+      <ul>
+        <li>Inicio en la 3ª-4ª semana; <b>costra láctea</b> en cuero cabelludo, centrofacial, pliegues y <b>área del pañal</b>.</li>
+        <li><b>Sin prurito</b>; cura en 2-3 semanas.</li>
+        <li>Si eritrodermia → diferenciar de la <b>enfermedad de Leiner</b> (déficit de C5).</li>
+      </ul>
+    </div>
+
+    <div class="card sebo">
+      <h4>Dermatitis de estasis <span class="bug">insuficiencia venosa crónica</span></h4>
+      <ul>
+        <li>Por <b>hipertensión venosa</b>: varicosidades, edema crónico, <b>depósito de hemosiderina</b> (pigmentación ocre), úlceras.</li>
+        <li><b>Lipodermatoesclerosis</b> (paniculitis esclerosante).</li>
+        <li>Frecuente <b>sensibilización por contacto</b> (p. ej. neomicina de las curas) y diseminación a distancia.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · La histología = la "edad" del eccema</h3>
+    <div class="chain">
+      <span class="step">Aguda · espongiosis + vesículas</span><span class="arrow">→</span>
+      <span class="step">Subaguda · acantosis/paraqueratosis</span><span class="arrow">→</span>
+      <span class="step">Crónica · hiperqueratosis = liquenificación</span>
+    </div>
+
+    <h3>2 · Topografía de la atópica por edad</h3>
+    <div class="chain">
+      <span class="step">Lactante · mejillas + EXTENSIÓN (respeta centro cara)</span><span class="arrow">→</span>
+      <span class="step">Niño/adulto · FLEXURAS</span>
+    </div>
+
+    <h3>3 · Tipo de hipersensibilidad y prueba diagnóstica</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Cuadro</th><th>Hipersensibilidad</th><th>Prueba</th></tr></thead>
+      <tbody>
+        <tr><td>DC alérgica</td><td>Tipo IV (retardada, celular)</td><td><b>Epicutánea / parche</b> (48-96 h, espalda)</td></tr>
+        <tr><td>Atopia / alergia alimentaria</td><td>Tipo I (inmediata, IgE)</td><td><b>Prick</b> + IgE específica</td></tr>
+        <tr><td>DC irritativa</td><td>Ninguna (tóxica directa)</td><td>Clínica (parche negativo / IR)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>4 · "¿Qué eccema es?" por la pista en una palabra</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Localización / morfología</h4><ul>
+        <li>Vesículas en manos y pies → <b>dishidrótico</b>.</li>
+        <li>Placas "en moneda" → <b>numular</b>.</li>
+        <li>Piel cuarteada en anciano → <b>asteatótico</b>.</li>
+        <li>Escama grasienta en surco nasogeniano → <b>seborreica</b>.</li>
+        <li>Flexuras + prurito + atopia → <b>atópica</b>.</li>
+      </ul></div>
+      <div class="mini"><h4>Asociaciones de oro</h4><ul>
+        <li>Níquel = alérgeno más frecuente (España).</li>
+        <li>Filagrina = atópica (e ictiosis vulgar).</li>
+        <li>Seborreica extensa → pensar en VIH / Parkinson.</li>
+        <li>Estasis → hemosiderina + lipodermatoesclerosis.</li>
+        <li>Dupilumab = anti IL-4/13 (atópica grave).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Seborreica infantil vs Atópica del lactante <span class="badge">eccema del bebé</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Seborreica infantil</h5><span class="who">costra láctea</span><ul><li>Inicio <b>3ª semana</b></li><li><b>Sin</b> antecedentes de atopia</li><li>Centro de la cara y pliegues</li><li><b>NO prurito</b>; cura en 2-3 sem</li></ul></div>
+        <div class="vs-col"><h5>Atópica del lactante</h5><span class="who">marcha atópica</span><ul><li>Inicio <b>~3 meses</b></li><li><b>Sí</b> AF de atopia</li><li>Periferia de cara y extensión</li><li><b>Prurito intenso</b>; brotes repetidos</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> bebé muy precoz, sin picor y con afectación centrofacial/pañal = seborreica; picor + flexuras/periferia + antecedentes familiares = atópica.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Contacto irritativa vs alérgica <span class="badge">la disyuntiva del tema</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Irritativa</h5><span class="who">tóxica, no inmune</span><ul><li>La sufre <b>cualquiera</b> (sin sensibilización)</li><li>Desde el <b>primer contacto</b></li><li>Solo en la zona de contacto, bordes netos</li><li>Parche negativo (o IR)</li></ul></div>
+        <div class="vs-col"><h5>Alérgica</h5><span class="who">hipersensibilidad IV</span><ul><li>Solo en <b>sensibilizados</b></li><li>Necesita contacto <b>previo</b></li><li>Puede <b>extenderse</b> fuera de la zona</li><li>Parche positivo</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "primera exposición + todo el que se expone" = irritativa; "ya expuesto antes + se extiende + parche +" = alérgica.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Fototóxico vs Fotoalérgico <span class="badge">eccema fotoinducido</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Fototóxico</h5><span class="who">no inmune</span><ul><li>Como una "quemadura exagerada"</li><li><b>Tiazidas, AINE, doxiciclina, furosemida</b></li><li>Desde la 1ª exposición</li></ul></div>
+        <div class="vs-col"><h5>Fotoalérgico</h5><span class="who">inmune (tipo IV + luz)</span><ul><li>Requiere sensibilización</li><li><b>Protectores solares</b> (filtros)</li><li>Puede extenderse a zonas no expuestas</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el fármaco sistémico (tiazida/doxiciclina) que "quema" al sol = fototóxico; el filtro solar que sensibiliza = fotoalérgico.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Eccema numular vs Psoriasis vs Tiña <span class="badge">placas redondeadas</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Numular</h5><span class="who">eccema</span><ul><li>Placa "en moneda", <b>muy pruriginosa</b></li><li>Espongiótica, sin borde activo</li></ul></div>
+        <div class="vs-col"><h5>Psoriasis</h5><span class="who">placa</span><ul><li>Escama nacarada, <b>bordes netos</b></li><li>Codos, rodillas, signo de rocío</li></ul></div>
+        <div class="vs-col"><h5>Tiña</h5><span class="who">dermatofito</span><ul><li><b>Aclaramiento central</b>, borde activo</li><li>KOH +</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ante una placa redonda, el <b>KOH</b> descarta la tiña; la escama nacarada con bordes netos sugiere psoriasis; el picor con espongiosis, eccema numular.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Prueba del parche vs Prick test <span class="badge">no confundirlas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Epicutánea (parche)</h5><span class="who">tipo IV</span><ul><li>Para <b>DC alérgica</b></li><li>Espalda alta, lectura a las <b>48 y 72-96 h</b></li></ul></div>
+        <div class="vs-col"><h5>Prick</h5><span class="who">tipo I (IgE)</span><ul><li>Para <b>atopia/alergia inmediata</b></li><li>Lectura en minutos</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "contacto + lectura a los días" = parche (tipo IV); "inmediata + IgE" = prick (tipo I).</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>Níquel</b> = alérgeno de contacto más frecuente en España (mujeres, bisutería). El eccema diseminado a distancia se llama <b>"sarna del níquel"</b> (prurito nocturno).</p></div>
+    <div class="pearl"><div class="dot">2</div><p>La <b>filagrina</b> es el gen estrella de la dermatitis atópica (y de la ictiosis vulgar): su déficit rompe la barrera y aumenta la pérdida de agua.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>Atópica: <b>Th2 en la fase aguda</b> (IL-4/IL-13) y Th1 en la crónica. Por eso el <b>dupilumab</b> (anti IL-4/IL-13) funciona.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>El lactante atópico afecta <b>mejillas y superficies de extensión y RESPETA el centro de la cara</b>; el niño/adulto, las <b>flexuras</b>.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Dermatitis seborreica <b>extensa y rebelde</b> → piensa en <b>VIH</b> o en enfermedad neurológica (<b>Parkinson</b>). No es enfermedad de la glándula sebácea.</p></div>
+    <div class="pearl"><div class="dot">6</div><p><b>Síndrome PPPP</b> (púrpura, petequias, prurito + PPD positiva) en la dermatitis por gomas/parafenilendiamina.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Eccema dishidrótico: <b>vesículas en piel sana de dedos/palmas/plantas</b>; puede ser una reacción "ide" a una dermatofitosis a distancia.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Estigmas atópicos que valen puntos: pliegue de <b>Dennie-Morgan</b>, <b>dermografismo blanco</b>, pitiriasis alba, queratocono y catarata subcapsular.</p></div>
+    <div class="pearl"><div class="dot">9</div><p>Dermatitis de estasis: pigmentación ocre por <b>hemosiderina</b> + <b>lipodermatoesclerosis</b>; ojo a la sensibilización por la <b>neomicina</b> de las curas.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 4 (Eccemas) a partir del material docente de la Dra. Elena Zamora Martínez — Facultad de Medicina, Universidad Francisco de Vitoria, 2026. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
