@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 9 · Vasculitis, Paniculitis y Conectivopatías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --vasc:#B23A3A; --vasc-deep:#8C2A2A; --vasc-bg:#F8E5E5;
+    --hem:#8C3A5A; --hem-deep:#6E2A45; --hem-bg:#F3E5EC;
+    --pan:#B0801C; --pan-deep:#8A6310; --pan-bg:#F8EFD7;
+    --lupus:#A23D6E; --lupus-deep:#7E2A54; --lupus-bg:#F6E6EE;
+    --dm:#5B4E8C; --dm-deep:#43386E; --dm-bg:#EAE7F3;
+    --scl:#46646E; --scl-deep:#344B54; --scl-bg:#E5EEF0;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#8C2A2A,#A23D6E 50%,#46646E);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#F0CDD3; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,48px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F3E1E5; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#E6C2CB; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--vasc); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--vasc)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--vasc)} .s2 .num{background:var(--hem)} .s3 .num{background:var(--pan)} .s4 .num{background:var(--lupus)} .s5 .num{background:var(--dm)} .s6 .num{background:var(--scl)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--vasc-deep)} .s2 h3{color:var(--hem-deep)} .s3 h3{color:var(--pan-deep)} .s4 h3{color:var(--lupus-deep)} .s5 h3{color:var(--dm-deep)} .s6 h3{color:var(--scl-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--vasc),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--hem),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--pan),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--lupus),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--dm),transparent)} .s6 .rule{background:linear-gradient(90deg,var(--scl),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.vasc{border-left-color:var(--vasc)} .card.hem{border-left-color:var(--hem)} .card.pan{border-left-color:var(--pan)} .card.lupus{border-left-color:var(--lupus)} .card.dm{border-left-color:var(--dm)} .card.scl{border-left-color:var(--scl)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.vasc .bug{background:var(--vasc)} .card.hem .bug{background:var(--hem)} .card.pan .bug{background:var(--pan)} .card.lupus .bug{background:var(--lupus)} .card.dm .bug{background:var(--dm)} .card.scl .bug{background:var(--scl)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--vasc)} .s2 thead th{background:var(--hem)} .s3 thead th{background:var(--pan)} .s4 thead th{background:var(--lupus)} .s5 thead th{background:var(--dm)} .s6 thead th{background:var(--scl)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 9</p>
+    <h1>Vasculitis, Paniculitis y Conectivopatías</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material del Dr. Domínguez Auñón (UFV) · vasculitis · trastornos hemorrágicos · paniculitis · lupus · dermatomiositis · esclerodermia</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#vasculitis">Vasculitis</a></li>
+      <li><span class="n">2</span><a href="#hemo">Trastornos hemorrágicos</a></li>
+      <li><span class="n">3</span><a href="#paniculitis">Paniculitis</a></li>
+      <li><span class="n">4</span><a href="#lupus">Lupus eritematoso</a></li>
+      <li><span class="n">5</span><a href="#dm">Dermatomiositis</a></li>
+      <li><span class="n">6</span><a href="#esclero">Esclerodermia</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 VASCULITIS =================== -->
+  <section id="vasculitis" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Vasculitis</h2></div>
+    <hr class="rule">
+    <p class="lead">Inflamación + necrosis de los vasos. La clínica depende del <strong>tamaño del vaso</strong> afectado, y el diagnóstico <span class="hl">siempre requiere confirmación histológica</span> (biopsia).</p>
+
+    <figure>
+      <p class="fig-title">Clasificación por calibre del vaso (Chapel Hill)</p>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vasculitis según calibre del vaso">
+        <!-- small -->
+        <g transform="translate(20,0)">
+          <circle cx="60" cy="60" r="18" fill="none" stroke="#B23A3A" stroke-width="3"/>
+          <text x="60" y="100" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#8C2A2A">PEQUEÑO</text>
+          <g font-family="Inter" font-size="11.5" fill="#4A5B64" text-anchor="middle">
+            <text x="60" y="122">Leucocitoclástica</text><text x="60" y="138">IgA (Schönlein-Henoch)</text>
+            <text x="60" y="154">Urticaria-vasculitis</text><text x="60" y="170">Crioglobulinémica</text>
+            <text x="60" y="186" fill="#8C2A2A" font-weight="600">+ ANCA (Wegener,</text>
+            <text x="60" y="200" fill="#8C2A2A" font-weight="600">Churg-Strauss, MPA)</text>
+          </g>
+        </g>
+        <text x="225" y="65" font-family="Fraunces" font-size="22" fill="#B6800C">›</text>
+        <!-- medium -->
+        <g transform="translate(255,0)">
+          <circle cx="60" cy="60" r="30" fill="none" stroke="#B23A3A" stroke-width="5"/>
+          <text x="60" y="105" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#8C2A2A">MEDIANO</text>
+          <g font-family="Inter" font-size="11.5" fill="#4A5B64" text-anchor="middle">
+            <text x="60" y="127">Poliarteritis nudosa</text><text x="60" y="143">(PAN clásica/cutánea)</text>
+            <text x="60" y="159">Enfermedad de Kawasaki</text>
+          </g>
+        </g>
+        <text x="455" y="65" font-family="Fraunces" font-size="22" fill="#B6800C">›</text>
+        <!-- large -->
+        <g transform="translate(490,0)">
+          <circle cx="80" cy="60" r="46" fill="none" stroke="#B23A3A" stroke-width="8"/>
+          <text x="80" y="125" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#8C2A2A">GRANDE</text>
+          <g font-family="Inter" font-size="11.5" fill="#4A5B64" text-anchor="middle">
+            <text x="80" y="147">Arteritis temporal</text><text x="80" y="163">(células gigantes)</text>
+            <text x="80" y="179">Arteritis de Takayasu</text>
+          </g>
+        </g>
+        <text x="380" y="235" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">Vaso pequeño → púrpura palpable · vaso mediano → nódulos/úlceras/livedo · vaso grande → isquemia</text>
+      </svg>
+      <figcaption>El calibre marca la clínica: cuanto más pequeño el vaso, más superficial y purpúrica la lesión.</figcaption>
+    </figure>
+
+    <div class="card vasc">
+      <h4>Vasculitis leucocitoclástica cutánea <span class="bug">la más típica de la piel</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Lesión clave: <span class="hl">púrpura palpable</span> en MMII, simétrica, en zonas declives/presión; también úlceras y vesículas hemorrágicas.</li>
+        <li>Histología: infiltrado de neutrófilos con <b>cariorrexis/leucocitoclasia</b> ("polvo nuclear") + <b>necrosis fibrinoide</b> + extravasación de hematíes. IFD: C3, IgM, fibrina.</li>
+        <li>Etiología: &gt;50% desconocida; fármacos (antibióticos, AINE, tiazidas), infecciones, conectivopatías, neoplasias.</li>
+        <li>90% se resuelve en semanas. Tto: reposo/pies en alto, AINE/antiH1, colchicina; corticoides si grave o sistémica.</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Vasculitis</th><th>Vaso / marcador</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>IgA (Schönlein-Henoch)</td><td>Pequeño · <b>IgA</b></td><td>Niños tras infección VRA; púrpura palpable (nalgas/extensoras) + artralgias + dolor abdominal + renal</td></tr>
+        <tr><td>Crioglobulinémica mixta (II/III)</td><td>Pequeño · inmunocomplejos</td><td>Causa más frecuente <b>VHC</b>; púrpura, hipocomplementemia, FR+</td></tr>
+        <tr><td>Crioglobulinémica tipo I</td><td>Oclusión</td><td>Monoclonal (mieloma/Waldenström); Raynaud, púrpura retiforme, gangrena</td></tr>
+        <tr><td>Poliangeítis microscópica</td><td>Peq-mediano · <b>p-ANCA</b></td><td>GN necrotizante (&gt;90%) + hemorragia pulmonar; púrpura acral; mal pronóstico</td></tr>
+        <tr><td>Granulomatosis con poliangeítis (Wegener)</td><td><b>c-ANCA</b> (PR3)</td><td>Vía respiratoria superior (granuloma línea media) + pulmón + riñón; encías "en fresa"</td></tr>
+        <tr><td>Churg-Strauss (EGPA)</td><td><b>p-ANCA</b></td><td><b>Asma + eosinofilia &gt;10% + IgE↑</b>; granulomas extravasculares</td></tr>
+        <tr><td>PAN clásica</td><td>Mediano</td><td>Nódulos dolorosos, livedo, microaneurismas renales; <b>VHB</b>; <b>NO glomerulonefritis</b></td></tr>
+        <tr><td>Arteritis temporal (Horton)</td><td>Grande</td><td>Mujer &gt;50; cefalea, claudicación mandibular, <b>ceguera</b>; VSG&gt;100; polimialgia reumática</td></tr>
+        <tr><td>Vasculitis séptica</td><td>—</td><td>Meningococo; púrpura fulminans + CID + shock; urgencia</td></tr>
+      </tbody>
+      <caption>ANCA: <b>c-ANCA = PR3 = Wegener</b>; <b>p-ANCA = MPO = MPA/Churg-Strauss</b>. Las ANCA dan "vasculitis pauciinmunes" (síndrome pulmón-riñón). Tto de las graves: corticoides + ciclofosfamida o rituximab.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 2 HEMORRÁGICOS =================== -->
+  <section id="hemo" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Trastornos hemorrágicos (púrpuras no inflamatorias)</h2></div>
+    <hr class="rule">
+    <p class="lead">A diferencia de la vasculitis, aquí la púrpura <strong>no es palpable</strong> (salvo en la CID/antifosfolípido por trombosis).</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Púrpura senil / por corticoides</td><td>Pérdida de soporte del colágeno (edad, corticoides, sol); equimosis con mínimo trauma; benigna</td></tr>
+        <tr><td>Púrpura pigmentaria (Schamberg)</td><td>Extravasación con depósito de <b>hemosiderina</b> (manchas marrones) en piernas; crónica; NO IVC</td></tr>
+        <tr><td>CID / púrpura fulminans</td><td>Consumo de factores → hemorragia; infecciones/sepsis; trombos precoces y hemorragia tardía</td></tr>
+        <tr><td>Síndrome antifosfolípido</td><td>Anticardiolipina + trombosis/abortos/trombopenia; livedo, úlceras; tto AAS/heparina</td></tr>
+        <tr><td>Necrosis por cumarínicos</td><td>1-5 días tras inicio; muslos/mamas/nalgas; facilitada por déficit de proteína C/S</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 3 PANICULITIS =================== -->
+  <section id="paniculitis" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Paniculitis</h2></div>
+    <hr class="rule">
+    <p class="lead">Clínica común (<strong>nódulos</strong>) en procesos muy distintos → el diagnóstico es <strong>clínico-patológico</strong>. La gran división histológica: inflamación de los <strong>septos</strong> vs de los <strong>lobulillos</strong> grasos.</p>
+
+    <figure>
+      <p class="fig-title">Septal vs lobulillar: la arquitectura de la grasa</p>
+      <svg viewBox="0 0 740 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Paniculitis septal frente a lobulillar">
+        <!-- septal -->
+        <g transform="translate(30,20)">
+          <text x="150" y="0" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#8A6310">SEPTAL</text>
+          <rect x="0" y="14" width="300" height="120" rx="8" fill="#FBF1DA" stroke="#E0CB94"/>
+          <!-- lobules -->
+          <g fill="#F6E4B8" stroke="#E0CB94"><circle cx="55" cy="55" r="28"/><circle cx="150" cy="55" r="28"/><circle cx="245" cy="55" r="28"/><circle cx="55" cy="105" r="22"/><circle cx="150" cy="105" r="22"/><circle cx="245" cy="105" r="22"/></g>
+          <!-- inflamed septa (thick red lines between lobules) -->
+          <g stroke="#B23A3A" stroke-width="5"><line x1="102" y1="20" x2="102" y2="128"/><line x1="198" y1="20" x2="198" y2="128"/></g>
+          <text x="150" y="158" text-anchor="middle" font-family="Inter" font-size="12" fill="#20303A">Inflamación en los TABIQUES</text>
+          <text x="150" y="174" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#8A6310" font-weight="700">→ ERITEMA NODOSO (sin vasculitis)</text>
+        </g>
+        <!-- lobular -->
+        <g transform="translate(410,20)">
+          <text x="150" y="0" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#8A6310">LOBULILLAR</text>
+          <rect x="0" y="14" width="300" height="120" rx="8" fill="#FBF1DA" stroke="#E0CB94"/>
+          <g fill="#E89C9C" stroke="#B23A3A" stroke-width="1.5"><circle cx="55" cy="55" r="28"/><circle cx="150" cy="55" r="28"/><circle cx="245" cy="55" r="28"/><circle cx="55" cy="105" r="22"/><circle cx="150" cy="105" r="22"/><circle cx="245" cy="105" r="22"/></g>
+          <g stroke="#E0CB94" stroke-width="2"><line x1="102" y1="20" x2="102" y2="128"/><line x1="198" y1="20" x2="198" y2="128"/></g>
+          <text x="150" y="158" text-anchor="middle" font-family="Inter" font-size="12" fill="#20303A">Inflamación en los LOBULILLOS</text>
+          <text x="150" y="174" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#8A6310" font-weight="700">→ vasculitis nodular, pancreática, lúpica…</text>
+        </g>
+      </svg>
+      <figcaption>Eritema nodoso = septal sin vasculitis. Casi todas las demás = lobulillares (a menudo con vasculitis o necrosis).</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Paniculitis</th><th>Patrón</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>Eritema nodoso</td><td><b>Septal</b> sin vasculitis</td><td>La más frecuente; mujer; nódulos dolorosos <b>pretibiales</b>, contusiformes, <b>sin úlcera ni cicatriz</b>; granulomas de <b>Miescher</b>. Buscar causa (estrepto, TB, sarcoidosis, EII, fármacos)</td></tr>
+        <tr><td>Vasculitis nodular / Bazin</td><td><b>Lobulillar</b> con vasculitis</td><td>Mujer; nódulos en cara <b>posterior</b> de piernas que <b>ulceran y cicatrizan</b>; crónico; asociado a <b>TB</b> (eritema indurado de Bazin)</td></tr>
+        <tr><td>Pancreática</td><td>Lobulillar</td><td>Pancreatitis/cáncer; necrosis por saponificación; nódulos que exudan material aceitoso; <b>células "fantasma"</b></td></tr>
+        <tr><td>Lúpica (lupus profundo)</td><td>Mixta</td><td>Linfocitos en folículos linfoides; deja áreas deprimidas (lipoatrofia)</td></tr>
+        <tr><td>Esclerosante (lipodermatoesclerosis)</td><td>Lobulillar</td><td>IVC; placa "leñosa" en cara interna de pierna; "botella de champán invertida"</td></tr>
+        <tr><td>Déficit de α1-antitripsina</td><td>Lobulillar neutrofílica</td><td>PiZZ; nódulos que ulceran y exudan</td></tr>
+        <tr><td>Histiocítica citofágica</td><td>Lobulillar</td><td>Linfoma T subcutáneo; síndrome hemofagocítico; células "en bolsa de judías"</td></tr>
+        <tr><td>Por frío / del RN</td><td>Lobulillar</td><td>Niños (chupar hielo), amazonas; RN (cristales "en aguja")</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 LUPUS =================== -->
+  <section id="lupus" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Lupus eritematoso</h2></div>
+    <hr class="rule">
+    <p class="lead">Espectro autoinmune con autoanticuerpos antinucleares. Clasificar el <strong>lupus cutáneo</strong> tiene valor pronóstico: predice la probabilidad de un lupus <strong>sistémico</strong>.</p>
+
+    <figure>
+      <p class="fig-title">Espectro del lupus cutáneo: profundidad y riesgo sistémico</p>
+      <svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Espectro del lupus cutáneo">
+        <defs><linearGradient id="risk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B23A3A"/><stop offset="0.5" stop-color="#B6800C"/><stop offset="1" stop-color="#3E7D4F"/></linearGradient></defs>
+        <rect x="40" y="40" width="680" height="22" rx="11" fill="url(#risk)"/>
+        <text x="120" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="13" fill="#fff">LECA</text>
+        <text x="380" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="13" fill="#fff">LECS</text>
+        <text x="640" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="13" fill="#fff">LECC (discoide)</text>
+        <text x="40" y="90" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#8C2A2A">Agudo</text>
+        <text x="720" y="90" text-anchor="end" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#2c5a3b">Crónico/discoide</text>
+        <g font-family="Inter" font-size="11.5" fill="#4A5B64">
+          <text x="40" y="112">Rash malar "en mariposa"</text>
+          <text x="40" y="128">(respeta surcos nasolabiales)</text>
+          <text x="40" y="148" fill="#8C2A2A" font-weight="600">↑↑ riesgo de LES activo</text>
+          <text x="380" y="112" text-anchor="middle">Anular / psoriasiforme</text>
+          <text x="380" y="128" text-anchor="middle">Fotosensible · Anti-Ro+</text>
+          <text x="380" y="148" text-anchor="middle" fill="#8a6206" font-weight="600">10-15% → LES</text>
+          <text x="720" y="112" text-anchor="end">Placa discoide: 3 zonas</text>
+          <text x="720" y="128" text-anchor="end">deja CICATRIZ</text>
+          <text x="720" y="148" text-anchor="end" fill="#2c5a3b" font-weight="600">5-10% → LES</text>
+        </g>
+        <text x="380" y="190" text-anchor="middle" font-family="Inter" font-size="12" fill="#4A5B64">Profundidad del infiltrado: LECA/LECS superficial · discoide superficial+profundo+perianexial · túmido dermis · paniculitis grasa</text>
+        <text x="380" y="212" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">LE túmido: sin descamación ni cicatriz, fotosensible, sin lesión de interfase</text>
+      </svg>
+      <figcaption>De agudo (más sistémico) a discoide (más cicatricial, menos sistémico). El LECS marca anti-Ro y fotosensibilidad.</figcaption>
+    </figure>
+
+    <div class="grid3">
+      <div class="mini"><h4>LECC / discoide</h4><ul>
+        <li>Placa con 3 zonas: eritema, queratosis (<b>tapones foliculares</b>), atrofia central.</li>
+        <li>Cara, cuero cabelludo (<b>alopecia cicatricial</b>), orejas.</li>
+        <li><b>5-10% → LES.</b></li>
+      </ul></div>
+      <div class="mini"><h4>LECS</h4><ul>
+        <li>Mujer media; <b>fotosensible</b>; anular o psoriasiforme; <b>no cicatriza</b>.</li>
+        <li><b>Anti-Ro+</b> (60-100%).</li>
+        <li>Descartar fármacos (tiazidas, IECA, terbinafina).</li>
+      </ul></div>
+      <div class="mini"><h4>LECA / LES</h4><ul>
+        <li>Eritema malar "en alas de mariposa" que <b>respeta surcos nasolabiales</b>.</li>
+        <li>Mujer joven 9:1; criterios ARA.</li>
+        <li>Inespecíficas: Raynaud, livedo, alopecia difusa, vasculitis.</li>
+      </ul></div>
+    </div>
+
+    <div class="card lupus">
+      <h4>Histología, anticuerpos y tratamiento</h4>
+      <ul>
+        <li>Histo: <b>dermatitis de interfase</b> (degeneración vacuolar basal) + infiltrado perivascular/perianexial + <b>mucina</b> + engrosamiento de la membrana basal (PAS). <b>Test de la banda lúpica</b> (IFD: IgG/IgM/C3 en UDE).</li>
+        <li>Serología: <b>ANA</b> (sensible, no específico), <b>anti-dsDNA y anti-Sm</b> (específicos de LES); complemento (C3/C4) bajo en LES activo.</li>
+        <li>Desencadenantes: <b>luz UV</b> (apoptosis y traslocación de Ro/La), hormonas, fármacos. <b>LE neonatal:</b> madre Ro+ → bloqueo cardiaco congénito.</li>
+        <li>Tto: <b>fotoprotección</b> + corticoides tópicos + <span class="hl">antipalúdicos (hidroxicloroquina, 1ª elección, control oftalmológico)</span>; sistémicos: corticoides, belimumab, anifrolumab.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 5 DERMATOMIOSITIS =================== -->
+  <section id="dm" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Dermatomiositis</h2></div>
+    <hr class="rule">
+    <p class="lead">Miopatía inflamatoria <strong>proximal y simétrica</strong> de la musculatura extensora + lesiones cutáneas características. Mujeres; distribución bimodal (infantil y adulto).</p>
+
+    <div class="card dm">
+      <h4>Lesiones cutáneas <span class="bug">heliotropo + Gottron</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Patognomónicas:</b> <span class="hl">heliotropo</span> (eritema violáceo periorbitario ± edema) y <b>pápulas/signo de Gottron</b> (sobre los nudillos, codos y rodillas).</li>
+        <li>Características: poiquilodermia en zonas fotoexpuestas (escote, hombros), <b>telangiectasias periungueales</b>, "manos de mecánico".</li>
+        <li>Muscular: debilidad proximal extensora; <b>CK = marcador más sensible</b> de actividad.</li>
+        <li><b>Neoplasia en el 10-50% de los adultos</b> (ovario el más frecuente) → anti-TIF1-γ / NXP-2.</li>
+        <li>Anticuerpos: anti-Mi2 (clásica), <b>anti-Jo1</b> (síndrome antisintetasa: pulmón + manos de mecánico), <b>anti-MDA5</b> (amiopática + enfermedad pulmonar rápidamente progresiva).</li>
+        <li>Histo: dermatitis de interfase + mucina. Tto: <b>corticoides</b> (la piel responde peor que el músculo).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 6 ESCLERODERMIA =================== -->
+  <section id="esclero" class="s6">
+    <div class="sec-head"><span class="num">6</span><h2 class="title">Esclerodermia</h2></div>
+    <hr class="rule">
+    <p class="lead">Fibrosis + obliteración vascular. Dos grandes grupos: <strong>localizada (morfea)</strong>, que no afecta órganos internos, y <strong>sistémica</strong>, que sí.</p>
+
+    <div class="grid2">
+      <div class="mini ok"><h4>Localizada (morfea)</h4><ul>
+        <li><b>No afecta órganos internos.</b></li>
+        <li>Morfea en placas (la más frecuente): placa indurada "marfileña" con <b>borde violáceo (lila)</b>, en tronco.</li>
+        <li>Lineal ("<b>coup de sabre</b>", infancia, hemiatrofia facial).</li>
+      </ul></div>
+      <div class="mini warn"><h4>Sistémica (esclerosis sistémica)</h4><ul>
+        <li><b>Difusa</b> (anti-Scl70) vs <b>limitada/CREST</b> (anticentrómero).</li>
+        <li><b>Raynaud</b> = signo más temprano; cutánea: edema → induración → atrofia (esclerodactilia, microstomía).</li>
+        <li>Visceral: esófago (90%), <b>pulmón (1ª causa de muerte)</b>, crisis renal (→ IECA), corazón.</li>
+      </ul></div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Anticuerpo</th><th>Asociación</th></tr></thead>
+      <tbody>
+        <tr><td>Anti-Scl70 (antitopoisomerasa)</td><td>ES <b>difusa</b>; afectación cutánea extensa, neumopatía intersticial, <b>peor pronóstico</b></td></tr>
+        <tr><td>Anticentrómero</td><td>ES <b>limitada / CREST</b>; mejor pronóstico</td></tr>
+      </tbody>
+      <caption><b>CREST</b> = Calcinosis, Raynaud, afectación Esofágica, eSclerodactilia, Telangiectasias. Tratamiento globalmente decepcionante: IECA en la crisis renal, calcioantagonistas en el Raynaud, vigilar el pulmón.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · ¿La púrpura es palpable?</h3>
+    <div class="chain">
+      <span class="step">Palpable → vasculitis (leucocitoclástica)</span><span class="arrow">·</span>
+      <span class="step">No palpable → trombopenia / púrpura senil / Schamberg</span>
+    </div>
+
+    <h3>2 · ANCA en una línea</h3>
+    <div class="chain">
+      <span class="step">c-ANCA (PR3) → Wegener</span><span class="arrow">·</span>
+      <span class="step">p-ANCA (MPO) → poliangeítis microscópica + Churg-Strauss</span>
+    </div>
+
+    <h3>3 · Paniculitis: septal vs lobulillar</h3>
+    <div class="chain">
+      <span class="step">Septal sin vasculitis → eritema nodoso (no ulcera, pretibial)</span><span class="arrow">·</span>
+      <span class="step">Lobulillar con vasculitis → Bazin (ulcera, posterior, TB)</span>
+    </div>
+
+    <h3>4 · Conectivopatías: el anticuerpo que cae</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Lupus</h4><ul>
+        <li>ANA (sensible) · anti-dsDNA y anti-Sm (LES) · anti-Ro (LECS/neonatal).</li>
+        <li>Histo: interfase + mucina + banda lúpica.</li>
+      </ul></div>
+      <div class="mini"><h4>DM y esclerodermia</h4><ul>
+        <li>DM: anti-Jo1 (pulmón), anti-MDA5 (amiopática+pulmón), anti-TIF1γ (neoplasia).</li>
+        <li>ES: anti-Scl70 (difusa) · anticentrómero (CREST).</li>
+      </ul></div>
+    </div>
+
+    <h3>5 · "Cara roja": el patrón lo distingue</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Malar que <b>respeta surcos nasolabiales</b> = lupus. <b>Heliotropo</b> periorbitario + Gottron = dermatomiositis. Centrofacial con pústulas/flushing = rosácea. Surco nasogeniano con escama grasa = seborreica.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Eritema nodoso vs Eritema indurado de Bazin <span class="badge">nódulos en piernas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Eritema nodoso</h5><span class="who">septal, sin vasculitis</span><ul><li>Cara <b>anterior/pretibial</b></li><li><b>NO ulcera</b>, no cicatriz; contusiforme</li><li>Granulomas de Miescher; buscar causa</li></ul></div>
+        <div class="vs-col"><h5>Vasculitis nodular (Bazin)</h5><span class="who">lobulillar, con vasculitis</span><ul><li>Cara <b>posterior</b> de piernas</li><li><b>Ulcera y deja cicatriz</b>; crónico</li><li>Asociado a <b>tuberculosis</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> nódulo pretibial que NO ulcera = eritema nodoso; nódulo en pantorrilla que ulcera y recidiva en invierno = Bazin (descartar TB).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">PAN vs Poliangeítis microscópica <span class="badge">vaso mediano vs pequeño</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>PAN clásica</h5><span class="who">mediano · VHB</span><ul><li><b>Microaneurismas</b>, livedo, nódulos</li><li>Renal por isquemia, <b>NO glomerulonefritis</b></li><li><b>ANCA negativo</b></li></ul></div>
+        <div class="vs-col"><h5>Poliangeítis microscópica</h5><span class="who">pequeño · p-ANCA</span><ul><li><b>Glomerulonefritis</b> necrotizante</li><li>Hemorragia pulmonar</li><li><b>p-ANCA positivo</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> microaneurismas + sin GN + ANCA– = PAN; GN + hemorragia pulmonar + ANCA+ = microscópica.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Wegener vs Churg-Strauss <span class="badge">vasculitis ANCA</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Wegener (GPA)</h5><span class="who">c-ANCA (PR3)</span><ul><li>Vía respiratoria superior (sinusitis, granuloma línea media)</li><li>Pulmón + riñón; encías "en fresa"</li></ul></div>
+        <div class="vs-col"><h5>Churg-Strauss (EGPA)</h5><span class="who">p-ANCA (MPO)</span><ul><li><b>Asma + eosinofilia + pólipos</b></li><li>Granulomas extravasculares</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "vía respiratoria alta + c-ANCA" = Wegener; "asma + eosinofilia + p-ANCA" = Churg-Strauss.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Lupus vs Dermatomiositis <span class="badge">eritema facial y manos</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Lupus (LECA)</h5><span class="who">interfase + mucina</span><ul><li>Malar que <b>RESPETA surcos nasolabiales</b></li><li>Manos: lesiones que <b>respetan los nudillos</b> (afectan entre ellos)</li></ul></div>
+        <div class="vs-col"><h5>Dermatomiositis</h5><span class="who">interfase + mucina</span><ul><li><b>Heliotropo</b> periorbitario</li><li><b>Gottron SOBRE los nudillos</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> en las manos, el lupus respeta los nudillos y la dermatomiositis los marca (Gottron). En la cara, mariposa (respeta surcos) vs heliotropo (párpados).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Esclerodermia difusa vs limitada (CREST) <span class="badge">anticuerpo</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Difusa</h5><span class="who">anti-Scl70</span><ul><li>Afectación cutánea extensa y rápida</li><li>Neumopatía intersticial; <b>peor pronóstico</b></li></ul></div>
+        <div class="vs-col"><h5>Limitada / CREST</h5><span class="who">anticentrómero</span><ul><li>Acroesclerosis; calcinosis, Raynaud, telangiectasias</li><li>Mejor pronóstico (ojo a hipertensión pulmonar)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> anti-Scl70 = difusa (peor); anticentrómero = CREST (limitada).</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>Púrpura palpable</b> = vasculitis leucocitoclástica (histo: cariorrexis + necrosis fibrinoide). El diagnóstico de vasculitis siempre se confirma por <b>biopsia</b>.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Schönlein-Henoch = vasculitis <b>IgA</b> del niño: púrpura (nalgas/extensoras) + dolor abdominal + artralgias + afectación renal.</p></div>
+    <div class="pearl"><div class="dot">3</div><p><b>c-ANCA (PR3) = Wegener</b>; <b>p-ANCA (MPO) = poliangeítis microscópica y Churg-Strauss</b>. Síndrome pulmón-riñón.</p></div>
+    <div class="pearl"><div class="dot">4</div><p><b>PAN</b> = vaso mediano, microaneurismas, VHB y <b>nunca glomerulonefritis</b> (la diferencia de la microscópica).</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Arteritis temporal: anciana + cefalea + VSG&gt;100 + riesgo de <b>ceguera</b> → corticoides <b>de inmediato</b> (no esperar a la biopsia). Asocia polimialgia reumática.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>Eritema nodoso = paniculitis <b>septal SIN vasculitis</b>, granulomas de Miescher, no ulcera; siempre buscar causa (estrepto, TB, sarcoidosis, EII).</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Lupus discoide: 3 zonas y deja <b>cicatriz</b>; 5-10% evoluciona a LES. <b>LECS</b> = anti-Ro, fotosensible, no cicatriza; descartar fármacos.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Histología compartida de lupus y dermatomiositis: <b>dermatitis de interfase + mucina</b>. En el lupus, además, <b>banda lúpica</b> en la IFD.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Hidroxicloroquina</b> = 1ª elección del lupus cutáneo (control oftalmológico por toxicidad retiniana).</p></div>
+    <div class="pearl"><div class="dot">10</div><p>Dermatomiositis del adulto: buscar <b>neoplasia</b> (ovario). El <b>Raynaud</b> es el signo más precoz de la esclerodermia sistémica; el <b>pulmón</b> es su primera causa de muerte.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 9 (Vasculitis, otras enfermedades vasculares, trastornos hemorrágicos, paniculitis y conectivopatías: lupus, dermatomiositis y esclerodermia) a partir del material docente del Dr. Domínguez Auñón — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
