@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 3 · Hongos, Virus, ITS, Zooparasitosis y VIH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --gold:#B07D2B; --gold-bg:#F8EFDD;
+    --virus:#2E6E8E; --virus-bg:#E5F0F4;
+    --plum:#8A3D6B; --plum-bg:#F6E8F0;
+    --zoo:#5C7A3A; --zoo-bg:#EDF2E2;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(155deg,#0A4448,#2E6E8E 60%,#8A3D6B);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0;
+    background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:#CFE6E4; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5.6vw,50px);
+    line-height:1.04; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#E4EEEC; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#B7D7D3; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--teal); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--teal)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--gold)} .s2 .num{background:var(--virus)} .s3 .num{background:var(--plum)} .s4 .num{background:var(--zoo)} .s5 .num{background:var(--coral)} .ss .num{background:var(--teal)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; color:var(--teal-deep); letter-spacing:-.01em;}
+  .s1 h3{color:#8a5f1c} .s2 h3{color:#235673} .s3 h3{color:#6f2f54} .s4 h3{color:#465f2c} .s5 h3{color:#8a3a2e}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--gold),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--virus),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--plum),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--zoo),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--coral),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.fungi{border-left-color:var(--gold)} .card.virus{border-left-color:var(--virus)} .card.its{border-left-color:var(--plum)} .card.zoo{border-left-color:var(--zoo)} .card.vih{border-left-color:var(--coral)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12.5px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.fungi .bug{background:var(--gold)} .card.virus .bug{background:var(--virus)} .card.its .bug{background:var(--plum)} .card.zoo .bug{background:var(--zoo)} .card.vih .bug{background:var(--coral)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+  .vih-flag{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10px; background:var(--coral); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.06em; vertical-align:middle;}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.6px; min-width:580px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--gold)} .s2 thead th{background:var(--virus)} .s3 thead th{background:var(--plum)} .s4 thead th{background:var(--zoo)} .s5 thead th{background:var(--coral)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatosis infecciosas II · Tema 3</p>
+    <h1>Hongos · Virus · ITS · Zooparasitosis · VIH</h1>
+    <p>Resumen de estudio con lo esencial de cada enfermedad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de E. Zamora (UFV) · dermatofitosis · candidiasis · herpesvirus · VPH · sífilis · gonococia · leishmaniasis · sarna · Lyme · VIH</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#hongos">Infecciones por hongos</a></li>
+      <li><span class="n">2</span><a href="#virus">Infecciones por virus</a></li>
+      <li><span class="n">3</span><a href="#its">ITS (transmisión sexual)</a></li>
+      <li><span class="n">4</span><a href="#zoo">Zooparasitosis</a></li>
+      <li><span class="n">5</span><a href="#vih">Manifestaciones en VIH</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 HONGOS =================== -->
+  <section id="hongos" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Infecciones por hongos (micosis)</h2></div>
+    <hr class="rule">
+    <p class="lead">Dos morfologías: <strong>levaduras</strong> (unicelulares, gemación, colonias cremosas; <em>Candida</em>, <em>Malassezia</em>) y <strong>mohos/filamentosos</strong> (hifas y micelios, colonias vellosas; dermatofitos). Las <strong>superficiales</strong> invaden solo piel/mucosas/pelo/uñas; las <strong>profundas</strong> llegan a tejido subcutáneo y órganos.</p>
+
+    <h3>Dermatofitosis (tiñas)</h3>
+    <p>Tres géneros y dónde atacan: <strong>Epidermophyton</strong> (piel, uñas), <strong>Microsporum</strong> (piel, <b>pelo</b>), <strong>Trichophyton</strong> (piel, pelo, uñas). El reservorio marca cuánta inflamación: <b>antropófilos</b> (poca, epidemias: <em>T. rubrum, T. tonsurans</em>), <b>zoófilos</b> (mucha: <em>M. canis, T. mentagrophytes, T. verrucosum</em>), <b>geófilos</b> (moderada: <em>M. gypseum</em>).</p>
+
+    <figure>
+      <p class="fig-title">Tiña del cuero cabelludo: cómo invade el pelo (clave del DD)</p>
+      <svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Endotrix frente a ectotrix">
+        <!-- endotrix -->
+        <g transform="translate(60,0)">
+          <text x="80" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="17" fill="#8a5f1c">ENDOTRIX</text>
+          <text x="80" y="48" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#7E8A8E">esporas DENTRO del pelo</text>
+          <rect x="55" y="60" width="50" height="150" rx="6" fill="#E8D9B8" stroke="#C9A85F"/>
+          <g fill="#8a5f1c"><circle cx="70" cy="90" r="4"/><circle cx="90" cy="105" r="4"/><circle cx="72" cy="125" r="4"/><circle cx="92" cy="145" r="4"/><circle cx="70" cy="170" r="4"/><circle cx="90" cy="185" r="4"/></g>
+          <line x1="40" y1="72" x2="120" y2="72" stroke="#BB3A2B" stroke-width="3" stroke-dasharray="5 4"/>
+          <text x="80" y="232" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A" font-weight="600">Se rompe a ras de piel</text>
+          <text x="80" y="250" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#BB3A2B" font-weight="700">→ "puntos negros"</text>
+          <text x="80" y="266" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">T. tonsurans · Wood –</text>
+        </g>
+        <line x1="360" y1="55" x2="360" y2="255" stroke="#E2DCCD" stroke-width="1.5"/>
+        <!-- ectotrix -->
+        <g transform="translate(420,0)">
+          <text x="80" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="17" fill="#8a5f1c">ECTOTRIX</text>
+          <text x="80" y="48" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#7E8A8E">esporas FUERA (vaina)</text>
+          <rect x="60" y="60" width="40" height="150" rx="6" fill="#E8D9B8" stroke="#C9A85F"/>
+          <g fill="#5C7A3A"><circle cx="50" cy="85" r="4"/><circle cx="110" cy="100" r="4"/><circle cx="48" cy="120" r="4"/><circle cx="112" cy="138" r="4"/><circle cx="50" cy="165" r="4"/><circle cx="110" cy="185" r="4"/></g>
+          <text x="80" y="232" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A" font-weight="600">Alopecia parcheada</text>
+          <text x="80" y="250" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#5C7A3A" font-weight="700">Wood FLUORESCE verde</text>
+          <text x="80" y="266" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">M. canis (microspórica)</text>
+        </g>
+      </svg>
+      <figcaption>Tonsurante tricofítica (endotrix, puntos negros) vs microspórica (ectotrix, fluorescencia verde). Ambas: alopecia REVERSIBLE.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini ok"><h4>Tiñas tonsurantes (no inflamatorias)</h4><ul>
+        <li>Niños, epidemias escolares.</li>
+        <li>Placas de alopecia con descamación, <b>poca inflamación</b>.</li>
+        <li><b>Reversible</b> (no daña el folículo).</li>
+      </ul></div>
+      <div class="mini warn"><h4>Querion de Celso (inflamatoria)</h4><ul>
+        <li>Dermatofitos <b>zoófilos</b> (M. canis, T. mentagrophytes).</li>
+        <li>Placa muy inflamatoria: eritema, pústulas, costras + adenopatías.</li>
+        <li>Respuesta exagerada → <b>alopecia CICATRICIAL</b>.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Favus (tiña favosa):</b> <em>T. schoenleinii</em>, hoy excepcional; cazoleta fávica, alopecia cicatricial, fluorescencia verde-grisácea.</p>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tiña (localización)</th><th>Lo que la define</th><th>Pista / DD</th></tr></thead>
+      <tbody>
+        <tr><td>Corporis (herpes circinado)</td><td>Placa anular con <b>aclaramiento central</b> y borde descamativo activo</td><td>Piel lampiña; DD eritema migrans de Lyme</td></tr>
+        <tr><td>Cruris (eczema marginado de Hebra)</td><td>Placas anulares en ingle; <b>casi exclusiva de varones</b></td><td><b>Escroto PRESERVADO</b> · DD eritrasma, candida</td></tr>
+        <tr><td>Barbae</td><td>Gran componente inflamatorio, cicatricial</td><td>Zoófilos</td></tr>
+        <tr><td>Manuum</td><td>Palmas, <b>unilateral</b>, varones</td><td>Suele coexistir con tiña pedis ("una mano, dos pies")</td></tr>
+        <tr><td>Pedis (pie de atleta)</td><td><b>La dermatofitosis más frecuente</b>; 4º espacio interdigital, vesiculosa o "en mocasín"</td><td>Calzado oclusivo, piscinas, hiperhidrosis</td></tr>
+        <tr><td>Unguium (onicomicosis)</td><td>Subungueal distal (la más frecuente)</td><td><b>Subungueal PROXIMAL = marcador de VIH</b> (T. rubrum)</td></tr>
+      </tbody>
+      <caption>Dx: examen directo + cultivo (Sabouraud, DTM). Tto sistémico si afecta pelo o uñas (griseofulvina, terbinafina, azoles). Tinea incognito = tiña enmascarada por corticoides. <b>Dermatofítides</b> = erupción a distancia por hipersensibilidad (cultivo negativo).</caption>
+    </table></div>
+
+    <h3>Candidiasis</h3>
+    <div class="card fungi">
+      <h4>Candidiasis <span class="bug">Candida albicans (70–80%)</span></h4>
+      <ul>
+        <li><b>Levadura saprofita ubicua;</b> enferma cuando hay factor predisponente: humedad/maceración, DM, embarazo, ATB/corticoides, inmunosupresión.</li>
+        <li><b>Muguet (pseudomembranosa):</b> placas blancas cremosas que <span class="hl">sangran al raspado</span>; 90% de los VIH, se extiende a faringe/esófago.</li>
+        <li><b>Intértrigo</b> (la forma más frecuente): pliegues, eritema con fondo fisurado y <b>lesiones satélite</b> vesiculopustulosas.</li>
+        <li>Vulvovaginitis (leucorrea espesa, no suele ser ITS), balanopostitis, queilitis angular (boqueras), onixis/perionixis.</li>
+        <li><b>Candidiasis mucocutánea crónica:</b> inmunodeficiencia T; en adultos sospechar timoma/VIH.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">KOH: levaduras + pseudohifas</span><span class="tag key">lesiones satélite</span><span class="tag tx">imidazoles / nistatina · VO: fluconazol/itraconazol</span></div>
+    </div>
+
+    <h3>Pitiriasis versicolor</h3>
+    <div class="card fungi">
+      <h4>Pitiriasis versicolor <span class="bug">Malassezia (furfur/globosa)</span></h4>
+      <ul>
+        <li>Levadura de la flora normal que pasa a forma <b>micelial patógena</b> con calor/humedad; varones jóvenes, tronco.</li>
+        <li>Máculas descamativas que cambian de color (hiper/hipopigmentadas).</li>
+        <li><b>KOH:</b> imagen en <span class="hl">"espaguetis y albóndigas"</span> (hifas + levaduras).</li>
+        <li><b>Luz de Wood:</b> fluorescencia <b>amarillenta/dorada</b>.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">espaguetis y albóndigas</span><span class="tag key">Wood amarillo</span><span class="tag tx">azoles/terbinafina tóp · sulfuro de selenio · itraconazol VO</span></div>
+    </div>
+  </section>
+
+  <!-- =================== 2 VIRUS =================== -->
+  <section id="virus" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Infecciones por virus</h2></div>
+    <hr class="rule">
+    <p class="lead">Tres familias ADN protagonistas: <strong>Herpesvirus</strong> (latencia + reactivación), <strong>Poxvirus</strong> (molusco, orf, MPOX) y <strong>Papovavirus/VPH</strong> (verrugas y oncogénesis).</p>
+
+    <h3>Herpesvirus</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Virus</th><th>Cuadro clave</th><th>Dato típico</th></tr></thead>
+      <tbody>
+        <tr><td>VHS-1</td><td>Gingivoestomatitis (primoinfección), herpes labial recurrente, panadizo herpético, eccema herpético de Kaposi</td><td>Latencia en trigémino; <b>respeta amígdalas</b></td></tr>
+        <tr><td>VHS-2</td><td>Herpes genital (ITS): vesículas agrupadas dolorosas</td><td>Recurrencias <b>lumbosacras</b>; VHS-1 previo no protege</td></tr>
+        <tr><td>VVZ (HHV-3)</td><td>Varicela (primoinfección) y <b>herpes zóster</b> (reactivación)</td><td>Dermatoma unilateral; zóster joven puede indicar VIH</td></tr>
+        <tr><td>VEB (HHV-4)</td><td>Mononucleosis; <b>leucoplasia oral vellosa</b></td><td>Leucoplasia vellosa = marcador de <span class="vih-flag">VIH</span>/trasplante</td></tr>
+        <tr><td>CMV (HHV-5)</td><td>90% subclínico; úlceras anogenitales en VIH</td><td>Inmunodeprimidos</td></tr>
+        <tr><td>HHV-6/7</td><td>Exantema súbito (roséola); pitiriasis rosada</td><td>Lactantes</td></tr>
+        <tr><td>HHV-8</td><td><b>Sarcoma de Kaposi</b></td><td>Marcador de SIDA</td></tr>
+      </tbody>
+      <caption>Dx herpes: citodiagnóstico de <b>Tzanck</b> (células multinucleadas), PCR (más sensible), cultivo (más específico). Tto: aciclovir/valaciclovir/famciclovir. Resistencia en VIH (mutación timidina-cinasa) → <b>foscarnet</b>.</caption>
+    </table></div>
+
+    <div class="card virus">
+      <h4>Herpes zóster — signos que caen en examen <span class="bug">reactivación VVZ</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Signo de Hutchinson:</b> vesículas en <span class="hl">punta y lateral de la nariz</span> (rama nasociliar) → riesgo de afectación <b>ocular</b>.</li>
+        <li><b>Síndrome de Ramsay-Hunt:</b> zóster del conducto auditivo + <b>parálisis facial</b> (afecta nervios facial y auditivo).</li>
+        <li><b>Neuralgia postherpética:</b> complicación más frecuente; ancianos, rama oftálmica.</li>
+        <li>Tto precoz (&lt;72 h) si &gt;50 a, rama oftálmica, erupción intensa o inmunodepresión. Vacuna Shingrix (recombinante, 2 dosis).</li>
+      </ul>
+    </div>
+
+    <h3>Poxvirus</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Molusco contagioso</h4><ul>
+        <li>Pápulas con <b>umbilicación central</b>, color piel, 1–5 mm.</li>
+        <li>Niños (contacto); en adultos es ITS (genital).</li>
+        <li><b>Numerosas/gigantes/diseminadas = inmunodeficiencia</b> (VIH).</li>
+        <li>Curetaje, crioterapia, KOH; suele autoinvolucionar.</li>
+      </ul></div>
+      <div class="mini warn"><h4>MPOX (viruela del mono)</h4><ul>
+        <li>Zoonosis emergente (Poxvirus ADN), reservorio <b>roedores</b>.</li>
+        <li>Brote mundial 2022; transmisión por contacto, MSM.</li>
+        <li>Pseudopústulas umbilicadas, profundas, <b>dolorosas</b> + adenopatía.</li>
+        <li>Dx PCR; tto tecovirimat, vacuna, aislamiento.</li>
+      </ul></div>
+    </div>
+
+    <h3>Virus del papiloma humano (VPH)</h3>
+    <p>ADN, &gt;150 tipos; histología con <b>coilocitos</b>. Distinguir <span class="hl">bajo riesgo</span> (6, 11 → condilomas, verrugas) de <span class="hl">alto riesgo</span> (16, 18, 31, 33… → displasias y cáncer de cérvix).</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Lesión</th><th>Tipos VPH</th><th>Clínica</th></tr></thead>
+      <tbody>
+        <tr><td>Verrugas vulgares</td><td>1, 2, 4</td><td>Pápulas queratósicas, dorso de manos; niños</td></tr>
+        <tr><td>Verrugas plantares</td><td>1</td><td>Endofíticas, dolorosas, "puntos negros", en mosaico</td></tr>
+        <tr><td>Verrugas planas</td><td>3, 10</td><td>Cara/manos; fenómeno de <b>Koebner</b></td></tr>
+        <tr><td>Condilomas acuminados</td><td>6, 11 (90%)</td><td>Verrugas anogenitales (ITS)</td></tr>
+        <tr><td>Papulosis bowenoide</td><td>16</td><td>Pápulas rojo-marronáceas; atipia tipo Bowen (Ca in situ)</td></tr>
+        <tr><td>Epidermodisplasia verruciforme</td><td>5, 8</td><td>Genética AR; lesiones tipo PV → <b>carcinoma escamoso</b></td></tr>
+      </tbody>
+      <caption>Vacuna Gardasil 9 (6,11,16,18 + 31,33,45,52,58): niñas y niños desde los 12 a, 2 dosis (3 en riesgo). 2/3 de las verrugas cutáneas regresan solas en 2 años.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 3 ITS =================== -->
+  <section id="its" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Infecciones de transmisión sexual</h2></div>
+    <hr class="rule">
+    <p class="lead">El núcleo del tema es la <strong>úlcera genital</strong>: separar sífilis, chancroide, herpes y LGV por dolor, induración y adenopatía. Y la <strong>serología de la sífilis</strong>: para qué sirve cada prueba.</p>
+
+    <h3>Sífilis — <em>Treponema pallidum</em>, "la gran imitadora"</h3>
+    <figure>
+      <p class="fig-title">Cronología de la sífilis y comportamiento de la serología</p>
+      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Estadios de la sífilis">
+        <!-- timeline base -->
+        <line x1="40" y1="70" x2="720" y2="70" stroke="#8A3D6B" stroke-width="2.5"/>
+        <g font-family="Inter" font-weight="600" font-size="13.5" fill="#6f2f54" text-anchor="middle">
+          <text x="130" y="40">Primaria</text>
+          <text x="320" y="40">Secundaria</text>
+          <text x="480" y="40">Latente</text>
+          <text x="640" y="40">Terciaria</text>
+        </g>
+        <g font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E" text-anchor="middle">
+          <text x="130" y="55">~3 sem</text><text x="320" y="55">2–3 meses</text><text x="480" y="55">precoz/tardía</text><text x="640" y="55">años (33%)</text>
+        </g>
+        <g fill="#8A3D6B"><circle cx="130" cy="70" r="6"/><circle cx="320" cy="70" r="6"/><circle cx="480" cy="70" r="6"/><circle cx="640" cy="70" r="6"/></g>
+        <g font-family="Inter" font-size="11" fill="#4A5B64" text-anchor="middle">
+          <text x="130" y="96">Chancro DURO</text><text x="130" y="110">único, indurado,</text><text x="130" y="123">indoloro, limpio</text>
+          <text x="320" y="96">Roséola palmoplantar</text><text x="320" y="110">condilomas planos,</text><text x="320" y="123">alopecia "apolillada"</text>
+          <text x="480" y="96">Serología +</text><text x="480" y="110">sin clínica</text>
+          <text x="640" y="96">Gomas, aortitis,</text><text x="640" y="110">neurosífilis</text><text x="640" y="123">(Argyll-Robertson, tabes)</text>
+        </g>
+        <!-- serology curves -->
+        <text x="40" y="170" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#20303A">Serología</text>
+        <!-- treponemic -->
+        <path d="M110,250 C150,250 165,190 200,190 L720,190" fill="none" stroke="#2E6E8E" stroke-width="3"/>
+        <text x="725" y="186" font-family="IBM Plex Mono,monospace" font-size="11" fill="#2E6E8E" text-anchor="end" dy="-6">Treponémicas (FTA-ABS): + de por vida</text>
+        <!-- nontreponemic -->
+        <path d="M125,250 C150,250 180,205 230,205 C290,205 300,250 330,260 C400,275 460,258 540,258" fill="none" stroke="#BB3A2B" stroke-width="3"/>
+        <text x="545" y="256" font-family="IBM Plex Mono,monospace" font-size="11" fill="#BB3A2B">No treponémicas (VDRL/RPR): bajan con tto</text>
+        <line x1="110" y1="250" x2="720" y2="250" stroke="#E2DCCD" stroke-width="1"/>
+        <text x="100" y="254" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7E8A8E" text-anchor="end">títulos</text>
+        <text x="40" y="300" font-family="Inter" font-size="11.5" fill="#7E8A8E">Las treponémicas son las primeras en positivizarse y quedan + toda la vida → confirmación. Las no treponémicas son cuantitativas → diagnóstico y SEGUIMIENTO del tratamiento.</text>
+      </svg>
+      <figcaption>Tto: penicilina G benzatina (precoz: dosis única; tardía: x3 semanas; neurosífilis: penicilina acuosa iv). Cuidado con la reacción de Jarisch-Herxheimer.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini"><h4>No treponémicas (VDRL, RPR)</h4><ul>
+        <li><b>Cuantitativas</b> → actividad y control del tto.</li>
+        <li>+ desde la sífilis 1ª (10–15 días).</li>
+        <li>Falsos +: <b>lepra, TBC, embarazo, colagenosis, VIH</b>.</li>
+        <li>Falso – por fenómeno de <b>prozona</b>.</li>
+      </ul></div>
+      <div class="mini"><h4>Treponémicas (FTA-ABS, MHA-TP)</h4><ul>
+        <li><b>Cualitativas</b>, muy específicas → confirmación.</li>
+        <li>Las primeras en positivizarse (FTA-ABS el 1º).</li>
+        <li><b>+ de por vida</b> aunque se trate bien.</li>
+        <li>No sirven para evaluar el tratamiento.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Congénita:</b> riesgo casi 100% si infección materna precoz; no usar pruebas treponémicas en el recién nacido (paso placentario de IgG). <b>Sífilis 2ª, 3ª o latente con pruebas negativas = incompatible.</b></p>
+
+    <h3>Diagnóstico diferencial de la úlcera genital <span class="mir">MIR</span></h3>
+    <figure>
+      <p class="fig-title">Mapa dolor × induración (lo que más se pregunta)</p>
+      <svg viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de úlceras genitales según dolor e induración">
+        <!-- axes -->
+        <line x1="90" y1="330" x2="660" y2="330" stroke="#4A5B64" stroke-width="2"/>
+        <line x1="90" y1="50" x2="90" y2="330" stroke="#4A5B64" stroke-width="2"/>
+        <text x="375" y="365" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600" fill="#4A5B64">Dolor  →</text>
+        <text x="55" y="190" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600" fill="#4A5B64" transform="rotate(-90 55 190)">Induración  →</text>
+        <text x="140" y="348" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E">indolora</text>
+        <text x="560" y="348" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E">muy dolorosa</text>
+        <!-- syphilis: indolora + indurada (top-left) -->
+        <g transform="translate(170,110)">
+          <circle r="46" fill="#F6E8F0" stroke="#8A3D6B" stroke-width="2.5"/>
+          <text y="-6" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#6f2f54">Sífilis</text>
+          <text y="12" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">chancro DURO</text>
+          <text y="27" text-anchor="middle" font-family="Inter" font-size="9.5" fill="#7E8A8E">único · limpio</text>
+        </g>
+        <!-- chancroide: dolorosa + blanda (bottom-right) -->
+        <g transform="translate(560,270)">
+          <circle r="46" fill="#FBEAE6" stroke="#BB3A2B" stroke-width="2.5"/>
+          <text y="-6" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#BB3A2B">Chancroide</text>
+          <text y="12" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">blando, sucio</text>
+          <text y="27" text-anchor="middle" font-family="Inter" font-size="9.5" fill="#7E8A8E">múltiple · purulento</text>
+        </g>
+        <!-- herpes: dolorosa + no indurada (bottom, mid-right) -->
+        <g transform="translate(440,295)">
+          <circle r="42" fill="#E5F0F4" stroke="#2E6E8E" stroke-width="2.5"/>
+          <text y="-4" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#235673">Herpes</text>
+          <text y="13" text-anchor="middle" font-family="Inter" font-size="10" fill="#4A5B64">vesículas</text>
+          <text y="26" text-anchor="middle" font-family="Inter" font-size="9.5" fill="#7E8A8E">múltiples</text>
+        </g>
+        <!-- LGV: variable + no indurada (mid) -->
+        <g transform="translate(330,230)">
+          <circle r="40" fill="#EDF2E2" stroke="#5C7A3A" stroke-width="2.5"/>
+          <text y="-4" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="12.5" fill="#465f2c">LGV</text>
+          <text y="12" text-anchor="middle" font-family="Inter" font-size="9.5" fill="#4A5B64">úlcera fugaz</text>
+          <text y="25" text-anchor="middle" font-family="Inter" font-size="9" fill="#7E8A8E">+ adenopatía</text>
+        </g>
+      </svg>
+      <figcaption>Regla: dura + indolora = sífilis · blanda + dolorosa = chancroide · vesículas dolorosas = herpes · adenopatía dominante = LGV.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th></th><th>Herpes</th><th>Sífilis</th><th>Chancroide</th><th>LGV</th></tr></thead>
+      <tbody>
+        <tr><td>Agente</td><td><em>VHS-2 &gt; 1</em></td><td><em>T. pallidum</em></td><td><em>H. ducreyi</em></td><td><em>C. trachomatis L1-3</em></td></tr>
+        <tr><td>Incubación</td><td>2–7 d</td><td>7–90 d</td><td>3–7 d</td><td>7–21 d</td></tr>
+        <tr><td>Lesión</td><td>Vesículas múltiples</td><td>Chancro único (70%)</td><td>Múltiples (50%)</td><td>Única/varias, fugaz</td></tr>
+        <tr><td>Induración</td><td>No</td><td><b>Sí (dura)</b></td><td><b>Blanda</b></td><td>No</td></tr>
+        <tr><td>Dolor</td><td>Dolorosa</td><td><b>Indolora</b></td><td><b>Muy dolorosa</b></td><td>Variable</td></tr>
+        <tr><td>Fondo</td><td>Limpio</td><td>Limpio</td><td>Purulento, hemorrágico</td><td>Limpio</td></tr>
+        <tr><td>Adenopatía</td><td>Bilateral, dolorosa</td><td>Bilateral, <b>no dolorosa</b></td><td>Unilateral, dolorosa, fluctuante</td><td>Unilateral, abscesificada</td></tr>
+        <tr><td>Dx / Tto</td><td>Tzanck · aciclovir</td><td>Campo oscuro · penicilina</td><td>Frotis "banco de peces" · ceftriaxona/azitro</td><td>Serología/PCR · doxiciclina 21 d</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Gonococia y uretritis no gonocócica</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Gonococia <em>(N. gonorrhoeae)</em></h4><ul>
+        <li>Diplococo gram – ("granos de café"); incubación corta (2–5 d).</li>
+        <li>Uretritis <b>purulenta amarillo-verdosa</b> abundante.</li>
+        <li>Mujer: a menudo asintomática → <b>EIP</b>, infertilidad, perihepatitis (<b>Fitz-Hugh-Curtis</b>).</li>
+        <li>Diseminada: artritis + pústulas necróticas (gonococemia).</li>
+        <li>Cultivo Thayer-Martin / PCR. Tto: <b>ceftriaxona + doxiciclina</b> (cubre Chlamydia).</li>
+      </ul></div>
+      <div class="mini"><h4>Uretritis NO gonocócica</h4><ul>
+        <li><em>Chlamydia trachomatis</em> (25–50%), Mycoplasma.</li>
+        <li>Incubación larga (2–3 sem).</li>
+        <li>Exudado <b>claro, escaso</b> ("gota matinal"), poco sintomático.</li>
+        <li>Tto: doxiciclina o azitromicina.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 4 ZOO =================== -->
+  <section id="zoo" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Zooparasitosis</h2></div>
+    <hr class="rule">
+    <p class="lead">Infestaciones por parásitos animales. Reconócelas por el <strong>parásito + el vector/ambiente</strong> y por la <strong>lesión guía</strong> (surco, mancha negra, eritema migrans, botón).</p>
+
+    <div class="card zoo">
+      <h4>Leishmaniasis <span class="bug">Leishmania (protozoo) · vector Phlebotomus</span></h4>
+      <ul>
+        <li>Cutánea = <span class="hl">"botón de oriente"</span> (cuenca mediterránea); también difusa, mucocutánea y visceral (<b>kala-azar</b>).</li>
+        <li>Reservorio <b>perro</b>; zoonosis. En VIH, el ser humano actúa de reservorio.</li>
+        <li>Dx: <b>amastigotes dentro de histiocitos</b> (AP), cultivo NNN, PCR (sensibilidad 97–100%).</li>
+        <li>Tto: antimoniales (Glucantime) intralesional/iv, anfotericina B liposomal, azoles.</li>
+      </ul>
+    </div>
+
+    <h3>Pediculosis (piojos)</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Capitis</h4><ul>
+        <li>La más frecuente; niñas (5:1).</li>
+        <li>Liendres en <b>nuca/retroauricular</b>.</li>
+        <li>Prurito; liendres no contagian.</li>
+      </ul></div>
+      <div class="mini"><h4>Corporis</h4><ul>
+        <li>Mala higiene ("enfermedad del <b>vagabundo</b>").</li>
+        <li>Vive en costuras de la ropa.</li>
+        <li>Pápulas pruriginosas, pigmentación.</li>
+      </ul></div>
+      <div class="mini"><h4>Pubis (ladilla)</h4><ul>
+        <li>Phthirus pubis; contagio sexual.</li>
+        <li><b>Máculas cerúleas</b> (saliva).</li>
+        <li>Coexiste con otras ITS.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)">Tto general: <b>permetrina</b> tópica + eliminar liendres + tratar convivientes/objetos. Alternativa: ivermectina.</p>
+
+    <div class="card zoo">
+      <h4>Escabiosis (sarna) <span class="bug">Sarcoptes scabiei var. hominis</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Lesión específica = <span class="hl">surco acarino</span> en espacios interdigitales, muñecas, axilas, pezones, genitales.</li>
+        <li><b>Prurito intenso nocturno</b>, carácter <b>familiar</b>; respeta cara y cuero cabelludo (salvo lactantes: palmoplantar).</li>
+        <li><b>Sarna noruega/costrosa:</b> inmunodeprimidos/deterioro neurológico; placas hiperqueratósicas con <b>innumerables ácaros</b>, muy contagiosa, sin surcos.</li>
+        <li>Dx: visualización del ácaro/huevos/escíbalos, dermatoscopia, tinta en el surco. Tto: permetrina 5% + convivientes; ivermectina VO.</li>
+      </ul>
+    </div>
+
+    <h3>Garrapatas</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Fiebre botonosa <em>(Rickettsia conorii)</em></h4><ul>
+        <li>Vector garrapata del perro (<em>Rhipicephalus</em>); sur de Europa.</li>
+        <li><b>"Mancha negra"</b> (tache noire) en el punto de picadura.</li>
+        <li>Exantema máculopapuloso de tronco a extremidades con <b>palmas y plantas</b>.</li>
+        <li>Autolimitada; doxiciclina.</li>
+      </ul></div>
+      <div class="mini"><h4>Enfermedad de Lyme <em>(Borrelia)</em></h4><ul>
+        <li>Vector <em>Ixodes</em>; curso en etapas (como la sífilis).</li>
+        <li><b>Eritema crónico migrans:</b> placa anular con aclaramiento central que crece.</li>
+        <li>Tardío: neuro (parálisis facial bilateral / Bannwarth), cardiaco (bloqueo AV), artritis.</li>
+        <li>Doxiciclina en <b>todos</b> los estadios.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 5 VIH =================== -->
+  <section id="vih" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Manifestaciones dermatológicas en VIH</h2></div>
+    <hr class="rule">
+    <p class="lead">La piel es el órgano más afectado en VIH (90%). Las dermatosis se correlacionan con los <strong>CD4/carga viral</strong>, tienen <strong>valor pronóstico</strong> y son atípicas, más graves, extensas y resistentes. Algunas son <strong>marcadores</strong> de la infección.</p>
+
+    <div class="card vih">
+      <h4>Primoinfección VIH <span class="bug">síndrome retroviral agudo</span></h4>
+      <ul>
+        <li>A las 2–4 semanas: <b>síndrome pseudogripal/mononucleósico</b> brusco y autolimitado.</li>
+        <li>Cutáneo-mucoso: <b>exantema maculopapuloso</b> (tronco, con afectación palmoplantar) + úlceras orales/genitales.</li>
+      </ul>
+    </div>
+
+    <h3>Marcadores dermatológicos de VIH (los que hay que reconocer)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Agente / clave</th><th>Por qué es marcador</th></tr></thead>
+      <tbody>
+        <tr><td>Sarcoma de Kaposi</td><td><b>HHV-8</b>; máculo-pápulas/nódulos violáceos</td><td>Neoplasia vascular asociada a SIDA más frecuente; 95% varones homo/bisexuales</td></tr>
+        <tr><td>Angiomatosis bacilar</td><td><b>Bartonella henselae</b> (gato); pápulas angiomatosas tipo Kaposi</td><td>Marcador de VIH; <b>tratable</b> con macrólidos/doxiciclina (¡por eso importa el DD con Kaposi!)</td></tr>
+        <tr><td>Leucoplasia oral vellosa</td><td><b>VEB</b>; placas blancas en lengua que no se desprenden</td><td>Marcador de inmunosupresión</td></tr>
+        <tr><td>Candidiasis oral (muguet)</td><td><em>C. albicans</em></td><td>90% de los VIH; extensión esofágica</td></tr>
+        <tr><td>Foliculitis eosinofílica</td><td>Causa desconocida; pápulas foliculares muy pruriginosas</td><td>Inmunosupresión intensa (<b>CD4 &lt; 200–250</b>), casi exclusiva de varones</td></tr>
+        <tr><td>Molusco gigante / herpes crónico</td><td>Poxvirus / VHS</td><td>Formas atípicas, extensas, resistentes</td></tr>
+        <tr><td>Onicomicosis subungueal proximal</td><td><em>T. rubrum</em></td><td>Marcador de inmunodepresión</td></tr>
+      </tbody>
+      <caption>Sífilis en VIH: más severa, progresión rápida a 3ª, afectación neurológica frecuente, serología alterada. Reacciones medicamentosas muy frecuentes (sulfamidas, antirretrovirales). TARGA → menos infecciones, pero SRI, lipodistrofia y reacciones a fármacos.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Luz de Wood (mnemotecnia transversal)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Color de fluorescencia</th><th>Diagnóstico</th></tr></thead>
+      <tbody>
+        <tr><td>Verde</td><td>Tiña capitis por <em>M. canis</em> (ectotrix); favus (verde-grisácea); Pseudomonas</td></tr>
+        <tr><td>Amarillo / dorado</td><td>Pitiriasis versicolor (<em>Malassezia</em>)</td></tr>
+        <tr><td>Rojo coral</td><td>Eritrasma (<em>Corynebacterium</em>) — del Tema 2</td></tr>
+        <tr><td>Sin fluorescencia</td><td>Tiña tricofítica (endotrix, "puntos negros")</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2 · "Marcador de VIH" — lista corta de oro</h3>
+    <div class="chain">
+      <span class="step">Kaposi (HHV-8)</span><span class="arrow">·</span>
+      <span class="step">Angiomatosis bacilar</span><span class="arrow">·</span>
+      <span class="step">Leucoplasia oral vellosa (VEB)</span><span class="arrow">·</span>
+      <span class="step">Foliculitis eosinofílica</span><span class="arrow">·</span>
+      <span class="step">Onicomicosis proximal</span>
+    </div>
+
+    <h3>3 · Lesión anular con aclaramiento central (no confundir)</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Tiña corporis</h4><ul><li>Borde descamativo, crece despacio; KOH +.</li></ul></div>
+      <div class="mini"><h4>Eritema migrans (Lyme)</h4><ul><li>Tras picadura de garrapata; crece a cm/día; doxiciclina.</li></ul></div>
+      <div class="mini"><h4>Granuloma anular / eccema</h4><ul><li>Sin descamación ni hongos.</li></ul></div>
+    </div>
+
+    <h3>4 · Hallazgos al microscopio (qué ves = qué es)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Hallazgo</th><th>Diagnóstico</th></tr></thead>
+      <tbody>
+        <tr><td>"Espaguetis y albóndigas" (KOH)</td><td>Pitiriasis versicolor</td></tr>
+        <tr><td>Levaduras + pseudohifas (KOH)</td><td>Candidiasis</td></tr>
+        <tr><td>Células multinucleadas (Tzanck)</td><td>Herpes (VHS/VVZ)</td></tr>
+        <tr><td>Coilocitos</td><td>VPH</td></tr>
+        <tr><td>Amastigotes en histiocitos</td><td>Leishmaniasis</td></tr>
+        <tr><td>Bacilos en "banco de peces" (Gram)</td><td>Chancroide (<em>H. ducreyi</em>)</td></tr>
+        <tr><td>Diplococos gram – en "granos de café"</td><td>Gonococo</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>5 · Doxiciclina lo cubre casi todo</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Lyme, fiebre botonosa, uretritis no gonocócica (Chlamydia), alternativa en sífilis y complemento en gonococia. Penicilina G benzatina = sífilis. Permetrina = sarna y piojos.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Sarcoma de Kaposi vs Angiomatosis bacilar <span class="badge">nódulos vasculares en VIH</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Sarcoma de Kaposi</h5><span class="who">HHV-8 (neoplasia)</span><ul><li>Máculo-pápulas/placas violáceas</li><li>No responde a antibióticos</li><li>Mejora con TARGA</li></ul></div>
+        <div class="vs-col"><h5>Angiomatosis bacilar</h5><span class="who">Bartonella henselae (gato)</span><ul><li>Pápulas/nódulos angiomatosos idénticos</li><li><b>Curable con macrólidos/doxiciclina</b></li><li>Antecedente de arañazo de gato</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ante lesiones tipo Kaposi en VIH, la <b>angiomatosis bacilar es tratable</b> → no se puede pasar por alto. Antecedente de gato + respuesta a antibiótico = Bartonella.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">La úlcera genital <span class="badge">duro vs blando</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Chancro DURO</h5><span class="who">sífilis · T. pallidum</span><ul><li><b>Único, indurado, INDOLORO</b>, limpio</li><li>Adenopatía no dolorosa</li></ul></div>
+        <div class="vs-col"><h5>Chancro BLANDO</h5><span class="who">chancroide · H. ducreyi</span><ul><li><b>Múltiple, blando, MUY DOLOROSO</b>, fondo sucio</li><li>Adenopatía fluctuante que fistuliza</li></ul></div>
+        <div class="vs-col"><h5>Herpes</h5><span class="who">VHS-2</span><ul><li><b>Vesículas múltiples dolorosas</b></li><li>Recurrente</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "dura + indolora" = sífilis (¡el adjetivo lo dice todo!); "dolorosa + sucia + fluctuante" = chancroide; vesículas que recurren = herpes.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Serología de sífilis: ¿treponémica o no treponémica? <span class="badge">muy preguntado</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>No treponémicas (VDRL/RPR)</h5><span class="who">cuantitativas</span><ul><li>Para <b>seguir el tratamiento</b> (bajan)</li><li>Falsos + (lepra, TBC, embarazo, VIH)</li></ul></div>
+        <div class="vs-col"><h5>Treponémicas (FTA-ABS)</h5><span class="who">cualitativas</span><ul><li>Para <b>confirmar</b>; + de por vida</li><li>NO sirven para evaluar el tto</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si preguntan "control postratamiento" → no treponémica (VDRL/RPR). Si preguntan "primera en positivizar / confirmación" → treponémica (FTA-ABS).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Tiña inguinal vs eritrasma vs candidiasis <span class="badge">intértrigo inguinal</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Tiña cruris</h5><span class="who">dermatofito</span><ul><li>Borde activo descamativo</li><li><b>Escroto PRESERVADO</b></li><li>Wood –, KOH + (hifas)</li></ul></div>
+        <div class="vs-col"><h5>Eritrasma</h5><span class="who">Corynebacterium</span><ul><li>Mácula marronácea lisa</li><li><b>Wood rojo coral</b></li></ul></div>
+        <div class="vs-col"><h5>Candidiasis</h5><span class="who">C. albicans</span><ul><li>Fondo eritematoso, <b>lesiones satélite</b></li><li>Afecta escroto/pliegue, fisuras</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> escroto respetado = tiña; fluorescencia rojo coral = eritrasma; pústulas satélite y fondo macerado = candida.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Herpes zóster: Hutchinson vs Ramsay-Hunt <span class="badge">dos signos</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Signo de Hutchinson</h5><span class="who">rama nasociliar</span><ul><li>Vesículas en <b>punta de la nariz</b></li><li>Alerta de afectación <b>OCULAR</b></li></ul></div>
+        <div class="vs-col"><h5>Síndrome de Ramsay-Hunt</h5><span class="who">ganglio geniculado</span><ul><li>Zóster en <b>conducto auditivo</b></li><li><b>Parálisis facial</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> nariz → ojo (Hutchinson); oído → cara (Ramsay-Hunt).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Tiña tonsurante vs Querion de Celso <span class="badge">alopecia por tiña</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Tonsurante (no inflamatoria)</h5><span class="who">antropófilos</span><ul><li>Poca inflamación</li><li>Alopecia <b>REVERSIBLE</b></li></ul></div>
+        <div class="vs-col"><h5>Querion de Celso</h5><span class="who">zoófilos (M. canis)</span><ul><li>Placa muy inflamatoria, pústulas</li><li>Alopecia <b>CICATRICIAL</b> (irreversible)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> a más inflamación, más cicatriz → no usar corticoides solos en una "alopecia descamativa" sin descartar tiña (tiña incognito).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Molusco contagioso vs MPOX <span class="badge">pápulas umbilicadas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Molusco contagioso</h5><span class="who">Molluscipoxvirus</span><ul><li>Pápulas color piel, <b>asintomáticas</b></li><li>Niños / ITS; benigno</li></ul></div>
+        <div class="vs-col"><h5>MPOX</h5><span class="who">Orthopoxvirus</span><ul><li>Pseudopústulas <b>profundas y dolorosas</b></li><li>Fiebre + adenopatía; PCR</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> umbilicada indolora en niño = molusco; umbilicada dolorosa + adenopatía + contexto de brote = MPOX.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>Exantema con <b>afectación de palmas y plantas</b>: piensa en <b>sífilis secundaria</b> (roséola), fiebre botonosa o primoinfección VIH. No es lo habitual en exantemas víricos comunes.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>Onicomicosis subungueal PROXIMAL = marcador de VIH</b> (la distal es la común). También leucoplasia oral vellosa, foliculitis eosinofílica y molusco gigante.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>Sarna: prurito <b>nocturno + familiar</b> que <b>respeta cara y cuero cabelludo</b>. El surco acarino es la lesión específica. La noruega/costrosa es del inmunodeprimido y muy contagiosa.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>Sífilis 2ª: pistas verbales "lengua en <b>pradera segada</b>", alopecia <b>apolillada</b>, <b>condilomas planos</b> (muy infectivos), leucoderma del cuello.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Gonococia en la mujer: muchas veces asintomática → <b>EIP</b> e infertilidad; la perihepatitis es el <b>síndrome de Fitz-Hugh-Curtis</b>. Trata siempre también la <b>Chlamydia</b> (ceftriaxona + doxiciclina).</p></div>
+    <div class="pearl"><div class="dot">6</div><p><em>Treponema pallidum</em> <b>no es cultivable</b> en medios de laboratorio (igual que <em>M. leprae</em>). El tratamiento estándar es <b>penicilina G benzatina</b>; ojo a la reacción de <b>Jarisch-Herxheimer</b>.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Pitiriasis versicolor en el KOH = <b>"espaguetis y albóndigas"</b> y Wood amarillo. DD con pitiriasis rosada y roséola sifilítica.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Neurosífilis terciaria: <b>pupila de Argyll-Robertson</b> (acomoda pero no reacciona a la luz) y <b>tabes dorsal</b> (cordones posteriores, úlceras plantares).</p></div>
+    <div class="pearl"><div class="dot">9</div><p>El zóster en una persona <b>joven</b> sin causa puede ser la primera pista de <b>VIH</b>; valóralo.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 3 (Dermatosis infecciosas II) a partir del material docente de la Dra. Elena Zamora Martínez y de la sesión sobre VIH — Facultad de Medicina, Universidad Francisco de Vitoria, 2026. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
