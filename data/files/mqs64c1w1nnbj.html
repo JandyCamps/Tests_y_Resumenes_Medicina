@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen de Dermatología · test interactivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Examen interactivo</p>
+  <h1>Examen de Dermatología</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Examen de Dermatología · Universidad Francisco de Vitoria. Reproducción de las preguntas del examen con respuestas correctas literales; las opciones adicionales y las explicaciones son material de apoyo para el estudio.</footer>
+</div>
+
+<script>
+// Examen real de Dermatología — preguntas y respuesta correcta VERBATIM del documento.
+// o[0] = respuesta correcta literal del examen; o[1..3] = distractores añadidos. c=0 (se baraja en runtime).
+// Las 8 primeras preguntas del examen estaban en blanco, por eso el test empieza en la nº 1 con enunciado.
+var PREGUNTAS = [
+{q:"Nevus gigante. ¿Cuál es la actitud inicial más correcta?",
+ o:["Descartar afectación profunda mediante pruebas de imagen","Extirpación quirúrgica urgente de toda la lesión","Iniciar tratamiento con láser de forma inmediata","Observación sin pruebas complementarias"],c:0,
+ e:"Correcta: el nevus congénito gigante puede asociar melanosis neurocutánea o disrafismo, por lo que se hace imagen (RMN) antes de actuar. La cirugía urgente o el láser inmediato no son el primer paso, y la mera observación pasaría por alto la afectación profunda."},
+
+{q:"¿Cuál es el tratamiento de elección para la pitiriasis rosada de Gibert?",
+ o:["Suele ser autolimitada; no precisa tratamiento","Corticoides sistémicos en pauta descendente","Aciclovir oral durante 7 días","Antifúngicos tópicos"],c:0,
+ e:"Correcta: la pitiriasis rosada se resuelve sola en 6-8 semanas; solo se tratan síntomas. No requiere corticoides sistémicos ni antifúngicos, y aunque se ha implicado a herpesvirus, no se trata con aciclovir de rutina."},
+
+{q:"¿Qué actividad enzimática permite el diagnóstico estándar del síndrome estafilocócico de la piel escaldada?",
+ o:["Toxina exfoliativa estafilocócica","Coagulasa","Estreptolisina O","Hialuronidasa"],c:0,
+ e:"Correcta: el SSSS se debe a las toxinas exfoliativas (rompen la desmogleína 1). La coagulasa y la hialuronidasa son enzimas estafilocócicas sin ese papel exfoliativo, y la estreptolisina O es estreptocócica."},
+
+{q:"¿Qué característica clínica permite diferenciar el síndrome de shock tóxico estafilocócico del estreptocócico?",
+ o:["El estreptocócico cursa con infección invasiva de partes blandas (fascitis) y hemocultivos positivos; el estafilocócico suele tener hemocultivos negativos","El estafilocócico nunca produce fiebre","El estreptocócico no causa fallo multiorgánico","El estafilocócico siempre se asocia a fascitis necrosante"],c:0,
+ e:"Correcta: el estreptocócico se asocia a foco invasivo de partes blandas y bacteriemia; el estafilocócico clásico (TSST-1) suele tener hemocultivos negativos. (En el examen esta pregunta venía sin respuesta marcada; esta es la diferencia clínica estándar.) Las demás invierten o niegan rasgos reales de ambos."},
+
+{q:"Paciente de 45 años que presenta ampollas, erosiones y quistes de milium en el dorso de las manos tras exposición solar, con fluorescencia rojo coral en la orina bajo luz de Wood. ¿Cuál es la entidad clínica más probable?",
+ o:["Porfiria cutánea tarda","Penfigoide ampolloso","Pseudoporfiria por AINE","Dermatitis de contacto fotoalérgica"],c:0,
+ e:"Correcta: fragilidad y ampollas en dorso de manos con milium y orina fluorescente roja (uroporfirinas) definen la porfiria cutánea tarda. La pseudoporfiria es clínicamente similar pero sin alteración bioquímica de porfirinas; penfigoide y dermatitis de contacto no dan fluorescencia urinaria."},
+
+{q:"Paciente de 45 años en tratamiento con carbamazepina por neuralgia que a las 2-4 semanas presenta fiebre de 38,8 ºC, afectación cutánea extensa, mal estado general, eosinofilia y elevación de transaminasas. ¿Diagnóstico más probable?",
+ o:["Síndrome DRESS","Necrólisis epidérmica tóxica","Pustulosis exantemática aguda generalizada","Exantema morbiliforme banal"],c:0,
+ e:"Correcta: latencia de 2-6 semanas con eosinofilia y afectación hepática es típica del DRESS. La NET cursa con despegamiento epidérmico y afectación mucosa; la PEGA con pústulas estériles; el exantema banal no da eosinofilia ni hepatitis."},
+
+{q:"Señale la respuesta que considera falsa sobre el acné???:",
+ o:["Es más frecuente en varones","Interviene Cutibacterium acnes","La isotretinoína es teratógena","Tiene un componente hormonal"],c:0,
+ e:"Correcta (es la FALSA): el acné afecta a ambos sexos y en la mujer adulta tiene matiz hormonal, no es 'más frecuente en varones'. Las otras tres afirmaciones son verdaderas."},
+
+{q:"Foto de un niño con impétigo. Un niño de 3 años, en el centro hospitalario con estas lesiones.",
+ o:["Lo más eficaz de tratar con antibióticos.","No requiere tratamiento, es autorresolutivo","Tratar con corticoides tópicos","Tratar con antifúngicos orales"],c:0,
+ e:"Correcta: el impétigo es bacteriano (S. aureus/S. pyogenes) y se trata con antibióticos (tópico si localizado, oral si extenso). Los corticoides y antifúngicos no están indicados y dejarlo sin tratar favorece contagio y complicaciones."},
+
+{q:"¿Cuál de los siguientes fármacos es considerado de alto riesgo para el desarrollo de síndromes de Steven-Jhonson, necrólisis epidérmica tóxica?",
+ o:["Alopurinol","Paracetamol","Metformina","Omeprazol"],c:0,
+ e:"Correcta: el alopurinol (junto a anticonvulsivantes, sulfamidas y AINE oxicam) es de alto riesgo para SSJ/NET. Paracetamol, metformina y omeprazol no figuran entre los de alto riesgo."},
+
+{q:"¿Cuál es la tríada clásica de la amiloidosis sistémica primaria, asociada a cadenas ligeras?",
+ o:["Síndrome del túnel carpiano, lesiones mucocutáneas y macroglosia","Fiebre, artritis y nefritis","Fotosensibilidad, alopecia y aftas","Diabetes, obesidad e hipertensión"],c:0,
+ e:"Correcta: túnel carpiano, lesiones mucocutáneas (púrpura periorbitaria) y macroglosia son típicos de la amiloidosis AL. Las otras tríadas corresponden a otros cuadros (lupus, etc.) y no a la amiloidosis."},
+
+{q:"¿Cuál es el tratamiento de elección para la acrodermatitis enteropática?",
+ o:["Sulfato de zinc por vía oral","Hierro oral","Suplementos de biotina","Niacina oral"],c:0,
+ e:"Correcta: la acrodermatitis enteropática es un déficit de zinc y se corrige con sulfato de zinc oral. Hierro, biotina y niacina tratan otras carencias (anemia, pelagra), no esta."},
+
+{q:"¿Cuál de las siguientes entidades no forma parte de la denominada tétrada de inclusión/oclusión folicular?",
+ o:["Rosácea fimatosa.","Hidradenitis supurativa","Acné conglobata","Foliculitis decalvante"],c:0,
+ e:"Correcta: la tétrada de oclusión folicular = hidradenitis + acné conglobata + foliculitis decalvante + sinus pilonidal. La rosácea fimatosa no forma parte de ella."},
+
+{q:"Acude a consulta que tarda en desarrollar un intenso prurito por todo el cuerpo que dura 50 minutos. Al hacer pruebas en la consulta tras una provocación con agua no presenta habones o lesiones cutáneas visibles. ¿Cuál sería el motivo más probable?",
+ o:["Prurito acuagénico","Urticaria acuagénica","Urticaria colinérgica","Dermografismo sintomático"],c:0,
+ e:"Correcta: prurito tras contacto con agua SIN habones define el prurito acuagénico. La urticaria acuagénica sí produce habones; la colinérgica se desencadena por calor/sudor y el dermografismo por fricción."},
+
+{q:"¿Cuál de las siguientes correlaciones histológica - clínicas es falsa?",
+ o:["Acantolosis - psoriasis.","Espongiosis - eccema","Infiltrado liquenoide en banda - liquen plano","Microabscesos de Munro - psoriasis"],c:0,
+ e:"Correcta (es la FALSA): la psoriasis no cursa con acantólisis (esa es del pénfigo); sí presenta microabscesos de Munro. Las otras correlaciones son correctas."},
+
+{q:"Señale lo correcto respecto a la imagen (imagen Eritrasma).",
+ o:["Es causado por Corynebacterium.","Es causado por un dermatofito","Se trata con corticoides tópicos","No fluoresce con luz de Wood"],c:0,
+ e:"Correcta: el eritrasma lo causa Corynebacterium minutissimum y fluoresce en rojo coral con luz de Wood. No es un dermatofito y no se trata con corticoides."},
+
+{q:"En relación a las nuevas terapias biológicas para el vitíligo, ¿cuál es el mecanismo de acción del ruxolitinib?",
+ o:["Es inhibidor de la JAK1 y JAK2","Es un anti-TNF alfa","Es un anti-IgE","Es un análogo de la vitamina D"],c:0,
+ e:"Correcta: el ruxolitinib es un inhibidor de JAK1/JAK2 que frena la vía interferón implicada en el vitíligo. No es anti-TNF, anti-IgE ni un análogo de vitamina D."},
+
+{q:"Una mujer de 55años. 3 semanas de evolución, erupción pruriginosa, pápulas eritemato violáceas localizadas sobre todo en la cara anterior de las muñecas, zona pretibial y lumbar. Presenta también lesiones blanquecinas en el dorso de la lengua. ¿Cuál es el diagnostico más probable?",
+ o:["Liquen plano","Psoriasis","Pitiriasis rosada","Lupus discoide"],c:0,
+ e:"Correcta: pápulas poligonales violáceas pruriginosas en muñecas con afectación oral reticular son liquen plano. La psoriasis da escama nacarada, la pitiriasis rosada un medallón heráldico y el lupus discoide cicatriz atrófica."},
+
+{q:"¿En cuál de las siguientes localizaciones anatómicas es más frecuente la pitiriasis versicolor?",
+ o:["En pecho y espalda alta","En palmas y plantas","En cuero cabelludo","En pliegues inguinales"],c:0,
+ e:"Correcta: la pitiriasis versicolor (Malassezia) prefiere zonas seborreicas del tronco: pecho y espalda alta. No afecta palmas/plantas y no es característica del cuero cabelludo ni de las ingles."},
+
+{q:"¿En qué proceso dermatológico utilizamos la ivermectina oral?",
+ o:["Escabiosis.","Psoriasis","Vitíligo","Pénfigo vulgar"],c:0,
+ e:"Correcta: la ivermectina oral se usa en la escabiosis (sobre todo costrosa o brotes). No tiene papel en psoriasis, vitíligo ni pénfigo."},
+
+{q:"¿Cuál de las siguientes lesiones melanocíticas benignas tiene mayor riesgo de generar en un melanoma maligno?",
+ o:["Nevus melanocítico congénito gigante","Nevus azul","Nevus de Spitz","Léntigo simple"],c:0,
+ e:"Correcta: el riesgo es proporcional al tamaño, máximo en el congénito gigante. El nevus azul, el de Spitz y el léntigo simple tienen riesgo mínimo."},
+
+{q:"Mujer de 32 años, con pápulas y pústulas monomorfas desde hace 3 meses. En la exploración física no se observan comedones. ¿Cuál es el diagnóstico más probable?",
+ o:["Rosácea","Acné","Foliculitis por Malassezia","Dermatitis perioral"],c:0,
+ e:"Correcta: pápulo-pústulas monomorfas SIN comedones en la cara orientan a rosácea. El acné tiene comedones; la foliculitis por Malassezia es pruriginosa en tronco y la dermatitis perioral respeta el borde labial."},
+
+{q:"En los últimos años ha avanzado mucho el conocimiento de la psoriasis, señale la que considere falsa.",
+ o:["Los pacientes con psoriasis moderada grave no presentan disminución de la esperanza de vida.","Se asocia a artritis psoriásica","Se asocia a síndrome metabólico","Aumenta el riesgo cardiovascular"],c:0,
+ e:"Correcta (es la FALSA): la psoriasis moderada-grave sí se asocia a comorbilidad cardiometabólica que reduce la supervivencia. Las otras afirmaciones son verdaderas."},
+
+{q:"(Foto del pie de un paciente que tiene lesiones redondeadas en los dedos del pie, es una keratolisis puntata, que es una infección bacteriana) ¿Cuál es el tratamiento tópico de elección?",
+ o:["Eritromicina o ácido fusídico","Corticoide tópico potente","Antifúngico azólico","Calcipotriol"],c:0,
+ e:"Correcta: la queratólisis punctata es bacteriana (Corynebacterium/Kytococcus) y se trata con antibiótico tópico (eritromicina o ácido fusídico) más control del sudor. No responde a corticoides, antifúngicos ni calcipotriol."},
+
+{q:"Un paciente con lupus ha acudido a la consulta por presentar habones que persisten más de 36 horas, dejan una coloración purpúrica residual y asocian artralgias. ¿Cuál sería el hallazgo histopatológico esperado tras una biopsia?",
+ o:["Vasculitis de pequeño vaso con depósito de inmunocomplejos.","Espongiosis con exocitosis de linfocitos","Acantólisis suprabasal","Edema dérmico superficial sin vasculitis"],c:0,
+ e:"Correcta: un habón que dura >24-36 h y deja púrpura es urticaria-vasculitis, con vasculitis de pequeño vaso por inmunocomplejos. El edema sin vasculitis sería una urticaria común; espongiosis y acantólisis corresponden a otros cuadros."},
+
+{q:"El paciente presenta una ulcera radial en la pierna que ha dejado cicatriz. El diagnóstico se estima (o es ectima ns exactamente). ¿Cuál es el tratamiento de lección?",
+ o:["Antibioterapia sistémica combinada con tratamiento tópico. (es ectima)","Antifúngico oral aislado","Corticoide tópico de alta potencia","Solo curas húmedas, sin antibiótico"],c:0,
+ e:"Correcta: el ectima es un piodermitis profunda que llega a dermis y cicatriza, por lo que precisa antibiótico sistémico además del tópico. Antifúngicos, corticoides o curas sin antibiótico no resuelven la infección bacteriana."},
+
+{q:"Paciente con habones de 2 semanas de evolución. ¿Cuál es el manejo inicial más adecuado?",
+ o:["Administrar antihistamínicos H1 y evitar corticoides.","Iniciar corticoides sistémicos de entrada","Pautar adrenalina intramuscular","Indicar inmunosupresores"],c:0,
+ e:"Correcta: la base de la urticaria son los antihistamínicos H1 (a dosis altas si precisa), evitando corticoides por rebote. La adrenalina es para anafilaxia y los inmunosupresores se reservan a casos refractarios."},
+
+{q:"Sobre la fotobiología de las porfirias cutáneas. ¿Qué capacidad tienen los metabolitos acumulados al captar energía lumínica?",
+ o:["Captan energía del espectro de luz visible que provoca reacciones de fotoxidación.","Solo absorben radiación UVC","Bloquean la síntesis de melanina","Generan vitamina D de forma excesiva"],c:0,
+ e:"Correcta: las porfirinas absorben luz visible y desencadenan reacciones de fotooxidación que dañan la piel. No se limitan a la UVC ni interfieren en la melanina o la vitamina D."},
+
+{q:"El vector de enfermedad de Lime en Europa:",
+ o:["Ixodes ricinus","Ixodes scapularis","Pulex irritans","Dermacentor andersoni"],c:0,
+ e:"Correcta: en Europa el vector de la enfermedad de Lyme es Ixodes ricinus. I. scapularis es el vector americano; las otras no transmiten Borrelia de forma relevante en Europa."},
+
+{q:"¿Cuál produce una alopecia irreversible?",
+ o:["El Querion de Celso.","La alopecia areata","El efluvio telógeno","La tiña tonsurante no inflamatoria"],c:0,
+ e:"Correcta: el querion de Celso es una tiña inflamatoria que deja alopecia cicatricial (irreversible). La areata, el efluvio telógeno y la tiña no inflamatoria son potencialmente reversibles."},
+
+{q:"¿En relación al diagnóstico serológico de la sífilis? Señale la incorrecta.",
+ o:["La sífilis terciaria causa pruebas serológicas negativas.","Las pruebas treponémicas permanecen positivas de por vida","Las pruebas no treponémicas sirven para seguimiento","Pueden existir falsos positivos de las no treponémicas"],c:0,
+ e:"Correcta (es la INCORRECTA): en la sífilis terciaria las pruebas treponémicas siguen positivas; no se negativizan. Las otras tres afirmaciones son ciertas."},
+
+{q:"(Foto manos necrosadas MIR) Mujer de 58 años que acude a urgencias por dolor en la punta de los dedos de las manos. Antecedentes de aborto, apendectomía, ... Exposición al frio, palidez en los dedos de las manos que se han ido haciendo más intensos. ¿Cuál de las siguientes actitudes realizaría en primer lugar?",
+ o:["Determinar ANA y anticuerpos antifosfolípido","Amputación inmediata de los dedos","Iniciar corticoides a dosis altas sin estudio","Realizar únicamente una capilaroscopia"],c:0,
+ e:"Correcta: Raynaud con antecedente de abortos sugiere conectivopatía/SAF; lo primero es el cribado serológico (ANA y antifosfolípido). La amputación o los corticoides 'a ciegas' no son el primer paso y la capilaroscopia sola no basta."},
+
+{q:"¿Qué mecanismo patológico predomina en las vasculitis asociadas a ANCA?",
+ o:["Activación neutrofílica pauciinmunitaria","Depósito masivo de inmunocomplejos","Hipersensibilidad inmediata mediada por IgE","Trombosis por crioglobulinas"],c:0,
+ e:"Correcta: las ANCA activan directamente al neutrófilo, con escaso depósito inmune ('pauciinmune'). El depósito de inmunocomplejos, la IgE y las crioglobulinas corresponden a otros tipos de vasculitis."},
+
+{q:"¿Qué hallazgo clínico orienta más hacia afectación arterial profunda?",
+ o:["Úlceras necróticas.","Púrpura palpable","Habones migratorios","Eritema fijo no infiltrado"],c:0,
+ e:"Correcta: la isquemia de vaso mediano/profundo da nódulos, livedo y úlceras necróticas. La púrpura palpable es de vaso pequeño y los habones/eritema fijo no traducen afectación arterial profunda."},
+
+{q:"¿Qué técnica diagnostica es imprescindible para confirmar una vasculitis cutánea?",
+ o:["Biopsia cutánea.","Hemograma completo","Radiografía simple","Cultivo de exudado"],c:0,
+ e:"Correcta: la confirmación es histológica (biopsia con necrosis fibrinoide y leucocitoclasia). El hemograma, la radiografía o el cultivo no confirman el diagnóstico."},
+
+{q:"La acantolisis del pénfigo vulgar ocurre típicamente:",
+ o:["Inmediatamente sobre la capa basal epidérmica.","En la capa subcórnea","En la unión dermoepidérmica","En la dermis reticular"],c:0,
+ e:"Correcta: el pénfigo vulgar (anti-Dsg3) da acantólisis suprabasal, con basales 'en hilera de tumbas'. El subcórneo corresponde al pénfigo foliáceo y la unión dermoepidérmica al penfigoide."},
+
+{q:"Una presentación inicial frecuente del penfigoide ampolloso es:",
+ o:["Lesiones urticarianas o eccematosas pruriginosas","Aftas orales recurrentes","Ampollas flácidas que se rompen fácilmente","Lesiones en diana acrales"],c:0,
+ e:"Correcta: el penfigoide tiene una fase prebullosa con lesiones urticariformes/eccematosas muy pruriginosas. Las aftas orales son del pénfigo, las ampollas flácidas también, y las dianas del eritema multiforme."},
+
+{q:"El eritema nudoso es histopatológicamente el prototipo de:",
+ o:["Paniculitis septal.","Paniculitis lobulillar","Vasculitis de gran vaso","Dermatitis de interfase"],c:0,
+ e:"Correcta: el eritema nudoso es el prototipo de paniculitis septal sin vasculitis. No es lobulillar, ni una vasculitis de gran vaso, ni una dermatitis de interfase."},
+
+{q:"(Foto) Joven epiléptica con lesiones cutáneas características. ¿Diagnóstico?",
+ o:["Esclerosis tuberosa","Neurofibromatosis tipo 1","Síndrome de Sturge-Weber","Incontinencia pigmenti"],c:0,
+ e:"Correcta: epilepsia con angiofibromas faciales (y máculas hipopigmentadas) define la esclerosis tuberosa. La NF1 da manchas café con leche/neurofibromas, Sturge-Weber un angioma facial y la incontinencia pigmenti lesiones lineales en el RN."},
+
+{q:"Varón de 60 años con las lesiones que se muestran en la imagen desde las primeras semanas de vida, el cuello y tronco también están afectados. En el examen oftalmológico reveló opacidades corneales. Mejora mucho en verano. Su diagnóstico es:",
+ o:["Ictiosis ligada al cromosoma X","Ictiosis vulgar","Psoriasis","Dermatitis atópica"],c:0,
+ e:"Correcta: escamas que afectan el cuello, opacidades corneales y aparición desde las primeras semanas en un varón orientan a la ictiosis ligada al X (déficit de sulfatasa esteroidea). La ictiosis vulgar respeta flexuras y no da opacidades corneales."},
+
+{q:"Un lactante de 4,5 meses de edad con lesiones eritemato-descamativas de aspecto seborreica en cuero cabelludo y zona del pañal. Cierto aspecto de gravedad y lesiones purpúricas/petequiales en cara. Lo más probable es:",
+ o:["Histiocitosis de células de Langerhans","Dermatitis seborreica infantil","Dermatitis atópica","Candidiasis del pañal"],c:0,
+ e:"Correcta: las lesiones 'seborreicas' con púrpura/petequias y aspecto grave en un lactante sugieren histiocitosis de Langerhans. La seborreica banal, la atópica y la candidiasis no producen púrpura ni afectación general."},
+
+{q:"Señale cuál de las siguientes afirmaciones relacionadas con la alopecia areata es falsa:",
+ o:["presenta fibrosis cicatricial del folículo en la biopsia","es una alopecia no cicatricial","puede asociar pitting ungueal","con frecuencia remite espontáneamente"],c:0,
+ e:"Correcta (es la FALSA): la alopecia areata es NO cicatricial (conserva los orificios foliculares), por lo que no hay fibrosis cicatricial. Las otras afirmaciones son verdaderas."},
+
+{q:"El tiempo próximo de renovación epidérmica de un queratinocito es:",
+ o:["4 semanas.","48 horas","6 meses","1 año"],c:0,
+ e:"Correcta: el tránsito epidérmico normal es de unas 4 semanas (≈28 días); en la psoriasis está muy acelerado. Las otras cifras no corresponden al recambio fisiológico."},
+
+{q:"(MIR) Una mujer de 80 años con antecedentes de hipertensión arterial, dislipemia arterioesclerosis. Tratamiento general enalapril, hidroclorotiazida y simvastatina, desde hace años con paracetamol ocasional. Consulta por lesiones cutáneas pruriginosas en tronco y extremidades de 2 semanas de evolución para las que no ha reaccionado tratamiento médico. La paciente se encuentra hemodinamicamente estable y afebril al presentarse en servicio de urgencias. La respuesta correcta es:",
+ o:["con la sospecha de una enfermedad ampollosa autoinmune se solicita biopsia con inmunofluorescencia, valorar ingreso y se inicia tratamiento con prednisona/corticoides sistémicos.","es una urticaria aguda y se trata solo con antihistamínicos y alta","es una reacción al paracetamol y basta con retirarlo","es una sarna y se pauta permetrina sin más estudio"],c:0,
+ e:"Correcta: prurito persistente del anciano que no responde obliga a descartar penfigoide ampolloso con biopsia e inmunofluorescencia y tratamiento corticoideo. Atribuirlo a urticaria, al paracetamol o a sarna sin estudio sería inadecuado."},
+
+{q:"Las lesiones cutáneas consistentes en pápulas violáceas entre las dos articulaciones interfalángicas son características de:",
+ o:["dermatomiositis (hace referencia a pápulas de Gottron).","lupus eritematoso sistémico","esclerodermia","psoriasis"],c:0,
+ e:"Correcta: las pápulas de Gottron sobre las articulaciones de los dedos son típicas de la dermatomiositis. El lupus respeta característicamente los nudillos; esclerodermia y psoriasis no dan estas pápulas."},
+
+{q:"¿Qué definición de las siguiente se define mejor las lesiones más frecuentes y típicas del lupus eritematoso cutáneo crónico discoide?",
+ o:["Pápulas o placas eritematodescamativas que evolucionan a la formación de gruesas escamas, telangiectasias e hipo o hiperpigmentación y curan dejando cicatrices atróficas.","Habones evanescentes que desaparecen en menos de 24 horas","Ampollas tensas sobre base urticariforme","Máculas acrómicas sin descamación ni cicatriz"],c:0,
+ e:"Correcta: el lupus discoide deja placas con escama, telangiectasias, discromía y cicatriz atrófica. Los habones, las ampollas tensas o las máculas acrómicas describen otras entidades (urticaria, penfigoide, vitíligo)."},
+
+{q:"¿Qué célula epidérmica participa activamente en la fotoprotección mediante producción de melanina?",
+ o:["Melanocito.","Queratinocito","Célula de Langerhans","Célula de Merkel"],c:0,
+ e:"Correcta: el melanocito sintetiza melanina y la transfiere a los queratinocitos. La célula de Langerhans es inmunitaria y la de Merkel, sensitiva."},
+
+{q:"La urticaria pigmentosa es una forma de:",
+ o:["Mastocitosis cutánea.","Linfoma cutáneo","Vasculitis","Histiocitosis"],c:0,
+ e:"Correcta: la urticaria pigmentosa es la forma cutánea más frecuente de mastocitosis (signo de Darier). No es un linfoma, ni una vasculitis ni una histiocitosis."},
+
+{q:"Varón de 28 años con enfermedad de Crohn que, coincidiendo con un brote de su proceso intestinal, presenta nódulos eritematosos, inflamatorios y dolorosos en la cara anterolateral de ambas piernas. ¿Cuál es el diagnóstico más probable?",
+ o:["Eritema nudoso","Eritema indurado de Bazin","Vasculitis nodular","Celulitis bacteriana"],c:0,
+ e:"Correcta: nódulos dolorosos pretibiales en un brote de EII son eritema nudoso (paniculitis septal reactiva). El eritema indurado afecta pantorrillas y ulcera, y la celulitis es una infección unilateral."},
+
+{q:"Varón de 50 años, diagnosticado de síndrome mieloproliferativo, que presenta desde hace una semana una erupción en forma de placas eritematosas de aspecto infiltrativo/edematoso en zonas de escote, que se acompaña de fiebre de 39,5 ºC. Se practica un hemograma que muestra leucocitosis con neutrofilia. ¿Cuál es el diagnóstico de sospecha?",
+ o:["Síndrome de Sweet","Eritema multiforme","Celulitis","Pioderma gangrenoso"],c:0,
+ e:"Correcta: placas edematosas en escote con fiebre y neutrofilia en un proceso mieloproliferativo son síndrome de Sweet (neutrofílica, a veces paraneoplásica). El eritema multiforme da dianas, la celulitis es infecciosa y el pioderma gangrenoso ulcera."},
+
+{q:"¿Qué variante de lupus cutáneo suele asociarse con mayor frecuencia a enfermedad sistémica activa?",
+ o:["Lupus eritematoso agudo","Lupus discoide","Lupus túmido","Lupus profundo"],c:0,
+ e:"Correcta: el lupus cutáneo agudo (rash malar) es el que más se asocia a LES activo. El discoide, el túmido y el profundo tienen escasa afectación sistémica."},
+
+{q:"Respecto a los linfomas cutáneos, señale la afirmación falsa:",
+ o:["Los linfomas CD30 positivo cutáneos primarios suelen presentar un curso agresivo","La micosis fungoide es el linfoma cutáneo más frecuente","Los linfomas B cutáneos suelen ser de bajo grado","El reordenamiento clonal del TCR apoya el diagnóstico"],c:0,
+ e:"Correcta (es la FALSA): los CD30+ cutáneos primarios (anaplásico cutáneo, papulosis linfomatoide) tienen BUEN pronóstico. Las otras afirmaciones son verdaderas."},
+
+{q:"Niña de 9 años con historia de dermatitis en flexuras y asma que, después de un episodio de herpes labial, presenta una erupción generalizada de vesículas-pústulas con afectación del estado general y adenopatías. ¿En qué proceso pensaría en primer lugar?",
+ o:["Infección diseminada por virus herpes.","Varicela","Impétigo ampolloso","Síndrome de Gianotti-Crosti"],c:0,
+ e:"Correcta: dermatitis atópica + herpes previo + erupción vesiculopustulosa con mal estado general es un eccema herpético (diseminación del VHS). La varicela, el impétigo y el Gianotti-Crosti no encajan en este contexto atópico tras herpes."},
+
+{q:"(foto de psoriasis). Varón de 38 años que acude a consulta con lesiones pruriginosas de varios meses de evolución. ¿Qué tratamiento nos plantearíamos en este paciente?",
+ o:["Calcipotriol","Aciclovir oral","Permetrina tópica","Antihistamínicos sistémicos"],c:0,
+ e:"Correcta: en la psoriasis en placas limitada el calcipotriol (análogo de vitamina D) es de primera línea. Aciclovir, permetrina y antihistamínicos tratan otras patologías (herpes, sarna, urticaria)."},
+
+{q:"Mujer de 20 años sin antecedentes personales de interés que acude a urgencias por lesiones agrupadas sobre una base eritematosa, dolorosas, de pocos días de evolución. Señale la afirmación falsa:",
+ o:["El causante más frecuente es el virus herpes simple tipo 1","Puede acompañarse de adenopatías regionales","Las lesiones son vesículas agrupadas","Puede recidivar"],c:0,
+ e:"Correcta (es la FALSA): en el herpes genital el agente más frecuente es el VHS-2, no el VHS-1. Las demás afirmaciones (adenopatías, vesículas agrupadas, recidivas) son verdaderas."},
+
+{q:"La vasculitis leucocitoclástica cutánea afecta principalmente a:",
+ o:["Vénulas postcapilares","Arterias musculares","Capilares glomerulares","Grandes vasos"],c:0,
+ e:"Correcta: la vasculitis leucocitoclástica es de vaso pequeño, afectando las vénulas postcapilares (púrpura palpable). No afecta arterias musculares ni grandes vasos."},
+
+{q:"¿Cuál es el tratamiento sistémico inicial más utilizado en dermatomiositis con miositis?",
+ o:["Corticoides sistémicos","Metotrexato en monoterapia","Hidroxicloroquina aislada","Rituximab de primera línea"],c:0,
+ e:"Correcta: los corticoides sistémicos son la primera línea de la dermatomiositis con miositis. El metotrexato y el rituximab son ahorradores/segunda línea y la hidroxicloroquina actúa más sobre la piel."},
+
+{q:"¿Qué característica diferencia con mayor claridad el lupus discoide del lupus túmido?",
+ o:["Tendencia cicatricial","La fotosensibilidad","La edad de aparición","El sexo del paciente"],c:0,
+ e:"Correcta: el discoide deja cicatriz atrófica con tapones foliculares, mientras que el túmido no descama ni cicatriza. La fotosensibilidad, la edad o el sexo no los distinguen con claridad."},
+
+{q:"¿Cuál es el tipo de cáncer cutáneo más frecuente en los pacientes trasplantados de órgano sólido?",
+ o:["Carcinoma de células escamosas","Carcinoma basocelular","Melanoma","Sarcoma de Kaposi"],c:0,
+ e:"Correcta: en inmunodeprimidos el carcinoma epidermoide (escamoso) multiplica su incidencia e invierte la proporción habitual CBC>CE. El basocelular, el melanoma y el Kaposi son menos frecuentes en este contexto."},
+
+{q:"(MIR) Recién nacido de dos semanas cuya madre durante el embarazo presentó poliartralgias no filiadas y que, tras la primera exposición solar, desarrolla lesiones cutáneas eritematosas policíclicas que asemejan las del lupus eritematoso cutáneo subagudo.",
+ o:["Anticuerpos anti-Ro/SSA en la madre","Anticuerpos anti-dsDNA en el niño","Anticuerpos anti-Scl70 en la madre","Anticuerpos anti-Jo1 en el niño"],c:0,
+ e:"Correcta: el lupus neonatal se debe al paso transplacentario de anti-Ro/SSA maternos (vigilar bloqueo cardiaco). Anti-dsDNA, anti-Scl70 y anti-Jo1 corresponden a otras entidades."},
+
+{q:"Varón de 75 años que consulta por una lesión asintomática localizada en la pierna izquierda, de dos meses de evolución, que ha sido tratada por su médico de familia con antifúngicos tópicos y corticoides tópicos sin mejoría. ¿Cuál sería la respuesta falsa?",
+ o:["Si biopsiamos la lesión observaríamos proliferación de queratinocitos de aspecto anaplásico, desordenados, que invaden la dermis (nos habla de un Bowen)","Puede simular una placa de eccema o de tiña","Es un carcinoma epidermoide in situ","La atipia afecta a todo el espesor de la epidermis"],c:0,
+ e:"Correcta (es la FALSA): la enfermedad de Bowen es un carcinoma in situ; la atipia ocupa todo el espesor pero NO invade la dermis (si invadiera sería un CE invasor). Las otras afirmaciones describen correctamente el Bowen."},
+
+{q:"Todas cursan con notable afectación de la mucosa oral excepto:",
+ o:["dermatitis herpetiforme","pénfigo vulgar","penfigoide cicatricial","eritema multiforme mayor"],c:0,
+ e:"Correcta: la dermatitis herpetiforme respeta las mucosas. El pénfigo vulgar, el penfigoide cicatricial y el eritema multiforme mayor sí las afectan de forma destacada."},
+
+{q:"Ante el aumento rápido de tamaño de una lesión previa o aparición de dolor abdominal o hemorragia de causa no explicable en paciente con neurofibromatosis tipo 1, debemos sospechar:",
+ o:["Transformación maligna de un neurofibroma plexiforme","Un nuevo nevus melanocítico banal","Una urticaria aguda","Una infección cutánea sobreañadida"],c:0,
+ e:"Correcta: en la NF1 el crecimiento rápido o el dolor de un neurofibroma plexiforme hace sospechar su transformación en tumor maligno de vaina nerviosa periférica. Un nevus banal, una urticaria o una infección no explican estos signos de alarma."},
+
+{q:"Lesiones purpúricas acrales con hallazgos histopatológicos de necrosis fibrinoide de la pared vascular, epistaxis y úlceras orofaríngeas crónicas, y presencia de autoanticuerpos contra la proteinasa 3 del citoplasma neutrofílico, serán más probables en:",
+ o:["Granulomatosis con poliangeítis de Wegener","Poliarteritis nodosa","Púrpura de Schönlein-Henoch","Crioglobulinemia mixta"],c:0,
+ e:"Correcta: anti-PR3 (c-ANCA) con afectación de vía respiratoria superior, pulmón y riñón define la granulomatosis con poliangeítis. La PAN es ANCA negativa de vaso mediano, la Schönlein-Henoch es por IgA y la crioglobulinemia se asocia a VHC."},
+
+{q:"¿En cuál de las siguientes enfermedades no está indicada la fototerapia con UVB de banda estrecha?",
+ o:["Dermatomiositis","Psoriasis","Vitíligo","Micosis fungoide"],c:0,
+ e:"Correcta: la dermatomiositis es fotosensible, por lo que la luz la empeora y se evita la fototerapia. En psoriasis, vitíligo y micosis fungoide sí está indicada."},
+
+{q:"¿Cuándo debemos biopsiar una queratosis actínica para excluir o confirmar un carcinoma epidermoide invasivo?",
+ o:["Todas las anteriores son ciertas: lesiones induradas, lesiones dolorosas, ulceradas o sangrantes, y queratosis actínicas hiperqueratósicas que no se resuelven con los tratamientos","Solo si la lesión produce picor","Únicamente si el paciente es joven","Nunca está indicado biopsiar"],c:0,
+ e:"Correcta: induración, dolor, ulceración/sangrado o falta de respuesta al tratamiento son signos de posible progresión a invasor y obligan a biopsiar. El picor o la edad no son criterios, y la opción de 'nunca biopsiar' es incorrecta."},
+
+{q:"La actuación más correcta ante un melanoma de 2,3 mm de espesor, localizado en una extremidad inferior, no ulcerado y sin mitosis, sería:",
+ o:["Escisión quirúrgica con 2 cm de margen y biopsia selectiva del ganglio centinela","Crioterapia de la lesión","Escisión con 2 mm de margen sin más estudio","Radioterapia primaria exclusiva"],c:0,
+ e:"Correcta: con Breslow ≥2 mm el margen recomendado es de 2 cm y, al superar 0,8 mm, está indicado el ganglio centinela. La crioterapia, un margen mínimo o la radioterapia primaria no son adecuados para un melanoma invasor."},
+
+{q:"¿Cuál de los siguientes microorganismos se asocia a la patología dermatosis  seborreica?",
+ o:["Malassezia furfur","Staphylococcus aureus","Trichophyton rubrum","Candida albicans"],c:0,
+ e:"Correcta: la dermatitis seborreica se asocia a Malassezia furfur (responde a antifúngicos como el ketoconazol). Las otras no son el agente implicado."},
+
+{q:"Mujer de 68 años que consulta por lesiones cutáneas de un año de evolución, sin otra sintomatología. Niega antecedentes personales de interés. En la exploración presenta unas 20 placas eritematosas, generalmente escamativas y discretamente atróficas, de tamaño de 4 a 10 cm, en glúteos y ambas axilas. La anatomía patológica muestra un infiltrado en dermis superficial con linfocitos atípicos en banda, marcado epidermotropismo y formación de microabscesos intraepidérmicos. ¿Cuál es el diagnóstico más probable?",
+ o:["Linfoma no Hodgkin cutáneo tipo T","Psoriasis en placas","Eccema crónico","Linfoma cutáneo de células B"],c:0,
+ e:"Correcta: epidermotropismo y microabscesos intraepidérmicos (de Pautrier) definen la micosis fungoide, un linfoma cutáneo de células T. La psoriasis y el eccema no muestran linfocitos atípicos en banda y el linfoma B carece de epidermotropismo."},
+
+{q:"Señale la afirmación falsa:",
+ o:["El fenómeno isomorfo de Koebner es típico del pénfigo","El fenómeno de Koebner aparece en la psoriasis","El fenómeno de Koebner aparece en el liquen plano","El fenómeno de Koebner aparece en el vitíligo"],c:0,
+ e:"Correcta (es la FALSA): el fenómeno de Koebner es típico de psoriasis, liquen plano y vitíligo, NO del pénfigo. Las otras tres afirmaciones son verdaderas."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
