@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 12 · Tumores melanocíticos: nevus y melanoma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --nev:#2E7D5B; --nev-deep:#1F5C42; --nev-bg:#E3F0E9;
+    --mel:#8C2F43; --mel-deep:#6E2333; --mel-bg:#F5E4E8;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#1F5C42,#2E2A33 50%,#8C2F43);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.12),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#CFE2D8; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,48px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#EAE5E2; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#D9C2C9; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--mel); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--mel)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--nev)} .s2 .num{background:var(--mel)} .s3 .num{background:var(--mel)} .s4 .num{background:var(--mel)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--nev-deep)} .s2 h3,.s3 h3,.s4 h3{color:var(--mel-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--nev),transparent)} .s2 .rule,.s3 .rule,.s4 .rule{background:linear-gradient(90deg,var(--mel),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.nev{border-left-color:var(--nev)} .card.mel{border-left-color:var(--mel)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.nev .bug{background:var(--nev)} .card.mel .bug{background:var(--mel)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--nev)} .s2 thead th,.s3 thead th,.s4 thead th{background:var(--mel)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 12</p>
+    <h1>Tumores melanocíticos: nevus y melanoma</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que diferencia un lunar benigno de un melanoma, esquemas de diagnóstico y las trampas clásicas de examen.</p>
+    <p class="meta">Material de la Dra. Elena Zamora Martínez (UFV) · nevus · melanoma · ABCDE · Breslow/Clark · estadiaje · tratamiento</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#nevus">Nevus melanocíticos (benignos)</a></li>
+      <li><span class="n">2</span><a href="#melanoma">Melanoma: concepto y factores</a></li>
+      <li><span class="n">3</span><a href="#formas">Formas clínicas y diagnóstico</a></li>
+      <li><span class="n">4</span><a href="#tto">Pronóstico y tratamiento</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 NEVUS =================== -->
+  <section id="nevus" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Nevus melanocíticos (benignos)</h2></div>
+    <hr class="rule">
+    <p class="lead">Neoplasias benignas de melanocitos. Empiezan en la unión dermo-epidérmica (juntural) y, al evolucionar, "<strong>maduran</strong>" descendiendo a la dermis. Esa maduración (células más pequeñas y menos pigmento al profundizar) es justo lo que pierde el melanoma.</p>
+
+    <figure>
+      <p class="fig-title">Maduración del nevus: juntural → compuesto → dérmico</p>
+      <svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maduración del nevus melanocítico">
+        <defs><linearGradient id="ep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F2D2AE"/></linearGradient></defs>
+        <!-- three panels -->
+        <g>
+          <rect x="20" y="30" width="220" height="44" fill="url(#ep)" stroke="#E0C49B"/>
+          <rect x="20" y="74" width="220" height="100" fill="#F6C9C0" stroke="#E3A99B"/>
+          <g fill="#3A2E25"><circle cx="80" cy="72" r="7"/><circle cx="130" cy="72" r="7"/><circle cx="180" cy="72" r="7"/></g>
+          <text x="130" y="20" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#1F5C42">Juntural</text>
+          <text x="130" y="195" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">nidos en la unión</text>
+        </g>
+        <g>
+          <rect x="270" y="30" width="220" height="44" fill="url(#ep)" stroke="#E0C49B"/>
+          <rect x="270" y="74" width="220" height="100" fill="#F6C9C0" stroke="#E3A99B"/>
+          <g fill="#3A2E25"><circle cx="330" cy="72" r="7"/><circle cx="380" cy="72" r="7"/><circle cx="430" cy="72" r="7"/></g>
+          <g fill="#6B574A"><circle cx="350" cy="105" r="5"/><circle cx="400" cy="110" r="5"/><circle cx="360" cy="135" r="4"/></g>
+          <text x="380" y="20" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#1F5C42">Compuesto</text>
+          <text x="380" y="195" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">unión + dermis</text>
+        </g>
+        <g>
+          <rect x="520" y="30" width="220" height="44" fill="url(#ep)" stroke="#E0C49B"/>
+          <rect x="520" y="74" width="220" height="100" fill="#F6C9C0" stroke="#E3A99B"/>
+          <g fill="#6B574A"><circle cx="590" cy="100" r="5"/><circle cx="640" cy="105" r="5"/><circle cx="610" cy="135" r="3.5"/><circle cx="660" cy="140" r="3.5"/></g>
+          <text x="630" y="20" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#1F5C42">Dérmico</text>
+          <text x="630" y="195" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">solo en dermis (maduro)</text>
+        </g>
+        <text x="252" y="100" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <text x="502" y="100" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+      </svg>
+      <figcaption>Las células superficiales son mayores y más pigmentadas; las profundas, más pequeñas (maduración). El melanoma NO madura al descender.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini"><h4>Hiperplasias / lentigos</h4><ul>
+        <li><b>Lentigo simple:</b> independiente del sol; infancia; en Peutz-Jeghers, LEOPARD.</li>
+        <li><b>Lentigo solar/senil:</b> relación con edad y sol; marcador de daño solar y factor de riesgo de melanoma.</li>
+        <li>DD lentigo solar con efélides (estas regresan en invierno).</li>
+      </ul></div>
+      <div class="mini"><h4>Nevus adquirido común</h4><ul>
+        <li>Aparece en la niñez, aumenta hasta la adultez, escaso en ancianos.</li>
+        <li>Genética + <b>radiación UV</b>; mutaciones <b>BRAF</b> (70-80%).</li>
+        <li>Juntural → compuesto → dérmico.</li>
+      </ul></div>
+    </div>
+
+    <h3>Variantes de nevus adquirido</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Variante</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>Atípico (de Clark / "displásico")</td><td>≈10% población; "huevo frito" (centro papuloso + halo macular); bordes/pigmento irregulares, &gt;5 mm; espalda baja; <b>marcador de riesgo de melanoma</b></td></tr>
+        <tr><td>Síndrome del nevus atípico</td><td>Muchos nevus atípicos; <b>mutación CDKN2A</b> (20-40%); alto riesgo de melanoma (casi 100% si hay AF de melanoma)</td></tr>
+        <tr><td>Spitz</td><td>Niños, cara; pápula rosada/angiomatosa; células epitelioides/fusiformes y <b>cuerpos de Kamino</b>; simula melanoma</td></tr>
+        <tr><td>Reed (células fusiformes pigmentado)</td><td>Pápula muy pigmentada en piernas de mujeres jóvenes; simulador de melanoma</td></tr>
+        <tr><td>Sutton (halo-nevus)</td><td>Nevus rodeado de <b>halo hipocrómico</b>; anticuerpos antimelanocito; puede asociar vitíligo</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2">
+      <div class="mini warn"><h4>Nevus congénito</h4><ul>
+        <li>Presente al nacer (o &lt;2 años); 1% de RN.</li>
+        <li><b>Riesgo de melanoma proporcional al tamaño</b> (gigantes &gt;20 cm).</li>
+        <li>Cabeza/cuello → melanosis neurocutánea (RMN); mutación <b>NRAS</b>.</li>
+      </ul></div>
+      <div class="mini"><h4>Nevus dérmicos (azules)</h4><ul>
+        <li><b>Nevus azul:</b> melanocitos en dermis profunda → color azul (dorso de manos/pies).</li>
+        <li><b>Ota</b> (territorio del trigémino, esclera; japoneses) e <b>Ito</b> (acromioclavicular).</li>
+        <li><b>Mancha mongólica:</b> lumbosacra; desaparece con la edad.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 2 MELANOMA CONCEPTO =================== -->
+  <section id="melanoma" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Melanoma: concepto y factores de riesgo</h2></div>
+    <hr class="rule">
+    <p class="lead">Tumor maligno de los melanocitos. Solo el 5% de los cánceres cutáneos, pero <span class="hl">causa el 80% de las muertes por cáncer de piel</span>. La detección precoz (Breslow &lt;1 mm) cura a más del 90%.</p>
+
+    <div class="grid2">
+      <div class="mini"><h4>Factores intrínsecos</h4><ul>
+        <li>Fototipo I-II, ojos claros, pelo rubio/pelirrojo.</li>
+        <li>Múltiples nevus comunes o atípicos; nevus congénito gigante.</li>
+        <li>AP/AF de melanoma; inmunosupresión; xeroderma pigmentoso.</li>
+        <li>Genética: <b>CDKN2A/p16</b> (familiar + ca páncreas), <b>BRAF</b> (60%), <b>c-kit</b> (acral/mucoso), MC1R (pelirrojo), <b>BAP1</b> (uveal).</li>
+      </ul></div>
+      <div class="mini"><h4>Factores extrínsecos</h4><ul>
+        <li><b>Exposición solar intermitente e intensa</b> (quemaduras), sobre todo en la infancia.</li>
+        <li>Cabinas de bronceado.</li>
+        <li>Piernas en mujeres, espalda en hombres; cercanía al ecuador.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Nevus y melanoma:</b> la mayoría de los melanomas surgen sobre <b>piel sana</b>; solo ≈30% se asocian a un nevus preexistente. El número de nevus (comunes y atípicos) y el tamaño del nevus congénito se correlacionan con el riesgo. El melanoma <b>uveal</b> es la neoplasia maligna ocular más frecuente del adulto.</p>
+  </section>
+
+  <!-- =================== 3 FORMAS Y DX =================== -->
+  <section id="formas" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Formas clínicas y diagnóstico</h2></div>
+    <hr class="rule">
+    <p class="lead">La progresión tiene dos fases (Clark): <strong>crecimiento radial</strong> (intraepidérmico, in situ) y <strong>crecimiento vertical</strong> (invade dermis, con mitosis). El paso a vertical marca la capacidad de metastatizar.</p>
+
+    <figure>
+      <p class="fig-title">Breslow y Clark: el espesor manda</p>
+      <svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Niveles de Clark y espesor de Breslow">
+        <defs>
+          <linearGradient id="ep2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F2D2AE"/></linearGradient>
+          <linearGradient id="de2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C9C0"/><stop offset="1" stop-color="#EFB1A4"/></linearGradient>
+        </defs>
+        <rect x="120" y="35" width="480" height="40" fill="url(#ep2)" stroke="#E0C49B"/>
+        <rect x="120" y="75" width="480" height="55" fill="url(#de2)" stroke="#E3A99B"/>
+        <rect x="120" y="130" width="480" height="80" fill="#EFA99A" stroke="#DD9183"/>
+        <rect x="120" y="210" width="480" height="45" fill="#F3D8B0" stroke="#E0C49B"/>
+        <!-- structure labels left -->
+        <g font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E" text-anchor="end">
+          <text x="114" y="58">Epidermis</text><text x="114" y="105">D. papilar</text><text x="114" y="172">D. reticular</text><text x="114" y="236">Hipodermis</text>
+        </g>
+        <!-- Clark levels right -->
+        <g font-family="Inter" font-size="11.5" fill="#6E2333" font-weight="600">
+          <text x="610" y="58">Clark I — in situ</text>
+          <text x="610" y="98">Clark II — d. papilar</text>
+          <text x="610" y="125">Clark III — llena papilar</text>
+          <text x="610" y="172">Clark IV — d. reticular</text>
+          <text x="610" y="236">Clark V — subcutáneo</text>
+        </g>
+        <!-- breslow scale -->
+        <g stroke="#8C2F43" stroke-width="1"><line x1="95" y1="75" x2="105" y2="75"/><line x1="95" y1="130" x2="105" y2="130"/><line x1="95" y1="185" x2="105" y2="185"/></g>
+        <line x1="100" y1="75" x2="100" y2="210" stroke="#8C2F43" stroke-width="1.5"/>
+        <g font-family="IBM Plex Mono,monospace" font-size="10" fill="#8C2F43">
+          <text x="60" y="79">0 mm</text><text x="60" y="134">~2</text><text x="60" y="189">~4</text>
+        </g>
+        <text x="35" y="150" font-family="Fraunces,serif" font-size="12" fill="#6E2333" transform="rotate(-90 35 150)" font-weight="600">BRESLOW (espesor)</text>
+        <!-- tumor cells -->
+        <g fill="#2E2A33"><circle cx="200" cy="55" r="4"/><circle cx="240" cy="58" r="4"/><circle cx="280" cy="55" r="4"/></g>
+        <g fill="#2E2A33"><circle cx="240" cy="95" r="5"/><circle cx="250" cy="118" r="5"/><circle cx="235" cy="150" r="5"/></g>
+        <text x="360" y="280" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">El espesor de Breslow (mm) es el factor pronóstico MÁS importante en estadios I-II</text>
+      </svg>
+      <figcaption>Clark mide el nivel anatómico (I-V); Breslow mide el espesor en mm desde la granulosa. Breslow pesa más en el pronóstico.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Forma clínica</th><th>Frecuencia</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>Extensión superficial</td><td><b>70%</b> (la más frecuente)</td><td>4ª-5ª década; ABCDE sobre lesión previa; espalda (hombres) / piernas (mujeres); fase radial larga</td></tr>
+        <tr><td>Nodular</td><td>15-20%</td><td><b>De novo</b>, sin fase radial; nódulo violáceo que ulcera/sangra; <b>rápido y agresivo</b></td></tr>
+        <tr><td>Lentigo maligno melanoma</td><td>4-15%</td><td>Ancianos, cara/cuello fotoexpuestos; mácula que crece años (lentigo maligno = in situ) antes de invadir</td></tr>
+        <tr><td>Lentiginoso acral</td><td>2-8%</td><td>El más frecuente en <b>raza negra/asiática</b>; palmas, plantas, subungueal; <b>no</b> relacionado con el sol; signo de Hutchinson</td></tr>
+        <tr><td>Amelanótico</td><td>≈5%</td><td>Sin pigmento (rosado), muy agresivo; simula granuloma piógeno</td></tr>
+        <tr><td>Mucoso</td><td>raro</td><td>Cabeza/cuello, anorrectal, vulvar; agresivo, baja supervivencia</td></tr>
+      </tbody>
+    </table></div>
+
+    <figure>
+      <p class="fig-title">Regla ABCDE (y el "patito feo")</p>
+      <svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Regla ABCDE del melanoma">
+        <g>
+          <circle cx="80" cy="55" r="32" fill="#5A3A2A"/><path d="M80,23 a32,32 0 0,1 0,64 Z" fill="#3A2418"/>
+          <text x="80" y="115" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="17" fill="#8C2F43">A</text>
+          <text x="80" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">Asimetría</text>
+        </g>
+        <g>
+          <circle cx="220" cy="55" r="32" fill="#5A3A2A" stroke="#2E2A33" stroke-width="2.5" stroke-dasharray="5 3"/>
+          <text x="220" y="115" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="17" fill="#8C2F43">B</text>
+          <text x="220" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">Bordes irregulares</text>
+        </g>
+        <g>
+          <circle cx="360" cy="55" r="32" fill="#5A3A2A"/><path d="M360,55 L360,23 A32,32 0 0,1 388,68 Z" fill="#1A1410"/><path d="M360,55 L335,78 A32,32 0 0,1 336,38 Z" fill="#9A6A4A"/>
+          <text x="360" y="115" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="17" fill="#8C2F43">C</text>
+          <text x="360" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">Color irregular</text>
+        </g>
+        <g>
+          <circle cx="500" cy="55" r="32" fill="#5A3A2A"/>
+          <line x1="500" y1="23" x2="500" y2="87" stroke="#fff" stroke-width="1" stroke-dasharray="2 2"/>
+          <text x="500" y="115" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="17" fill="#8C2F43">D</text>
+          <text x="500" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">Diámetro &gt;6 mm</text>
+        </g>
+        <g>
+          <circle cx="640" cy="55" r="22" fill="#5A3A2A"/><circle cx="640" cy="55" r="32" fill="none" stroke="#8C2F43" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="640" y="115" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="17" fill="#8C2F43">E</text>
+          <text x="640" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">Evolución/cambio</text>
+        </g>
+      </svg>
+      <figcaption>El "patito feo" = la lesión que no se parece al resto. Dermatoscopia: asimetría, retículo atípico y estructuras azul-blanquecinas.</figcaption>
+    </figure>
+
+    <div class="card mel">
+      <h4>Histopatología e inmunohistoquímica <span class="bug">no maduración</span></h4>
+      <ul>
+        <li>Citología: núcleos polimorfos e hipercromáticos, mitosis; arquitectura asimétrica, <b>melanocitos pagetoides</b> en epidermis alta y <span class="hl">falta de maduración al descender</span> (al revés que el nevus).</li>
+        <li>Informe obligatorio: subtipo, <b>Breslow</b>, nivel de Clark, índice mitótico, ulceración, regresión, márgenes.</li>
+        <li>Marcadores: <b>S100</b> (sensible), <b>HMB-45</b> (específico), Melan-A/MART-1, <b>PRAME</b>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 4 PRONÓSTICO Y TTO =================== -->
+  <section id="tto" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Pronóstico y tratamiento</h2></div>
+    <hr class="rule">
+
+    <div class="grid2">
+      <div class="mini"><h4>Estadiaje TNM y pronóstico</h4><ul>
+        <li><b>T</b>: espesor (Breslow) ± ulceración; <b>N</b>: ganglios/satelitosis; <b>M</b>: metástasis a distancia.</li>
+        <li><b>Breslow = factor pronóstico más importante</b> en estadios I-II; luego ulceración, mitosis, edad, sexo (mejor en mujeres).</li>
+        <li>Metástasis (IV): peor en hígado/cerebro; LDH elevada; supervivencia a 5 años &lt;5%.</li>
+      </ul></div>
+      <div class="mini ok"><h4>Ganglio centinela</h4><ul>
+        <li>Indicado si <b>Breslow &gt;0,8 mm</b> (o ≤0,8 con ulceración).</li>
+        <li>Es de <b>estadiaje y pronóstico</b> (GC– → 85% a 4 años vs 45% si GC+).</li>
+        <li>Si es positivo → valorar linfadenectomía / adyuvancia.</li>
+      </ul></div>
+    </div>
+
+    <div class="card mel">
+      <h4>Tratamiento</h4>
+      <ul>
+        <li><b>Localizado (I-II):</b> escisión quirúrgica con <b>márgenes según el Breslow</b> (evitar afeitado/láser); ganglio centinela según criterios.</li>
+        <li><b>Avanzado (III-IV):</b> <b>inmunoterapia</b> — anti-CTLA-4 (<b>ipilimumab</b>) y anti-PD-1 (<b>nivolumab, pembrolizumab</b>).</li>
+        <li><b>Terapia dirigida</b> si <b>BRAF+</b>: inhibidores BRAF/MEK (dabrafenib + trametinib, vemurafenib, encorafenib). <b>c-kit+</b> (acral/mucoso) → imatinib.</li>
+        <li>Otras: perfusión hipertérmica de extremidad aislada (metástasis en tránsito), radioterapia paliativa (óseas/cerebrales, lentigo maligno, uveal).</li>
+      </ul>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Prevención:</b> primaria (fotoprotección, evitar el sol intenso intermitente) y secundaria (cribado y autoexploración en grupos de riesgo: fototipo bajo, quemaduras previas, nevus múltiples).</p>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Maduración: la clave benigno/maligno</h3>
+    <div class="chain">
+      <span class="step">Nevus → madura al descender (células menores en profundidad)</span><span class="arrow">·</span>
+      <span class="step">Melanoma → NO madura + pagetoides + mitosis</span>
+    </div>
+
+    <h3>2 · Las cuatro formas clásicas</h3>
+    <div class="chain">
+      <span class="step">Extensión superficial 70% (ABCDE)</span><span class="arrow">·</span>
+      <span class="step">Nodular (de novo, vertical)</span><span class="arrow">·</span>
+      <span class="step">Lentigo maligno (anciano, cara)</span><span class="arrow">·</span>
+      <span class="step">Acral (raza negra, subungueal)</span>
+    </div>
+
+    <h3>3 · ABCDE</h3>
+    <div class="chain">
+      <span class="step">Asimetría</span><span class="arrow">·</span><span class="step">Bordes</span><span class="arrow">·</span>
+      <span class="step">Color</span><span class="arrow">·</span><span class="step">Diámetro &gt;6 mm</span><span class="arrow">·</span>
+      <span class="step">Evolución</span><span class="arrow">+</span><span class="step">patito feo</span>
+    </div>
+
+    <h3>4 · Genética y diana terapéutica</h3>
+    <div class="grid3">
+      <div class="mini"><h4>BRAF (60%)</h4><ul><li>Inhibidores BRAF/MEK (dabrafenib + trametinib)</li></ul></div>
+      <div class="mini"><h4>c-kit</h4><ul><li>Acrales/mucosos → imatinib</li></ul></div>
+      <div class="mini"><h4>CDKN2A / BAP1</h4><ul><li>Familiar + páncreas / uveal</li></ul></div>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Nevus atípico (Clark) vs Melanoma <span class="badge">lesión pigmentada</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Nevus atípico</h5><span class="who">marcador de riesgo</span><ul><li>"Huevo frito"; estable</li><li>Histo: atipia leve, <b>confinado a dermis papilar</b>, fibrosis</li><li>Madura al descender</li></ul></div>
+        <div class="vs-col"><h5>Melanoma</h5><span class="who">maligno</span><ul><li>ABCDE, <b>cambia</b> (patito feo)</li><li>Pagetoides, mitosis, <b>sin maduración</b></li><li>Invade dermis</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> lo decisivo es el cambio (evolución) y, en la histología, la <b>falta de maduración</b> con pagetoides y mitosis.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Nevus de Spitz vs Melanoma <span class="badge">pápula en niño</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Spitz</h5><span class="who">benigno</span><ul><li>Niños, cara; pápula rosada angiomatosa</li><li>Células epitelioides/fusiformes + <b>cuerpos de Kamino</b></li></ul></div>
+        <div class="vs-col"><h5>Melanoma</h5><span class="who">maligno</span><ul><li>Atipia marcada, mitosis atípicas profundas</li><li>Sin maduración</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> en un niño con pápula rosada piensa en Spitz (Kamino), pero la atipia/mitosis profundas obligan a descartar melanoma.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Extensión superficial vs Nodular <span class="badge">forma clínica</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Extensión superficial</h5><span class="who">70%</span><ul><li>Fase de <b>crecimiento radial</b> larga</li><li>ABCDE; mejor pronóstico relativo</li></ul></div>
+        <div class="vs-col"><h5>Nodular</h5><span class="who">15-20%</span><ul><li><b>De novo, sin fase radial</b></li><li>Crecimiento vertical rápido; peor pronóstico</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> un nódulo que crece rápido y sangra "de novo", sin lesión previa, es nodular (vertical desde el inicio).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Melanoma subungueal vs Hematoma <span class="badge">uña pigmentada</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Acral subungueal</h5><span class="who">melanoma</span><ul><li>Melanoniquia que <b>no se desplaza</b></li><li>Pigmento en el pliegue: <b>signo de Hutchinson</b></li></ul></div>
+        <div class="vs-col"><h5>Hematoma subungueal</h5><span class="who">trauma</span><ul><li>Antecedente de golpe; se desplaza con el crecimiento</li><li>Sin Hutchinson</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> banda ungueal que no migra y mancha el pliegue periungueal (Hutchinson) = melanoma acral hasta que se demuestre lo contrario.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Breslow vs Clark <span class="badge">pronóstico</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Breslow</h5><span class="who">espesor (mm)</span><ul><li>Mide en milímetros desde la granulosa</li><li><b>Factor pronóstico más importante</b> (I-II)</li></ul></div>
+        <div class="vs-col"><h5>Clark</h5><span class="who">nivel anatómico</span><ul><li>I (in situ) a V (subcutáneo)</li><li>Menos peso pronóstico que Breslow</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si te dan un número en mm, es Breslow (lo que más importa); si te dan capas (papilar/reticular), es Clark.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>El <b>espesor de Breslow</b> es el factor pronóstico más importante del melanoma en estadios I-II. Detección precoz (&lt;1 mm) cura &gt;90%.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>ABCDE</b> + "patito feo". El cambio (evolución) es la pista más potente; la dermatoscopia aumenta la precisión.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>La <b>maduración</b> distingue: el nevus madura al descender (células menores en profundidad); el melanoma <b>no madura</b> y tiene pagetoides y mitosis.</p></div>
+    <div class="pearl"><div class="dot">4</div><p><b>Extensión superficial</b> = la más frecuente (70%); <b>nodular</b> = de novo, vertical, agresivo; <b>lentigo maligno</b> = anciano/cara; <b>acral</b> = raza negra/asiática, subungueal.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Melanoma <b>acral subungueal</b>: signo de <b>Hutchinson</b> (pigmento en el pliegue); no relacionado con el sol; DD con hematoma.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>El sol que causa melanoma es la <b>exposición intermitente e intensa</b> (quemaduras en la infancia), a diferencia del cáncer cutáneo no melanoma (exposición acumulada).</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Genética: <b>BRAF</b> (60%) → inhibidores BRAF/MEK; <b>c-kit</b> (acral/mucoso) → imatinib; <b>CDKN2A</b> → familiar + páncreas; <b>BAP1</b> → uveal.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Inmunohistoquímica: <b>S100</b> sensible, <b>HMB-45</b> específico, Melan-A/MART-1 y <b>PRAME</b>.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Ganglio centinela</b> si Breslow &gt;0,8 mm o ≤0,8 con ulceración; sirve para estadiaje/pronóstico (GC– pronostica mucho mejor).</p></div>
+    <div class="pearl"><div class="dot">10</div><p>Avanzado: <b>inmunoterapia</b> anti-CTLA-4 (ipilimumab) y anti-PD-1 (nivolumab/pembrolizumab). El melanoma <b>uveal</b> es la neoplasia maligna ocular más frecuente del adulto.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 12 (Tumores melanocíticos benignos y malignos: nevus melanocítico y melanoma) a partir del material docente de la Dra. Elena Zamora Martínez — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
