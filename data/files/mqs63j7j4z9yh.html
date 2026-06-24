@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 6 · Urticaria, Dermatosis neutrofílicas y Toxicodermias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --rose:#C13B5B; --rose-deep:#962844; --rose-bg:#F9E7EC;
+    --neut:#B0801C; --neut-deep:#8A6310; --neut-bg:#F8EFD7;
+    --tox:#A33247; --tox-deep:#7E2435; --tox-bg:#F7E4E8;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#962844,#C13B5B 48%,#A33247);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#F0CDD7; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,48px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F4E1E7; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#E6BECA; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--rose); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--rose)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--rose)} .s2 .num{background:var(--neut)} .s3 .num{background:var(--tox)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--rose-deep)} .s2 h3{color:var(--neut-deep)} .s3 h3{color:var(--tox-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--rose),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--neut),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--tox),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.urt{border-left-color:var(--rose)} .card.neu{border-left-color:var(--neut)} .card.tox{border-left-color:var(--tox)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.urt .bug{background:var(--rose)} .card.neu .bug{background:var(--neut)} .card.tox .bug{background:var(--tox)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+  .danger{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10px; background:var(--coral); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.06em; vertical-align:middle;}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.6px; min-width:560px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--rose)} .s2 thead th{background:var(--neut)} .s3 thead th{background:var(--tox)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 6 (Clase 8)</p>
+    <h1>Urticaria, Dermatosis neutrofílicas y Toxicodermias</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de P. Fonda (UFV) · urticaria/angioedema · Sweet · pioderma gangrenoso · Behçet · EM · SSJ/NET · DRESS</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#urticaria">Urticaria y angioedema</a></li>
+      <li><span class="n">2</span><a href="#neutro">Dermatosis neutrofílicas</a></li>
+      <li><span class="n">3</span><a href="#tox">Toxicodermias</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 URTICARIA =================== -->
+  <section id="urticaria" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Urticaria y angioedema</h2></div>
+    <hr class="rule">
+    <p class="lead">El habón es la lesión que define la urticaria: <span class="hl">fugaz (&lt;24 h), sin descamación ni lesión residual</span>, por liberación de histamina. El angioedema es lo mismo pero más profundo (dermis profunda/hipodermis).</p>
+
+    <figure>
+      <p class="fig-title">Urticaria vs angioedema: la profundidad lo cambia todo</p>
+      <svg viewBox="0 0 740 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Urticaria frente a angioedema">
+        <defs>
+          <linearGradient id="ep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F4D6B4"/></linearGradient>
+          <linearGradient id="de" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C9C0"/><stop offset="1" stop-color="#EFB1A4"/></linearGradient>
+        </defs>
+        <!-- layers -->
+        <rect x="40" y="40" width="660" height="34" fill="url(#ep)" stroke="#E0C49B"/>
+        <rect x="40" y="74" width="660" height="70" fill="url(#de)" stroke="#E3A99B"/>
+        <rect x="40" y="144" width="660" height="56" fill="#FCEFB0" stroke="#E6D27A"/>
+        <g font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#7E8A8E"><text x="650" y="62">Epidermis</text><text x="650" y="112">Dermis</text><text x="650" y="176">Hipodermis</text></g>
+        <!-- urticaria wheal superficial -->
+        <ellipse cx="200" cy="74" rx="70" ry="20" fill="#C13B5B" opacity=".35"/>
+        <text x="200" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#962844">URTICARIA</text>
+        <text x="200" y="118" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Habón en dermis superficial</text>
+        <text x="200" y="134" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#962844" font-weight="600">PICOR · rojizo · &lt;24 h</text>
+        <!-- angioedema deep -->
+        <ellipse cx="500" cy="172" rx="90" ry="34" fill="#962844" opacity=".3"/>
+        <text x="500" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#962844">ANGIOEDEMA</text>
+        <text x="500" y="226" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Edema profundo (párpados, labios)</text>
+        <text x="500" y="242" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#962844" font-weight="600">DOLOR/quemazón · lento · GLOTIS</text>
+      </svg>
+      <figcaption>Urticaria: superficial, pica, fugaz. Angioedema: profundo, duele, involución lenta y puede comprometer la vía aérea.</figcaption>
+    </figure>
+
+    <p><strong>Aguda</strong> (&lt;6 semanas, niños/adolescentes) vs <strong>crónica</strong> (&gt;6 semanas, mujeres 3ª-4ª década). En la crónica casi nunca se halla la causa (<span class="hl">idiopática &gt;70%</span>, diagnóstico de exclusión).</p>
+
+    <h3>Urticarias físicas (17%)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Desencadenante / clínica</th><th>Provocación / dato</th></tr></thead>
+      <tbody>
+        <tr><td>Dermografismo</td><td>Habones <b>lineales</b> tras roce/presión moderada</td><td>5-9%; si asintomático no es enfermedad</td></tr>
+        <tr><td>Colinérgica</td><td>Habones <b>muy pequeños (mm)</b> con sudor, calor, ejercicio, estrés</td><td>Adultos jóvenes; estímulo colinérgico</td></tr>
+        <tr><td>A frigore</td><td>Frío (hielo, agua, aire, alimentos fríos)</td><td><b>Cubito de hielo 5-15 min</b>; 96% idiopática, 1% crioglobulinas</td></tr>
+        <tr><td>Solar</td><td>Habones minutos tras el sol (UVB &gt; visible)</td><td>DD con erupción solar polimorfa</td></tr>
+        <tr><td>Por presión</td><td>Presión <b>prolongada</b> (30 min-9 h); profunda, <b>dolorosa</b></td><td>37% de las crónicas; mala respuesta a antiH1 → esteroides</td></tr>
+        <tr><td>Acuagénica</td><td>Contacto con agua a cualquier temperatura</td><td>DD con prurito acuagénico (sin lesiones)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card urt">
+      <h4>Urticaria-vasculitis <span class="bug">no es una urticaria normal</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Habones con <b>componente purpúrico</b> que <span class="hl">duran &gt;24-72 h</span> y dejan lesión residual.</li>
+        <li>Mujeres de mediana edad; <b>vasculitis de pequeño vaso</b> (la biopsia la define), por inmunocomplejos.</li>
+        <li>Asociación a conectivopatías (LES 5-10%); complemento normal o descendido.</li>
+      </ul>
+    </div>
+
+    <div class="card urt">
+      <h4>Angioedema hereditario <span class="bug">déficit de C1-inhibidor</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Autosómico dominante; episodios recurrentes de angioedema con <b>edema de laringe</b> y <b>SIN urticaria</b>.</li>
+        <li><b>C4 descendido en todos los casos</b> (buen cribado). Desencadenado por traumatismos, infecciones, intervenciones dentales.</li>
+        <li>El adquirido aparece en la 5ª-6ª década (linfoproliferativos, anticuerpos anti-C1-inh).</li>
+        <li>Profilaxis: danazol/estanozolol (estimulan C1-inh). El <b>angioedema por IECA</b> es por bradicinina.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">C4 ↓ siempre</span><span class="tag key">NO urticaria</span><span class="tag tx">no responde bien a antiH1/adrenalina</span></div>
+    </div>
+
+    <h3>Desencadenantes y manejo</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Desencadenantes</h4><ul>
+        <li><b>Fármacos:</b> causa frecuente de urticaria aguda (inmunológico o liberación directa).</li>
+        <li><b>Alimentos:</b> 20-60% de agudas; <b>escómbridos</b> (atún, caballa) = intoxicación por histamina; vinos (aminas/sulfitos).</li>
+        <li>Infecciones (VHB, VEB), inhalantes, picaduras (anafilaxia por abeja).</li>
+        <li>Crónica autoinmune (25-45%): autoanticuerpos anti-IgE/anti-FcεRI; asociación <b>tiroidea</b>.</li>
+      </ul></div>
+      <div class="mini ok"><h4>Tratamiento</h4><ul>
+        <li>Eliminar el desencadenante; evitar <b>AINEs/AAS</b>, alcohol, calor.</li>
+        <li><b>AntiH1 de 2ª generación</b> = base (se puede <b>triplicar</b> la dosis); añadir antiH1 sedante nocturno.</li>
+        <li>Evitar corticoides en la crónica (favorecen rebote); cortos solo si angioedema.</li>
+        <li><b>Omalizumab</b> (anti-IgE) en crónica refractaria.</li>
+        <li><b>Adrenalina</b> en anafilaxia/edema de glotis.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 2 NEUTROFILICAS =================== -->
+  <section id="neutro" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Dermatosis neutrofílicas</h2></div>
+    <hr class="rule">
+    <p class="lead">Activación y acúmulo de <strong>neutrófilos sin infección</strong>. Comparten un fenómeno clave: la <span class="hl">patergia</span> (la lesión se desencadena/empeora con el traumatismo) y la asociación a enfermedades sistémicas.</p>
+
+    <div class="card neu">
+      <h4>Síndrome de Sweet <span class="bug">dermatosis neutrofílica febril aguda</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Mujeres (2-4:1), 30-60 años. Causas: <b>idiopático 50%</b>, infecciones de vías altas, <b>neoplasias hematológicas (LMA)</b>, fármacos (<b>G-CSF</b>), embarazo.</li>
+        <li><b>Comienzo brusco con fiebre</b> + pápulas/placas eritemato-edematosas dolorosas; el edema da aspecto <b>pseudovesiculoso</b>.</li>
+        <li>Cara, cuello, tronco superior y EESS; a veces patergia.</li>
+        <li>Analítica: neutrofilia, VSG/PCR ↑. Histología: infiltrado neutrofílico denso <b>SIN vasculitis</b>.</li>
+        <li>Respuesta <b>muy rápida a corticoides sistémicos</b> (alternativas: yoduro potásico, colchicina, dapsona).</li>
+      </ul>
+    </div>
+
+    <div class="card neu">
+      <h4>Pioderma gangrenoso <span class="bug">úlcera de bordes violáceos</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>50-70% asociado a enfermedad sistémica: <b>EII (20-30%)</b>, AR, neoplasias hematológicas.</li>
+        <li>4 formas (<b>"PUVA"</b>): Pustuloso, Ulceroso/clásico (el más frecuente), Vegetante, Ampolloso (atípico).</li>
+        <li>Empieza como papulopústula dolorosa → necrosis → <b>úlcera de bordes definidos y violáceos</b>, progresión rápida, dolor intenso, <b>patergia</b>.</li>
+        <li>Tto: corticoides y ciclosporina; 2ª línea inmunosupresores y anti-TNF. <span class="hl">Evitar desbridamiento agresivo</span> (patergia).</li>
+      </ul>
+    </div>
+
+    <div class="card neu">
+      <h4>Enfermedad de Behçet <span class="bug">HLA-B51 · ruta de la seda</span></h4>
+      <ul>
+        <li>Frecuente en la <b>ruta de la seda</b> (Turquía, Japón, mediterráneo); 20-35 años; asociada a <b>HLA-B51</b>.</li>
+        <li><b>Aftas orales</b> (≈100%, signo inicial) + <b>úlceras genitales</b> (muy específicas).</li>
+        <li>Otras: lesiones acneiformes, pseudofoliculitis, eritema nodoso, <b>patergia</b>.</li>
+        <li><b>Uveítis posterior</b> (afectación ocular 25-75%, lo más característico); vasculitis de cualquier vaso, trombosis.</li>
+        <li>Histología: vasculitis leucocitoclástica. Criterios ISG 1990.</li>
+      </ul>
+    </div>
+
+    <div class="card neu">
+      <h4>Aftosis oral recurrente</h4>
+      <ul>
+        <li>Idiopática (la más frecuente, 20% población, mujeres, estrés). Secundarias: <b>celíaca, EII</b>, déficit de hierro/folato/B12/zinc, VIH, LES, AINEs.</li>
+        <li><b>Minor</b> (70-85%, &lt;1 cm, curan en 10-14 días sin cicatriz); <b>Major</b> (&gt;1 cm, profundas, dejan cicatriz); <b>Herpetiformes</b> (1-2 mm agrupadas, se confunden con herpes).</li>
+        <li>Tto: ácido hialurónico, corticoides tópicos, lidocaína; 2ª línea colchicina, talidomida.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 3 TOXICODERMIAS =================== -->
+  <section id="tox" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Toxicodermias</h2></div>
+    <hr class="rule">
+    <p class="lead">Reacciones cutáneas a fármacos: el efecto adverso más frecuente (25-30%). La clave de examen es <strong>el tiempo desde la toma</strong> y reconocer las formas graves.</p>
+
+    <figure>
+      <p class="fig-title">Cronología: el tiempo orienta el diagnóstico</p>
+      <svg viewBox="0 0 740 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cronología de las toxicodermias">
+        <line x1="50" y1="40" x2="50" y2="240" stroke="#A33247" stroke-width="2.5"/>
+        <g font-family="Inter" font-size="13" fill="#20303A">
+          <!-- minutes -->
+          <circle cx="50" cy="60" r="6" fill="#BB3A2B"/><text x="70" y="58" font-weight="600" fill="#7E2435">Minutos-horas (&lt;36 h)</text>
+          <text x="70" y="76" font-size="12" fill="#4A5B64">Urticaria · angioedema · ANAFILAXIA</text>
+          <!-- 48h -->
+          <circle cx="50" cy="104" r="6" fill="#A33247"/><text x="70" y="102" font-weight="600" fill="#7E2435">&lt;48 h</text>
+          <text x="70" y="120" font-size="12" fill="#4A5B64">Pustulosis exantemática aguda (PEAGA)</text>
+          <!-- 1-2 sem -->
+          <circle cx="50" cy="148" r="6" fill="#A33247"/><text x="70" y="146" font-weight="600" fill="#7E2435">1-2 semanas</text>
+          <text x="70" y="164" font-size="12" fill="#4A5B64">Exantema fijo (¡reexposición en &lt;24 h!)</text>
+          <!-- 7-21 d -->
+          <circle cx="50" cy="192" r="6" fill="#A33247"/><text x="70" y="190" font-weight="600" fill="#7E2435">7-21 días</text>
+          <text x="70" y="208" font-size="12" fill="#4A5B64">Exantema maculopapular · vasculitis · SSJ/NET</text>
+          <!-- 2-6 sem -->
+          <circle cx="50" cy="236" r="6" fill="#A33247"/><text x="70" y="234" font-weight="600" fill="#7E2435">2-6 semanas</text>
+          <text x="70" y="252" font-size="12" fill="#4A5B64">DRESS (síndrome de hipersensibilidad)</text>
+        </g>
+      </svg>
+      <figcaption>Erupciones liquenoides: meses-años. La reexposición en el exantema fijo recurre en la MISMA localización en &lt;24 h.</figcaption>
+    </figure>
+
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Mecanismos:</b> tipo A (dosis-dependiente) y tipo B (independiente de dosis): idiosincrásicas e inmunológicas (I IgE, II citotóxica, III inmunocomplejos, IV celular retardada). Factores de riesgo: <b>VIH</b> (sulfamidas), <b>VEB + aminopenicilina</b> (exantema en 90%), acetiladores lentos.</p>
+
+    <div class="card tox">
+      <h4>Exantema fijo medicamentoso <span class="bug">tipo IV</span></h4>
+      <ul>
+        <li>Tras 1-2 semanas; en reexposiciones, en <b>24 h y en la MISMA localización</b>.</li>
+        <li>Placa eritemato-edematosa bien delimitada con <b>ampolla central</b>; labios, manos, pies, genitales.</li>
+        <li>Deja <b>pigmentación parda residual</b>. Fármacos: antibióticos, AINEs, sulfona.</li>
+      </ul>
+    </div>
+
+    <div class="card tox">
+      <h4>Eritema multiforme (EM) <span class="bug">lesiones en diana</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Dermatosis reactiva aguda autolimitada, cutáneo-mucosa, simétrica, con tendencia a recidiva.</li>
+        <li><b>Lesiones en diana</b> (centro purpúrico/vesiculoso) en dorso de manos/pies y superficie extensora.</li>
+        <li><b>EM minor</b> (80%): infeccioso, sobre todo <b>VHS</b>; poca/ninguna mucosa.</li>
+        <li><b>EM major / Stevens-Johnson:</b> sobre todo <b>fármacos</b> (o Mycoplasma); pródromos + afectación mucosa (≥2) y general.</li>
+        <li>AP: queratinocitos necróticos, alteración vacuolar de la basal.</li>
+      </ul>
+    </div>
+
+    <figure>
+      <p class="fig-title">Espectro de gravedad: EM → SSJ → NET (por superficie despegada)</p>
+      <svg viewBox="0 0 740 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Espectro EM SSJ NET">
+        <!-- target lesion -->
+        <g transform="translate(60,40)">
+          <circle r="38" fill="#F3D9C8" stroke="#A33247" stroke-width="2"/>
+          <circle r="24" fill="#F7E7DC" stroke="#A33247" stroke-width="1.5"/>
+          <circle r="11" fill="#7E2435"/>
+          <text y="62" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E2435">lesión en diana</text>
+        </g>
+        <!-- spectrum bar -->
+        <g transform="translate(180,18)">
+          <rect x="0" y="20" width="170" height="36" rx="8" fill="#EAF3EE" stroke="#C3DECB"/>
+          <text x="85" y="38" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#2c5a3b">EM / SSJ</text>
+          <text x="85" y="52" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">&lt;10% superficie</text>
+          <rect x="185" y="20" width="150" height="36" rx="8" fill="#FBF2DA" stroke="#EAD4A0"/>
+          <text x="260" y="38" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#8a6206">Solapamiento</text>
+          <text x="260" y="52" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">10-30% · mort. 10-15%</text>
+          <rect x="370" y="20" width="150" height="36" rx="8" fill="#FBEAE6" stroke="#EAC9C2"/>
+          <text x="445" y="38" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#BB3A2B">NET (Lyell)</text>
+          <text x="445" y="52" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">&gt;30% · mort. ~30%</text>
+          <text x="0" y="92" font-family="Inter" font-size="12" fill="#4A5B64">Fármacos de alto riesgo: alopurinol, anticonvulsivantes, sulfamidas,</text>
+          <text x="0" y="108" font-family="Inter" font-size="12" fill="#4A5B64">AINE tipo oxicam, nevirapina. Signo de Nikolsky +, afectación mucosa.</text>
+        </g>
+      </svg>
+      <figcaption>A más superficie de epidermis despegada, mayor mortalidad. SSJ y NET son un continuo, casi siempre por fármacos.</figcaption>
+    </figure>
+
+    <div class="card tox">
+      <h4>DRESS <span class="bug">eosinofilia + afectación sistémica</span> <span class="danger">GRAVE</span></h4>
+      <ul>
+        <li>Síndrome de hipersensibilidad a las <b>2-6 semanas</b> del fármaco.</li>
+        <li><b>Edema facial</b>, exantema extenso, <b>eosinofilia</b> y afectación visceral (hígado).</li>
+        <li>Criterios <b>RegiSCAR</b>; mortalidad ~10%.</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Forma clínica</th><th>Mortalidad</th></tr></thead>
+      <tbody>
+        <tr><td>Pustulosis exantemática aguda generalizada (PEAGA)</td><td>1-2%</td></tr>
+        <tr><td>Anafilaxia</td><td>5%</td></tr>
+        <tr><td>Síndrome de Stevens-Johnson (SSJ)</td><td>5%</td></tr>
+        <tr><td>DRESS (síndrome de hipersensibilidad)</td><td>10%</td></tr>
+        <tr><td>Solapamiento SSJ-NET</td><td>10-15%</td></tr>
+        <tr><td>Necrólisis epidérmica tóxica (NET)</td><td>~30%</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · ¿Habón normal o algo más?</h3>
+    <div class="chain">
+      <span class="step">&lt;24 h, sin residuo, pica → urticaria</span><span class="arrow">·</span>
+      <span class="step">&gt;24 h, púrpura, residuo → urticaria-vasculitis</span><span class="arrow">·</span>
+      <span class="step">edema profundo SIN urticaria + C4↓ → angioedema hereditario</span>
+    </div>
+
+    <h3>2 · El reloj de las toxicodermias</h3>
+    <div class="chain">
+      <span class="step">minutos → anafilaxia</span><span class="arrow">→</span>
+      <span class="step">&lt;48 h → PEAGA</span><span class="arrow">→</span>
+      <span class="step">1-2 sem → exantema fijo</span><span class="arrow">→</span>
+      <span class="step">1-3 sem → SSJ/NET</span><span class="arrow">→</span>
+      <span class="step">2-6 sem → DRESS</span>
+    </div>
+
+    <h3>3 · Las "neutrofílicas" en una frase</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Sweet</h4><ul><li>Fiebre + placas pseudovesiculosas dolorosas</li><li>LMA / G-CSF; corticoides</li><li>Histo SIN vasculitis</li></ul></div>
+      <div class="mini"><h4>Pioderma gangrenoso</h4><ul><li>Úlcera de bordes violáceos socavados</li><li>EII; NO desbridar (patergia)</li></ul></div>
+      <div class="mini"><h4>Behçet</h4><ul><li>Aftas orales + genitales + uveítis</li><li>HLA-B51, ruta de la seda</li></ul></div>
+    </div>
+
+    <h3>4 · Causas de eritrodermia (recordatorio del Tema 5)</h3>
+    <div class="chain">
+      <span class="step">Fármacos</span><span class="arrow">·</span>
+      <span class="step">Psoriasis</span><span class="arrow">·</span>
+      <span class="step">Eccemas</span><span class="arrow">·</span>
+      <span class="step">Linfoma T / Sézary</span><span class="arrow">·</span>
+      <span class="step">PRP</span>
+    </div>
+
+    <h3>5 · Señales de gravedad que obligan a parar el fármaco</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Edema/dolor cutáneo, ampollas, despegamiento, <b>signo de Nikolsky</b>, afectación de mucosas, edema facial, fiebre alta, eosinofilia o afectación visceral. → Sospecha SSJ/NET o DRESS y derivación urgente.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Urticaria vs Urticaria-vasculitis <span class="badge">habones</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Urticaria común</h5><span class="who">histamina</span><ul><li>Habón <b>fugaz &lt;24 h</b></li><li>Pica; <b>NO deja residuo</b></li><li>No precisa biopsia</li></ul></div>
+        <div class="vs-col"><h5>Urticaria-vasculitis</h5><span class="who">inmunocomplejos</span><ul><li>Habón <b>&gt;24-72 h</b> con púrpura</li><li>Deja lesión residual; arde más que pica</li><li><b>Biopsia</b> (vasculitis); descartar LES</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si una "urticaria" dura más de un día, deja marca o tiene púrpura → biopsia y pensar en urticaria-vasculitis/conectivopatía.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Angioedema hereditario vs alérgico <span class="badge">hinchazón</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Hereditario (C1-inh)</h5><span class="who">AD · bradicinina</span><ul><li><b>SIN urticaria/prurito</b></li><li><b>C4 bajo</b> siempre</li><li>Mala respuesta a antiH1/adrenalina</li><li>Riesgo de edema de glotis</li></ul></div>
+        <div class="vs-col"><h5>Alérgico (mastocitario)</h5><span class="who">IgE · histamina</span><ul><li>Suele asociar <b>urticaria</b> y picor</li><li>Complemento normal</li><li>Responde a antiH1/corticoides/adrenalina</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> angioedema recurrente <b>sin habones</b> y que no mejora con antihistamínicos → pedir C4 y pensar en déficit de C1-inhibidor (o IECA).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">EM minor vs EM major / SSJ <span class="badge">lesiones en diana</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>EM minor</h5><span class="who">VHS (infeccioso)</span><ul><li>Diana <b>típica</b>, acral/extensora</li><li>Sin pródromos o mínimos</li><li>Poca/ninguna mucosa; sin secuelas</li></ul></div>
+        <div class="vs-col"><h5>EM major / SSJ</h5><span class="who">FÁRMACOS / Mycoplasma</span><ul><li>Dianas atípicas, más en tronco</li><li>Pródromos + fiebre</li><li><b>Mucosas (≥2)</b>, posibles secuelas (sinequias, ceguera)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> diana típica acral en joven con herpes = EM minor; afectación mucosa + fármaco + mal estado = SSJ.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">SSSS vs NET <span class="badge">piel que se despega</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>SSSS (estafilocócica)</h5><span class="who">toxina · niños</span><ul><li>Despegamiento <b>intraepidérmico</b></li><li><b>RESPETA mucosas</b></li><li>Buen pronóstico</li></ul></div>
+        <div class="vs-col"><h5>NET (Lyell)</h5><span class="who">fármacos · adultos</span><ul><li>Despegamiento <b>dermo-epidérmico</b></li><li><b>AFECTA mucosas</b></li><li>Mortalidad ~30%</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> niño sin mucosas = SSSS; adulto con fármaco y mucosas afectadas = NET. (Repaso del Tema 2.)</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Sweet vs Pioderma gangrenoso vs Behçet <span class="badge">neutrofílicas</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Sweet</h5><span class="who">febril aguda</span><ul><li>Placas pseudovesiculosas + <b>fiebre</b></li><li>LMA / G-CSF</li></ul></div>
+        <div class="vs-col"><h5>Pioderma gangrenoso</h5><span class="who">ulcerativa</span><ul><li><b>Úlcera</b> de bordes violáceos</li><li>EII; patergia</li></ul></div>
+        <div class="vs-col"><h5>Behçet</h5><span class="who">sistémica</span><ul><li><b>Aftas orales+genitales</b> + uveítis</li><li>HLA-B51</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> las tres dan patergia; las diferencia la lesión guía (placa febril / úlcera / aftas + ojo).</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>El habón es <b>fugaz (&lt;24 h) y no deja secuela</b>. Si dura más, deja púrpura o marca → urticaria-vasculitis (biopsiar, descartar LES).</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Angioedema hereditario: <b>C4 siempre bajo</b>, <b>sin urticaria</b>, no responde a antihistamínicos. Profilaxis con danazol.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>El angioedema por <b>IECA</b> es por bradicinina (no histamina): retirar el fármaco; no mejora con antiH1.</p></div>
+    <div class="pearl"><div class="dot">4</div><p><b>Escómbridos</b> (atún, caballa) = urticaria por intoxicación por histamina, no es alergia IgE.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>En urticaria crónica: antiH1 de 2ª generación (se pueden <b>triplicar</b>), <b>omalizumab</b> si refractaria, y <b>evitar corticoides</b> (rebote).</p></div>
+    <div class="pearl"><div class="dot">6</div><p><b>Patergia</b> = el trauma desencadena lesión: ocurre en Sweet, pioderma gangrenoso y Behçet. Por eso el pioderma <b>no se desbrida</b>.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Sweet = fiebre + neutrofilia + placas pseudovesiculosas, sin vasculitis en la biopsia; pensar en <b>LMA</b> o <b>G-CSF</b>.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Exantema fijo medicamentoso: recurre en la <b>misma localización</b> al reexponer y deja <b>pigmentación residual</b>.</p></div>
+    <div class="pearl"><div class="dot">9</div><p>Fármacos de alto riesgo para SSJ/NET: <b>alopurinol, anticonvulsivantes, sulfamidas, AINE oxicam, nevirapina</b>. NET ≈ 30% de mortalidad.</p></div>
+    <div class="pearl"><div class="dot">10</div><p><b>DRESS</b> = exantema + <b>edema facial + eosinofilia + afectación visceral</b> a las 2-6 semanas (RegiSCAR). VEB + aminopenicilina = exantema casi obligado.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 6 (Urticaria, Dermatosis neutrofílicas y Toxicodermias) a partir del material docente del Dr. Pablo Fonda Pascual — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
