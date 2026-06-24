@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 11 · Genodermatosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --corn:#2E6E8E; --corn-deep:#235673; --corn-bg:#E5F0F4;
+    --acan:#A06A1C; --acan-deep:#7E5210; --acan-bg:#F7EDD7;
+    --eah:#9A3D52; --eah-deep:#7A2C40; --eah-bg:#F5E5EA;
+    --derm:#3E7D4F; --derm-deep:#2C5C3A; --derm-bg:#E4F0E7;
+    --faco:#6B4E8C; --faco-deep:#523970; --faco-bg:#EDE7F4;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#235673,#3E7D4F 52%,#6B4E8C);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#CDE2E6; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5.4vw,50px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#E4EEEF; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#BBD4D8; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--corn); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--corn)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--corn)} .s2 .num{background:var(--acan)} .s3 .num{background:var(--eah)} .s4 .num{background:var(--derm)} .s5 .num{background:var(--faco)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--corn-deep)} .s2 h3{color:var(--acan-deep)} .s3 h3{color:var(--eah-deep)} .s4 h3{color:var(--derm-deep)} .s5 h3{color:var(--faco-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--corn),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--acan),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--eah),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--derm),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--faco),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.corn{border-left-color:var(--corn)} .card.acan{border-left-color:var(--acan)} .card.eah{border-left-color:var(--eah)} .card.derm{border-left-color:var(--derm)} .card.faco{border-left-color:var(--faco)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.corn .bug{background:var(--corn)} .card.acan .bug{background:var(--acan)} .card.eah .bug{background:var(--eah)} .card.derm .bug{background:var(--derm)} .card.faco .bug{background:var(--faco)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--corn)} .s2 thead th{background:var(--acan)} .s3 thead th{background:var(--eah)} .s4 thead th{background:var(--derm)} .s5 thead th{background:var(--faco)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 11</p>
+    <h1>Genodermatosis</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material del Dr. Domínguez Auñón (UFV) · ictiosis · queratodermias · Darier/Hailey · epidermólisis ampollosas · dermis · facomatosis</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#cornif">Trastornos de la cornificación</a></li>
+      <li><span class="n">2</span><a href="#acant">Acantolíticas: Darier y Hailey-Hailey</a></li>
+      <li><span class="n">3</span><a href="#eah">Epidermólisis ampollosas hereditarias</a></li>
+      <li><span class="n">4</span><a href="#dermis">Enfermedades de la dermis</a></li>
+      <li><span class="n">5</span><a href="#faco">Facomatosis (NF y esclerosis tuberosa)</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 CORNIFICACIÓN =================== -->
+  <section id="cornif" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Trastornos de la cornificación</h2></div>
+    <hr class="rule">
+    <p class="lead">Alteraciones de la diferenciación epidérmica que cursan con <strong>descamación generalizada no inflamatoria</strong> (ictiosis), engrosamiento palmoplantar (queratodermias) o la <strong>laminilla cornoide</strong> (poroqueratosis).</p>
+
+    <h3>Ictiosis</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ictiosis</th><th>Herencia / gen</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>Vulgar</td><td>AD · <b>filagrina</b></td><td>La más frecuente; descamación fina en extensoras que <b>respeta flexuras y cara</b>; palmas hiperlineales; asocia <b>atopia</b>; mejora en verano</td></tr>
+        <tr><td>Recesiva ligada al X</td><td>XR · <b>sulfatasa esteroidea</b></td><td>Solo <b>varones</b>; escamas grandes marrones "sucias" que <b>afectan cuello y cara</b> (preauricular); opacidades corneales, criptorquidia</td></tr>
+        <tr><td>Laminar (lamelar)</td><td>AR · <b>transglutaminasa 1</b></td><td>Bebé colodión → escamas grandes oscuras; <b>ectropión/eclabión</b>; afecta cara y flexuras; poca eritrodermia</td></tr>
+        <tr><td>Eritrodermia ictiosiforme congénita</td><td>AR</td><td>Bebé colodión → eritrodermia con escama blanca fina</td></tr>
+        <tr><td>Epidermolítica (ampollosa)</td><td>AD · <b>K1/K10</b></td><td>Eritema + ampollas al nacer → hiperqueratosis verrucosa en pliegues; "niño quemado"; hiperqueratosis epidermolítica en la histología</td></tr>
+        <tr><td>Arlequín</td><td>AR · <b>ABCA12</b></td><td>Muy grave; placas gruesas; suele morir en las primeras semanas</td></tr>
+      </tbody>
+      <caption><b>Bebé colodión</b> = fenotipo transitorio (membrana brillante) que evoluciona a laminar/EIC; riesgo de sepsis y alteraciones electrolíticas. Tto general de las ictiosis: <b>emolientes + queratolíticos</b> (urea, ácido salicílico); retinoides orales en casos graves.</caption>
+    </table></div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Síndromes ictiosiformes:</b> Netherton (ictiosis lineal circunfleja + <b>pelo en bambú</b> + atopia; gen SPINK5), Sjögren-Larsson (ictiosis + retraso mental + parálisis espástica), KID (queratitis-ictiosis-sordera), Refsum (ácido fitánico). <b>Queratosis pilar:</b> tapones foliculares en extensoras/mejillas, asociada a atopia e ictiosis vulgar.</p>
+
+    <div class="grid2">
+      <div class="mini"><h4>Queratodermias palmoplantares</h4><ul>
+        <li>Difusa (Vorner-Unna-Thost): la más frecuente.</li>
+        <li>Focal/estriada y punteada (punctata/Buschke-Fischer).</li>
+        <li>Síndromes: Papillon-Lefèvre (periodontitis), <b>Howel-Evans</b> (ca de esófago), paquioniquia congénita.</li>
+      </ul></div>
+      <div class="mini"><h4>Poroqueratosis</h4><ul>
+        <li>Trastorno clonal con <b>laminilla cornoide</b> (columna paraqueratósica sin granulosa).</li>
+        <li>Tipos: Mibelli, lineal, punteada, <b>actínica superficial diseminada</b> (AD, fotoexpuestas).</li>
+        <li>Riesgo bajo (≈5%) de transformación maligna.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 2 ACANTOLÍTICAS =================== -->
+  <section id="acant" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Acantolíticas: Darier y Hailey-Hailey</h2></div>
+    <hr class="rule">
+    <p class="lead">Dos genodermatosis AD por fallo en bombas de <strong>calcio</strong> que producen <strong>acantolisis</strong>; se distinguen por el gen, la localización y la disqueratosis.</p>
+    <div class="grid2">
+      <div class="mini"><h4>Darier (ATP2A2 / SERCA2)</h4><ul>
+        <li>Pápulas queratósicas con costra en <b>áreas seborreicas</b> (tronco, cara, cuero cabelludo).</li>
+        <li>Pits palmoplantares; uñas con bandas rojas/blancas y <b>muescas en V</b>.</li>
+        <li>Histología: <b>acantolisis + disqueratosis</b>. Empeora con sol/calor.</li>
+        <li>Tto: fotoprotección, retinoides tópicos/orales.</li>
+      </ul></div>
+      <div class="mini"><h4>Hailey-Hailey (ATP2C1)</h4><ul>
+        <li>"Pénfigo benigno crónico familiar".</li>
+        <li>Vesículas/erosiones/fisuras en <b>pliegues</b> (cuello, axilas, ingles) por fricción.</li>
+        <li>Histología: acantolisis "<b>en pared de ladrillos desmoronada</b>"; <b>IFD negativa</b> (no es autoinmune).</li>
+        <li>Tto: evitar fricción/sudor, tratar sobreinfección, corticoides tópicos.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 3 EAH =================== -->
+  <section id="eah" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Epidermólisis ampollosas hereditarias (EAH)</h2></div>
+    <hr class="rule">
+    <p class="lead">Ampollas tras traumatismos triviales (<strong>fragilidad cutánea</strong>). Se clasifican por el <span class="hl">nivel de despegamiento</span>, que determina si dejan o no cicatriz.</p>
+
+    <figure>
+      <p class="fig-title">¿A qué nivel se forma la ampolla?</p>
+      <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Niveles de despegamiento de las epidermólisis ampollosas hereditarias">
+        <defs><linearGradient id="ep3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F2D2AE"/></linearGradient></defs>
+        <rect x="40" y="30" width="440" height="90" fill="url(#ep3)" stroke="#E0C49B"/>
+        <rect x="40" y="120" width="440" height="12" fill="#C9B8D0" stroke="#A98FB5"/>
+        <rect x="40" y="132" width="440" height="12" fill="#B7A0C0" stroke="#9A7FA8"/>
+        <rect x="40" y="144" width="440" height="110" fill="#F6C9C0" stroke="#E3A99B"/>
+        <g font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E" text-anchor="end">
+          <text x="36" y="80">Epidermis</text><text x="36" y="129">Lámina lúcida</text><text x="36" y="143">Lámina densa</text><text x="36" y="200">Dermis</text>
+        </g>
+        <!-- split levels -->
+        <line x1="40" y1="100" x2="480" y2="100" stroke="#9A3D52" stroke-width="3" stroke-dasharray="7 4"/>
+        <line x1="40" y1="126" x2="480" y2="126" stroke="#9A3D52" stroke-width="3" stroke-dasharray="7 4"/>
+        <line x1="40" y1="160" x2="480" y2="160" stroke="#9A3D52" stroke-width="3" stroke-dasharray="7 4"/>
+        <g font-family="Inter" font-size="12.5">
+          <rect x="500" y="78" width="245" height="40" rx="7" fill="#9A3D52"/>
+          <text x="512" y="94" fill="#fff" font-weight="600">Simple (intraepidérmica)</text>
+          <text x="512" y="110" fill="#F0CDD5" font-size="10.5">K5/K14 · NO cicatriz</text>
+          <line x1="480" y1="100" x2="500" y2="98" stroke="#9A3D52" stroke-width="2"/>
+
+          <rect x="500" y="120" width="245" height="40" rx="7" fill="#9A3D52"/>
+          <text x="512" y="136" fill="#fff" font-weight="600">De la unión (juntural)</text>
+          <text x="512" y="152" fill="#F0CDD5" font-size="10.5">laminina 332 · NO cicatriz · Herlitz letal</text>
+          <line x1="480" y1="126" x2="500" y2="140" stroke="#9A3D52" stroke-width="2"/>
+
+          <rect x="500" y="170" width="245" height="40" rx="7" fill="#9A3D52"/>
+          <text x="512" y="186" fill="#fff" font-weight="600">Distrófica (sublámina densa)</text>
+          <text x="512" y="202" fill="#F0CDD5" font-size="10.5">colágeno VII · SÍ deja cicatriz + milio</text>
+          <line x1="480" y1="160" x2="500" y2="190" stroke="#9A3D52" stroke-width="2"/>
+        </g>
+      </svg>
+      <figcaption>Cuanto más profundo el despegamiento, más grave: simple (queratinas) y juntural (laminina 332) no cicatrizan; la distrófica (colágeno VII) sí.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Nivel / gen</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Simple</td><td>Intraepidérmica · <b>K5/K14</b></td><td>AD; ampollas acras que mejoran; <b>no cicatriz</b>. Dowling-Meara (herpetiforme) = la más grave</td></tr>
+        <tr><td>De la unión (Herlitz)</td><td>Lámina lúcida · <b>laminina 332</b></td><td>AR; erosiones generalizadas al nacer, <b>letal</b>; estenosis pilórica; mueren antes de los 5 años</td></tr>
+        <tr><td>Distrófica</td><td>Sublámina densa · <b>colágeno VII</b></td><td>Deja <b>cicatriz + quistes de milio</b>. Recesiva grave (Hallopeau-Siemens): "<b>mano en mitón</b>" (pseudosindactilia), estenosis esofágicas, <b>carcinoma epidermoide</b> (1ª causa de muerte)</td></tr>
+      </tbody>
+      <caption>Diagnóstico: la microscopía óptica solo ve "ampolla subepidérmica"; se necesita <b>microscopía electrónica / mapeo antigénico por inmunofluorescencia</b> y estudio genético. El síndrome de Kindler se clasifica hoy como una forma de EAH. Tratamiento sintomático (proteger zonas de presión) + consejo genético.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 DERMIS =================== -->
+  <section id="dermis" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Enfermedades hereditarias de la dermis</h2></div>
+    <hr class="rule">
+    <div class="grid2">
+      <div class="mini"><h4>Pseudoxantoma elástico</h4><ul>
+        <li>AR (gen <b>ABCC6</b>); calcificación y fragmentación de las <b>fibras elásticas</b>.</li>
+        <li>Piel: pápulas amarillas "<b>en piel de naranja</b>" en pliegues (cuello).</li>
+        <li>Retina: <b>estrías angioides</b> (desgarros de la membrana de Bruch) → ceguera.</li>
+        <li>Vascular: claudicación, IAM, hemorragias digestivas.</li>
+      </ul></div>
+      <div class="mini"><h4>Ehlers-Danlos</h4><ul>
+        <li>Defectos del <b>colágeno</b>; hiperextensibilidad cutánea y articular.</li>
+        <li>Fragilidad cutánea, cicatrices "en papel de cigarro", hematomas fáciles.</li>
+        <li><b>Tipo vascular (IV, COL3A1):</b> el más grave por rotura arterial.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 5 FACOMATOSIS =================== -->
+  <section id="faco" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Facomatosis</h2></div>
+    <hr class="rule">
+    <p class="lead">Síndromes neurocutáneos AD con hamartomas y tumores en piel, ojos y SNC; los signos cutáneos suelen ser los primeros.</p>
+
+    <div class="card faco">
+      <h4>Neurofibromatosis tipo 1 (Von Recklinghausen) <span class="bug">NF1 (17q) · supresor de RAS</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Manchas café con leche:</b> la manifestación más temprana (≥6 máculas &gt;1,5 cm = criterio).</li>
+        <li><b>Efélides axilares/inguinales (signo de Crowe).</b></li>
+        <li><b>Neurofibromas</b> (signo del ojal); el plexiforme parece "saco de gusanos" y puede malignizar.</li>
+        <li><b>Nódulos de Lisch</b> (hamartomas del iris) = marcador seguro de NF1.</li>
+        <li>Asocia glioma óptico, escoliosis, dificultades de aprendizaje; mayor riesgo de neoplasias.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">café con leche</span><span class="tag key">Crowe</span><span class="tag key">Lisch</span><span class="tag">herencia AD, 50% de novo</span></div>
+    </div>
+
+    <div class="card faco">
+      <h4>Esclerosis tuberosa (Pringle-Bourneville) <span class="bug">TSC1/TSC2 · inhiben mTOR</span></h4>
+      <ul>
+        <li>Tríada clásica (solo en 30%): <b>angiofibromas faciales + epilepsia + retraso mental</b>.</li>
+        <li>Piel: <b>máculas hipopigmentadas</b> ("en hoja de fresno", el signo más precoz), angiofibromas (mal llamados "adenomas sebáceos"), <b>fibromas periungueales (Koenen)</b>, placa de chagrín (piel de lija).</li>
+        <li>Sistémico: túbculos corticales, angiomiolipomas renales, <b>rabdomiomas cardiacos</b>, linfangioleiomiomatosis pulmonar.</li>
+        <li>Tto: inhibidores de mTOR (rapamicina/everolimús) para tumores y angiofibromas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Ictiosis: ¿respeta o afecta cara y flexuras?</h3>
+    <div class="chain">
+      <span class="step">Respeta flexuras + atopia → vulgar (filagrina, AD)</span><span class="arrow">·</span>
+      <span class="step">Afecta cuello/cara, solo varones → ligada al X (sulfatasa)</span><span class="arrow">·</span>
+      <span class="step">Bebé colodión + ectropión → laminar (transglutaminasa)</span>
+    </div>
+
+    <h3>2 · EAH: el nivel manda</h3>
+    <div class="chain">
+      <span class="step">Simple (K5/K14) → no cicatriz</span><span class="arrow">·</span>
+      <span class="step">Juntural (laminina 332) → Herlitz letal</span><span class="arrow">·</span>
+      <span class="step">Distrófica (colágeno VII) → cicatriz + milio + ca epidermoide</span>
+    </div>
+
+    <h3>3 · Acantolíticas hereditarias</h3>
+    <div class="chain">
+      <span class="step">Seborreicas + disqueratosis + muescas en V → Darier</span><span class="arrow">·</span>
+      <span class="step">Pliegues + "pared de ladrillos" + IFD negativa → Hailey-Hailey</span>
+    </div>
+
+    <h3>4 · Las dos facomatosis en un vistazo</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Neurofibromatosis 1</h4><ul><li>Café con leche + Crowe + Lisch + neurofibromas.</li><li>NF1 (17), inhibe RAS.</li></ul></div>
+      <div class="mini"><h4>Esclerosis tuberosa</h4><ul><li>Máculas hipopigmentadas + angiofibromas + Koenen + epilepsia.</li><li>TSC1/2, inhiben mTOR.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Ictiosis vulgar vs ligada al X <span class="badge">descamación generalizada</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Vulgar</h5><span class="who">AD · filagrina</span><ul><li><b>Respeta flexuras y cara</b></li><li>Palmas hiperlineales; <b>atopia</b></li><li>Ambos sexos</li></ul></div>
+        <div class="vs-col"><h5>Ligada al X</h5><span class="who">XR · sulfatasa</span><ul><li>Escamas marrones que <b>afectan cuello/cara</b></li><li>Solo <b>varones</b>; opacidad corneal</li><li>Sin atopia</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si afecta el cuello y la cara en un varón, piensa en la ligada al X (sulfatasa esteroidea); si respeta flexuras y hay atopia, vulgar.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Darier vs Hailey-Hailey <span class="badge">acantolíticas AD</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Darier</h5><span class="who">ATP2A2</span><ul><li>Áreas <b>seborreicas</b>; pápulas queratósicas</li><li>Muescas ungueales en V; <b>disqueratosis</b></li></ul></div>
+        <div class="vs-col"><h5>Hailey-Hailey</h5><span class="who">ATP2C1</span><ul><li><b>Pliegues</b>; vesículas/erosiones</li><li>"Pared de ladrillos"; <b>sin disqueratosis</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> seborreicas + uñas en V = Darier; intertrigo recidivante en pliegues con IFD negativa = Hailey-Hailey.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">EAH simple vs distrófica <span class="badge">ampollas por trauma</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Simple</h5><span class="who">K5/K14</span><ul><li>Intraepidérmica; <b>no deja cicatriz</b></li><li>Acras, mejora con la edad</li></ul></div>
+        <div class="vs-col"><h5>Distrófica</h5><span class="who">colágeno VII</span><ul><li>Sublámina densa; <b>cicatriz + milio</b></li><li>"Mano en mitón"; riesgo de ca epidermoide</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ¿deja cicatriz y quistes de milio? → distrófica (colágeno VII). ¿Cura sin cicatriz? → simple (queratinas).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Neurofibromatosis 1 vs Esclerosis tuberosa <span class="badge">manchas + tumores</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>NF1</h5><span class="who">17 · RAS</span><ul><li>Manchas <b>café con leche</b> (hiper)</li><li>Crowe, Lisch, neurofibromas</li></ul></div>
+        <div class="vs-col"><h5>Esclerosis tuberosa</h5><span class="who">TSC · mTOR</span><ul><li>Máculas <b>hipopigmentadas</b> "en hoja de fresno"</li><li>Angiofibromas, Koenen, rabdomioma</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> manchas hiperpigmentadas (café con leche) = NF1; manchas hipopigmentadas + angiofibromas faciales = esclerosis tuberosa.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Pseudoxantoma elástico vs Ehlers-Danlos <span class="badge">dermis</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Pseudoxantoma elástico</h5><span class="who">fibra elástica</span><ul><li>Pápulas amarillas en pliegues; <b>estrías angioides</b></li><li>Riesgo vascular y de ceguera</li></ul></div>
+        <div class="vs-col"><h5>Ehlers-Danlos</h5><span class="who">colágeno</span><ul><li><b>Hiperextensibilidad</b> cutánea y articular</li><li>Cicatrices "en papel de cigarro"</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> piel amarilla "de naranja" + estrías angioides en la retina = pseudoxantoma; piel y articulaciones hiperelásticas = Ehlers-Danlos.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>Ictiosis vulgar</b> = la más frecuente (filagrina, AD), respeta flexuras y se asocia a <b>atopia</b>. La ligada al X (sulfatasa) afecta cuello/cara y solo a varones.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>Bebé colodión</b> = fenotipo transitorio que evoluciona a ictiosis laminar o EIC (riesgo de sepsis y deshidratación).</p></div>
+    <div class="pearl"><div class="dot">3</div><p><b>Darier</b> (ATP2A2): seborreicas + muescas ungueales en V + disqueratosis. <b>Hailey-Hailey</b> (ATP2C1): pliegues + "pared de ladrillos" + <b>IFD negativa</b>.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>EAH por nivel: <b>simple</b> (K5/K14) y <b>juntural</b> (laminina 332, Herlitz letal) no dejan cicatriz; la <b>distrófica</b> (colágeno VII) sí, con milio y riesgo de carcinoma epidermoide.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>EAH distrófica recesiva grave: <b>"mano en mitón"</b> (pseudosindactilia), estenosis esofágicas y carcinoma epidermoide como 1ª causa de muerte.</p></div>
+    <div class="pearl"><div class="dot">6</div><p><b>Netherton</b> = ictiosis lineal circunfleja + <b>pelo en bambú</b> + atopia (SPINK5).</p></div>
+    <div class="pearl"><div class="dot">7</div><p><b>Pseudoxantoma elástico:</b> fibras elásticas calcificadas → piel "de naranja" + <b>estrías angioides</b> retinianas (gen ABCC6).</p></div>
+    <div class="pearl"><div class="dot">8</div><p><b>NF1</b> (criterios): café con leche, efélides axilares (<b>Crowe</b>), neurofibromas, <b>nódulos de Lisch</b>, glioma óptico, alteraciones óseas o familiar afecto.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Esclerosis tuberosa:</b> máculas hipopigmentadas (signo más precoz), angiofibromas, fibromas de <b>Koenen</b>, rabdomioma cardiaco; TSC1/2 inhiben mTOR → tto con everolimús.</p></div>
+    <div class="pearl"><div class="dot">10</div><p><b>Howel-Evans</b> = queratodermia palmoplantar + carcinoma de esófago. <b>Papillon-Lefèvre</b> = queratodermia + periodontitis.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 11 (Genodermatosis) a partir del material docente del Dr. Domínguez Auñón — Facultad de Medicina, Universidad Francisco de Vitoria, curso 2024-25. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
