@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 13 · Tumores cutáneos: CBC, CE y partes blandas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --ben:#2E7D5B; --ben-deep:#1F5C42; --ben-bg:#E3F0E9;
+    --mes:#2E6E8E; --mes-deep:#235673; --mes-bg:#E5F0F4;
+    --pre:#B0801C; --pre-deep:#8A6310; --pre-bg:#F8EFD7;
+    --ce:#B5532A; --ce-deep:#8E3F1E; --ce-bg:#F8E8DD;
+    --cbc:#8C3A52; --cbc-deep:#6E2C40; --cbc-bg:#F5E5EA;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#1F5C42,#B5532A 55%,#8C3A52);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#F0D8C4; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,48px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F3E6DC; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#E6C7BB; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--cbc); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--cbc)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--ben)} .s2 .num{background:var(--mes)} .s3 .num{background:var(--pre)} .s4 .num{background:var(--ce)} .s5 .num{background:var(--cbc)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--ben-deep)} .s2 h3{color:var(--mes-deep)} .s3 h3{color:var(--pre-deep)} .s4 h3{color:var(--ce-deep)} .s5 h3{color:var(--cbc-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--ben),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--mes),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--pre),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--ce),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--cbc),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.ben{border-left-color:var(--ben)} .card.mes{border-left-color:var(--mes)} .card.pre{border-left-color:var(--pre)} .card.ce{border-left-color:var(--ce)} .card.cbc{border-left-color:var(--cbc)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.ben .bug{background:var(--ben)} .card.mes .bug{background:var(--mes)} .card.pre .bug{background:var(--pre)} .card.ce .bug{background:var(--ce)} .card.cbc .bug{background:var(--cbc)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--ben)} .s2 thead th{background:var(--mes)} .s3 thead th{background:var(--pre)} .s4 thead th{background:var(--ce)} .s5 thead th{background:var(--cbc)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 13</p>
+    <h1>Tumores cutáneos: CBC, CE y partes blandas</h1>
+    <p>Resumen de estudio con lo esencial de cada tumor, lo que diferencia el basocelular del epidermoide, esquemas de diagnóstico y las trampas clásicas de examen.</p>
+    <p class="meta">Material de la Dra. Elena Zamora Martínez (UFV) · benignos · partes blandas · precancerosis · carcinoma epidermoide · basocelular</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#benignos">Tumores epidérmicos benignos</a></li>
+      <li><span class="n">2</span><a href="#blandas">Tumores de partes blandas</a></li>
+      <li><span class="n">3</span><a href="#precancer">Precancerosis y CE in situ</a></li>
+      <li><span class="n">4</span><a href="#ce">Carcinoma epidermoide</a></li>
+      <li><span class="n">5</span><a href="#cbc">Carcinoma basocelular</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 BENIGNOS =================== -->
+  <section id="benignos" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Tumores epidérmicos benignos</h2></div>
+    <hr class="rule">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tumor</th><th>Lo que lo define</th></tr></thead>
+      <tbody>
+        <tr><td>Nevus epidérmico</td><td>Hamartoma lineal por mosaicismo; al nacer; si asocia malformaciones (SNC/ojo) = síndrome del nevus epidérmico</td></tr>
+        <tr><td>Nevus sebáceo (Jadassohn)</td><td>Placa lineal amarillenta <b>glabra en cuero cabelludo</b>; sobre ella pueden surgir tumores benignos y a veces malignos (CBC)</td></tr>
+        <tr><td>Nevus de Becker</td><td>Mácula hiperpigmentada adquirida en región escapular de <b>varones</b>; ↑melanina sin ↑melanocitos; hamartoma de músculo liso</td></tr>
+        <tr><td>Queratosis seborreica</td><td><b>El tumor epidérmico benigno más frecuente</b>; "pegada", con quistes córneos; aparición brusca y múltiple = <b>signo de Leser-Trélat</b> (paraneoplásico, ca GI)</td></tr>
+        <tr><td>Quistes</td><td>Epidérmico/infundibular (el común); triquilemal/pilar (AD, cuero cabelludo); <b>pilomatrixoma</b> (Malherbe, matriz pilosa, calcificante)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 2 PARTES BLANDAS =================== -->
+  <section id="blandas" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Tumores de partes blandas</h2></div>
+    <hr class="rule">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tumor</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Dermatofibroma</td><td>Mujeres, piernas; nódulo firme con <b>signo del hoyuelo</b>; <b>factor XIIIa + / CD34 –</b></td></tr>
+        <tr><td>Leiomioma</td><td>Músculo liso (pilar, vascular, genital); <b>doloroso</b> al tacto/frío</td></tr>
+        <tr><td>Lipoma</td><td>Masa subcutánea blanda, móvil; múltiples si hereditario</td></tr>
+        <tr><td>Granuloma piógeno</td><td>Pápula rojiza <b>friable que sangra</b>, crecimiento rápido tras trauma; DD melanoma amelanótico</td></tr>
+        <tr><td>Tumor glómico</td><td>Comunicaciones A-V acras; <b>dolor paroxístico</b></td></tr>
+        <tr><td>Hemangioma infantil</td><td>El tumor benigno más frecuente de la infancia; <b>no presente al nacer</b>; fases (crecimiento→estabilización→regresión); PHACES; tto <b>propranolol</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2">
+      <div class="mini warn"><h4>Dermatofibrosarcoma protuberans</h4><ul>
+        <li>Sarcoma de <b>bajo grado</b>: destructivo local, recidivante, poco metastatizante.</li>
+        <li>Varones jóvenes, tronco; <b>CD34 +</b>; t(17;22).</li>
+        <li>Tto: <b>cirugía de Mohs</b>; imatinib.</li>
+      </ul></div>
+      <div class="mini warn"><h4>Sarcoma de Kaposi (HHV-8)</h4><ul>
+        <li><b>Clásico:</b> ancianos varones, piernas (máculas→placas→nódulos).</li>
+        <li><b>SIDA:</b> la neoplasia más frecuente en SIDA; diseminado; mejora con TARGA.</li>
+        <li>Endémico (africano) e iatrogénico (trasplante).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 3 PRECANCEROSIS =================== -->
+  <section id="precancer" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Precancerosis y carcinoma epidermoide in situ</h2></div>
+    <hr class="rule">
+    <p class="lead">El carcinoma epidermoide suele recorrer un camino: del daño solar acumulado a la lesión <strong>in situ</strong> y, finalmente, al invasor. Reconocer ese espectro es la clave del tema.</p>
+
+    <figure>
+      <p class="fig-title">Del sol al carcinoma epidermoide invasor</p>
+      <svg viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progresión del carcinoma epidermoide">
+        <g transform="translate(20,35)">
+          <rect x="0" y="0" width="165" height="70" rx="10" fill="#F8EFD7" stroke="#E0CB94"/>
+          <text x="82" y="28" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#8A6310">Queratosis actínica</text>
+          <text x="82" y="48" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">CE in situ (sol acumulado)</text>
+        </g>
+        <text x="200" y="75" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(230,35)">
+          <rect x="0" y="0" width="165" height="70" rx="10" fill="#F8EFD7" stroke="#E0CB94"/>
+          <text x="82" y="28" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#8A6310">Enfermedad de Bowen</text>
+          <text x="82" y="48" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">CE in situ (placa, HPV16)</text>
+        </g>
+        <text x="410" y="75" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(440,35)">
+          <rect x="0" y="0" width="165" height="70" rx="10" fill="#F8E8DD" stroke="#DDB59B"/>
+          <text x="82" y="28" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#8E3F1E">CE invasor</text>
+          <text x="82" y="48" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">invade dermis; puede metastatizar</text>
+        </g>
+        <text x="620" y="75" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(650,35)">
+          <rect x="0" y="0" width="90" height="70" rx="10" fill="#F5E4E8" stroke="#D9B2BE"/>
+          <text x="45" y="33" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#6E2C40">Metástasis</text>
+          <text x="45" y="51" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">labio, oreja, mucosas</text>
+        </g>
+        <text x="380" y="150" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">"Campo de cancerización": múltiples lesiones sobre piel con daño solar crónico</text>
+      </svg>
+      <figcaption>La queratosis actínica (1-20% progresa) y la enfermedad de Bowen son carcinomas in situ; el invasor ya atraviesa la membrana basal.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Lesión</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Queratosis actínica</td><td><b>CE in situ más frecuente</b>; placas eritematoqueratósicas en zonas fotoexpuestas; "campo de cancerización"; en labio = queilitis actínica; cuerno cutáneo</td></tr>
+        <tr><td>Enfermedad de Bowen</td><td>CE in situ cutáneo "sin lesión previa"; placa eritematodescamativa bien definida; <b>HPV-16</b> en formas genital/digital</td></tr>
+        <tr><td>Leucoplasia / eritroplasia</td><td>Placa <b>blanca</b> (leucoplasia) o <b>roja</b> (eritroplasia = in situ de mucosa, más riesgo) en mucosa oral; en glande = eritroplasia de Queyrat (HPV)</td></tr>
+        <tr><td>Queratoacantoma</td><td>Nódulo con <b>cráter central</b> de crecimiento rápido en ancianos fotoexpuestos; hoy se considera <b>variante de CE</b></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 CE =================== -->
+  <section id="ce" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Carcinoma epidermoide</h2></div>
+    <hr class="rule">
+    <div class="card ce">
+      <h4>Lo esencial del CE <span class="bug">p53 · sol acumulado · puede metastatizar</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Deriva de los <b>queratinocitos suprabasales</b>; la mayoría sobre <b>lesiones previas</b> (queratosis actínica). Gen más implicado: <b>p53</b> ("guardián del genoma").</li>
+        <li>Sol <b>acumulado</b> (cabeza, cuello, brazos); arsénico (palmas/plantas); inmunosupresión (trasplantados: ×40-250); cicatrices/úlceras crónicas; VPH (subungueal, Bowen).</li>
+        <li>Pápula/nódulo carnoso, queratósico o ulcerado, friable. Histo: queratinocitos anaplásicos, mitosis, <b>globos córneos</b>, invasión dérmica.</li>
+        <li><b>Carcinoma verrugoso</b> = variante de bajo grado y crecimiento lento (papilomatosis oral florida, Buschke-Löwenstein); <b>no dar radioterapia</b>.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">labio → metástasis</span><span class="tag key">oreja → recidivas</span><span class="tag">mucosas recidivan/metastatizan más</span></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Mal pronóstico:</b> &gt;2 cm, &gt;4 mm de profundidad, labio/oreja/sien, sobre cicatriz o zona radiada, invasión perineural, pobremente diferenciado, inmunosupresión. <b>Tratamiento:</b> cirugía (Mohs en alto riesgo); precancerosis/in situ con campo → <b>5-fluorouracilo, imiquimod, diclofenaco, terapia fotodinámica, tirbanibulina</b>; avanzado → <b>cemiplimab</b>.</p>
+  </section>
+
+  <!-- =================== 5 CBC =================== -->
+  <section id="cbc" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Carcinoma basocelular</h2></div>
+    <hr class="rule">
+    <p class="lead">El <strong>cáncer más frecuente del ser humano</strong> (75% del cáncer cutáneo no melanoma). Crece despacio, es localmente destructivo pero <span class="hl">casi nunca metastatiza</span>.</p>
+
+    <figure>
+      <p class="fig-title">Basocelular nodular: la "perla" con telangiectasias</p>
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carcinoma basocelular nodular">
+        <ellipse cx="250" cy="100" rx="120" ry="80" fill="#F3E2DD" stroke="#C98C7E" stroke-width="3"/>
+        <ellipse cx="250" cy="100" rx="120" ry="80" fill="none" stroke="#fff" stroke-width="6" opacity="0.5"/>
+        <!-- pearly rolled border highlight -->
+        <ellipse cx="250" cy="100" rx="120" ry="80" fill="none" stroke="#E9C9C0" stroke-width="2"/>
+        <!-- central ulcer -->
+        <ellipse cx="250" cy="105" rx="34" ry="26" fill="#9A5246"/>
+        <ellipse cx="250" cy="105" rx="34" ry="26" fill="none" stroke="#7A3A30" stroke-width="2"/>
+        <!-- telangiectasias -->
+        <g stroke="#B5352A" stroke-width="1.6" fill="none">
+          <path d="M170,70 q20,10 35,5"/><path d="M320,80 q-15,12 -35,8"/><path d="M180,140 q22,-8 38,2"/><path d="M315,140 q-18,-6 -34,4"/>
+        </g>
+        <g font-family="Inter" font-size="12.5" fill="#20303A">
+          <text x="430" y="60" font-weight="600" fill="#6E2C40">Borde perlado y enrollado</text>
+          <line x1="370" y1="55" x2="425" y2="55" stroke="#6E2C40" stroke-width="1.5"/>
+          <text x="430" y="105" font-weight="600" fill="#6E2C40">Telangiectasias</text>
+          <line x1="300" y1="90" x2="425" y2="100" stroke="#6E2C40" stroke-width="1.5"/>
+          <text x="430" y="150" font-weight="600" fill="#6E2C40">Ulceración central</text>
+          <line x1="285" y1="115" x2="425" y2="145" stroke="#6E2C40" stroke-width="1.5"/>
+        </g>
+      </svg>
+      <figcaption>Pápula perlada rosada con telangiectasias y ulceración central en la cara. Histología: nidos basaloides con núcleos "en empalizada".</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini"><h4>Patogenia y factores</h4><ul>
+        <li>Vía <b>Hedgehog</b>: mutación inactivadora de <b>PTCH</b> (9q22). En <b>S. de Gorlin</b> (100%) y CBC esporádico (90%).</li>
+        <li>Sol <b>intermitente</b> y quemaduras (UVB); fototipo I-II.</li>
+        <li>Cara (80%); excepcional en mucosas/palmas/plantas.</li>
+      </ul></div>
+      <div class="mini"><h4>Variantes clínicas</h4><ul>
+        <li><b>Nodular</b> (60%): perla + telangiectasias + úlcera; puede pigmentarse (DD melanoma).</li>
+        <li><b>Superficial</b> (15%): placa en tronco; DD Bowen/psoriasis.</li>
+        <li><b>Esclerodermiforme/morfeiforme</b>: placa cicatricial, bordes imprecisos; <b>el más agresivo</b> → Mohs.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Tratamiento:</b> cirugía (márgenes 4 mm) de elección; <b>Mohs</b> en recidivas, centrofaciales, esclerodermiforme, &gt;2 cm o mal definidos; superficial → imiquimod/5-FU/terapia fotodinámica; avanzado/metastásico → <b>vismodegib</b> (inhibidor de Hedgehog).</p>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · CBC vs CE en una línea</h3>
+    <div class="chain">
+      <span class="step">CBC: Hedgehog/PTCH · sol intermitente · perla+telangiectasias · NO metastatiza · vismodegib</span>
+    </div>
+    <div class="chain">
+      <span class="step">CE: p53 · sol acumulado · sobre lesión previa · SÍ puede metastatizar · cemiplimab</span>
+    </div>
+
+    <h3>2 · El espectro del daño solar</h3>
+    <div class="chain">
+      <span class="step">Queratosis actínica / Bowen (in situ)</span><span class="arrow">→</span>
+      <span class="step">CE invasor</span><span class="arrow">→</span>
+      <span class="step">metástasis (labio, oreja, mucosas)</span>
+    </div>
+
+    <h3>3 · El gen que cae con cada uno</h3>
+    <div class="grid3">
+      <div class="mini"><h4>CBC</h4><ul><li>Hedgehog / PTCH (Gorlin)</li></ul></div>
+      <div class="mini"><h4>CE</h4><ul><li>p53 ("guardián del genoma")</li></ul></div>
+      <div class="mini"><h4>DFSP</h4><ul><li>CD34 + · t(17;22) · imatinib</li></ul></div>
+    </div>
+
+    <h3>4 · Marcadores que separan tumores parecidos</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Dermatofibroma = <b>factor XIIIa+/CD34–</b>; DFSP = <b>CD34+</b>. Leser-Trélat (queratosis seborreicas en brote) = paraneoplásico. Kaposi = <b>HHV-8</b>.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Carcinoma basocelular vs epidermoide <span class="badge">la pareja estrella</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Basocelular</h5><span class="who">Hedgehog/PTCH</span><ul><li>Cáncer más frecuente; <b>sol intermitente</b></li><li>Perla + telangiectasias; <b>empalizada</b></li><li><b>Casi nunca metastatiza</b>; vismodegib</li></ul></div>
+        <div class="vs-col"><h5>Epidermoide</h5><span class="who">p53</span><ul><li><b>Sol acumulado</b>; sobre lesión previa</li><li>Nódulo queratósico/ulcerado; globos córneos</li><li><b>Sí puede metastatizar</b> (labio, oreja); cemiplimab</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> perlado con telangiectasias que no metastatiza = basocelular; queratósico sobre piel con daño solar que puede metastatizar = epidermoide.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Queratosis actínica vs Bowen vs CE invasor <span class="badge">¿in situ o invasor?</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Queratosis actínica</h5><span class="who">in situ</span><ul><li>Placas ásperas en zonas de sol</li><li>Atipia en epidermis baja</li></ul></div>
+        <div class="vs-col"><h5>Bowen</h5><span class="who">in situ</span><ul><li>Placa única bien definida</li><li>Atipia en <b>todo el espesor</b></li></ul></div>
+        <div class="vs-col"><h5>CE invasor</h5><span class="who">invasor</span><ul><li>Nódulo indurado, ulcerado, doloroso</li><li>Atraviesa la membrana basal</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> induración, dolor o fallo al tratamiento en una queratosis actínica = sospecha de paso a invasor.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">CBC pigmentado vs Melanoma <span class="badge">lesión oscura en la cara</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>CBC pigmentado</h5><span class="who">basaloide</span><ul><li>Borde <b>perlado</b> + telangiectasias</li><li>Crecimiento lento; dermatoscopia con nidos ovoides azules</li></ul></div>
+        <div class="vs-col"><h5>Melanoma</h5><span class="who">melanocítico</span><ul><li>ABCDE; retículo atípico</li><li>Cambia (evolución)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ante una lesión pigmentada con telangiectasias y borde perlado, piensa en basocelular pigmentado, pero la dermatoscopia resuelve.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Queratoacantoma vs CE <span class="badge">cráter de crecimiento rápido</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Queratoacantoma</h5><span class="who">variante de CE</span><ul><li>Cráter central; crecimiento <b>muy rápido</b></li><li>Puede regresar; ancianos fotoexpuestos</li></ul></div>
+        <div class="vs-col"><h5>CE invasor</h5><span class="who">maligno</span><ul><li>Crecimiento progresivo, infiltrante</li><li>Histología a veces indistinguible</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> hoy el queratoacantoma se trata como un CE bien diferenciado: ante la duda, se extirpa.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Dermatofibroma vs Dermatofibrosarcoma <span class="badge">nódulo fibroso</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Dermatofibroma</h5><span class="who">benigno</span><ul><li>Mujer, piernas; <b>signo del hoyuelo</b></li><li><b>Factor XIIIa + / CD34 –</b></li></ul></div>
+        <div class="vs-col"><h5>DFSP</h5><span class="who">sarcoma bajo grado</span><ul><li>Varón joven, tronco; recidivante</li><li><b>CD34 + </b>; t(17;22); Mohs/imatinib</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el marcador lo decide: CD34 positivo orienta a dermatofibrosarcoma (vs factor XIIIa del dermatofibroma).</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>CBC</b> = el cáncer más frecuente del ser humano; vía <b>Hedgehog/PTCH</b> (S. de Gorlin), sol intermitente, perla con telangiectasias, <b>metástasis excepcional</b>.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>CE</b> = gen <b>p53</b>, sol acumulado, casi siempre sobre lesión previa (queratosis actínica); <b>sí puede metastatizar</b> (peor en labio, oreja y mucosas).</p></div>
+    <div class="pearl"><div class="dot">3</div><p>La <b>queratosis actínica</b> es el carcinoma epidermoide in situ más frecuente; "campo de cancerización"; en el labio = queilitis actínica.</p></div>
+    <div class="pearl"><div class="dot">4</div><p><b>Bowen</b> = CE in situ cutáneo; <b>eritroplasia de Queyrat</b> = Bowen del glande (HPV); el <b>queratoacantoma</b> es una variante de CE.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>El <b>basocelular esclerodermiforme</b> es el de peor comportamiento (bordes imprecisos) → cirugía de <b>Mohs</b>. Márgenes habituales del CBC: 4 mm.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>Avanzados: <b>vismodegib</b> (inhibidor de Hedgehog) para el CBC; <b>cemiplimab</b> (anti-PD-1) para el CE.</p></div>
+    <div class="pearl"><div class="dot">7</div><p><b>Leser-Trélat</b> = aparición brusca de múltiples queratosis seborreicas → paraneoplásico (tumor gastrointestinal).</p></div>
+    <div class="pearl"><div class="dot">8</div><p><b>Nevus sebáceo de Jadassohn</b> (cuero cabelludo): sobre él pueden aparecer tumores, incluido el basocelular.</p></div>
+    <div class="pearl"><div class="dot">9</div><p>Marcadores fibrosos: <b>dermatofibroma factor XIIIa+/CD34–</b>; <b>DFSP CD34+</b> con t(17;22), tratado con Mohs e imatinib.</p></div>
+    <div class="pearl"><div class="dot">10</div><p><b>Sarcoma de Kaposi</b> (HHV-8): la neoplasia más frecuente en el SIDA; el clásico afecta piernas de ancianos varones y mejora con TARGA.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 13 (Tumores cutáneos: tumores epidérmicos benignos y malignos, carcinoma basocelular y epidermoide, tumores de partes blandas) a partir del material docente de la Dra. Elena Zamora Martínez — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
