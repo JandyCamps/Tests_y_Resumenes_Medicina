@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 7 · Acné, Rosácea, Pigmentación, Fotobiología y Dermatosis físicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --gold:#B0801C; --gold-deep:#8A6310; --gold-bg:#F8EFD7;
+    --rose:#C13B5B; --rose-deep:#962844; --rose-bg:#F9E7EC;
+    --maroon:#8C3A4A; --maroon-deep:#6E2A38; --maroon-bg:#F3E5E8;
+    --indigo:#46588C; --indigo-deep:#33446E; --indigo-bg:#E7EBF5;
+    --teal:#0E5B61; --teal-deep:#0A4448; --teal-bg:#E2F0EE;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#8A6310,#C13B5B 50%,#46588C);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.14),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#F0D9C4; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(27px,5vw,46px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F4E6DC; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#E6C9B7; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--gold-deep); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--gold)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--gold)} .s2 .num{background:var(--rose)} .s3 .num{background:var(--maroon)} .s4 .num{background:var(--indigo)} .s5 .num{background:var(--teal)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--gold-deep)} .s2 h3{color:var(--rose-deep)} .s3 h3{color:var(--maroon-deep)} .s4 h3{color:var(--indigo-deep)} .s5 h3{color:var(--teal-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--gold),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--rose),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--maroon),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--indigo),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--teal),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.acn{border-left-color:var(--gold)} .card.ros{border-left-color:var(--rose)} .card.hs{border-left-color:var(--maroon)} .card.pig{border-left-color:var(--indigo)} .card.fis{border-left-color:var(--teal)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.acn .bug{background:var(--gold)} .card.ros .bug{background:var(--rose)} .card.hs .bug{background:var(--maroon)} .card.pig .bug{background:var(--indigo)} .card.fis .bug{background:var(--teal)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.6px; min-width:560px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--gold)} .s2 thead th{background:var(--rose)} .s3 thead th{background:var(--maroon)} .s4 thead th{background:var(--indigo)} .s5 thead th{background:var(--teal)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 7 (Clase 10)</p>
+    <h1>Acné, Rosácea, Pigmentación, Fotobiología y Dermatosis físicas</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de P. Fonda (UFV) · acné · rosácea · hidradenitis · vitíligo · fototipos/UV · quemaduras · frío · radiodermitis</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#acne">Acné</a></li>
+      <li><span class="n">2</span><a href="#rosacea">Rosácea</a></li>
+      <li><span class="n">3</span><a href="#hs">Hidradenitis supurativa</a></li>
+      <li><span class="n">4</span><a href="#pigment">Trastornos de la pigmentación</a></li>
+      <li><span class="n">5</span><a href="#fisica">Fotobiología y dermatosis físicas</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 ACNÉ =================== -->
+  <section id="acne" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Acné</h2></div>
+    <hr class="rule">
+    <p class="lead">Cuatro factores: <strong>hiperqueratinización folicular</strong>, <strong>seborrea</strong> (andrógenos), <strong><em>Cutibacterium acnes</em></strong> e <strong>inflamación</strong>. La lesión que lo define es el <span class="hl">comedón</span>; su presencia separa el acné de casi todo lo demás.</p>
+
+    <figure>
+      <p class="fig-title">Del comedón a la cicatriz: las lesiones del acné</p>
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lesiones del acné">
+        <!-- non inflammatory -->
+        <rect x="20" y="30" width="350" height="160" rx="12" fill="#F8EFD7" stroke="#E0CB94"/>
+        <text x="195" y="52" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#8A6310">NO inflamatorias (comedones)</text>
+        <circle cx="110" cy="115" r="26" fill="#FBF6E8" stroke="#C9A85F" stroke-width="2"/>
+        <circle cx="110" cy="115" r="6" fill="#FBF6E8" stroke="#C9A85F"/>
+        <text x="110" y="160" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Cerrado</text>
+        <text x="110" y="175" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#7E8A8E">"punto blanco"</text>
+        <circle cx="280" cy="115" r="26" fill="#FBF6E8" stroke="#C9A85F" stroke-width="2"/>
+        <circle cx="280" cy="115" r="8" fill="#3A2E1E"/>
+        <text x="280" y="160" text-anchor="middle" font-family="Inter" font-size="11.5" fill="#20303A">Abierto</text>
+        <text x="280" y="175" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#7E8A8E">"punto negro" (queratina+melanina)</text>
+        <text x="392" y="118" font-family="Fraunces" font-size="26" fill="#B6800C">→</text>
+        <!-- inflammatory -->
+        <rect x="425" y="30" width="315" height="160" rx="12" fill="#F9E7EC" stroke="#E3B7C2"/>
+        <text x="582" y="52" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#962844">Inflamatorias</text>
+        <circle cx="490" cy="100" r="14" fill="#E89CAE" stroke="#C13B5B"/>
+        <text x="490" y="135" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#20303A">Pápula</text>
+        <circle cx="560" cy="100" r="16" fill="#E89CAE" stroke="#C13B5B"/><circle cx="560" cy="98" r="6" fill="#FCEFB0"/>
+        <text x="560" y="135" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#20303A">Pústula</text>
+        <circle cx="650" cy="103" r="24" fill="#C76B82" stroke="#962844"/>
+        <text x="650" y="142" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#20303A">Nódulo/quiste</text>
+        <text x="582" y="178" text-anchor="middle" font-family="Inter" font-size="11" fill="#962844">→ cicatriz</text>
+      </svg>
+      <figcaption>Comedón cerrado/abierto (no inflamatorias) → pápula, pústula, nódulo y quiste (inflamatorias) → cicatriz.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini"><h4>Pistas hormonales</h4><ul>
+        <li>Neonatal: hormonas <b>maternas</b>; adolescente: fisiológico.</li>
+        <li><b>Mujer adulta: hormonal patológico</b> → estudio hormonal.</li>
+        <li><b>SAHA:</b> Seborrea, Acné, Hirsutismo, Alopecia androgénica (SOP).</li>
+      </ul></div>
+      <div class="mini warn"><h4>Formas graves</h4><ul>
+        <li><b>Acné fulminans:</b> brusco, nódulo-quístico + <b>síntomas sistémicos</b> (fiebre, reactantes, proteinuria).</li>
+        <li><b>Acné conglobata:</b> nódulo-quístico severo, <b>SIN síntomas sistémicos</b>.</li>
+        <li><b>Morbihan:</b> edema facial sólido por fibrosis.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Erupciones acneiformes (medicamentosas):</b> esteroides, corticoides, litio, inhibidores del EGFR → lesiones <b>monomorfas y SIN comedones</b>. Síndromes asociados: <b>SAPHO</b> (Sinovitis, Acné, Pustulosis, Hiperostosis, Osteítis) y <b>tétrada de oclusión folicular</b> (acné conglobata + hidradenitis + foliculitis decalvante + sinus pilonidal).</p>
+
+    <h3>Tratamiento por gravedad</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Gravedad</th><th>Predomina</th><th>Tratamiento</th></tr></thead>
+      <tbody>
+        <tr><td>Leve</td><td>Comedones</td><td><b>Peróxido de benzoilo o retinoides tópicos</b> (adapaleno = menos irritante; tretinoína; tazaroteno)</td></tr>
+        <tr><td>Moderado</td><td>Pápulas y pústulas</td><td>Antibiótico tópico (clinda/eritro, <b>nunca en monoterapia</b>) + peróxido de benzoilo o retinoide</td></tr>
+        <tr><td>Grave / resistente</td><td>Nódulos, quistes, cicatrices</td><td><b>Isotretinoína oral</b>; alternativa: antibiótico oral (doxiciclina/minociclina)</td></tr>
+        <tr><td>Mujer con SAHA</td><td>Lesiones mandibulares, brotes menstruales</td><td>Antiandrógenos + ACO (ciproterona, drospirenona); espironolactona, metformina (SOP)</td></tr>
+      </tbody>
+      <caption>Mantenimiento: retinoides tópicos ± peróxido de benzoilo. El peróxido decolora la ropa; los retinoides están contraindicados en el embarazo.</caption>
+    </table></div>
+
+    <div class="card acn">
+      <h4>Isotretinoína <span class="bug">retinoide oral (vit. A)</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Actúa sobre la glándula sebácea: ↓ sebo, hiperqueratosis e inflamación. Curación en el <b>70-80% con un solo ciclo</b> (dosis total ≈120 mg/kg).</li>
+        <li><b>Empeoramiento al inicio</b>; efectos predecibles dosis-dependientes (sequedad, <b>queilitis</b>), fotosensibilidad.</li>
+        <li><span class="hl">Teratógena</span>: doble anticoncepción estricta desde antes y 2-3 ciclos después.</li>
+        <li>Controles analíticos (<b>triglicéridos</b>, transaminasas). <b>No combinar con tetraciclinas</b> (riesgo de hipertensión intracraneal benigna).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 2 ROSÁCEA =================== -->
+  <section id="rosacea" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Rosácea</h2></div>
+    <hr class="rule">
+    <p class="lead">Dermatosis inflamatoria crónica <strong>centrofacial</strong>, en mujeres de 30-45 años de origen anglosajón, <strong>SIN comedones</strong>. Patogenia: hiperreactividad vascular (flushing), <em>Demodex folliculorum</em>, inmunidad innata y barrera alterada. Desencadenantes: sol, calor, alcohol, picantes, estrés, corticoides tópicos.</p>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Subtipo</th><th>Lo que lo define</th><th>Tratamiento clave</th></tr></thead>
+      <tbody>
+        <tr><td>Eritemato-telangiectásica</td><td><b>Flushing</b> + eritema difuso centrofacial + telangiectasias; piel sensible</td><td>Brimonidina/oximetazolina tópica; láser/IPL para telangiectasias</td></tr>
+        <tr><td>Pápulo-pustulosa</td><td>Pápulas y pústulas rojizas <b>SIN comedones</b>; no deja cicatriz</td><td>Tópico: <b>metronidazol, ivermectina, ácido azelaico</b>. Oral: doxiciclina antiinflamatoria</td></tr>
+        <tr><td>Fimatosa</td><td>Hipertrofia sebácea + fibrosis (<b>rinofima</b>); <b>más en varones</b></td><td>Isotretinoína; láser CO₂, cirugía, electrocoagulación</td></tr>
+        <tr><td>Ocular</td><td>50%; blefaritis, conjuntivitis, orzuelos (puede preceder a la piel)</td><td>Higiene ocular, lágrimas, metronidazol oftálmico</td></tr>
+      </tbody>
+      <caption>DD: dermatitis seborreica (frecuente asociación), acné (sin comedones en rosácea), dermatitis perioral, lupus. Medidas generales: evitar desencadenantes, fotoprotección estricta, limpiadores sin jabón.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 3 HS =================== -->
+  <section id="hs" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Hidradenitis supurativa</h2></div>
+    <hr class="rule">
+    <p class="lead">Enfermedad inflamatoria inmunomediada (IMID) crónica y dolorosa. <strong>No es una infección:</strong> empieza por oclusión folicular de la unidad pilosebácea, con respuesta inflamatoria (IL-1, IL-17, IL-23, TNF-α); la bacteria es colonización <strong>secundaria</strong>.</p>
+
+    <div class="card hs">
+      <h4>Reconocerla <span class="bug">glándulas apocrinas</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Nódulos, abscesos, <b>fístulas/túneles</b> y cicatrices en zonas de glándulas <b>apocrinas</b>: axilas, ingles, anogenital, submamaria.</li>
+        <li>Más en <b>mujeres</b>, raza negra; empeora con <b>tabaco, sobrepeso, fricción</b>. Influencia androgénica (mejora en embarazo).</li>
+        <li>Asociaciones: tétrada de oclusión folicular, EII, espondiloartropatías, síndrome PASH, síndrome metabólico y riesgo cardiovascular.</li>
+      </ul>
+    </div>
+
+    <div class="grid2">
+      <div class="mini"><h4>Estadiaje de Hurley</h4><ul>
+        <li><b>I:</b> nódulos/abscesos <b>sin</b> fístulas ni cicatrices.</li>
+        <li><b>II:</b> abscesos recurrentes con <b>fístulas y cicatrices</b> separadas.</li>
+        <li><b>III:</b> afectación difusa, múltiples trayectos interconectados.</li>
+        <li>Escala IHS4 (nódulos×1 + abscesos×2 + fístulas×4) y ecografía para lesiones subclínicas.</li>
+      </ul></div>
+      <div class="mini ok"><h4>Tratamiento</h4><ul>
+        <li>Antibióticos (clindamicina + rifampicina), antiinflamatorios (colchicina, corticoides intralesionales).</li>
+        <li>Folículo-reguladores (acitretino, zinc), control hormonal.</li>
+        <li>Biológicos: <b>adalimumab (anti-TNF)</b>, secukinumab/bimekizumab (anti-IL17).</li>
+        <li>Cirugía / láser CO₂ en lesiones inactivas. Respuesta: HiSCR.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 4 PIGMENTACIÓN =================== -->
+  <section id="pigment" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Trastornos de la pigmentación</h2></div>
+    <hr class="rule">
+    <p class="lead">Discromías melánicas: con <strong>acromía/hipocromía</strong> (vitíligo, albinismo) o con <strong>hipercromía</strong> (efélides, lentigos, melasma).</p>
+
+    <div class="card pig">
+      <h4>Vitíligo <span class="bug">destrucción de melanocitos</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>1% de la población; manchas <b>acrómicas</b> (la piel carece de melanocitos), <b>Luz de Wood +</b>.</li>
+        <li>Teoría <b>autoinmune</b> (asociación a tiroiditis, Graves, Addison, DM, anemia perniciosa), autocitotóxica y neurogénica.</li>
+        <li>Formas: generalizada (simétrica, periorificial), focal, <b>segmentaria</b> (por dermatomas), universal.</li>
+        <li>Tto: corticoides/tacrolimus tópicos, fototerapia (UVB 311 nm, PUVA, láser excímero 308 nm), <b>ruxolitinib tópico (inh. JAK)</b>. 10-20% remite solo.</li>
+      </ul>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Albinismo:</b> autosómico recesivo por déficit de <b>tirosinasa</b>; hipopigmentación de piel, pelo y ojos → fotoprotección total y cribado de cáncer cutáneo.</p>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Hipercromía</th><th>Definición</th><th>Dato diferencial</th></tr></thead>
+      <tbody>
+        <tr><td>Efélides (pecas)</td><td>Máculas 2-5 mm en zonas fotoexpuestas</td><td><b>NO ↑ melanocitos</b>; aumentan y <b>regresan</b> con el sol</td></tr>
+        <tr><td>Lentigo simple</td><td>Máculas algo mayores</td><td><b>↑ melanocitos</b> en la basal; NO regresan con el sol</td></tr>
+        <tr><td>Lentigo solar (actínico)</td><td>Máculas marrones de bordes irregulares</td><td>Solo en zonas de sol acumulado (cara, escote, dorso de manos); todo el año</td></tr>
+        <tr><td>Melasma</td><td>Pigmentación centrofacial mal delimitada</td><td>Mujeres; <b>estrógenos</b>, embarazo, ACO</td></tr>
+        <tr><td>Mancha mongólica</td><td>Mácula azulada sacra (melanocitosis dérmica)</td><td>90% bebés asiáticos; cede con los años</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 5 FÍSICAS / FOTO =================== -->
+  <section id="fisica" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Fotobiología y dermatosis físicas</h2></div>
+    <hr class="rule">
+
+    <figure>
+      <p class="fig-title">Radiación ultravioleta: UVA penetra, UVB quema</p>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Penetración de la radiación UV en la piel">
+        <defs>
+          <linearGradient id="ep2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F4D6B4"/></linearGradient>
+          <linearGradient id="de2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C9C0"/><stop offset="1" stop-color="#EFB1A4"/></linearGradient>
+        </defs>
+        <rect x="260" y="40" width="420" height="48" fill="url(#ep2)" stroke="#E0C49B"/>
+        <rect x="260" y="88" width="420" height="120" fill="url(#de2)" stroke="#E3A99B"/>
+        <text x="690" y="68" font-family="IBM Plex Mono,monospace" font-size="12" fill="#7E8A8E">Epidermis</text>
+        <text x="690" y="150" font-family="IBM Plex Mono,monospace" font-size="12" fill="#7E8A8E">Dermis</text>
+        <!-- UVC -->
+        <g><text x="60" y="36" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#46588C">UVC 200-290</text>
+          <line x1="120" y1="44" x2="200" y2="44" stroke="#46588C" stroke-width="3"/>
+          <text x="206" y="48" font-family="Inter" font-size="11" fill="#BB3A2B">✗ ozono</text></g>
+        <!-- UVB -->
+        <g><text x="60" y="80" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#962844">UVB 290-320</text>
+          <line x1="120" y1="88" x2="320" y2="88" stroke="#962844" stroke-width="3" marker-end="url(#a1)"/>
+          <text x="330" y="74" font-family="Inter" font-size="11" fill="#962844" font-weight="600">QUEMADURA + ADN (260nm)</text>
+          <text x="330" y="106" font-family="Inter" font-size="10.5" fill="#7E8A8E">superficial · NO atraviesa cristal</text></g>
+        <!-- UVA -->
+        <g><text x="60" y="150" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#8A6310">UVA 320-400</text>
+          <line x1="120" y1="158" x2="460" y2="158" stroke="#B0801C" stroke-width="3" marker-end="url(#a1)"/>
+          <text x="330" y="186" font-family="Inter" font-size="11" fill="#8A6310" font-weight="600">dermis media · bronceado · fotoenvejecimiento</text>
+          <text x="330" y="202" font-family="Inter" font-size="10.5" fill="#7E8A8E">ATRAVIESA cristal · fotoalergias</text></g>
+        <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#666"/></marker></defs>
+      </svg>
+      <figcaption>UVB = "Burn" (quema, superficial, daña el ADN); UVA = "Aging" (penetra, broncea, atraviesa el cristal, da fotoalergias).</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini warn"><h4>Fototoxia</h4><ul>
+        <li>En <b>todos</b> los individuos (no inmune).</li>
+        <li>Aspecto de <b>quemadura solar</b> exagerada.</li>
+        <li>Savia de higueras/hierbas; fármacos (<b>tetraciclinas</b>).</li>
+      </ul></div>
+      <div class="mini ok"><h4>Fotoalergia</h4><ul>
+        <li>Solo en <b>predispuestos</b> (mecanismo inmune, tipo IV).</li>
+        <li>Lesiones <b>eczematosas</b> en zonas fotoexpuestas.</li>
+        <li>Medicamentos (<b>sulfamidas</b>), filtros solares.</li>
+      </ul></div>
+    </div>
+
+    <h3>Dermatosis mecánicas y térmicas</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Clave</th><th>OJO</th></tr></thead>
+      <tbody>
+        <tr><td>Hematoma subungueal / talón negro</td><td>Depósito hemático por trauma o deporte</td><td><b>DD con melanoma</b> (sobre todo si es crónico sin trauma)</td></tr>
+        <tr><td>Mal perforante plantar</td><td>Úlcera crónica plantar de bordes callosos</td><td><b>NO duele</b> (neuropatía: DM, lepra, tabes)</td></tr>
+        <tr><td>Úlcera por decúbito</td><td>Isquemia por presión (sacro, talón); grados I-IV</td><td>Inmovilización, hipoalbuminemia; escala de Norton</td></tr>
+        <tr><td>Quemaduras por calor</td><td>1º (eritema), 2º (ampollas, dolor), 3º (escara, cicatriz)</td><td>Profundidad + superficie afectada</td></tr>
+        <tr><td>Eritema ab igne</td><td>Calor moderado recurrente → eritema <b>reticulado</b> + pigmentación</td><td>Riesgo de <b>carcinoma epidermoide</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <figure>
+      <p class="fig-title">Fenómeno de Raynaud: las tres fases del color</p>
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fenómeno de Raynaud trifásico">
+        <g transform="translate(60,40)">
+          <rect x="0" y="0" width="160" height="100" rx="40" fill="#F2EFE9" stroke="#C9C2B2" stroke-width="2"/>
+          <text x="80" y="130" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#4A5B64">1. Palidez</text>
+          <text x="80" y="150" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">vasoconstricción</text>
+        </g>
+        <text x="246" y="95" font-family="Fraunces" font-size="24" fill="#B6800C">→</text>
+        <g transform="translate(280,40)">
+          <rect x="0" y="0" width="160" height="100" rx="40" fill="#9FB6D8" stroke="#5E7BB0" stroke-width="2"/>
+          <text x="80" y="130" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#33446E">2. Cianosis</text>
+          <text x="80" y="150" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">estasis venular</text>
+        </g>
+        <text x="466" y="95" font-family="Fraunces" font-size="24" fill="#B6800C">→</text>
+        <g transform="translate(500,40)">
+          <rect x="0" y="0" width="160" height="100" rx="40" fill="#E89CAE" stroke="#C13B5B" stroke-width="2"/>
+          <text x="80" y="130" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#962844">3. Hiperemia</text>
+          <text x="80" y="150" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">vasodilatación</text>
+        </g>
+      </svg>
+      <figcaption>Mujeres jóvenes, desencadenado por frío. Primario (idiopático) o secundario (esclerosis sistémica, LES, AR…).</figcaption>
+    </figure>
+
+    <div class="grid3">
+      <div class="mini"><h4>Por frío</h4><ul>
+        <li><b>Perniosis (sabañones):</b> placas violáceas en dedos/orejas; remiten con buen tiempo.</li>
+        <li><b>Congelaciones:</b> &lt;-2 ºC, cristales de hielo, grados 1-3.</li>
+        <li>Livedo reticularis, acrocianosis, urticaria por frío (test del cubito).</li>
+      </ul></div>
+      <div class="mini"><h4>Radiodermitis</h4><ul>
+        <li><b>Aguda</b> (días): eritema → ampollas → radionecrosis.</li>
+        <li><b>Crónica</b> (meses-años): <b>poiquilodermia</b>, esclerosis, <b>Ca epidermoide</b> (20-30%).</li>
+        <li>Fenómeno del <b>recall</b> con quimioterapia.</li>
+      </ul></div>
+      <div class="mini"><h4>Facticias</h4><ul>
+        <li>Excoriaciones neuróticas, tricotilomanía (compulsivas, el paciente lo admite).</li>
+        <li><b>Dermatitis artefacta:</b> lesiones autoprovocadas <b>negadas</b>, bordes geométricos/angulados.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · ¿Hay comedones?</h3>
+    <div class="chain">
+      <span class="step">Con comedones → acné</span><span class="arrow">·</span>
+      <span class="step">Sin comedones + centrofacial + flushing → rosácea</span><span class="arrow">·</span>
+      <span class="step">Monomorfo sin comedones + fármaco → acneiforme</span>
+    </div>
+
+    <h3>2 · UVB vs UVA en una frase</h3>
+    <div class="chain">
+      <span class="step">UVB = Burn (quema, superficial, ADN, no cristal)</span><span class="arrow">·</span>
+      <span class="step">UVA = Aging (penetra, broncea, cristal, fotoalergia)</span>
+    </div>
+
+    <h3>3 · Los tres síndromes con acné</h3>
+    <div class="grid3">
+      <div class="mini"><h4>SAHA</h4><ul><li>Seborrea-Acné-Hirsutismo-Alopecia</li><li>Mujer con hiperandrogenismo (SOP)</li></ul></div>
+      <div class="mini"><h4>SAPHO</h4><ul><li>Sinovitis-Acné-Pustulosis-Hiperostosis-Osteítis</li><li>Hueso (pared torácica)</li></ul></div>
+      <div class="mini"><h4>Tétrada oclusión folicular</h4><ul><li>Acné conglobata + hidradenitis + foliculitis decalvante + sinus pilonidal</li></ul></div>
+    </div>
+
+    <h3>4 · Hipercromías: ¿dependen del sol y suben melanocitos?</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Efélides</h4><ul><li>NO ↑ melanocitos · regresan en invierno</li></ul></div>
+      <div class="mini"><h4>Lentigos</h4><ul><li>↑ melanocitos · persisten todo el año</li></ul></div>
+    </div>
+
+    <h3>5 · "No duele / no recuerda trauma" = alarma</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Úlcera plantar indolora → <b>mal perforante</b> (neuropatía). Lesión negra ungueal/talón sin trauma → descartar <b>melanoma</b>. Lesiones geométricas negadas → <b>dermatitis artefacta</b>.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Acné vs Rosácea <span class="badge">cara con pápulas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Acné</h5><span class="who">unidad pilosebácea</span><ul><li><b>CON comedones</b></li><li>Lesiones <b>polimorfas</b></li><li>Adolescentes; cara y tronco</li></ul></div>
+        <div class="vs-col"><h5>Rosácea</h5><span class="who">vascular + Demodex</span><ul><li><b>SIN comedones</b></li><li>Lesiones monomorfas + flushing</li><li>Mujer 30-45; <b>centrofacial</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> busca el comedón. Si hay comedones es acné; si no los hay y hay enrojecimiento centrofacial con telangiectasias, es rosácea.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Acné fulminans vs conglobata <span class="badge">acné grave súbito</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Fulminans</h5><span class="who">+ sistémico</span><ul><li>Nódulo-quístico brusco</li><li><b>Fiebre, reactantes, proteinuria</b></li></ul></div>
+        <div class="vs-col"><h5>Conglobata</h5><span class="who">solo cutáneo</span><ul><li>Nódulo-quístico severo</li><li><b>SIN síntomas sistémicos</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si el enunciado mete fiebre/reactantes/proteinuria = fulminans; si todo se queda en la piel = conglobata.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Fototoxia vs Fotoalergia <span class="badge">reacción al sol + fármaco</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Fototoxia</h5><span class="who">no inmune</span><ul><li>En <b>cualquiera</b></li><li>Como una <b>quemadura</b></li><li>Tetraciclinas, savia de higuera</li></ul></div>
+        <div class="vs-col"><h5>Fotoalergia</h5><span class="who">inmune (tipo IV)</span><ul><li>Solo <b>predispuestos</b></li><li>Lesión <b>eczematosa</b></li><li>Sulfamidas, filtros solares</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "quemadura en todos" = fototoxia; "eczema en algunos sensibilizados" = fotoalergia.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Hematoma subungueal vs Melanoma <span class="badge">mancha negra ungueal</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Hematoma / talón negro</h5><span class="who">trauma</span><ul><li>Antecedente de golpe o deporte</li><li>Se desplaza con el crecimiento ungueal</li></ul></div>
+        <div class="vs-col"><h5>Melanoma</h5><span class="who">tumor</span><ul><li>Sin trauma; crónico, no se desplaza</li><li>Pigmento en pliegue (<b>signo de Hutchinson</b> ungueal)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> una "mancha negra" ungueal o en talón <b>crónica y sin traumatismo</b> obliga a descartar melanoma.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Vitíligo vs otras manchas blancas <span class="badge">acromía</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Vitíligo</h5><span class="who">sin melanocitos</span><ul><li>Mancha <b>acrómica</b>, Wood +</li><li>Autoinmune (tiroides), simétrica</li></ul></div>
+        <div class="vs-col"><h5>Pitiriasis alba / versicolor</h5><span class="who">hipocromía</span><ul><li>Hipopigmentación (no acromía total)</li><li>Descamación; PV con KOH +</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el vitíligo es <b>blanco tiza</b> (sin pigmento) y realza con luz de Wood; las hipocromías conservan algo de color y suelen descamar.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>El <b>comedón</b> es la lesión que define el acné; la rosácea y las erupciones acneiformes <b>no tienen comedones</b>.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>Isotretinoína:</b> teratógena (doble anticoncepción), empeora al inicio, controles de triglicéridos/transaminasas y <b>no combinar con tetraciclinas</b> (hipertensión intracraneal).</p></div>
+    <div class="pearl"><div class="dot">3</div><p><b>Rinofima</b> = rosácea fimatosa, la única forma más frecuente en <b>varones</b>. La rosácea ocular puede preceder a la piel.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>Hidradenitis = zonas de glándulas <b>apocrinas</b> (axilas/ingles), Hurley para estadiar, tabaco y obesidad la empeoran; biológico de referencia: <b>adalimumab</b>.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Vitíligo: <b>Wood +</b>, asociación autoinmune (sobre todo <b>tiroidea</b>); novedad terapéutica: ruxolitinib tópico (JAK).</p></div>
+    <div class="pearl"><div class="dot">6</div><p><b>Efélides</b> regresan con el sol y NO aumentan melanocitos; los <b>lentigos</b> persisten y SÍ los aumentan. <b>Melasma</b> = hormonal/centrofacial.</p></div>
+    <div class="pearl"><div class="dot">7</div><p><b>UVB quema</b> (superficial, daña ADN, no atraviesa cristal); <b>UVA</b> penetra a dermis, broncea, atraviesa el cristal y da fotoalergias.</p></div>
+    <div class="pearl"><div class="dot">8</div><p><b>Mal perforante plantar NO duele</b> (neuropatía: diabetes, lepra, tabes). Úlcera indolora en pie = pensar en neuropatía.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Eritema ab igne</b> (eritema reticulado por calor moderado repetido) puede degenerar en carcinoma epidermoide. La <b>radiodermitis crónica</b> también (poiquilodermia → Ca).</p></div>
+    <div class="pearl"><div class="dot">10</div><p><b>Raynaud trifásico:</b> palidez → cianosis → hiperemia; el <b>secundario</b> obliga a buscar conectivopatía (esclerosis sistémica).</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 7 (Acné, Rosácea, Pigmentación, Fotobiología y Dermatosis físicas) a partir del material docente del Dr. Pablo Fonda Pascual — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
