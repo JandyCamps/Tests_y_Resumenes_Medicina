@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 8 · Enfermedades ampollosas autoinmunes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --peng:#0E5B61; --peng-deep:#0A4448; --peng-bg:#E2F0EE;
+    --pengo:#2E6E8E; --pengo-deep:#235673; --pengo-bg:#E5F0F4;
+    --dh:#6B4E71; --dh-deep:#523958; --dh-bg:#F1EAF2;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#235673,#2E6E8E 45%,#6B4E71);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#CDE2E6; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5.4vw,50px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#E2EEF0; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#B7D2D8; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--pengo); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--pengo)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s0 .num{background:var(--ink-soft)} .s1 .num{background:var(--peng)} .s2 .num{background:var(--pengo)} .s3 .num{background:var(--dh)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--peng-deep)} .s2 h3{color:var(--pengo-deep)} .s3 h3{color:var(--dh-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s0 .rule{background:linear-gradient(90deg,var(--ink-soft),transparent)} .s1 .rule{background:linear-gradient(90deg,var(--peng),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--pengo),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--dh),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.peng{border-left-color:var(--peng)} .card.pengo{border-left-color:var(--pengo)} .card.dh{border-left-color:var(--dh)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.peng .bug{background:var(--peng)} .card.pengo .bug{background:var(--pengo)} .card.dh .bug{background:var(--dh)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.4px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--peng)} .s2 thead th{background:var(--pengo)} .s3 thead th{background:var(--dh)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 8</p>
+    <h1>Enfermedades ampollosas autoinmunes</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material del Dr. Domínguez Auñón (UFV) · pénfigos · penfigoides · dermatitis herpetiforme · IgA lineal · EAA</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">0</span><a href="#concepto">Concepto y el mapa de antígenos</a></li>
+      <li><span class="n">1</span><a href="#penfigo">Pénfigos (intraepidérmicas)</a></li>
+      <li><span class="n">2</span><a href="#penfigoide">Penfigoides (subepidérmicas)</a></li>
+      <li><span class="n">3</span><a href="#otras">DH, IgA lineal y EAA</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 0 CONCEPTO =================== -->
+  <section id="concepto" class="s0">
+    <div class="sec-head"><span class="num">0</span><h2 class="title">Concepto: dónde se rompe la piel</h2></div>
+    <hr class="rule">
+    <p class="lead">Todas se producen por <strong>autoanticuerpos contra antígenos estructurales de la piel</strong>. El <span class="hl">nivel exacto al que se une el anticuerpo</span> determina la clínica, la histología y, sobre todo, el patrón de inmunofluorescencia, que es <strong>el criterio diagnóstico más importante</strong>. La gran división: separación <strong>intraepidérmica</strong> (pénfigos) vs <strong>subepidérmica</strong> (penfigoides y resto).</p>
+
+    <figure>
+      <p class="fig-title">Mapa de antígenos: de la desmogleína al colágeno VII</p>
+      <svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de antígenos de la unión dermo-epidérmica">
+        <defs>
+          <linearGradient id="epi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F2D2AE"/></linearGradient>
+        </defs>
+        <!-- epidermis -->
+        <rect x="40" y="30" width="430" height="180" fill="url(#epi)" stroke="#E0C49B"/>
+        <!-- granular split -->
+        <line x1="40" y1="64" x2="470" y2="64" stroke="#0E5B61" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <!-- suprabasal split -->
+        <line x1="40" y1="170" x2="470" y2="170" stroke="#0E5B61" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <!-- basement membrane zone -->
+        <rect x="40" y="210" width="430" height="14" fill="#C9B8D0" stroke="#A98FB5"/>
+        <rect x="40" y="224" width="430" height="12" fill="#B7A0C0" stroke="#9A7FA8"/>
+        <!-- dermis -->
+        <rect x="40" y="236" width="430" height="130" fill="#F6C9C0" stroke="#E3A99B"/>
+        <!-- anchoring fibrils -->
+        <g stroke="#8C2A36" stroke-width="2"><path d="M90,236 q6,18 0,36"/><path d="M180,236 q6,18 0,36"/><path d="M270,236 q6,18 0,36"/><path d="M360,236 q6,18 0,36"/></g>
+
+        <!-- left labels (structure) -->
+        <g font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#7E8A8E" text-anchor="end">
+          <text x="36" y="54">Capa granulosa</text>
+          <text x="36" y="120">Epidermis</text>
+          <text x="36" y="190">Capa basal</text>
+          <text x="36" y="221">Lámina lúcida</text>
+          <text x="36" y="234">Lámina densa</text>
+          <text x="36" y="300">Sublámina densa</text>
+        </g>
+
+        <!-- right labels (disease + antigen) -->
+        <g font-family="Inter" font-size="12.5">
+          <rect x="500" y="40" width="230" height="34" rx="7" fill="#0E5B61"/>
+          <text x="512" y="56" fill="#fff" font-weight="600">Pénfigo foliáceo</text>
+          <text x="512" y="70" fill="#BFE0DC" font-size="10.5">Dsg1 (acantolisis alta)</text>
+          <line x1="470" y1="64" x2="500" y2="57" stroke="#0E5B61" stroke-width="2"/>
+
+          <rect x="500" y="146" width="230" height="34" rx="7" fill="#0E5B61"/>
+          <text x="512" y="162" fill="#fff" font-weight="600">Pénfigo vulgar</text>
+          <text x="512" y="176" fill="#BFE0DC" font-size="10.5">Dsg3 (acantolisis suprabasal)</text>
+          <line x1="470" y1="170" x2="500" y2="163" stroke="#0E5B61" stroke-width="2"/>
+
+          <rect x="500" y="200" width="230" height="34" rx="7" fill="#2E6E8E"/>
+          <text x="512" y="216" fill="#fff" font-weight="600">Penfigoide ampolloso</text>
+          <text x="512" y="230" fill="#CDE2EC" font-size="10.5">BP230 + BP180 (hemidesmosoma)</text>
+          <line x1="470" y1="217" x2="500" y2="217" stroke="#2E6E8E" stroke-width="2"/>
+
+          <rect x="500" y="240" width="230" height="20" rx="6" fill="#6B4E71"/>
+          <text x="512" y="254" fill="#fff" font-size="11">Penfigoide cicatricial · laminina 332</text>
+          <line x1="470" y1="230" x2="500" y2="250" stroke="#6B4E71" stroke-width="2"/>
+
+          <rect x="500" y="294" width="230" height="34" rx="7" fill="#8C2A36"/>
+          <text x="512" y="310" fill="#fff" font-weight="600">EAA</text>
+          <text x="512" y="324" fill="#F0CDD2" font-size="10.5">colágeno VII (fibrillas de anclaje)</text>
+          <line x1="370" y1="272" x2="500" y2="311" stroke="#8C2A36" stroke-width="2"/>
+        </g>
+        <text x="255" y="392" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">Dermatitis herpetiforme e IgA lineal: depósito de IgA en las papilas dérmicas</text>
+      </svg>
+      <figcaption>Cuanto más arriba el antígeno, más superficial la ampolla. Pénfigos = desmosoma (intraepidérmico); penfigoides/EAA = unión dermo-epidérmica (subepidérmico).</figcaption>
+    </figure>
+  </section>
+
+  <!-- =================== 1 PÉNFIGO =================== -->
+  <section id="penfigo" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Pénfigos (separación intraepidérmica)</h2></div>
+    <hr class="rule">
+    <p class="lead">AutoAc IgG contra la <strong>superficie de los queratinocitos</strong> (desmogleínas de los desmosomas) → <span class="hl">acantolisis</span> → ampolla intraepidérmica <strong>flácida</strong> y <strong>Nikolsky +</strong>. 50-60 años, más en judíos/mediterráneo.</p>
+
+    <div class="card peng">
+      <h4>Pénfigo vulgar <span class="bug">anti-Dsg3 (± Dsg1)</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Afectación oral casi constante (≈100%)</b>, a menudo el inicio (60%); erosiones dolorosas que sangran.</li>
+        <li>Ampollas <b>flácidas</b> de techo fino que se rompen → erosiones + costras que no curan; deja hiperpigmentación <b>sin cicatriz</b>.</li>
+        <li>Histología: <b>acantolisis suprabasal</b>, ampolla intraepidérmica, células acantolíticas; capa basal en <span class="hl">"hilera de tumbas"</span>.</li>
+        <li><b>Teoría de compensación de las Dsg:</b> solo anti-Dsg3 = forma <b>mucosa</b>; anti-Dsg3 + anti-Dsg1 = <b>mucocutánea</b>.</li>
+        <li>Asocia miastenia gravis, timoma; HLA-DRB1/DQB1.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">acantolisis suprabasal</span><span class="tag key">hilera de tumbas</span><span class="tag">IFD: IgG intercelular (panal)</span></div>
+    </div>
+
+    <div class="card peng">
+      <h4>Pénfigo foliáceo <span class="bug">anti-Dsg1</span></h4>
+      <ul>
+        <li>Ampollas muy superficiales (capa granulosa) que apenas se ven; lesiones descamativas/costrosas <b>"en hojaldre"</b>.</li>
+        <li><b>NO afecta mucosas</b> (la Dsg3 compensa). Buen estado general; exacerba con sol/calor.</li>
+        <li><b>Eritematoso/seborreico (Senear-Usher):</b> forma localizada en áreas seborreicas.</li>
+        <li><b>Fogo selvagem:</b> forma endémica de Brasil (posible vector: mosca).</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Otros pénfigos</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Vegetante</td><td>Variante del vulgar; lesiones vegetantes/papilomatosas en pliegues (Neumann, Hallopeau)</td></tr>
+        <tr><td>Paraneoplásico</td><td>Neoplasias <b>linfoides</b> (LNH, LLC, Castleman); estomatitis intratable, conjuntivitis pseudomembranosa, <b>bronquiolitis obliterante</b>; lesiones tipo EEM. Grave, alta mortalidad</td></tr>
+        <tr><td>IgA</td><td>AutoAc <b>IgA</b> (no IgG); vesiculopústulas anulares en axilas/ingles; antígeno desmocolina 1; tto sulfona</td></tr>
+        <tr><td>Inducido por fármacos</td><td><b>Penicilamina, captopril</b> (grupos sulfhidrilo); forma foliácea; remite al suspender</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card peng">
+      <h4>Inmunología y tratamiento</h4>
+      <ul>
+        <li><b>IFD:</b> IgG intercelular (en "panal/red") en el 100%. <b>IFI:</b> IgG antisustancia intercelular en el 90%; <b>el título se correlaciona con la actividad</b>.</li>
+        <li>Tto: <b>corticoides sistémicos</b> 1-2 mg/kg/d (base) + ahorradores (azatioprina, micofenolato); <span class="hl">rituximab (anti-CD20)</span>, ya de 1ª elección para muchos; IgIV, plasmaféresis.</li>
+        <li>Una <b>IFD negativa predice remisión mantenida</b>. La mortalidad bajó del 73% al 5% con el tratamiento.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 2 PENFIGOIDE =================== -->
+  <section id="penfigoide" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Penfigoides (separación subepidérmica)</h2></div>
+    <hr class="rule">
+    <p class="lead">AutoAc contra la <strong>unión dermo-epidérmica / hemidesmosoma</strong> → ampolla subepidérmica <strong>tensa</strong>, <strong>Nikolsky –</strong>, que epiteliza sin aumentar de tamaño.</p>
+
+    <div class="card pengo">
+      <h4>Penfigoide ampolloso <span class="bug">BP230 + BP180 · la MÁS frecuente</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>La enfermedad ampollosa autoinmune más frecuente; ancianos (65-75 a).</b></li>
+        <li>Ampollas <b>tensas</b> grandes, muy pruriginosas, sobre piel eritematosa/urticarial; <b>mucosas raras (10-20%)</b>; buen pronóstico (remite en 2-6 años).</li>
+        <li>Formas atípicas: eccematosa, urticarial, prurigo (entra en el DD del <b>prurito del anciano sin lesiones</b>).</li>
+        <li>Histología: ampolla subepidérmica, <b>sin acantolisis</b>, infiltrado rico en <b>eosinófilos</b>.</li>
+        <li><b>IFD:</b> IgG (80%) y <span class="hl">C3 lineal (≈100%)</span> en la unión dermo-epidérmica. Antígenos: BP230 (desmoplaquina intracelular) y BP180 (colágeno XVII transmembrana).</li>
+        <li>Fármacos inductores: <b>gliptinas</b>, anti-PD1, anti-TNF. Tto: corticoides (sistémicos o tópicos potentes), doxiciclina, dapsona, rituximab, dupilumab.</li>
+      </ul>
+    </div>
+
+    <div class="grid2">
+      <div class="mini"><h4>Penfigoide gestacional (herpes gestationis)</h4><ul>
+        <li>2º trimestre del embarazo; HLA-DR3/DR4.</li>
+        <li>Lesiones pruriginosas <b>periumbilicales</b>, anulares; <b>no mucosas</b>.</li>
+        <li>Recurre en embarazos; ACO lo exacerban; riesgo de prematuridad/bajo peso.</li>
+        <li>Antígeno <b>BP180</b>; IFD: <b>C3 lineal +100%</b> (base diagnóstica), IgG 30%.</li>
+      </ul></div>
+      <div class="mini warn"><h4>Penfigoide cicatricial (de mucosas)</h4><ul>
+        <li>Afectación de <b>mucosas con CICATRIZACIÓN</b>; mujeres 60-80 a.</li>
+        <li>Oral 85-100%, <b>conjuntiva</b> 60-80% → sinequias y <b>ceguera</b>.</li>
+        <li>Gingivitis descamativa/erosiva; poca tendencia a remitir.</li>
+        <li>Antígenos heterogéneos (BP180, <b>laminina 332</b>, col VII); tto corticoides + ciclofosfamida, rituximab.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 3 OTRAS =================== -->
+  <section id="otras" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Dermatitis herpetiforme, IgA lineal y EAA</h2></div>
+    <hr class="rule">
+
+    <div class="card dh">
+      <h4>Dermatitis herpetiforme (Duhring) <span class="bug">IgA granular · celiaquía</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Pápulovesículas <b>muy pruriginosas, simétricas, en superficies de EXTENSIÓN</b> (codos, rodillas, glúteos, nuca); excoriaciones por rascado. <b>No afecta mucosas.</b></li>
+        <li>Histología: <b>microabscesos de neutrófilos en las papilas dérmicas</b> + ampolla subepidérmica.</li>
+        <li><b>IFD:</b> depósito <span class="hl">granular de IgA</span> en las papilas dérmicas (≈100%). Anti-transglutaminasa y antiendomisio (IgA).</li>
+        <li>Es la piel de la <b>enfermedad celíaca</b> (HLA-DQ2/DQ8); solo un % tiene clínica intestinal. Riesgo de linfoma intestinal.</li>
+        <li>Tto: <b>dieta sin gluten</b> (trata piel e intestino) + <b>sulfona/dapsona</b> (efecto en 48 h, no actúa sobre el intestino; pedir <b>G6PDH</b> antes).</li>
+      </ul>
+    </div>
+
+    <div class="card dh">
+      <h4>Dermatosis IgA lineal <span class="bug">IgA lineal · vancomicina</span></h4>
+      <ul>
+        <li><b>Infantil</b> (dermatosis crónica ampollosa de la infancia): &lt;5 años, lesiones anulares en <span class="hl">"collar de perlas" / "huevo frito"</span>, peribucal/genital; remite en 2-4 años.</li>
+        <li><b>Adulta:</b> parecida a la DH; en adultos a menudo <b>farmacoinducida (vancomicina)</b>.</li>
+        <li><b>IFD:</b> depósito <b>LINEAL de IgA</b> en la membrana basal (lo que la separa de la DH). Tto: sulfona.</li>
+      </ul>
+    </div>
+
+    <div class="card dh">
+      <h4>Epidermolisis ampollosa adquirida (EAA) <span class="bug">colágeno VII</span></h4>
+      <ul>
+        <li><b>Fragilidad cutánea</b>, ampollas en zonas de roce (dorso de manos, codos, rodillas), erosiones, cicatrices y <b>quistes de milio</b>; mucosas hasta 50%.</li>
+        <li>Antígeno: <b>colágeno VII</b> de las fibrillas de anclaje (sublámina densa).</li>
+        <li>IFD/IFI iguales al penfigoide ampolloso; se diferencian con <b>"salt-split skin"</b>: en la EAA la IgG se deposita en el <b>lado dérmico (suelo)</b> de la ampolla; en el PA, en el <b>lado epidérmico (techo)</b>.</li>
+      </ul>
+    </div>
+
+    <h3>Tabla resumen de las subepidérmicas</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Enfermedad</th><th>Antígeno</th><th>IFD</th><th>Pista clínica</th></tr></thead>
+      <tbody>
+        <tr><td>Penfigoide ampolloso</td><td>BP180 / BP230</td><td>IgG + <b>C3 lineal</b> en MB</td><td>Anciano, ampollas tensas pruriginosas; Nikolsky –</td></tr>
+        <tr><td>Penfigoide gestacional</td><td>BP180</td><td><b>C3 lineal</b> (IgG 30%)</td><td>Embarazo, periumbilical</td></tr>
+        <tr><td>Penfigoide cicatricial</td><td>Laminina 332, BP180, col VII</td><td>IgG/C3 en MB (IFI suele –)</td><td>Mucosas con cicatriz; conjuntiva→ceguera</td></tr>
+        <tr><td>Dermatitis herpetiforme</td><td>Transglutaminasa (tisular/epidérmica)</td><td>IgA <b>granular</b> en papilas</td><td>Extensoras, prurito, celiaquía</td></tr>
+        <tr><td>IgA lineal</td><td>97 kD, BP180, col VII…</td><td>IgA <b>lineal</b> en MB</td><td>"Collar de perlas" (niño); vancomicina (adulto)</td></tr>
+        <tr><td>EAA</td><td><b>Colágeno VII</b></td><td>IgG en MB; salt-split <b>dérmico</b></td><td>Fragilidad, milio, zonas de roce</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Pénfigo vs Penfigoide en una línea</h3>
+    <div class="chain">
+      <span class="step">Pénfigo: intraepidérmico · Dsg · flácida · Nikolsky + · IgG intercelular</span>
+    </div>
+    <div class="chain">
+      <span class="step">Penfigoide: subepidérmico · hemidesmosoma · tensa · Nikolsky – · IgG/C3 lineal</span>
+    </div>
+
+    <figure>
+      <p class="fig-title">Patrones de inmunofluorescencia directa (lo que decide el diagnóstico)</p>
+      <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Patrones de IFD">
+        <!-- pénfigo: intercelular net -->
+        <g transform="translate(20,20)">
+          <rect x="0" y="0" width="220" height="120" rx="10" fill="#E2F0EE" stroke="#9DC4C0"/>
+          <g stroke="#0E5B61" stroke-width="2" fill="none" opacity=".8">
+            <path d="M30,30 L70,30 L70,70 L30,70 Z"/><path d="M70,30 L110,30 L110,70 L70,70"/><path d="M110,30 L150,30 L150,70 L110,70"/>
+            <path d="M50,70 L50,110 M90,70 L90,110 M130,70 L130,110"/><path d="M30,90 L170,90"/>
+          </g>
+          <text x="110" y="138" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#0A4448">PÉNFIGO</text>
+          <text x="110" y="155" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">IgG intercelular ("panal/red")</text>
+        </g>
+        <!-- penfigoide: linear MB -->
+        <g transform="translate(270,20)">
+          <rect x="0" y="0" width="220" height="120" rx="10" fill="#E5F0F4" stroke="#9DBFCF"/>
+          <line x1="20" y1="75" x2="200" y2="75" stroke="#2E6E8E" stroke-width="6"/>
+          <text x="110" y="138" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#235673">PENFIGOIDE</text>
+          <text x="110" y="155" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">IgG/C3 LINEAL en la membrana basal</text>
+        </g>
+        <!-- DH: granular papillae -->
+        <g transform="translate(520,20)">
+          <rect x="0" y="0" width="220" height="120" rx="10" fill="#F1EAF2" stroke="#C7B0CF"/>
+          <g fill="#6B4E71"><circle cx="40" cy="80" r="5"/><circle cx="75" cy="72" r="5"/><circle cx="110" cy="82" r="5"/><circle cx="145" cy="71" r="5"/><circle cx="180" cy="81" r="5"/></g>
+          <text x="110" y="138" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#523958">D. HERPETIFORME</text>
+          <text x="110" y="155" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">IgA GRANULAR en papilas dérmicas</text>
+        </g>
+      </svg>
+      <figcaption>Intercelular = pénfigo; lineal en la membrana basal = penfigoide/IgA lineal; granular en papilas = dermatitis herpetiforme.</figcaption>
+    </figure>
+
+    <h3>2 · Antígeno → enfermedad (de arriba abajo)</h3>
+    <div class="chain">
+      <span class="step">Dsg1 → foliáceo</span><span class="arrow">·</span>
+      <span class="step">Dsg3 → vulgar</span><span class="arrow">·</span>
+      <span class="step">BP180/230 → penfigoide</span><span class="arrow">·</span>
+      <span class="step">Laminina 332 → cicatricial</span><span class="arrow">·</span>
+      <span class="step">Colágeno VII → EAA</span>
+    </div>
+
+    <h3>3 · El "atajo" de la inmunoglobulina</h3>
+    <div class="grid3">
+      <div class="mini"><h4>IgG intercelular</h4><ul><li>Pénfigos</li></ul></div>
+      <div class="mini"><h4>IgG/C3 lineal en MB</h4><ul><li>Penfigoides, gestacional, EAA, IgA lineal</li></ul></div>
+      <div class="mini"><h4>IgA granular en papilas</h4><ul><li>Dermatitis herpetiforme</li></ul></div>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Pénfigo vulgar vs Penfigoide ampolloso <span class="badge">la pareja estrella</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Pénfigo vulgar</h5><span class="who">anti-Dsg3 · desmosoma</span><ul><li>Ampolla <b>flácida</b>, intraepidérmica</li><li><b>Nikolsky +</b>; mucosa oral casi siempre</li><li>Acantolisis; IgG <b>intercelular</b></li><li>Edad media; grave sin tto</li></ul></div>
+        <div class="vs-col"><h5>Penfigoide ampolloso</h5><span class="who">BP180/230 · hemidesmosoma</span><ul><li>Ampolla <b>tensa</b>, subepidérmica</li><li><b>Nikolsky –</b>; mucosas raras</li><li>Eosinófilos; IgG/<b>C3 lineal</b></li><li>Anciano; buen pronóstico</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> flácida + boca + Nikolsky + + edad media = pénfigo; tensa + anciano + prurito + Nikolsky – = penfigoide.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Pénfigo vulgar vs foliáceo <span class="badge">¿hay mucosa?</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Vulgar</h5><span class="who">Dsg3 (±Dsg1)</span><ul><li>Acantolisis <b>suprabasal</b> (profunda)</li><li><b>Afecta mucosa</b> oral</li></ul></div>
+        <div class="vs-col"><h5>Foliáceo</h5><span class="who">Dsg1</span><ul><li>Acantolisis <b>subcórnea</b> (alta)</li><li><b>NO afecta mucosa</b> (Dsg3 la compensa)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> la teoría de compensación: la mucosa solo se rompe si fallan las Dsg3 (vulgar), no con anti-Dsg1 solo (foliáceo).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Penfigoide ampolloso vs EAA <span class="badge">salt-split skin</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Penfigoide ampolloso</h5><span class="who">BP180/230</span><ul><li>IgG en el <b>techo</b> (lado epidérmico)</li><li>Sin fragilidad ni milio destacados</li></ul></div>
+        <div class="vs-col"><h5>EAA</h5><span class="who">colágeno VII</span><ul><li>IgG en el <b>suelo</b> (lado dérmico)</li><li>Fragilidad, cicatrices, quistes de <b>milio</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> con IFD/IFI idénticas, el "salt-split skin" lo resuelve: techo = penfigoide; suelo = EAA (col VII, más profundo).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Dermatitis herpetiforme vs IgA lineal <span class="badge">depósito de IgA</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Dermatitis herpetiforme</h5><span class="who">celiaquía</span><ul><li>IgA <b>GRANULAR</b> en papilas</li><li>Extensoras; anti-transglutaminasa</li><li>Dieta sin gluten + dapsona</li></ul></div>
+        <div class="vs-col"><h5>IgA lineal</h5><span class="who">a veces fármacos</span><ul><li>IgA <b>LINEAL</b> en membrana basal</li><li>Niño: "collar de perlas"; adulto: <b>vancomicina</b></li><li>Dapsona</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el patrón de IFA lo decide todo: <b>granular</b> = herpetiforme (gluten); <b>lineal</b> = IgA lineal (vancomicina si adulto).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Herpes gestationis vs PUPPP <span class="badge">dermatosis del embarazo</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Penfigoide gestacional</h5><span class="who">autoinmune (BP180)</span><ul><li>Inicio <b>periumbilical</b>, vesículas/ampollas</li><li><b>C3 lineal +</b> en IFD; recurre</li></ul></div>
+        <div class="vs-col"><h5>PUPPP (erupción polimorfa)</h5><span class="who">no autoinmune</span><ul><li>Empieza en las <b>estrías</b>, respeta el ombligo</li><li>IFD negativa; no recurre típicamente</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ¿empieza en el <b>ombligo</b> y la IFD muestra C3 lineal? → penfigoide gestacional, no PUPPP.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>La <b>inmunofluorescencia es el criterio diagnóstico más importante</b>. El nivel/patrón de depósito define la enfermedad.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Pénfigo = ampolla <b>flácida</b>, <b>Nikolsky +</b>, acantolisis, "hilera de tumbas", IgG <b>intercelular</b>. Penfigoide = <b>tensa</b>, <b>Nikolsky –</b>, eosinófilos, <b>C3 lineal</b>.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>Teoría de compensación de las desmogleínas: anti-Dsg3 solo = forma <b>mucosa</b>; anti-Dsg1 + Dsg3 = <b>mucocutánea</b>; foliáceo (anti-Dsg1) <b>no afecta mucosa</b>.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>El penfigoide ampolloso es la <b>ampollosa autoinmune más frecuente</b>, propia del <b>anciano</b>; las <b>gliptinas</b> lo inducen.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Dermatitis herpetiforme = piel de la <b>celiaquía</b> (HLA-DQ2/DQ8): dieta sin gluten + <b>dapsona</b> (pedir G6PDH antes). IgA <b>granular</b> en papilas.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>IgA lineal: en el niño "<b>collar de perlas/huevo frito</b>"; en el adulto, sospecha <b>vancomicina</b>. IFD <b>lineal</b> (vs granular de la DH).</p></div>
+    <div class="pearl"><div class="dot">7</div><p>EAA = autoanticuerpos contra el <b>colágeno VII</b>; salt-split en el <b>lado dérmico</b>; fragilidad y <b>quistes de milio</b>.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Penfigoide cicatricial: <b>mucosas que cicatrizan</b>; la conjuntiva puede llevar a <b>ceguera</b>. El anti-laminina 332 obliga a descartar neoplasia.</p></div>
+    <div class="pearl"><div class="dot">9</div><p>Pénfigo paraneoplásico: neoplasias <b>linfoides</b>, estomatitis intratable y <b>bronquiolitis obliterante</b>; muy grave.</p></div>
+    <div class="pearl"><div class="dot">10</div><p><b>Rituximab (anti-CD20)</b> es hoy de primera elección en el pénfigo. Una <b>IFD negativa</b> predice remisión mantenida.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 8 (Enfermedades ampollosas autoinmunes) a partir del material docente del Dr. Domínguez Auñón — Facultad de Medicina, Universidad Francisco de Vitoria, curso 2025-26. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
