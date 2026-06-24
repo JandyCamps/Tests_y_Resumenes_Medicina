@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 14 · Linfomas cutáneos, Histiocitosis y Mastocitosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --lt:#6B4E8C; --lt-deep:#523970; --lt-bg:#EDE7F4;
+    --lb:#2E6E8E; --lb-deep:#235673; --lb-bg:#E5F0F4;
+    --hist:#B0801C; --hist-deep:#8A6310; --hist-bg:#F8EFD7;
+    --mast:#B5453A; --mast-deep:#8E342B; --mast-bg:#F8E6E3;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#523970,#2E6E8E 52%,#B5453A);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#DCD0E8; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,46px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#ECE5F0; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#D5C5E0; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--lt); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--lt)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--lt)} .s2 .num{background:var(--lb)} .s3 .num{background:var(--hist)} .s4 .num{background:var(--mast)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--lt-deep)} .s2 h3{color:var(--lb-deep)} .s3 h3{color:var(--hist-deep)} .s4 h3{color:var(--mast-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--lt),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--lb),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--hist),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--mast),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.lt{border-left-color:var(--lt)} .card.lb{border-left-color:var(--lb)} .card.hist{border-left-color:var(--hist)} .card.mast{border-left-color:var(--mast)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.lt .bug{background:var(--lt)} .card.lb .bug{background:var(--lb)} .card.hist .bug{background:var(--hist)} .card.mast .bug{background:var(--mast)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--lt)} .s2 thead th{background:var(--lb)} .s3 thead th{background:var(--hist)} .s4 thead th{background:var(--mast)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 14</p>
+    <h1>Linfomas cutáneos, Histiocitosis y Mastocitosis</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que las diferencia, esquemas de diagnóstico y las trampas clásicas de examen.</p>
+    <p class="meta">Material del Dr. Domínguez Auñón (UFV) · micosis fungoide · Sézary · CD30+ · linfomas B · histiocitosis · mastocitosis</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#lt">Linfomas cutáneos T</a></li>
+      <li><span class="n">2</span><a href="#lb">Linfomas cutáneos B</a></li>
+      <li><span class="n">3</span><a href="#hist">Histiocitosis</a></li>
+      <li><span class="n">4</span><a href="#mast">Mastocitosis</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <figure>
+    <p class="fig-title">Mapa de los linfomas cutáneos primarios</p>
+    <svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clasificación de los linfomas cutáneos">
+      <rect x="300" y="14" width="160" height="34" rx="8" fill="#20303A"/>
+      <text x="380" y="36" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="14" fill="#fff">Linfoma cutáneo</text>
+      <line x1="380" y1="48" x2="200" y2="74" stroke="#7E8A8E" stroke-width="1.5"/>
+      <line x1="380" y1="48" x2="580" y2="74" stroke="#7E8A8E" stroke-width="1.5"/>
+      <!-- T -->
+      <rect x="110" y="74" width="180" height="36" rx="8" fill="#6B4E8C"/>
+      <text x="200" y="91" text-anchor="middle" font-family="Inter" font-weight="600" font-size="12.5" fill="#fff">Células T (70%)</text>
+      <text x="200" y="104" text-anchor="middle" font-family="Inter" font-size="10" fill="#DCD0E8">el grupo mayoritario</text>
+      <!-- B -->
+      <rect x="490" y="74" width="180" height="36" rx="8" fill="#2E6E8E"/>
+      <text x="580" y="91" text-anchor="middle" font-family="Inter" font-weight="600" font-size="12.5" fill="#fff">Células B (30%)</text>
+      <text x="580" y="104" text-anchor="middle" font-family="Inter" font-size="10" fill="#CDE2EC">bajo grado, buen Px</text>
+      <!-- T children -->
+      <g font-family="Inter" font-size="11.5" fill="#523970">
+        <rect x="20" y="135" width="150" height="30" rx="6" fill="#EDE7F4" stroke="#C8B8D8"/>
+        <text x="95" y="154" text-anchor="middle">Micosis fungoide</text>
+        <rect x="20" y="172" width="150" height="30" rx="6" fill="#EDE7F4" stroke="#C8B8D8"/>
+        <text x="95" y="191" text-anchor="middle">Síndrome de Sézary</text>
+        <rect x="185" y="153" width="150" height="40" rx="6" fill="#EDE7F4" stroke="#C8B8D8"/>
+        <text x="260" y="170" text-anchor="middle">Procesos CD30+</text>
+        <text x="260" y="184" text-anchor="middle" font-size="10" fill="#7E8A8E">anaplásico / papulosis</text>
+      </g>
+      <line x1="200" y1="110" x2="95" y2="135" stroke="#C8B8D8" stroke-width="1.2"/>
+      <line x1="200" y1="110" x2="95" y2="172" stroke="#C8B8D8" stroke-width="1.2"/>
+      <line x1="200" y1="110" x2="260" y2="153" stroke="#C8B8D8" stroke-width="1.2"/>
+      <!-- B children -->
+      <g font-family="Inter" font-size="11.5" fill="#235673">
+        <rect x="430" y="135" width="150" height="30" rx="6" fill="#E5F0F4" stroke="#A9CBD9"/>
+        <text x="505" y="154" text-anchor="middle">Centrofolicular</text>
+        <rect x="430" y="172" width="150" height="30" rx="6" fill="#E5F0F4" stroke="#A9CBD9"/>
+        <text x="505" y="191" text-anchor="middle">Zona marginal</text>
+        <rect x="595" y="153" width="150" height="40" rx="6" fill="#F5E4E8" stroke="#D9B2BE"/>
+        <text x="670" y="170" text-anchor="middle" fill="#6E2333">Tipo "pierna"</text>
+        <text x="670" y="184" text-anchor="middle" font-size="10" fill="#7E8A8E">difuso células grandes (peor)</text>
+      </g>
+      <line x1="580" y1="110" x2="505" y2="135" stroke="#A9CBD9" stroke-width="1.2"/>
+      <line x1="580" y1="110" x2="505" y2="172" stroke="#A9CBD9" stroke-width="1.2"/>
+      <line x1="580" y1="110" x2="670" y2="153" stroke="#A9CBD9" stroke-width="1.2"/>
+    </svg>
+    <figcaption>Los linfomas cutáneos se comportan distinto de los sistémicos con la misma histología: en general mejor pronóstico.</figcaption>
+  </figure>
+
+  <!-- =================== 1 LINFOMAS T =================== -->
+  <section id="lt" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Linfomas cutáneos T</h2></div>
+    <hr class="rule">
+    <p class="lead">El 70% de los linfomas cutáneos. La estrella es la <strong>micosis fungoide</strong>, un linfoma T epidermotropo indolente que evoluciona en tres fases.</p>
+
+    <figure>
+      <p class="fig-title">Micosis fungoide: mancha → placa → tumor</p>
+      <svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fases de la micosis fungoide">
+        <g transform="translate(30,35)">
+          <rect x="0" y="0" width="200" height="80" rx="12" fill="#F2EDE3" stroke="#D8C9A8"/>
+          <ellipse cx="100" cy="40" rx="70" ry="26" fill="#E8C9C0" opacity="0.8"/>
+          <text x="100" y="105" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#523970">1 · Mancha</text>
+          <text x="100" y="124" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">eritematodescamativa "del bañador"</text>
+        </g>
+        <text x="245" y="80" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(280,35)">
+          <rect x="0" y="0" width="200" height="80" rx="12" fill="#F2EDE3" stroke="#D8C9A8"/>
+          <ellipse cx="100" cy="40" rx="62" ry="24" fill="#CE8E82"/>
+          <ellipse cx="100" cy="40" rx="62" ry="24" fill="none" stroke="#9A4D40" stroke-width="2.5"/>
+          <text x="100" y="105" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#523970">2 · Placa</text>
+          <text x="100" y="124" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">infiltrada, anular; muchos no pasan de aquí</text>
+        </g>
+        <text x="495" y="80" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(530,35)">
+          <rect x="0" y="0" width="200" height="80" rx="12" fill="#F2EDE3" stroke="#D8C9A8"/>
+          <ellipse cx="100" cy="44" rx="44" ry="20" fill="#B86A60"/>
+          <circle cx="100" cy="34" r="20" fill="#8E3F36"/>
+          <text x="100" y="105" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#523970">3 · Tumor</text>
+          <text x="100" y="124" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">solo 10%; se ulcera; peor pronóstico</text>
+        </g>
+        <text x="380" y="160" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">En fase tumoral coexisten las tres lesiones (manchas + placas + tumores)</text>
+      </svg>
+      <figcaption>Suele haber años de "dermatitis crónica" previa. Histología: epidermotropismo y microabscesos de Pautrier; fenotipo CD3+CD4+CD8−.</figcaption>
+    </figure>
+
+    <div class="card lt">
+      <h4>Micosis fungoide <span class="bug">el LCCT más frecuente · CD4+</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>50% de los linfomas cutáneos; adultos (55-60 a), varones. Indolente, supervivencia 88% a 5 años.</li>
+        <li>Histología: linfocitos <b>cerebriformes</b> en banda con <b>epidermotropismo</b> y <span class="hl">microabscesos de Pautrier</span>; fenotipo <b>CD3+ CD4+ CD8−</b> (T memoria).</li>
+        <li>Diagnóstico integrado: clínica + histología + inmunofenotipo + <b>reordenamiento clonal del TCR</b> (PCR; su positividad no es por sí sola criterio de malignidad).</li>
+        <li>"La gran simuladora"; variantes: foliculotropa (mucinosis folicular, alopecia), reticulosis pagetoide, piel laxa granulomatosa. La transformación a célula grande empeora el pronóstico.</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Lo que la define</th></tr></thead>
+      <tbody>
+        <tr><td>Síndrome de Sézary</td><td>Variante <b>leucémica/eritrodérmica</b>: tríada <b>eritrodermia + linfadenopatía + células de Sézary &gt;1000/µL</b> (CD4/CD8 &gt;10); prurito intensísimo; agresivo (supervivencia 5 a ≈25%)</td></tr>
+        <tr><td>Linfoma anaplásico CD30+ cutáneo</td><td><b>Tumor único</b> que se ulcera; puede regresar; sin afectación sistémica; <b>buen pronóstico</b> (NO tiene la t(2;5) del ganglionar)</td></tr>
+        <tr><td>Papulosis linfomatoide</td><td><b>Pápulas recurrentes que regresan</b> en semanas; histología "maligna" pero curso benigno (supervivencia ≈100%); puede asociarse a MF/ALCL/Hodgkin</td></tr>
+      </tbody>
+      <caption>Los procesos <b>CD30+</b> (linfocitos grandes anaplásicos) son el segundo grupo de LCCT y tienen, en conjunto, buen pronóstico. Tratamiento de la MF según estadio: tópicos (corticoides, mostaza), fototerapia/PUVA, radioterapia, retinoides, interferón, fotoféresis; sistémico en fases avanzadas.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 2 LINFOMAS B =================== -->
+  <section id="lb" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Linfomas cutáneos B</h2></div>
+    <hr class="rule">
+    <p class="lead">El 30% restante. La mayoría son de <strong>bajo grado y buen pronóstico</strong>: una o varias lesiones agrupadas (pápulas/nódulos rojo-violáceos), sin afectación sistémica y con <strong>LDH normal</strong>. Tratamiento: radioterapia, cirugía, rituximab (anti-CD20).</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Localización / inmunofenotipo</th><th>Pronóstico</th></tr></thead>
+      <tbody>
+        <tr><td>Centrofolicular</td><td>Cabeza/tronco; <b>Bcl6+, Bcl2−</b>, CD20+</td><td>Bueno</td></tr>
+        <tr><td>Zona marginal (MALT)</td><td>Extremidades/tronco; <b>Bcl2+, Bcl6−</b>, CD20+</td><td>Bueno</td></tr>
+        <tr><td>Difuso de células grandes "tipo pierna"</td><td><b>Piernas de ancianas</b>; células grandes</td><td><b>Peor</b> (más agresivo)</td></tr>
+      </tbody>
+      <caption>El <b>pseudolinfoma</b> (hiperplasia linfoide cutánea) imita a un linfoma B pero es benigno: infiltrado mixto con eosinófilos y plasmáticas, centros germinales <b>reactivos</b>, zona del manto presente y polarización.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 3 HISTIOCITOSIS =================== -->
+  <section id="hist" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Histiocitosis</h2></div>
+    <hr class="rule">
+    <p class="lead">Proliferación de histiocitos. La gran división es por inmunohistoquímica: <strong>células de Langerhans</strong> (CD1a, S100, Langerina, gránulos de Birbeck) vs <strong>no-Langerhans</strong> (CD68, sin esos marcadores).</p>
+
+    <div class="card hist">
+      <h4>Histiocitosis de células de Langerhans <span class="bug">CD1a · S100 · Langerina · Birbeck</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Trastorno proliferativo <b>clonal</b>; mutación <b>BRAF V600E</b> (≈57%). Niños de 1-3 años (también adultos).</li>
+        <li>Piel: lesiones tipo <b>dermatitis seborreica</b> en cuero cabelludo/pliegues, a menudo <b>purpúricas</b>; erosiones inguinales (presentación del adulto).</li>
+        <li>Sistémico: <b>hueso</b> (lesiones osteolíticas en cráneo), <b>diabetes insípida</b> (hipófisis), médula ósea, pulmón (fumadores).</li>
+        <li>Histología: histiocitos con núcleo "en judía", <b>gránulos de Birbeck</b> (microscopía electrónica); CD1a+/S100+/CD207+. Tto: inhibidores de <b>BRAF</b> (vemurafenib).</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No-Langerhans</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Xantogranuloma juvenil</td><td><b>La más frecuente</b>; lactantes; pápulas amarillentas en cabeza/tronco; <b>células de Touton</b>; rara asociación NF1 + leucemia mielomonocítica juvenil; regresa</td></tr>
+        <tr><td>Xantogranuloma necrobiótico</td><td>Adultos; placas <b>periorbitarias</b> que ulceran; <b>gammapatía monoclonal IgG</b></td></tr>
+        <tr><td>Enfermedad de Rosai-Dorfman</td><td>Histiocitos <b>S100+</b> con <b>emperipolesis</b>; linfadenopatía cervical masiva, fiebre</td></tr>
+        <tr><td>Xantoma diseminado</td><td>Tríada: xantomas cutáneos + mucosos + <b>diabetes insípida</b>; normolipémico</td></tr>
+      </tbody>
+      <caption>Las no-Langerhans son <b>CD68+, CD1a−, S100−</b> (salvo Rosai-Dorfman, S100+), suelen ser reactivas y benignas, con reacción xantogranulomatosa en la histología.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 MASTOCITOSIS =================== -->
+  <section id="mast" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Mastocitosis</h2></div>
+    <hr class="rule">
+    <p class="lead">Acúmulo de mastocitos por mutaciones activadoras de <strong>c-KIT (CD117)</strong> (casi todos los adultos). En los niños suele ser solo cutánea y remite; en adultos puede ser sistémica y persistente.</p>
+
+    <figure>
+      <p class="fig-title">Signo de Darier: la pista que lo confirma</p>
+      <svg viewBox="0 0 700 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signo de Darier en mastocitosis">
+        <g transform="translate(60,30)">
+          <rect x="0" y="0" width="220" height="100" rx="12" fill="#F8E6E3" stroke="#E0B0A8"/>
+          <circle cx="110" cy="45" r="18" fill="#B08A6A"/>
+          <text x="110" y="118" text-anchor="middle" font-family="Inter" font-size="12" fill="#20303A">Mácula/pápula marrón</text>
+          <text x="110" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#7E8A8E">en reposo</text>
+        </g>
+        <g transform="translate(320,75)">
+          <text x="0" y="0" font-family="Inter" font-size="13" fill="#8E342B" font-weight="600">frotar →</text>
+        </g>
+        <g transform="translate(420,30)">
+          <rect x="0" y="0" width="220" height="100" rx="12" fill="#F8E6E3" stroke="#E0B0A8"/>
+          <circle cx="110" cy="45" r="30" fill="#D98A7A" opacity="0.55"/>
+          <circle cx="110" cy="45" r="18" fill="#B86A56"/>
+          <text x="110" y="118" text-anchor="middle" font-family="Inter" font-size="12" fill="#20303A">Habón / urticación</text>
+          <text x="110" y="135" text-anchor="middle" font-family="Inter" font-size="11" fill="#8E342B" font-weight="600">signo de Darier +</text>
+        </g>
+      </svg>
+      <figcaption>El roce libera mediadores del mastocito y la lesión se urtica (signo de Darier), más intenso en niños. No confundir con la enfermedad de Darier (genodermatosis).</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Forma cutánea</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Urticaria pigmentosa (maculopapulosa)</td><td><b>La más frecuente</b>; pápulas marrones simétricas en tronco; signo de Darier; puede dar flushing/prurito</td></tr>
+        <tr><td>Mastocitoma solitario</td><td>Nódulo único en lactante; se resuelve en años</td></tr>
+        <tr><td>Telangiectasia macular eruptiva perstans (TMEP)</td><td>Adultos; máculas telangiectásicas en tronco; <b>flushing pero no urtican</b> al roce</td></tr>
+        <tr><td>Mastocitosis cutánea difusa</td><td>Neonatos; infiltración difusa, ampollas; más riesgo de anafilaxia</td></tr>
+      </tbody>
+      <caption>Síntomas por liberación de mediadores: flushing, prurito, dolor abdominal, diarrea, síncope (anafilaxia). Diagnóstico: biopsia (mastocitos "en huevo frito", CD117+) y, si sospecha sistémica, <b>triptasa sérica</b> (&gt;20 ng/mL → biopsia de médula ósea).</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Micosis fungoide en una línea</h3>
+    <div class="chain">
+      <span class="step">Mancha → placa → tumor</span><span class="arrow">+</span>
+      <span class="step">epidermotropismo + Pautrier</span><span class="arrow">+</span>
+      <span class="step">CD4+ + TCR clonal</span>
+    </div>
+
+    <h3>2 · CD30+: misma célula, dos clínicas</h3>
+    <div class="chain">
+      <span class="step">Tumor único que se ulcera → linfoma anaplásico</span><span class="arrow">·</span>
+      <span class="step">Pápulas que van y vienen → papulosis linfomatoide</span>
+    </div>
+
+    <h3>3 · Linfomas B: el marcador que decide</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Centrofolicular</h4><ul><li>Bcl6+, Bcl2− · cabeza/tronco</li></ul></div>
+      <div class="mini"><h4>Zona marginal</h4><ul><li>Bcl2+, Bcl6− · extremidades</li></ul></div>
+      <div class="mini"><h4>Tipo pierna</h4><ul><li>Células grandes · anciana · peor</li></ul></div>
+    </div>
+
+    <h3>4 · La inmunohistoquímica que separa histiocitosis</h3>
+    <div class="chain">
+      <span class="step">CD1a + S100 + Langerina + Birbeck → Langerhans</span><span class="arrow">·</span>
+      <span class="step">CD68, sin esos → no-Langerhans</span>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Micosis fungoide vs Eccema crónico <span class="badge">la gran simuladora</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Micosis fungoide</h5><span class="who">linfoma T</span><ul><li>Manchas "del bañador" persistentes; prurito</li><li>Epidermotropismo + <b>Pautrier</b>; TCR clonal</li></ul></div>
+        <div class="vs-col"><h5>Eccema/dermatitis crónica</h5><span class="who">inflamatorio</span><ul><li>Brotes; responde a corticoides</li><li>Espongiosis sin atipia ni clonalidad</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> una "dermatitis crónica" de años que no responde, con manchas fijas en zonas cubiertas, obliga a biopsiar buscando micosis fungoide.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Micosis fungoide vs Síndrome de Sézary <span class="badge">linfoma T</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Micosis fungoide</h5><span class="who">cutáneo, indolente</span><ul><li>Manchas/placas/tumores; epidermotropa</li><li>Buen pronóstico</li></ul></div>
+        <div class="vs-col"><h5>Síndrome de Sézary</h5><span class="who">leucémico, agresivo</span><ul><li><b>Eritrodermia + adenopatías + células de Sézary &gt;1000</b></li><li>Mal pronóstico</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> eritrodermia + adenopatías + células tumorales en sangre (CD4/CD8 &gt;10) = Sézary, no micosis fungoide.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Anaplásico CD30+ vs Papulosis linfomatoide <span class="badge">procesos CD30+</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Linfoma anaplásico</h5><span class="who">CD30+</span><ul><li><b>Tumor único</b> persistente que se ulcera</li><li>Buen Px; sin t(2;5) (a diferencia del ganglionar)</li></ul></div>
+        <div class="vs-col"><h5>Papulosis linfomatoide</h5><span class="who">CD30+</span><ul><li><b>Pápulas recurrentes que regresan</b> solas</li><li>Histología "maligna", curso benigno</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> mismo CD30+, pero ¿lesión única que crece (anaplásico) o brotes de pápulas que aparecen y desaparecen (papulosis)?</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Linfoma B centrofolicular vs zona marginal <span class="badge">Bcl2</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Centrofolicular</h5><span class="who">cabeza/tronco</span><ul><li><b>Bcl6 +, Bcl2 −</b></li></ul></div>
+        <div class="vs-col"><h5>Zona marginal</h5><span class="who">extremidades</span><ul><li><b>Bcl2 +, Bcl6 −</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el centro folicular es Bcl6+ (como un centro germinal); la zona marginal es Bcl2+.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Histiocitosis Langerhans vs no-Langerhans <span class="badge">inmunohistoquímica</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Langerhans</h5><span class="who">clonal</span><ul><li><b>CD1a+, S100+, Langerina+</b>; Birbeck</li><li>Seborreica-like, hueso, diabetes insípida; BRAF</li></ul></div>
+        <div class="vs-col"><h5>No-Langerhans</h5><span class="who">reactiva</span><ul><li><b>CD68+, CD1a−, S100−</b></li><li>Xantogranuloma juvenil (Touton)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> CD1a/Langerina y gránulos de Birbeck = Langerhans; pápula amarilla con células de Touton en un bebé = xantogranuloma juvenil.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>Micosis fungoide</b> = el linfoma cutáneo más frecuente; <b>mancha → placa → tumor</b>; epidermotropismo y <b>microabscesos de Pautrier</b>; fenotipo <b>CD4+</b>.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Diagnóstico de linfoma cutáneo = clínica + histología + inmunofenotipo + <b>reordenamiento clonal del TCR</b> (que por sí solo no basta para malignidad).</p></div>
+    <div class="pearl"><div class="dot">3</div><p><b>Síndrome de Sézary</b> = tríada eritrodermia + linfadenopatía + <b>células de Sézary &gt;1000/µL</b>; es la forma leucémica y agresiva.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>Procesos <b>CD30+</b> (anaplásico cutáneo y papulosis linfomatoide): buen pronóstico; el anaplásico cutáneo <b>no</b> tiene la t(2;5) del ganglionar.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Linfomas B cutáneos: bajo grado, <b>LDH normal</b>, sin afectación sistémica; <b>tipo pierna</b> = el más agresivo. Tratamiento con rituximab.</p></div>
+    <div class="pearl"><div class="dot">6</div><p><b>Pseudolinfoma</b>: infiltrado mixto con eosinófilos, centros germinales <b>reactivos</b> y zona del manto presente (lo contrario del linfoma B).</p></div>
+    <div class="pearl"><div class="dot">7</div><p><b>Histiocitosis de Langerhans</b>: clonal, <b>CD1a/S100/Langerina+</b>, gránulos de Birbeck, <b>BRAF V600E</b>; dermatitis seborreica-like, hueso y <b>diabetes insípida</b>.</p></div>
+    <div class="pearl"><div class="dot">8</div><p><b>Xantogranuloma juvenil</b> = la histiocitosis no-Langerhans más frecuente; <b>células de Touton</b>; rara asociación con NF1 y leucemia mielomonocítica juvenil.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Mastocitosis</b>: mutación de <b>c-KIT (CD117)</b>; <b>signo de Darier</b> (urticación al frotar); la <b>urticaria pigmentosa</b> es la forma cutánea más frecuente.</p></div>
+    <div class="pearl"><div class="dot">10</div><p>En la mastocitosis, la <b>triptasa &gt;20 ng/mL</b> obliga a biopsia de médula ósea para descartar enfermedad sistémica. Cuidado con la anafilaxia.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 14 (Linfomas cutáneos, histiocitosis y mastocitosis) a partir del material docente del Dr. Domínguez Auñón — Facultad de Medicina, Universidad Francisco de Vitoria, curso 2024-25. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
