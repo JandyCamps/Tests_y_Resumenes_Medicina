@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 10 · Enfermedades sistémicas, Alopecias y Uñas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --porf:#7E3F8C; --porf-deep:#5E2C6B; --porf-bg:#F0E6F3;
+    --endo:#0E7A6B; --endo-deep:#0A5A4E; --endo-bg:#E0F0EC;
+    --alo:#8A5A2B; --alo-deep:#6B4520; --alo-bg:#F2E8D8;
+    --pelo:#B0701C; --pelo-deep:#8A5610; --pelo-bg:#F8EDD5;
+    --unas:#A04E68; --unas-deep:#7E3A50; --unas-bg:#F5E5EA;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#5E2C6B,#0E7A6B 52%,#A04E68);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#E2CDE8; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(28px,5vw,48px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#EFE3F0; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#DCC3E0; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--porf); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--porf)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--porf)} .s2 .num{background:var(--endo)} .s3 .num{background:var(--alo)} .s4 .num{background:var(--pelo)} .s5 .num{background:var(--unas)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(23px,4vw,32px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:20px; margin:30px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--porf-deep)} .s2 h3{color:var(--endo-deep)} .s3 h3{color:var(--alo-deep)} .s4 h3{color:var(--pelo-deep)} .s5 h3{color:var(--unas-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--porf),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--endo),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--alo),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--pelo),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--unas),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.porf{border-left-color:var(--porf)} .card.endo{border-left-color:var(--endo)} .card.alo{border-left-color:var(--alo)} .card.pelo{border-left-color:var(--pelo)} .card.unas{border-left-color:var(--unas)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.porf .bug{background:var(--porf)} .card.endo .bug{background:var(--endo)} .card.alo .bug{background:var(--alo)} .card.pelo .bug{background:var(--pelo)} .card.unas .bug{background:var(--unas)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:600px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--porf)} .s2 thead th{background:var(--endo)} .s3 thead th{background:var(--alo)} .s4 thead th{background:var(--pelo)} .s5 thead th{background:var(--unas)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 10 (Clase 15)</p>
+    <h1>Enfermedades sistémicas, Alopecias y Uñas</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de P. Fonda (UFV) · porfirias · diabetes/tiroides · amiloidosis/xantomas · carenciales · paraneoplásicas · alopecias · pelo · uñas</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#porfirias">Porfirias</a></li>
+      <li><span class="n">2</span><a href="#sistemicas">Endocrinas, metabólicas y paraneoplásicas</a></li>
+      <li><span class="n">3</span><a href="#alopecias">Alopecias</a></li>
+      <li><span class="n">4</span><a href="#pelo">Otras enfermedades del pelo</a></li>
+      <li><span class="n">5</span><a href="#unas">Alteraciones ungueales</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1 PORFIRIAS =================== -->
+  <section id="porfirias" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Porfirias</h2></div>
+    <hr class="rule">
+    <p class="lead">Defectos en la síntesis del <strong>grupo hemo</strong> → acúmulo de porfirinas que captan <span class="hl">luz visible</span> y dañan la piel por fotooxidación. Dos patrones cutáneos: <strong>dolor agudo</strong> al sol o <strong>fragilidad/ampollas</strong>.</p>
+
+    <figure>
+      <p class="fig-title">La ruta del hemo: dónde se bloquea cada porfiria</p>
+      <svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vía de síntesis del hemo y porfirias">
+        <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#20303A">
+          <text x="20" y="60">ALA</text>
+          <text x="110" y="60">PBG</text>
+          <text x="215" y="60">Uroporfirinógeno III</text>
+          <text x="430" y="60">Coproporfirinógeno</text>
+          <text x="620" y="60">Protoporfirina IX</text>
+          <text x="690" y="120" font-weight="700" fill="#7E3F8C">HEMO</text>
+        </g>
+        <g stroke="#7E3F8C" stroke-width="2" fill="none" marker-end="url(#ar)">
+          <line x1="48" y1="55" x2="100" y2="55"/>
+          <line x1="148" y1="55" x2="205" y2="55"/>
+          <line x1="350" y1="55" x2="420" y2="55"/>
+          <line x1="560" y1="55" x2="615" y2="55"/>
+          <line x1="688" y1="62" x2="700" y2="105"/>
+        </g>
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7E3F8C"/></marker></defs>
+        <!-- blocks -->
+        <g>
+          <rect x="95" y="78" width="200" height="44" rx="8" fill="#F0E6F3" stroke="#C8A8D2"/>
+          <text x="195" y="96" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#5E2C6B">P. aguda intermitente</text>
+          <text x="195" y="113" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">crisis (NO cutánea) · ↑ALA+PBG orina</text>
+          <line x1="125" y1="70" x2="125" y2="55" stroke="#7E3F8C" stroke-dasharray="3 2"/>
+        </g>
+        <g>
+          <rect x="170" y="140" width="220" height="44" rx="8" fill="#F0E6F3" stroke="#C8A8D2"/>
+          <text x="280" y="158" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#5E2C6B">P. cutánea tarda (uro-descarbox.)</text>
+          <text x="280" y="175" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">FRAGILIDAD · ampollas dorso manos</text>
+          <line x1="270" y1="138" x2="255" y2="62" stroke="#7E3F8C" stroke-dasharray="3 2"/>
+        </g>
+        <g>
+          <rect x="540" y="140" width="210" height="44" rx="8" fill="#F0E6F3" stroke="#C8A8D2"/>
+          <text x="645" y="158" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="13" fill="#5E2C6B">Protoporfiria eritropoyética</text>
+          <text x="645" y="175" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#4A5B64">DOLOR agudo al sol · ferroquelatasa</text>
+          <line x1="660" y1="138" x2="690" y2="108" stroke="#7E3F8C" stroke-dasharray="3 2"/>
+        </g>
+      </svg>
+      <figcaption>Bloqueo precoz (PBG) → crisis aguda no cutánea. Uro-descarboxilasa → PCT (fragilidad). Ferroquelatasa → PPE (dolor). Günther: uroporfirinógeno III sintasa.</figcaption>
+    </figure>
+
+    <div class="card porf">
+      <h4>Porfiria cutánea tarda (PCT) <span class="bug">la más frecuente · uro-descarboxilasa</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Hiperfragilidad cutánea</b> en dorso de manos: ampollas subepidérmicas, erosiones, quistes de milium, cambios esclerodermiformes e hipertricosis malar.</li>
+        <li>Desencadenantes (forma adquirida): <b>VHC, alcohol, estrógenos, hierro</b>.</li>
+        <li>Orina color "té"/naranja con <span class="hl">fluorescencia roja con luz de Wood</span> (uroporfirinas). Proteger las muestras de la luz.</li>
+        <li>Tto: fotoprotección + retirar desencadenantes + <b>flebotomías</b> + <b>cloroquina a dosis bajas</b> (¡dosis altas son tóxicas en la PCT!).</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Porfiria</th><th>Patrón</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Protoporfiria eritropoyética</td><td>Dolor agudo</td><td>Infancia; dolor/quemazón al sol <b>sin lesiones visibles</b>; protoporfirina IX; <b>ferroquelatasa</b>; β-caroteno</td></tr>
+        <tr><td>P. aguda intermitente</td><td>NO cutánea</td><td><b>Crisis porfírica</b>: dolor abdominal + neuropatía + psiquiátrico; ↑ALA y PBG en orina; desencadenan barbitúricos, alcohol, sulfamidas</td></tr>
+        <tr><td>P. eritropoyética de Günther</td><td>Mutilante</td><td>AR, rara y grave; <b>eritrodoncia</b>, pañales rojos, anemia hemolítica, cicatrices mutilantes</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 2 SISTÉMICAS =================== -->
+  <section id="sistemicas" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Endocrinas, metabólicas y paraneoplásicas</h2></div>
+    <hr class="rule">
+
+    <h3>Diabetes mellitus</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Manifestación</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Dermopatía diabética</td><td><b>La más frecuente</b>; máculas atróficas marrones en piernas (microangiopatía)</td></tr>
+        <tr><td>Necrobiosis lipoídica</td><td>Placas <b>pretibiales</b> atróficas amarillentas con telangiectasias; puede preceder a la DM</td></tr>
+        <tr><td>Granuloma anular</td><td>Placas anulares de borde sobreelevado en dorso de manos; granuloma en empalizada</td></tr>
+        <tr><td>Acantosis nigricans</td><td>Placas aterciopeladas en flexuras; marcador de <b>insulinorresistencia</b></td></tr>
+        <tr><td>Bullosis diabeticorum</td><td>Ampollas tensas pretibiales asintomáticas; curan sin cicatriz</td></tr>
+        <tr><td>Pie diabético / mal perforante</td><td>Úlcera indolora por neuropatía en puntos de presión; riesgo de osteomielitis</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Tiroides y suprarrenales</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Hipertiroidismo</h4><ul>
+        <li>Piel <b>caliente y húmeda</b>, hiperhidrosis, flushing.</li>
+        <li>Uñas de <b>Plummer</b> (onicólisis).</li>
+        <li><b>Mixedema pretibial</b> ("piel de naranja") en Graves.</li>
+      </ul></div>
+      <div class="mini"><h4>Hipotiroidismo</h4><ul>
+        <li>Piel <b>seca, pálida y fría</b>.</li>
+        <li>Alopecia del <b>tercio externo de las cejas</b>.</li>
+        <li>Mixedema generalizado (reversible con tto).</li>
+      </ul></div>
+      <div class="mini"><h4>Addison</h4><ul>
+        <li><b>Hiperpigmentación</b> (zonas de roce, mucosas).</li>
+        <li>Por estímulo de ACTH/MSH.</li>
+        <li>↓ vello axilar/púbico en mujeres.</li>
+      </ul></div>
+    </div>
+
+    <h3>Por depósito y carenciales</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Amiloidosis sistémica</td><td>Púrpura periorbitaria ("<b>ojos de mapache</b>"), <b>macroglosia</b>, túnel carpiano; tiñe con <b>Rojo Congo</b></td></tr>
+        <tr><td>Xantelasma</td><td>El xantoma más frecuente; placas amarillas en párpados (± hiperlipidemia)</td></tr>
+        <tr><td>Xantoma tendinoso</td><td>Nódulos sobre tendones (Aquiles); <b>hipercolesterolemia (LDL) severa</b></td></tr>
+        <tr><td>Xantoma eruptivo</td><td>Pápulas amarillo-rojizas en brotes; <b>hipertrigliceridemia</b>/DM; riesgo de pancreatitis</td></tr>
+        <tr><td>Acrodermatitis enteropática</td><td><b>Déficit de zinc</b>: dermatitis periorificial + alopecia + diarrea</td></tr>
+        <tr><td>Pelagra</td><td><b>Déficit de B3/niacina</b>: las 3 D (diarrea, demencia, dermatitis fotosensible: collar de Casal)</td></tr>
+        <tr><td>Escorbuto</td><td><b>Déficit de vitamina C</b>: queratosis y <b>púrpura perifolicular</b>, sangrado de encías</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Dermatosis paraneoplásicas</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Dermatosis</th><th>Neoplasia asociada</th></tr></thead>
+      <tbody>
+        <tr><td>Síndrome de Sweet (neutrofílica febril)</td><td><b>Leucemia mieloide aguda</b> (≈20%); tto corticoides</td></tr>
+        <tr><td>Dermatomiositis paraneoplásica</td><td>Ovario, mama, estómago, pulmón (heliotropo + Gottron)</td></tr>
+        <tr><td>Eritema necrolítico migratorio</td><td><b>Glucagonoma</b></td></tr>
+        <tr><td>Acroqueratosis de Bazex</td><td>Carcinoma epidermoide de vías altas</td></tr>
+        <tr><td>Eritema gyratum repens</td><td>Carcinoma de <b>pulmón</b></td></tr>
+        <tr><td>Acantosis nigricans maligna</td><td><b>Adenocarcinoma gástrico</b> (rápida, extensa, mucosas)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 3 ALOPECIAS =================== -->
+  <section id="alopecias" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Alopecias</h2></div>
+    <hr class="rule">
+    <p class="lead">La primera pregunta: ¿se <strong>conservan los orificios foliculares</strong> (no cicatricial, reversible) o se <strong>borran</strong> (cicatricial, irreversible)?</p>
+
+    <figure>
+      <p class="fig-title">El ciclo del pelo (regla 3-3-3)</p>
+      <svg viewBox="0 0 760 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ciclo del folículo piloso">
+        <g transform="translate(70,40)">
+          <rect x="0" y="0" width="180" height="70" rx="10" fill="#F2E8D8" stroke="#D8BC8E"/>
+          <text x="90" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#6B4520">ANÁGENO</text>
+          <text x="90" y="52" text-anchor="middle" font-family="Inter" font-size="13" fill="#20303A">crecimiento · <b>3 AÑOS</b></text>
+        </g>
+        <text x="266" y="82" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(295,40)">
+          <rect x="0" y="0" width="150" height="70" rx="10" fill="#F8EDD5" stroke="#E0C68E"/>
+          <text x="75" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#8A5610">CATÁGENO</text>
+          <text x="75" y="52" text-anchor="middle" font-family="Inter" font-size="13" fill="#20303A">involución · <b>3 SEM</b></text>
+        </g>
+        <text x="461" y="82" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <g transform="translate(490,40)">
+          <rect x="0" y="0" width="180" height="70" rx="10" fill="#F2E8D8" stroke="#D8BC8E"/>
+          <text x="90" y="30" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#6B4520">TELÓGENO</text>
+          <text x="90" y="52" text-anchor="middle" font-family="Inter" font-size="13" fill="#20303A">reposo/caída · <b>3 MESES</b></text>
+        </g>
+      </svg>
+      <figcaption>El efluvio telógeno empuja muchos folículos a telógeno y la caída aparece 3-4 meses después del desencadenante.</figcaption>
+    </figure>
+
+    <figure>
+      <p class="fig-title">No cicatricial vs cicatricial: el orificio folicular</p>
+      <svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alopecia no cicatricial frente a cicatricial">
+        <g transform="translate(20,10)">
+          <rect x="0" y="0" width="330" height="150" rx="12" fill="#E0F6EC" stroke="#A6D9C0"/>
+          <text x="165" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#2c5a3b">NO cicatricial (reversible)</text>
+          <g fill="#3E7D4F"><circle cx="70" cy="80" r="5"/><circle cx="120" cy="80" r="5"/><circle cx="170" cy="80" r="5"/><circle cx="220" cy="80" r="5"/><circle cx="270" cy="80" r="5"/></g>
+          <text x="165" y="125" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A">Orificios foliculares CONSERVADOS</text>
+          <text x="165" y="143" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">efluvios · androgenética · areata</text>
+        </g>
+        <g transform="translate(370,10)">
+          <rect x="0" y="0" width="330" height="150" rx="12" fill="#F2E8D8" stroke="#D8BC8E"/>
+          <text x="165" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#6B4520">Cicatricial (irreversible)</text>
+          <g stroke="#8A5A2B" stroke-width="2"><line x1="60" y1="74" x2="80" y2="86"/><line x1="80" y1="74" x2="60" y2="86"/><line x1="160" y1="74" x2="180" y2="86"/><line x1="180" y1="74" x2="160" y2="86"/><line x1="260" y1="74" x2="280" y2="86"/><line x1="280" y1="74" x2="260" y2="86"/></g>
+          <text x="165" y="125" text-anchor="middle" font-family="Inter" font-size="12.5" fill="#20303A">Orificios foliculares BORRADOS</text>
+          <text x="165" y="143" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">lupus discoide · liquen plano pilar · frontal fibrosante</text>
+        </g>
+      </svg>
+      <figcaption>Si en la tricoscopia se ven los orificios → reversible; si están borrados y la piel es lisa → cicatricial (biopsia).</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Alopecia NO cicatricial</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Efluvio telógeno</td><td>Caída difusa <b>3-4 meses</b> tras un desencadenante (estrés, parto, fiebre); reversible. Ferropenia/hipotiroidismo lo cronifican</td></tr>
+        <tr><td>Efluvio anágeno</td><td>Caída brusca y masiva por <b>quimio/radioterapia</b></td></tr>
+        <tr><td>Androgenética</td><td>Sensibilidad a <b>DHT</b> (5α-reductasa); patrón Hamilton (varón) / difuso parietal (mujer). Tto: minoxidil, <b>finasterida/dutasterida</b></td></tr>
+        <tr><td>Areata</td><td>Placas; <b>pitting</b> ungueal; 80% remite en 1 año; ofiásica/total/universal = peor. Nuevos: anti-JAK</td></tr>
+        <tr><td>Tricotilomanía</td><td>Compulsión de arrancarse el pelo; DD con areata</td></tr>
+      </tbody>
+      <caption>Cicatricial (irreversible, borra orificios, biopsia): <b>lupus discoide</b> (degeneración vacuolar + mucina), <b>liquen plano pilar</b> (infiltrado liquenoide en banda), <b>alopecia frontal fibrosante</b> (posmenopáusicas, pérdida de cejas), pseudopelada de Brocq, foliculitis decalvante.</caption>
+    </table></div>
+  </section>
+
+  <!-- =================== 4 PELO =================== -->
+  <section id="pelo" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Otras enfermedades del pelo</h2></div>
+    <hr class="rule">
+    <div class="grid2">
+      <div class="mini"><h4>Hipertricosis</h4><ul>
+        <li>Exceso de pelo <b>NO andrógeno-dependiente</b>, en cualquier zona.</li>
+        <li>Fármacos (ciclosporina, fenitoína, minoxidil), porfiria cutánea tarda, lanuginosa (paraneoplásica).</li>
+      </ul></div>
+      <div class="mini"><h4>Hirsutismo</h4><ul>
+        <li>Pelo terminal en zonas <b>andrógeno-dependientes</b> (patrón masculino).</li>
+        <li>Hiperandrogenismo suprarrenal/ovárico (SOP); <b>SAHA</b> (seborrea, acné, hirsutismo, alopecia).</li>
+      </ul></div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Alteración del tallo</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Tricorrexis nudosa</td><td>La <b>más frecuente</b>; fractura con extremos "en brocha"</td></tr>
+        <tr><td>Tricorrexis invaginata ("pelo en bambú")</td><td><b>Síndrome de Netherton</b> (+ ictiosis lineal circunfleja + atopia)</td></tr>
+        <tr><td>Monilethrix</td><td>Pelo con nódulos elípticos; frágil desde los primeros meses</td></tr>
+        <tr><td>Pili torti</td><td>Tallo retorcido sobre su eje; <b>síndrome de Menkes</b>, sordera</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== 5 UÑAS =================== -->
+  <section id="unas" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Alteraciones ungueales</h2></div>
+    <hr class="rule">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entidad</th><th>Clave</th></tr></thead>
+      <tbody>
+        <tr><td>Onicomicosis</td><td><b>Dermatofitos 90%</b> (T. rubrum); asociada a tiña pedis; hiperqueratosis subungueal y onicólisis. Tto: <b>terbinafina oral</b></td></tr>
+        <tr><td>Paroniquia aguda</td><td>Niños/manos; <b>S. aureus</b> (o VHS si recurrente); drenaje + antibiótico</td></tr>
+        <tr><td>Psoriasis ungueal</td><td><b>Piqueteado</b> (lo más frecuente) y <b>"mancha de aceite"</b> (lo más característico); onicólisis; asocia artropatía</td></tr>
+        <tr><td>Enfermedad de Darier</td><td>AD (ATP2A2); pápulas seborreicas; uñas con <b>escotaduras en V</b> patognomónicas</td></tr>
+        <tr><td>Liquen plano ungueal</td><td>Adelgazamiento, estriación; <b>pterigión</b> y destrucción de la lámina</td></tr>
+        <tr><td>Melanoniquia longitudinal</td><td>Banda parda; causas benignas (nevus, racial, fármacos) pero <b>descartar melanoma</b> (signo de Hutchinson)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Porfiria cutánea: ¿dolor o ampollas?</h3>
+    <div class="chain">
+      <span class="step">Dolor agudo al sol, sin lesiones, niño → protoporfiria eritropoyética</span><span class="arrow">·</span>
+      <span class="step">Ampollas y fragilidad en dorso de manos → porfiria cutánea tarda</span>
+    </div>
+
+    <h3>2 · Las dermatosis paraneoplásicas que caen</h3>
+    <div class="chain">
+      <span class="step">Sweet → LMA</span><span class="arrow">·</span>
+      <span class="step">Necrolítico migratorio → glucagonoma</span><span class="arrow">·</span>
+      <span class="step">Gyratum repens → pulmón</span><span class="arrow">·</span>
+      <span class="step">Acantosis maligna → gástrico</span><span class="arrow">·</span>
+      <span class="step">Bazex → epidermoide vías altas</span>
+    </div>
+
+    <h3>3 · Alopecia en dos preguntas</h3>
+    <div class="chain">
+      <span class="step">¿Orificios conservados? → no cicatricial (reversible)</span><span class="arrow">·</span>
+      <span class="step">¿Orificios borrados? → cicatricial (biopsia, irreversible)</span>
+    </div>
+
+    <h3>4 · Las "3D" y los colores</h3>
+    <p style="font-size:14px;color:var(--ink-soft)">Pelagra = <b>3 D</b> (diarrea, demencia, dermatitis fotosensible). Orina <b>roja con Wood</b> = PCT. Pañales rojos + dientes rojos = Günther. "Ojos de mapache" + macroglosia = amiloidosis. "Piel de naranja" pretibial = mixedema de Graves.</p>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">PCT vs Protoporfiria eritropoyética <span class="badge">porfiria cutánea</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>P. cutánea tarda</h5><span class="who">uro-descarboxilasa</span><ul><li>Adulto; <b>fragilidad y ampollas</b> dorso de manos</li><li>VHC/alcohol/estrógenos; orina roja con Wood</li><li>Tto: flebotomías + cloroquina dosis bajas</li></ul></div>
+        <div class="vs-col"><h5>Protoporfiria eritropoyética</h5><span class="who">ferroquelatasa</span><ul><li>Niño; <b>dolor/quemazón agudos</b> al sol</li><li><b>Sin lesiones visibles</b> al principio</li><li>Tto: β-caroteno</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ampollas crónicas en dorso de manos = PCT; dolor inmediato al sol sin lesiones en un niño = PPE.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Necrobiosis lipoídica vs Granuloma anular <span class="badge">placas y diabetes</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Necrobiosis lipoídica</h5><span class="who">microangiopatía</span><ul><li><b>Pretibial</b>, amarillenta, atrófica, telangiectasias</li><li>Puede preceder a la diabetes</li></ul></div>
+        <div class="vs-col"><h5>Granuloma anular</h5><span class="who">granuloma empalizada</span><ul><li><b>Dorso de manos</b>, anular, borde sobreelevado</li><li>Autoinvoluciona; relación con DM no clara</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> placa amarillenta pretibial = necrobiosis; anillo en dorso de mano = granuloma anular.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Acantosis nigricans benigna vs maligna <span class="badge">flexuras aterciopeladas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Benigna</h5><span class="who">insulinorresistencia</span><ul><li>Obesidad, SOP; instauración lenta</li><li>Flexuras (cuello, axilas)</li></ul></div>
+        <div class="vs-col"><h5>Maligna</h5><span class="who">adenoca gástrico</span><ul><li>Brusca, extensa, afecta <b>mucosas</b> y palmas</li><li>Adulto delgado → buscar tumor</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> acantosis rápida, extensa y con mucosas afectas en un adulto no obeso obliga a descartar adenocarcinoma gástrico.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Efluvio telógeno vs Alopecia areata <span class="badge">caída de pelo</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Efluvio telógeno</h5><span class="who">difuso</span><ul><li>Caída <b>difusa</b> 3-4 meses tras un desencadenante</li><li>Reversible; pull test difuso positivo</li></ul></div>
+        <div class="vs-col"><h5>Alopecia areata</h5><span class="who">autoinmune</span><ul><li><b>Placas</b> bien delimitadas; pelos "en exclamación"</li><li><b>Pitting</b> ungueal; 80% remite</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> caída difusa = efluvio; placas redondeadas con afectación ungueal = areata.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Hipertricosis vs Hirsutismo <span class="badge">exceso de pelo</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Hipertricosis</h5><span class="who">NO andrógeno-dep.</span><ul><li>Cualquier zona; ambos sexos</li><li>Fármacos, porfiria, paraneoplásica</li></ul></div>
+        <div class="vs-col"><h5>Hirsutismo</h5><span class="who">andrógeno-dep.</span><ul><li>Patrón <b>masculino</b> en mujer (mentón, línea alba)</li><li>SOP, hiperandrogenismo; SAHA</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si el patrón es masculino y en zonas dependientes de andrógenos = hirsutismo (estudio hormonal); si es difuso e independiente = hipertricosis.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p><b>PCT</b> = la porfiria más frecuente: fragilidad en dorso de manos, VHC/alcohol/estrógenos, orina con <b>fluorescencia roja</b> (Wood); flebotomías + cloroquina a <b>dosis bajas</b>.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Crisis porfírica aguda (intermitente): dolor abdominal + neuropatía + clínica psiquiátrica, ↑ALA y PBG; desencadenan barbitúricos y alcohol. <b>No es cutánea.</b></p></div>
+    <div class="pearl"><div class="dot">3</div><p>La <b>dermopatía diabética</b> es la manifestación cutánea más frecuente del diabético. La <b>acantosis nigricans</b> marca insulinorresistencia.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>Carenciales: <b>zinc</b> → acrodermatitis enteropática (periorificial + alopecia + diarrea); <b>B3</b> → pelagra (3 D); <b>vitamina C</b> → escorbuto (púrpura perifolicular).</p></div>
+    <div class="pearl"><div class="dot">5</div><p>Amiloidosis sistémica: "<b>ojos de mapache</b>" + <b>macroglosia</b> + túnel carpiano; se tiñe con <b>Rojo Congo</b>.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>Paraneoplásicas clave: <b>Sweet → LMA</b>, eritema necrolítico migratorio → glucagonoma, acantosis maligna → gástrico, gyratum repens → pulmón.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Ciclo del pelo <b>3-3-3</b> (anágeno 3 años, catágeno 3 semanas, telógeno 3 meses). El efluvio telógeno cae <b>3-4 meses</b> después del desencadenante.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Androgenética = DHT/5α-reductasa → <b>finasterida/dutasterida</b> + minoxidil. Areata = <b>pitting</b> ungueal, 80% remite; anti-JAK en casos graves.</p></div>
+    <div class="pearl"><div class="dot">9</div><p>Alopecia <b>cicatricial</b> = borra los orificios foliculares, es irreversible y necesita biopsia (lupus discoide, liquen plano pilar, frontal fibrosante).</p></div>
+    <div class="pearl"><div class="dot">10</div><p>Uñas: psoriasis = <b>piqueteado</b> (frecuente) y <b>mancha de aceite</b> (característico); Darier = <b>escotaduras en V</b>; liquen plano = <b>pterigión</b>; melanoniquia → descartar melanoma (Hutchinson).</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 10 (Manifestaciones cutáneas de las enfermedades sistémicas y alopecias) a partir del material docente del Dr. Pablo Fonda Pascual — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
