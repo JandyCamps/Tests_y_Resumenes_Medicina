@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bacterias y Micobacterias · Resumen de estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --teal:#0E5B61; --teal-deep:#0A4448; --sage:#5E8480;
+    --olive:#7D7A3C; --olive-bg:#F4F2E2;
+    --plum:#6B4E71; --plum-bg:#F1EAF2;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 22px 120px}
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background:linear-gradient(160deg,var(--teal-deep),var(--teal) 70%);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden;
+    border-bottom:3px solid var(--amber);
+  }
+  header.hero:after{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(circle at 88% 10%,rgba(255,255,255,.12),transparent 45%);
+  }
+  .hero-inner{max-width:920px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:#BFE0DC; margin:0 0 14px;
+  }
+  .hero h1{
+    font-family:"Fraunces",serif; font-weight:600; font-size:clamp(34px,6vw,54px);
+    line-height:1.02; margin:0 0 14px; letter-spacing:-.01em;
+  }
+  .hero p{max-width:640px; margin:0; color:#DCEDEA; font-size:16.5px}
+  .hero .meta{
+    margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px;
+    color:#A9D2CD; letter-spacing:.04em;
+  }
+
+  /* ---------- TOC ---------- */
+  nav.toc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);
+  }
+  nav.toc h2{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;
+  }
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{
+    color:var(--teal); text-decoration:none; font-weight:500; font-size:14.5px;
+    border-bottom:1px solid transparent;
+  }
+  nav.toc a:hover{border-bottom-color:var(--teal)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  /* ---------- SECTIONS ---------- */
+  section{margin:46px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{
+    font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; background:var(--teal);
+    border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);
+  }
+  h2.title{
+    font-family:"Fraunces",serif; font-weight:600; font-size:clamp(25px,4vw,34px);
+    margin:0; line-height:1.1; letter-spacing:-.01em;
+  }
+  h3{
+    font-family:"Fraunces",serif; font-weight:600; font-size:22px; margin:34px 0 4px;
+    color:var(--teal-deep); letter-spacing:-.01em;
+  }
+  .lead{color:var(--ink-soft); margin:6px 0 22px; max-width:680px}
+  .rule{height:2px; background:linear-gradient(90deg,var(--amber),transparent); border:none; margin:6px 0 0; border-radius:2px}
+
+  p{margin:12px 0}
+  strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  /* ---------- DISEASE CARD ---------- */
+  .card{
+    background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal);
+    border-radius:0 12px 12px 0; padding:18px 22px; margin:16px 0; box-shadow:var(--shadow);
+  }
+  .card.strep{border-left-color:var(--teal)}
+  .card.other{border-left-color:var(--olive)}
+  .card.myco{border-left-color:var(--plum)}
+  .card h4{
+    margin:0 0 4px; font-family:"Fraunces",serif; font-size:19.5px; font-weight:600;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .card .bug{
+    font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12.5px;
+    color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;
+  }
+  .card.other .bug{background:var(--olive)}
+  .card.myco .bug{background:var(--plum)}
+  .card.strep .bug{background:var(--teal)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{
+    display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px;
+    border-top:1px dashed var(--line);
+  }
+  .tag{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px;
+    background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);
+  }
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{
+    display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+    background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em;
+    vertical-align:middle; font-weight:500;
+  }
+
+  /* ---------- TABLES ---------- */
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:560px; background:var(--card)}
+  thead th{
+    background:var(--teal); color:#F2F7F6; text-align:left; padding:11px 13px; font-weight:600;
+    font-size:12.5px; letter-spacing:.03em; position:sticky; top:0;
+  }
+  tbody td{padding:10px 13px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  /* ---------- FIGURE ---------- */
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  /* ---------- OJO CUIDADO ---------- */
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:46px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(24px,4vw,32px)}
+  .vs{
+    background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden;
+    box-shadow:0 6px 20px -14px rgba(187,58,43,.4);
+  }
+  .vs-title{
+    background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif;
+    font-weight:600; font-size:16.5px; display:flex; align-items:center; gap:8px;
+  }
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-col{padding:13px 16px}
+  .vs-col:first-child{border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14.5px; color:var(--ink); font-family:"Inter"; font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.5px}
+  .vs-col li{margin:4px 0}
+  .clue{
+    background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0;
+    font-size:13px; border-radius:0 0 12px 12px;
+  }
+  .clue b{color:var(--amber)}
+
+  .pearl{
+    background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:14px 18px; margin:14px 0;
+    display:flex; gap:13px; align-items:flex-start;
+  }
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  /* ---------- ESQUEMA CALLOUTS ---------- */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.8px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)}
+  .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body{grid-template-columns:1fr}
+    .vs-col:first-child{border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media print{
+    body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{background:var(--teal-deep) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatosis infecciosas · Clase 2</p>
+    <h1>Bacterias y Micobacterias</h1>
+    <p>Resumen de estudio orientado a diferenciar enfermedades: qué hace única a cada una, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Basado en el material de P. Fonda (UFV) · piodermitis · síndromes toxínicos · TBC cutánea · lepra · micobacteriosis atípicas</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1A</span><a href="#staph">Estafilococos y estreptococos</a></li>
+      <li><span class="n">1B</span><a href="#otras">Otras bacterianas</a></li>
+      <li><span class="n">2A</span><a href="#tbc">Tuberculosis cutánea</a></li>
+      <li><span class="n">2B</span><a href="#lepra">Lepra (Hansen)</a></li>
+      <li><span class="n">2C</span><a href="#atipicas">Micobacteriosis atípicas</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1A =================== -->
+  <section id="staph">
+    <div class="sec-head"><span class="num">1A</span><h2 class="title">Infecciones estafilocócicas y estreptocócicas</h2></div>
+    <hr class="rule">
+    <p class="lead">Las infecciones bacterianas más frecuentes de la piel. La regla mental clave es <strong>qué germen y a qué profundidad</strong>: el estafilococo prefiere los <strong>anejos</strong> (folículo, uña), el estreptococo se queda en la <strong>dermis</strong>.</p>
+
+    <figure>
+      <p class="fig-title">Profundidad de la infección = clave del diagnóstico diferencial</p>
+      <svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte de piel mostrando la profundidad de cada infección">
+        <defs>
+          <linearGradient id="ep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE9D2"/><stop offset="1" stop-color="#F4D6B4"/></linearGradient>
+          <linearGradient id="de" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C9C0"/><stop offset="1" stop-color="#EFB1A4"/></linearGradient>
+          <linearGradient id="hi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCEFB0"/><stop offset="1" stop-color="#F6E48A"/></linearGradient>
+        </defs>
+        <!-- layer bands -->
+        <rect x="250" y="20"  width="380" height="44" fill="url(#ep)" stroke="#E0C49B"/>
+        <rect x="250" y="64"  width="380" height="92" fill="url(#de)" stroke="#E3A99B"/>
+        <rect x="250" y="156" width="380" height="78" fill="url(#hi)" stroke="#E6D27A"/>
+        <rect x="250" y="234" width="380" height="30" fill="#D9D3C4" stroke="#C4BDA9"/>
+        <rect x="250" y="264" width="380" height="36" fill="#C98D8D" stroke="#B07474"/>
+        <!-- layer labels right -->
+        <g font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#4A5B64">
+          <text x="638" y="46">Epidermis</text>
+          <text x="638" y="110">Dermis</text>
+          <text x="638" y="198">Hipodermis</text>
+          <text x="638" y="253">Fascia</text>
+          <text x="638" y="286">Músculo</text>
+        </g>
+        <!-- disease pointers left -->
+        <g font-family="Inter, sans-serif" font-size="13">
+          <!-- impetigo -->
+          <rect x="14" y="22" width="214" height="38" rx="7" fill="#0E5B61"/>
+          <text x="26" y="38" fill="#fff" font-weight="600">Impétigo</text>
+          <text x="26" y="54" fill="#BFE0DC" font-size="11">costra melicérica · superficial</text>
+          <line x1="228" y1="42" x2="250" y2="42" stroke="#0E5B61" stroke-width="2.5"/>
+          <!-- ectima -->
+          <rect x="14" y="70" width="214" height="38" rx="7" fill="#7D7A3C"/>
+          <text x="26" y="86" fill="#fff" font-weight="600">Ectima</text>
+          <text x="26" y="102" fill="#F4F2E2" font-size="11">úlcera que deja cicatriz</text>
+          <line x1="228" y1="90" x2="250" y2="90" stroke="#7D7A3C" stroke-width="2.5"/>
+          <!-- erisipela -->
+          <rect x="14" y="116" width="214" height="34" rx="7" fill="#0E5B61"/>
+          <text x="26" y="132" fill="#fff" font-weight="600">Erisipela</text>
+          <text x="26" y="146" fill="#BFE0DC" font-size="11">dermis · borde NETO, elevado</text>
+          <line x1="228" y1="132" x2="250" y2="120" stroke="#0E5B61" stroke-width="2.5"/>
+          <!-- celulitis -->
+          <rect x="14" y="160" width="214" height="34" rx="7" fill="#0E5B61"/>
+          <text x="26" y="176" fill="#fff" font-weight="600">Celulitis</text>
+          <text x="26" y="190" fill="#BFE0DC" font-size="11">dermis profunda · borde DIFUSO</text>
+          <line x1="228" y1="178" x2="250" y2="190" stroke="#0E5B61" stroke-width="2.5"/>
+          <!-- fascitis -->
+          <rect x="14" y="240" width="214" height="48" rx="7" fill="#BB3A2B"/>
+          <text x="26" y="258" fill="#fff" font-weight="700">Fascitis necrotizante</text>
+          <text x="26" y="274" fill="#FBEAE6" font-size="11">LA MÁS PROFUNDA Y GRAVE</text>
+          <text x="26" y="286" fill="#FBEAE6" font-size="11">dolor desproporcionado · crepitación</text>
+          <line x1="228" y1="258" x2="250" y2="250" stroke="#BB3A2B" stroke-width="2.5"/>
+          <line x1="228" y1="270" x2="250" y2="280" stroke="#BB3A2B" stroke-width="2.5"/>
+        </g>
+        <!-- bracket strepto -->
+        <text x="332" y="335" font-family="IBM Plex Mono, monospace" font-size="12" fill="#0E5B61">Strepto pyogenes domina dermis · Staph prefiere anejos</text>
+      </svg>
+      <figcaption>A mayor profundidad → mayor gravedad y necesidad de antibiótico sistémico</figcaption>
+    </figure>
+
+    <h3>Impétigos <span class="mir">MIR</span></h3>
+    <div class="card strep">
+      <h4>Impétigo <span class="bug">S. aureus · (contagioso: aureus &gt; pyogenes)</span></h4>
+      <ul>
+        <li><b>Lo que lo define:</b> costra de <span class="hl">color miel</span> (melicérica), infección superficial.</li>
+        <li><b>Ampolloso</b> = S. aureus; <b>contagioso</b> = S. aureus &gt; S. pyogenes.</li>
+        <li>NO eleva ASLO · NO fiebre · NO cardiopatía (no fiebre reumática).</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">costra color miel</span><span class="tag tx">Tto: AB tópico</span></div>
+    </div>
+
+    <h3>Ectima <span class="mir">MIR</span></h3>
+    <div class="card strep">
+      <h4>Ectima <span class="bug">S. pyogenes</span></h4>
+      <ul>
+        <li><b>Lo que lo define:</b> predomina la <span class="hl">ulceración</span> (más profundo que el impétigo); úlceras redondeadas que <b>dejan cicatriz</b>.</li>
+        <li>¡Atención al DD con <b>ectima gangrenoso</b> (Pseudomonas, inmunodeprimido, centro necrótico)!</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">úlcera con cicatriz</span><span class="tag tx">Tto: AB sistémico + tópico</span></div>
+    </div>
+
+    <h3>Erisipela y celulitis <span class="mir">MIR</span></h3>
+    <div class="card strep">
+      <h4>Erisipela / Celulitis <span class="bug">S. pyogenes</span></h4>
+      <ul>
+        <li><b>Diferencia entre ellas:</b> la <b>erisipela</b> es más superficial (dermis, borde <span class="hl">neto y sobreelevado</span>); la <b>celulitis</b> es más profunda (borde difuso, mal delimitado).</li>
+        <li>Ambas: placa inflamatoria dolorosa + <b>fiebre</b> + afectación del estado general.</li>
+        <li>Epidemiología: ancianos con comorbilidad (DM, insuficiencia venosa crónica).</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">placa caliente + fiebre</span><span class="tag tx">penicilina / cloxacilina / vancomicina</span></div>
+    </div>
+
+    <h3>Fascitis necrotizante <span class="mir">MIR</span></h3>
+    <div class="card strep" style="border-left-color:var(--coral)">
+      <h4>Fascitis necrotizante <span class="bug" style="background:var(--coral)">strepto / polimicrobiana</span></h4>
+      <ul>
+        <li><b>Lo más profundo y grave.</b> Sospechar ante: <span class="hl">edema/induración más allá del eritema</span>, ampollas, falta de respuesta al tratamiento.</li>
+        <li>Tardío: <b>dolor intenso desproporcionado</b>, gangrena, crepitación o anestesia.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">dolor &gt;&gt; lesión visible</span><span class="tag tx">desbridamiento urgente + AB iv</span></div>
+    </div>
+
+    <h3>Infecciones anexiales (estafilocócicas)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Lesión</th><th>Profundidad / clínica</th><th>Dato clave</th><th>Tratamiento</th></tr></thead>
+        <tbody>
+          <tr><td>Foliculitis</td><td>Anexial superficial: pústula folicular</td><td>Pústula sobre folículo</td><td>Tópico</td></tr>
+          <tr><td>Forúnculo</td><td>Anexial profunda: nódulo</td><td>Nódulo inflamatorio</td><td>Tópico + oral (+ drenaje si pus)</td></tr>
+          <tr><td>Ántrax</td><td>Confluencia de varios forúnculos</td><td>Imagen "en espumadera"</td><td>Oral + drenaje</td></tr>
+          <tr><td>Panadizo</td><td>Infección aguda del reborde ungueal</td><td><em>S. aureus</em>, periungueal</td><td>Tópico/oral ± drenaje</td></tr>
+        </tbody>
+        <caption>Todas por <em>S. aureus</em>. OJO: "Ántrax" anglosajón = carbunco (Bacillus anthracis); en español ántrax = confluencia de forúnculos.</caption>
+      </table>
+    </div>
+
+    <h3>Síndromes por toxinas <span class="mir">MIR</span></h3>
+    <p class="lead">Las toxinas pueden actuar localmente (impétigo ampolloso) o pasar a circulación y dar cuadros multiorgánicos. Diferenciarlos por <strong>edad, mucosas, germen y gravedad</strong>.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Síndrome</th><th>Toxina / origen</th><th>Edad y clínica</th><th>Mucosas</th><th>Pronóstico / Tto</th></tr></thead>
+        <tbody>
+          <tr><td>Piel escaldada (SSSS / Ritter)</td><td>Epidermolítica "exfoliatina" (foco a distancia: nasofaringe/conjuntiva)</td><td>&lt;5 años; fiebre + eritema periorificial → despegamientos a nivel granulosa</td><td><b>Respeta mucosas</b></td><td>Muy bueno · cloxacilina iv + ingreso</td></tr>
+          <tr><td>Shock tóxico estafilocócico</td><td>TSST-1 (focos ORL, tampones)</td><td>&gt;5 años; fiebre, exantema, afectación hepática/renal, shock</td><td>Afecta mucosas</td><td>Grave · AB iv + UCI</td></tr>
+          <tr><td>Shock tóxico estreptocócico</td><td>Toxina pirogénica <b>B</b></td><td>20–50 a; bacteriemia; asociado a erisipela/celulitis</td><td>—</td><td>Mortalidad 30% · UCI + desbridamiento</td></tr>
+          <tr><td>Escarlatina</td><td>Toxina pirogénica <b>A</b></td><td>1–10 a, amigdalitis previa; rash punteado fino, signo de Pastia, lengua aframbuesada</td><td>Enantema</td><td>Bueno · penicilina benzatina</td></tr>
+        </tbody>
+        <caption>DD clave del SSSS: necrólisis epidérmica tóxica (NET/Lyell, por fármacos) → afecta mucosas, despegamiento subepidérmico, gran mortalidad.</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 1B =================== -->
+  <section id="otras">
+    <div class="sec-head"><span class="num">1B</span><h2 class="title">Otras infecciones bacterianas</h2></div>
+    <hr class="rule">
+    <p class="lead">Aquí cada enfermedad se reconoce por una <strong>pista patognomónica</strong> (oficio, luz de Wood, localización, terreno del paciente). Esa pista es la pregunta de examen.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Enfermedad</th><th>Germen</th><th>Clínica</th><th>Dato típico / pista</th><th>Tratamiento</th></tr></thead>
+        <tbody>
+          <tr><td>Erisipeloide</td><td><em>Erysipelothrix rhusiopathiae</em></td><td>Placa roja "erisipeloide" en manos + fiebre; rara endocarditis</td><td><b>Carniceros</b> / manejan productos animales</td><td>Penicilina / betalactámicos / macrólidos</td></tr>
+          <tr><td>Eritrasma</td><td><em>Corynebacterium minutissimum</em></td><td>Placas marronáceas bien delimitadas en axilas e ingles</td><td><b>Fluorescencia rojo coral</b> (luz de Wood)</td><td>Eritromicina (tópica/oral)</td></tr>
+          <tr><td>Queratólisis punctata</td><td><em>Corynebacterium</em> (mixta)</td><td>Depresiones/erosiones redondeadas en planta del pie</td><td><b>Hiperhidrosis</b> + mal olor</td><td>Cloruro de aluminio · eritromicina/ác. fusídico tóp.</td></tr>
+          <tr><td>Carbunco</td><td><em>Bacillus anthracis</em></td><td>Pústula maligna → escara negra; fiebre, sepsis</td><td>Esporas de ganado · posible <b>bioterrorismo</b></td><td>Penicilina sistémica · cipro/doxi · valorar UCI</td></tr>
+          <tr><td>Foliculitis por Pseudomonas</td><td><em>Pseudomonas aeruginosa</em></td><td>Papulopústulas foliculares en tronco + prurito</td><td><b>Spas / piscinas / jacuzzis</b></td><td>Autolimitada · ác. acético · quinolonas</td></tr>
+          <tr><td>Ectima gangrenoso</td><td><em>Pseudomonas aeruginosa</em></td><td>Úlcera con halo eritematoso y centro necrótico (área anogenital)</td><td><b>Inmunodeprimido séptico</b></td><td>Ceftazidima iv + ingreso (frecuente mortal)</td></tr>
+          <tr><td>Gangrena gaseosa</td><td><em>Clostridium perfringens</em></td><td>Celulitis que crepita (gas), olor pútrido, mionecrosis</td><td>Heridas mal vascularizadas / poscirugía</td><td>Desbridamiento + penicilina iv</td></tr>
+          <tr><td>Meningococemia</td><td><em>Neisseria meningitidis</em></td><td>CID; equimosis con necrosis estrellada en MMII</td><td>Niño · DD con sepsis por S. aureus/endocarditis</td><td>Penicilina iv · hemocultivos · vacuna</td></tr>
+        </tbody>
+        <caption>Las dos enfermedades por Pseudomonas (foliculitis de piscinas vs ectima gangrenoso) se distinguen por el terreno: sano vs inmunodeprimido.</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 2A =================== -->
+  <section id="tbc">
+    <div class="sec-head"><span class="num">2A</span><h2 class="title">Tuberculosis cutánea</h2></div>
+    <hr class="rule">
+    <p class="lead"><em>M. tuberculosis</em> (bacilo de Koch, BAAR) o <em>M. bovis</em>. La forma clínica depende de la <strong>vía de contagio</strong> (exógena vs endógena) y de la <strong>inmunidad</strong>. Histología común: granuloma tuberculoide con necrosis caseosa.</p>
+
+    <div class="card myco">
+      <h4>Lupus vulgar <span class="bug">la forma MÁS frecuente</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li><b>Pista patognomónica:</b> nódulo en <span class="hl">"jalea de manzana"</span> a la vitropresión (diascopia), en cara (nariz, mejillas, lóbulos).</li>
+        <li>Mácula rojo-parduzca que se expande e infiltra y <b>cicatriza por el centro</b>. Vía endógena.</li>
+      </ul>
+      <div class="keyrow"><span class="tag key">jalea de manzana · cara</span></div>
+    </div>
+
+    <div class="card myco">
+      <h4>TBC verrucosa <span class="bug">M. bovis · vía exógena</span></h4>
+      <ul>
+        <li><b>Oficio:</b> matarifes, carniceros, médicos/veterinarios (reinoculación con buena inmunidad).</li>
+        <li>Placa hiperqueratósica/verrucosa con halo inflamatorio en manos/dedos.</li>
+      </ul>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Forma</th><th>Mecanismo</th><th>Clínica clave</th></tr></thead>
+        <tbody>
+          <tr><td>Chancro tuberculoso</td><td>Inoculación, sin contacto previo (primoinfección)</td><td>Úlcera indolora + adenopatía regional que fistuliza</td></tr>
+          <tr><td>TBC verrucosa</td><td>Reinoculación, buena inmunidad</td><td>Placa verrucosa en manos (oficios de riesgo)</td></tr>
+          <tr><td>Lupus vulgar</td><td>Endógena, buena inmunidad</td><td>"Jalea de manzana", cara — la más frecuente</td></tr>
+          <tr><td>Escrofuloderma</td><td>Contigüidad de ganglio/hueso subyacente</td><td>Fístulas cervicales con material caseoso</td></tr>
+          <tr><td>TBC gomosa</td><td>Hematógena, sin foco subyacente</td><td>Como escrofuloderma pero en extremidades</td></tr>
+          <tr><td>TBC orificial</td><td>Autoinoculación, mala inmunidad</td><td>Úlcera dolorosa en mucosas (TBC visceral bacilífera)</td></tr>
+          <tr><td>TBC miliar</td><td>Diseminación hematógena (inmunodeprimido)</td><td>Pápulas umbilicadas / abscesos fríos; grave</td></tr>
+          <tr><td>Tubercúlides</td><td>Hipersensibilidad (cultivo –, PCR +)</td><td>Liquen escrofuloso · papulonecróticas · eritema indurado de Bazin</td></tr>
+        </tbody>
+        <caption>Diagnóstico: Mantoux/PPD · IGRA (Quantiferon) · biopsia con Ziehl-Nielsen · cultivo Löwenstein · PCR. Tratamiento = TBC pulmonar (INH+RIF+ETB±PZ, 6–9 meses). <b>Siempre descartar afectación visceral.</b></caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== 2B =================== -->
+  <section id="lepra">
+    <div class="sec-head"><span class="num">2B</span><h2 class="title">Lepra (enfermedad de Hansen)</h2></div>
+    <hr class="rule">
+    <p class="lead"><em>M. leprae</em>. Contagio por <strong>contacto íntimo y prolongado</strong> (vía aérea + piel), casos importados. La marca de la lepra: <span class="hl">piel + nervio periférico = ANESTESIA</span>. Afecta zonas <b>frías</b> (nariz, lóbulo de oreja, testículos). <b>No cultivable</b> (igual que la sífilis).</p>
+
+    <figure>
+      <p class="fig-title">El espectro de la lepra lo gobierna la inmunidad</p>
+      <svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Espectro de la lepra de tuberculoide a lepromatosa">
+        <defs>
+          <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#3E7D4F"/><stop offset="0.5" stop-color="#B6800C"/><stop offset="1" stop-color="#BB3A2B"/>
+          </linearGradient>
+        </defs>
+        <!-- LI box -->
+        <rect x="20" y="18" width="200" height="40" rx="8" fill="#EDE8DC" stroke="#D8D0BE"/>
+        <text x="120" y="38" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#20303A">Lepra indeterminada (LI)</text>
+        <text x="120" y="52" text-anchor="middle" font-family="Inter" font-size="10.5" fill="#7E8A8E">forma de comienzo en TODOS · mácula hipocrómica</text>
+        <line x1="120" y1="58" x2="120" y2="88" stroke="#B6800C" stroke-width="2" stroke-dasharray="4 3"/>
+
+        <!-- spectrum bar -->
+        <rect x="40" y="92" width="680" height="26" rx="13" fill="url(#spec)"/>
+        <g font-family="IBM Plex Mono,monospace" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">
+          <text x="80" y="110">TT</text><text x="240" y="110">BT</text><text x="380" y="110">BB</text><text x="520" y="110">BL</text><text x="680" y="110">LL</text>
+        </g>
+
+        <!-- poles labels -->
+        <text x="40" y="142" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#3E7D4F">Tuberculoide (TT)</text>
+        <text x="720" y="142" text-anchor="end" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#BB3A2B">Lepromatosa (LL)</text>
+
+        <g font-family="Inter" font-size="12" fill="#4A5B64">
+          <text x="40" y="162">• Paucibacilar (pocos bacilos)</text>
+          <text x="40" y="180">• Th1 / inmunidad celular ALTA</text>
+          <text x="40" y="198">• Placas escasas, asimétricas, bien delimitadas</text>
+          <text x="40" y="216">• Granulomas tuberculoides · gran daño nervioso</text>
+          <text x="40" y="234">• Mitsuda (lepromina) POSITIVO</text>
+
+          <text x="720" y="162" text-anchor="end">Multibacilar (muchos bacilos) •</text>
+          <text x="720" y="180" text-anchor="end">Th2 / humoral · inmunidad BAJA •</text>
+          <text x="720" y="198" text-anchor="end">Nódulos (lepromas) simétricos, mal delimitados •</text>
+          <text x="720" y="216" text-anchor="end">Facies leonina + madarosis (alopecia cejas) •</text>
+          <text x="720" y="234" text-anchor="end">Mitsuda NEGATIVO · células de Virchow •</text>
+        </g>
+
+        <!-- arrows -->
+        <g font-family="IBM Plex Mono,monospace" font-size="11">
+          <line x1="180" y1="262" x2="600" y2="262" stroke="#BB3A2B" stroke-width="2" marker-end="url(#ah)"/>
+          <text x="195" y="277" fill="#BB3A2B">↑ carga bacilar →</text>
+          <line x1="600" y1="262" x2="180" y2="262" stroke="#3E7D4F" stroke-width="0"/>
+          <text x="600" y="277" text-anchor="end" fill="#3E7D4F">← ↑ inmunidad celular</text>
+        </g>
+        <defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#BB3A2B"/></marker></defs>
+      </svg>
+      <figcaption>Más inmunidad → polo tuberculoide (estable, paucibacilar) · menos inmunidad → polo lepromatoso (multibacilar, contagioso)</figcaption>
+    </figure>
+
+    <h3>Leprorreacciones — diferenciarlas es típico de examen</h3>
+    <div class="grid2">
+      <div class="mini ok">
+        <h4>Tipo I (celular)</h4>
+        <ul>
+          <li>En formas <b>borderline</b> (BT–BB–BL); <b>nunca en LI</b>.</li>
+          <li>Neuritis e hipersensibilidad celular.</li>
+          <li><b>Reversa (ascendente):</b> mejora inmunitaria, se acerca al polo T.</li>
+          <li><b>Downgrading (descendente):</b> empeora, se acerca al polo L.</li>
+          <li>Tto: prednisona; mantener clofazimina, suspender rifampicina.</li>
+        </ul>
+      </div>
+      <div class="mini warn">
+        <h4>Tipo II (humoral)</h4>
+        <ul>
+          <li>Sobre todo en <b>LL</b> (lepromatosa).</li>
+          <li>Por <b>inmunocomplejos</b> → vasculitis y afectación sistémica.</li>
+          <li><b>Eritema nodoso leproso</b>, eritema polimorfo.</li>
+          <li><b>Fenómeno de Lucio</b> (ulceración necrótica).</li>
+          <li>Tto: + talidomida 100–300 mg/d.</li>
+        </ul>
+      </div>
+    </div>
+    <p>Diagnóstico: baciloscopia (LL: moco nasal/lóbulo con Ziehl-Nielsen o Fite-Faraco; globi y células de Virchow). LT: intradermorreacción de <b>Mitsuda/lepromina</b>. PCR. <b>Tratamiento:</b> sulfona (dapsona) + rifampicina; se añade <b>clofazimina si es multibacilar</b>.</p>
+  </section>
+
+  <!-- =================== 2C =================== -->
+  <section id="atipicas">
+    <div class="sec-head"><span class="num">2C</span><h2 class="title">Micobacteriosis atípicas</h2></div>
+    <hr class="rule">
+    <p class="lead">Patógenos facultativos: la clínica depende del estado inmunitario. Reconócelas por <strong>el ambiente de contagio</strong>. Patrón frecuente: nódulos que ascienden por la vía linfática (<b>esporotricoide</b>).</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Micobacteria</th><th>Cuadro</th><th>Pista de contagio</th><th>Tratamiento</th></tr></thead>
+        <tbody>
+          <tr><td><em>M. marinum</em></td><td>Granuloma de las piscinas/acuarios; nódulo azulado que se ulcera en manos, patrón esporotricoide</td><td><b>Acuarios / agua</b></td><td>Claritromicina (varios AB)</td></tr>
+          <tr><td><em>M. kansasii</em></td><td>Nódulos, úlceras, abscesos; muy parecido a TBC con afectación pulmonar</td><td>Inhalación</td><td>Tuberculostáticos combinados</td></tr>
+          <tr><td><em>M. scrofulaceum</em></td><td>Linfadenitis y adenopatías autolimitadas (patrón esporotricoide)</td><td>Niños (adenitis cervical)</td><td>Escisión quirúrgica o tuberculostáticos</td></tr>
+          <tr><td><em>M. avium-intracellulare</em> (MAC)</td><td>Abscesos, úlceras, escrofuloderma; <b>infección diseminada</b></td><td><b>VIH / inmunodepresión</b></td><td>Claritromicina + etambutol (indefinido)</td></tr>
+          <tr><td><em>M. ulcerans</em></td><td><b>Úlcera de Buruli</b>; nódulo que se ulcera en piernas, osteomielitis</td><td>Tercer mundo</td><td>Escisión amplia + rifampicina/estreptomicina</td></tr>
+          <tr><td><em>M. haemophilum</em></td><td>Absceso articular, artritis séptica-osteomielitis; diseminado</td><td>Inmunodepresión</td><td>Cirugía + claritro + rifampicina</td></tr>
+          <tr><td><em>M. fortuitum-chelonae</em></td><td><b>Las más frecuentes en nuestro medio</b>; nódulos/abscesos o esporotricoide</td><td><b>Heridas, cirugía, depilación</b></td><td>Cirugía + claritromicina</td></tr>
+        </tbody>
+        <caption>Clasificación por crecimiento — Fotocromógenas: <em>marinum, kansasii</em> · Escotocromógenas: <em>scrofulaceum</em> · No cromógenas: <em>avium, tuberculosis, bovis, ulcerans, haemophilum</em> · Crecimiento rápido: <em>fortuitum-chelonae</em> · No cultivable: <em>leprae</em>.</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Gradiente de profundidad (piodermitis)</h3>
+    <div class="chain">
+      <span class="step">Impétigo</span><span class="arrow">→</span>
+      <span class="step">Ectima</span><span class="arrow">→</span>
+      <span class="step">Erisipela</span><span class="arrow">→</span>
+      <span class="step">Celulitis</span><span class="arrow">→</span>
+      <span class="step" style="background:var(--coral-bg);border-color:#EAC9C2;color:var(--coral)">Fascitis necrotizante</span>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft);margin-top:4px">Superficial y banal (tópico) ⟶ profundo y grave (sistémico / quirúrgico). El cambio de "tópico" a "sistémico" empieza en el ectima.</p>
+
+    <h3>2 · ¿Quién causa qué?</h3>
+    <div class="grid2">
+      <div class="mini">
+        <h4>S. aureus (anejos)</h4>
+        <ul>
+          <li>Impétigo ampolloso</li><li>Foliculitis, forúnculo, ántrax, panadizo</li>
+          <li>SSSS (exfoliatina)</li><li>Shock tóxico estafilocócico (TSST-1)</li>
+        </ul>
+      </div>
+      <div class="mini">
+        <h4>S. pyogenes (dermis)</h4>
+        <ul>
+          <li>Ectima · Erisipela · Celulitis</li>
+          <li>Shock tóxico estreptocócico (tox. pirogénica B)</li>
+          <li>Escarlatina (tox. pirogénica A)</li>
+        </ul>
+      </div>
+      <div class="mini">
+        <h4>Pseudomonas aeruginosa</h4>
+        <ul>
+          <li>Foliculitis de las piscinas (sano)</li>
+          <li>Ectima gangrenoso (inmunodeprimido)</li>
+          <li>Uñas verdes, intértrigo, olor afrutado</li>
+        </ul>
+      </div>
+      <div class="mini">
+        <h4>Pistas por oficio / ambiente</h4>
+        <ul>
+          <li>Carnicero → erisipeloide / TBC verrucosa</li>
+          <li>Piscina/spa → foliculitis Pseudomonas</li>
+          <li>Acuario → M. marinum</li>
+          <li>Ganado/esporas → carbunco</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>3 · Luz de Wood (mnemotecnia rápida)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Color</th><th>Diagnóstico</th></tr></thead>
+        <tbody>
+          <tr><td>Rojo coral</td><td>Eritrasma (<em>Corynebacterium minutissimum</em>)</td></tr>
+          <tr><td>Verde</td><td>Tiña por <em>Microsporum</em> (DD micótico)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4 · Espectro de la lepra en una línea</h3>
+    <div class="chain">
+      <span class="step" style="background:#EAF3EE;border-color:#C3DECB;color:var(--green)">TT paucibacilar · Mitsuda + · Th1</span>
+      <span class="arrow">↔</span>
+      <span class="step">BT–BB–BL</span>
+      <span class="arrow">↔</span>
+      <span class="step" style="background:var(--coral-bg);border-color:#EAC9C2;color:var(--coral)">LL multibacilar · Mitsuda – · Th2</span>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:680px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Ectima vs Ectima gangrenoso <span class="badge">úlceras</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Ectima</h5><span class="who">S. pyogenes</span><ul><li>Paciente <b>inmunocompetente</b></li><li>Úlcera que deja <b>cicatriz</b></li><li>Tto: AB sistémico + tópico</li></ul></div>
+        <div class="vs-col"><h5>Ectima gangrenoso</h5><span class="who">Pseudomonas aeruginosa</span><ul><li>Paciente <b>inmunodeprimido séptico</b></li><li>Halo eritematoso + <b>centro necrótico</b></li><li>Tto: ceftazidima iv (puede ser mortal)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si el enunciado dice "inmunodeprimido / neutropénico / sepsis" + úlcera necrótica → piensa en <b>Pseudomonas</b>, no en estreptococo.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">SSSS vs NET (Lyell) <span class="badge">despegamiento cutáneo</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Piel escaldada (SSSS)</h5><span class="who">toxina exfoliativa · S. aureus</span><ul><li><b>Niños &lt;5 años</b></li><li>Despegamiento <b>intraepidérmico</b> (granulosa)</li><li><b>RESPETA mucosas</b></li><li>Buen pronóstico</li></ul></div>
+        <div class="vs-col"><h5>Necrólisis epidérmica tóxica</h5><span class="who">fármacos</span><ul><li>Adultos (reacción medicamentosa)</li><li>Despegamiento <b>subepidérmico</b> (dermo-epidérmica)</li><li><b>AFECTA mucosas</b></li><li>Gran mortalidad</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> mucosas afectadas + adulto + fármaco = NET. Mucosas respetadas + niño = SSSS. Lo zanja la histología (nivel del despegamiento).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Erisipela vs Celulitis <span class="badge">placa inflamatoria</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Erisipela</h5><span class="who">más superficial (dermis)</span><ul><li>Borde <b>neto, sobreelevado</b>, bien delimitado</li></ul></div>
+        <div class="vs-col"><h5>Celulitis</h5><span class="who">más profunda (dermis-hipodermis)</span><ul><li>Borde <b>difuso</b>, mal delimitado</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "límite neto" = erisipela; "mal delimitada" = celulitis. Ambas: S. pyogenes + fiebre, AB sistémico.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Foliculitis de las piscinas vs Granuloma de las piscinas <span class="badge">¡trampa con "piscina"!</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Foliculitis de las piscinas</h5><span class="who">Pseudomonas aeruginosa</span><ul><li>Papulopústulas <b>foliculares</b> en tronco, pruriginosas</li><li>Aparición rápida tras spa/jacuzzi</li><li>Autolimitada</li></ul></div>
+        <div class="vs-col"><h5>Granuloma de las piscinas</h5><span class="who">M. marinum (micobacteria)</span><ul><li><b>Nódulo</b> azulado que se ulcera en <b>manos</b></li><li>Patrón esporotricoide, curso crónico</li><li>Necesita antibiótico prolongado</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> pústulas en tronco + prurito = Pseudomonas; nódulo crónico en manos/acuario = M. marinum.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Shock tóxico estafilocócico vs estreptocócico <span class="badge">síndromes graves</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Estafilocócico</h5><span class="who">TSST-1 · &gt;5 años</span><ul><li>Tampones / focos ORL</li><li>Pronóstico grave (UCI)</li></ul></div>
+        <div class="vs-col"><h5>Estreptocócico</h5><span class="who">tox. pirogénica B · 20–50 a</span><ul><li>Asociado a erisipela/celulitis, bacteriemia</li><li><b>Más grave</b> (mortalidad ~30%)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> "tampón / niño-adolescente" → estafilocócico; "celulitis previa en adulto + mortalidad alta" → estreptocócico.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Lepra tuberculoide vs lepromatosa <span class="badge">los dos polos</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Tuberculoide (TT)</h5><span class="who">inmunidad ALTA · Th1</span><ul><li><b>Paucibacilar</b></li><li>Pocas placas, asimétricas, bien delimitadas</li><li>Mitsuda <b>positivo</b>; mucho daño nervioso</li></ul></div>
+        <div class="vs-col"><h5>Lepromatosa (LL)</h5><span class="who">inmunidad BAJA · Th2</span><ul><li><b>Multibacilar</b> (contagiosa)</li><li>Nódulos simétricos, facies leonina, madarosis</li><li>Mitsuda <b>negativo</b>; células de Virchow + globi</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> simétrico + nódulos + Mitsuda negativo = lepromatosa. Y la leprorreacción tipo II (eritema nodoso leproso / fenómeno de Lucio) ocurre justamente en la LL.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+
+    <div class="pearl"><div class="dot">1</div><p>El impétigo <b>NO eleva ASLO, NO da fiebre ni fiebre reumática</b>. Si el enunciado mete fiebre/cardiopatía, no es impétigo.</p></div>
+    <div class="pearl"><div class="dot">2</div><p><b>"Ántrax" anglosajón = carbunco</b> (<em>Bacillus anthracis</em>). En español, ántrax = confluencia de forúnculos por <em>S. aureus</em>. ¡Falsos amigos!</p></div>
+    <div class="pearl"><div class="dot">3</div><p>Eritrasma vs tiña inguinal (<em>tinea cruris</em>): la <b>luz de Wood rojo coral</b> y el KOH negativo te dicen eritrasma.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>El <b>dolor desproporcionado</b> respecto a lo que se ve, la crepitación o la anestesia en una "celulitis" que no responde = sospecha de <b>fascitis necrotizante</b> → urgencia quirúrgica.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>El <b>signo de Pastia</b> (líneas purpúricas en pliegues) + lengua aframbuesada + amigdalitis previa = <b>escarlatina</b>.</p></div>
+    <div class="pearl"><div class="dot">6</div><p><em>M. leprae</em> y <em>Treponema pallidum</em> (sífilis) comparten una trampa: <b>no son cultivables in vitro</b>.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>TBC cutánea más frecuente = <b>lupus vulgar</b> ("jalea de manzana", cara). Tratamiento idéntico al de la TBC pulmonar y <b>siempre descartar afectación visceral</b>.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>Patrón <b>esporotricoide</b> (nódulos que ascienden por los linfáticos) no es solo de la esporotricosis (hongo): también <em>M. marinum</em> y <em>M. fortuitum-chelonae</em>. El antecedente (agua/acuario, cirugía/depilación) decide.</p></div>
+
+  </div>
+
+  <footer>
+    <p>Resumen de estudio elaborado a partir del material docente "Bacterias y Micobacterias" (Dermatosis infecciosas I/II), Dr. Pablo Fonda Pascual — Facultad de Medicina, Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
