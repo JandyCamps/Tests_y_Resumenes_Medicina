@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 5 · Dermatosis eritematodescamativas y Psoriasis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --violet:#6E3D7A; --violet-deep:#52295C; --violet-bg:#F0E8F3;
+    --garnet:#B23A48; --garnet-deep:#8C2A36; --garnet-bg:#F8E6E8;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --gold:#B07D2B; --gold-bg:#F8EFDD;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#52295C,#6E3D7A 45%,#B23A48);
+    color:#F8F1EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#E6D2EC; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5.4vw,50px); line-height:1.04; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:660px; margin:0; color:#F1E2EC; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#DDC2D6; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--violet); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--violet)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--violet)} .s2 .num{background:var(--garnet)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,4vw,33px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:21px; margin:32px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--violet-deep)} .s2 h3{color:var(--garnet-deep)}
+  .lead{color:var(--ink-soft); margin:6px 0 20px; max-width:700px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--violet),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--garnet),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:17px 22px; margin:15px 0; box-shadow:var(--shadow);}
+  .card.liq{border-left-color:var(--violet)} .card.pso{border-left-color:var(--garnet)} .card.oth{border-left-color:var(--gold)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.liq .bug{background:var(--violet)} .card.pso .bug{background:var(--garnet)} .card.oth .bug{background:var(--gold)}
+  .card ul{margin:10px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:15px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+  .tag.tx{background:#EAF3EE; color:#2c5a3b; border-color:#C3DECB}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .pp{display:flex; flex-wrap:wrap; gap:10px; margin:16px 0}
+  .pp .p{flex:1 1 140px; background:var(--violet-bg); border:1px solid #D9C3E0; border-radius:12px; padding:12px 14px;}
+  .pp .p b{display:block; font-family:"Fraunces",serif; color:var(--violet-deep); font-size:17px; margin-bottom:2px}
+  .pp .p span{font-size:12.5px; color:var(--ink-soft)}
+
+  .tbl-wrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.8px; min-width:560px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:10px 12px; font-weight:600; font-size:12px; letter-spacing:.02em;}
+  .s1 thead th{background:var(--violet)} .s2 thead th{background:var(--garnet)}
+  tbody td{padding:9px 12px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:12px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:26px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:18px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 8px; font-family:"Fraunces",serif; font-size:16px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:17px; font-size:13.6px}
+  .mini li{margin:5px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 5</p>
+    <h1>Dermatosis eritematodescamativas y Psoriasis</h1>
+    <p>Resumen de estudio con lo esencial de cada entidad, lo que la diferencia de las demás, esquemas de diagnóstico diferencial y las trampas clásicas de examen.</p>
+    <p class="meta">Material de E. Zamora y Á. González Cantero (UFV) · liquen plano · pitiriasis rosada/rubra pilaris · parapsoriasis · eritrodermia · psoriasis</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1A</span><a href="#liquen">Liquen plano y líquenes</a></li>
+      <li><span class="n">1B</span><a href="#pitiriasis">Pitiriasis rosada y rubra pilaris</a></li>
+      <li><span class="n">1C</span><a href="#parap">Parapsoriasis y eritrodermia</a></li>
+      <li><span class="n">2</span><a href="#psoriasis">Psoriasis</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =================== 1A LIQUEN =================== -->
+  <section id="liquen" class="s1">
+    <div class="sec-head"><span class="num">1A</span><h2 class="title">Liquen plano y otros líquenes</h2></div>
+    <hr class="rule">
+    <p class="lead">El liquen plano es un <strong>daño autoinmune mediado por linfocitos T CD8+</strong> contra los queratinocitos basales. 1% de la población, 30-60 años, sin predilección de sexo o raza.</p>
+
+    <div class="pp">
+      <div class="p"><b>Pápula</b><span>la lesión elemental</span></div>
+      <div class="p"><b>Poligonal</b><span>bordes angulados</span></div>
+      <div class="p"><b>Plana</b><span>superficie lisa, brillante</span></div>
+      <div class="p"><b>Púrpura</b><span>color rosado-violáceo</span></div>
+      <div class="p"><b>Pruriginosa</b><span>intenso, pero SIN erosiones</span></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft);margin-top:0">Encima, las <span class="hl">estrías de Wickham</span> (retículo blanquecino en la superficie) son casi patognomónicas. Deja hiperpigmentación residual. Localización típica: <b>cara de flexión de muñecas/antebrazos</b>, región lumbar y tobillos. Presenta <b>Koebner</b> (respuesta isomorfa) y puede agruparse en formas anular (pene), lineal, zosteriforme o por las líneas de Blaschko.</p>
+
+    <div class="card liq">
+      <h4>Asociaciones que hay que recordar <span class="bug">desencadenantes</span></h4>
+      <ul>
+        <li><b>VHC</b> → forma <b>bucal/erosiva</b>; vacunas (VHB, COVID-19).</li>
+        <li><b>Amalgamas dentales</b> (mercurio), cobre, oro; fármacos (erupciones liquenoides).</li>
+        <li><b>EICH crónica</b> (trasplante alogénico): inicio acral y clínica/histología similares, con eosinófilos.</li>
+      </ul>
+    </div>
+
+    <h3>Afectación mucosa, ungueal y variantes</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Oral (75%)</h4><ul>
+        <li><b>Reticular</b> (el más frecuente): red blanquecina yugal.</li>
+        <li>En placas (DD con <b>leucoplasia</b>).</li>
+        <li><b>Erosivo:</b> potencial de <b>degeneración maligna</b> y asociación a VHC/B.</li>
+        <li>Síndrome vulvovaginal-gingival.</li>
+      </ul></div>
+      <div class="mini"><h4>Uñas (10%)</h4><ul>
+        <li>Adelgazamiento, onicorrexis (estriación longitudinal).</li>
+        <li>Onicosquisis.</li>
+        <li><b>Pterygium unguis</b> (cutícula crece sobre lecho vacío).</li>
+        <li>Distrofia de las 20 uñas.</li>
+      </ul></div>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft)"><b>Variantes:</b> anular, atrófico, pigmentoso (fototipos altos), ampolloso, penfigoide (IgG anti-BP180), hipertrófico/verrugoso (tibial), folicular (alopecia cicatricial; <b>Sd. de Graham-Little</b>) y <b>alopecia frontal fibrosante</b> (mujeres mayores, pérdida "en diadema" + cejas; finasteride/dutasteride).</p>
+
+    <figure>
+      <p class="fig-title">Histología: liquen plano vs psoriasis (el contraste de oro)</p>
+      <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Histología comparada liquen plano y psoriasis">
+        <!-- LIQUEN -->
+        <g transform="translate(0,0)">
+          <text x="180" y="26" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="16" fill="#52295C">LIQUEN PLANO</text>
+          <!-- granular layer thick -->
+          <rect x="60" y="40" width="240" height="10" fill="#C9A33B"/>
+          <!-- epidermis sawtooth bottom -->
+          <path d="M60,50 L300,50 L300,120 L60,120 Z" fill="#F1E0C4" stroke="#D9B98A"/>
+          <path d="M60,120 l24,22 l24,-22 l24,22 l24,-22 l24,22 l24,-22 l24,22 l24,-22 l24,22 l24,-22" fill="#F1E0C4" stroke="#6E3D7A" stroke-width="2"/>
+          <!-- band infiltrate -->
+          <g fill="#6E3D7A"><circle cx="80" cy="150" r="3"/><circle cx="100" cy="156" r="3"/><circle cx="120" cy="150" r="3"/><circle cx="140" cy="158" r="3"/><circle cx="160" cy="150" r="3"/><circle cx="180" cy="157" r="3"/><circle cx="200" cy="150" r="3"/><circle cx="220" cy="156" r="3"/><circle cx="240" cy="150" r="3"/><circle cx="260" cy="157" r="3"/><circle cx="280" cy="151" r="3"/></g>
+          <g font-family="Inter" font-size="11.5" fill="#4A5B64">
+            <text x="310" y="48">Hipergranulosis</text>
+            <text x="310" y="100">Crestas en</text><text x="310" y="114">"dientes de sierra"</text>
+            <text x="310" y="156">Infiltrado en BANDA</text>
+            <text x="310" y="170">(LT CD8+) + cuerpos</text>
+            <text x="310" y="184">de Civatte</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption>Liquen plano: hipergranulosis, crestas en dientes de sierra, infiltrado linfocitario en banda y cuerpos de Civatte (queratinocitos apoptóticos).</figcaption>
+    </figure>
+
+    <div class="card liq">
+      <h4>Otros líquenes y erupciones liquenoides</h4>
+      <ul>
+        <li><b>Erupciones liquenoides:</b> como un LP pero diseminadas en tronco, poca mucosa y <b>eosinófilos</b> en la histología. Causa: <b>fármacos</b> (oro, antipalúdicos, IECA, tiazidas, betabloqueantes, penicilamina, anti-TNF, <b>inhibidores del punto de control</b> anti-PD1/CTLA-4).</li>
+        <li><b>Liquen nitidus:</b> niños/jóvenes, pápulas diminutas agrupadas (abdomen, nalgas, pene), Koebner, <b>NO prurito</b>.</li>
+        <li><b>Liquen estriatus:</b> mosaicismo somático, sigue las líneas de Blaschko.</li>
+        <li><b>Liquen escleroatrófico:</b> placas <b>blanco marfil</b> con atrofia, sobre todo <b>genital (85%)</b> (craurosis vulvar / balanitis xerótica obliterante), prurito y dolor, riesgo de <b>transformación maligna</b> (más si HPV-16/18). DD con LP erosivo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 1B PITIRIASIS =================== -->
+  <section id="pitiriasis" class="s1">
+    <div class="sec-head"><span class="num">1B</span><h2 class="title">Pitiriasis rosada y rubra pilaris</h2></div>
+    <hr class="rule">
+
+    <figure>
+      <p class="fig-title">Pitiriasis rosada: medallón heráldico → patrón "en árbol de Navidad"</p>
+      <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pitiriasis rosada">
+        <!-- torso -->
+        <path d="M250,30 q110,-10 220,0 q20,110 0,230 q-110,16 -220,0 q-20,-120 0,-230 Z" fill="#F7EFE2" stroke="#D9C3A8" stroke-width="2"/>
+        <!-- heraldic patch -->
+        <ellipse cx="320" cy="80" rx="26" ry="18" fill="#F0C9C0" stroke="#B23A48" stroke-width="2.5"/>
+        <text x="320" y="84" text-anchor="middle" font-family="Inter" font-size="9.5" fill="#8C2A36" font-weight="700">heráldica</text>
+        <!-- smaller lesions following ribs (christmas tree) -->
+        <g fill="#F4D7CF" stroke="#C36A6E" stroke-width="1.3">
+          <ellipse cx="300" cy="130" rx="16" ry="7" transform="rotate(-25 300 130)"/>
+          <ellipse cx="400" cy="135" rx="16" ry="7" transform="rotate(25 400 135)"/>
+          <ellipse cx="290" cy="165" rx="15" ry="6.5" transform="rotate(-28 290 165)"/>
+          <ellipse cx="415" cy="168" rx="15" ry="6.5" transform="rotate(28 415 168)"/>
+          <ellipse cx="300" cy="200" rx="14" ry="6" transform="rotate(-30 300 200)"/>
+          <ellipse cx="405" cy="205" rx="14" ry="6" transform="rotate(30 405 205)"/>
+          <ellipse cx="320" cy="230" rx="13" ry="6" transform="rotate(-30 320 230)"/>
+          <ellipse cx="390" cy="232" rx="13" ry="6" transform="rotate(30 390 232)"/>
+        </g>
+        <g font-family="Inter" font-size="12" fill="#4A5B64">
+          <text x="520" y="84">1. Placa heráldica (1ª)</text>
+          <text x="520" y="150">2. A los 3-15 días:</text>
+          <text x="520" y="166">exantema simétrico con</text>
+          <text x="520" y="182">collarete y centro claro</text>
+          <text x="520" y="210" fill="#8C2A36" font-weight="600">lesiones siguiendo las</text>
+          <text x="520" y="226" fill="#8C2A36" font-weight="600">costillas = "árbol de Navidad"</text>
+        </g>
+      </svg>
+      <figcaption>Autolimitada, adultos jóvenes, primavera/otoño. Posible HHV-7/6. DD clave con la sífilis secundaria.</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini ok"><h4>Pitiriasis ROSADA</h4><ul>
+        <li>Muy frecuente; adultos jóvenes; primavera/otoño.</li>
+        <li>Exantema viral (HHV-7/6); recidivas raras.</li>
+        <li><b>Placa heráldica</b> (tronco) → exantema con <b>collarete</b> y centro claro.</li>
+        <li>DD: sífilis 2ª, psoriasis gutata, toxicodermia, tinea.</li>
+        <li>Dx clínico; tto sintomático.</li>
+      </ul></div>
+      <div class="mini warn"><h4>Pitiriasis RUBRA PILARIS</h4><ul>
+        <li>Trastorno de la queratinización (epidermopoyesis acelerada).</li>
+        <li>Pápulas hiperqueratósicas <b>foliculares</b> + queratodermia palmoplantar <b>amarillenta</b>.</li>
+        <li>Placas rojo-anaranjadas con <span class="hl">islotes de piel respetada</span>.</li>
+        <li>Familiar (AD) o adquirida; tipo VI asociada a <b>VIH</b> (grave); tipo V CARD14.</li>
+        <li>DD: psoriasis. Tto: retinoides (acitretina), MTX.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== 1C PARAP / ERITRODERMIA =================== -->
+  <section id="parap" class="s1">
+    <div class="sec-head"><span class="num">1C</span><h2 class="title">Parapsoriasis y eritrodermia</h2></div>
+    <hr class="rule">
+
+    <div class="card oth">
+      <h4>Parapsoriasis <span class="bug">trastorno proliferativo de LT cutáneos</span></h4>
+      <ul>
+        <li><b>Pitiriasis liquenoide:</b> pápulas eritematodescamativas con descamación "en oblea". Aguda = <b>PLEVA</b> (enfermedad de Mucha-Habermann) y crónica (extremos del mismo proceso). DD: lúes, dermatitis herpetiforme, P. rosada.</li>
+        <li><b>Parapsoriasis en pequeñas placas:</b> benigna.</li>
+        <li><b>Parapsoriasis en grandes placas:</b> a veces poiquilodermia (atrofia, pigmentación, telangiectasias), infiltrado de LT CD4; forma un <b>espectro continuo con la micosis fungoide</b> y <span class="hl">progresa a linfoma (MF) ~10% por década</span> → biopsias repetidas.</li>
+      </ul>
+    </div>
+
+    <div class="card oth">
+      <h4>Eritrodermia <span class="bug">&gt;90% de la superficie</span> <span class="mir">MIR</span></h4>
+      <ul>
+        <li>Dermatitis exfoliativa: eritema + descamación difusos; varones adultos; <b>sin afectación mucosa</b>.</li>
+        <li><b>Causas:</b> evolución de dermatosis (50%): psoriasis (25%), DA/contacto, PRP, <b>linfoma T / Sézary</b>, pénfigo foliáceo; idiopática 20%; <b>fármacos</b>; paraneoplásica. En RN/lactantes: DA, seborreica, psoriasis, <b>SSSS</b>.</li>
+        <li>Complicaciones sistémicas: alteración de la termorregulación e hidroelectrolítica, insuficiencia cardíaca, infección, adenopatías. Signos: ectropion, queratodermia, efluvio telógeno.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== 2 PSORIASIS =================== -->
+  <section id="psoriasis" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Psoriasis</h2></div>
+    <hr class="rule">
+    <p class="lead">No es solo cutánea: es una <strong>enfermedad sistémica, crónica e inflamatoria</strong> (eje IL-23/IL-17, TNF-α) que afecta piel y articulaciones y se asocia a <strong>riesgo cardiovascular</strong> y síndrome metabólico. Prevalencia ~2%; dos picos (20-30 y 50-60 años).</p>
+
+    <div class="card pso">
+      <h4>Genética y desencadenantes <span class="bug">Tipo I vs Tipo II</span></h4>
+      <ul>
+        <li><b>Tipo I:</b> comienzo precoz, antecedentes familiares, <span class="hl">HLA-Cw6</span> (RR 13 en caucásicos). <b>Tipo II:</b> tardío, sin AF.</li>
+        <li>AF en 1/3; PSORS1 (cr. 6); HLA-B27 (pustulosa); pérdida de función del antagonista de IL-36 (pustulosa).</li>
+        <li><b>Desencadenantes:</b> traumatismo (<b>Koebner</b>), <b>estreptococo</b> (gotas), VIH, fármacos (<b>litio, betabloqueantes, antimaláricos, AINE, IFN</b>), hipocalcemia, alcohol, estrés.</li>
+      </ul>
+    </div>
+
+    <figure>
+      <p class="fig-title">Histología de la psoriasis (lo opuesto al liquen plano)</p>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Histología de la psoriasis">
+        <!-- parakeratotic stratum corneum with neutrophils -->
+        <rect x="60" y="36" width="320" height="22" fill="#F3D9C8" stroke="#D9A98A"/>
+        <g fill="#B23A48"><circle cx="110" cy="47" r="3.2"/><circle cx="150" cy="47" r="3.2"/><circle cx="190" cy="47" r="3.2"/></g>
+        <text x="400" y="44" font-family="Inter" font-size="11.5" fill="#4A5B64">Paraqueratosis +</text>
+        <text x="400" y="58" font-family="Inter" font-size="11.5" fill="#8C2A36" font-weight="600">microabscesos de Munro (PMN)</text>
+        <!-- regular acanthosis with elongated rete -->
+        <path d="M60,58 L380,58 L380,150 L60,150 Z" fill="#F7E7DC" stroke="#D9A98A"/>
+        <g fill="#F7E7DC" stroke="#D9A98A"><rect x="90" y="150" width="22" height="40"/><rect x="150" y="150" width="22" height="40"/><rect x="210" y="150" width="22" height="40"/><rect x="270" y="150" width="22" height="40"/><rect x="330" y="150" width="22" height="40"/></g>
+        <text x="400" y="120" font-family="Inter" font-size="11.5" fill="#4A5B64">Acantosis REGULAR · crestas</text>
+        <text x="400" y="134" font-family="Inter" font-size="11.5" fill="#4A5B64">elongadas · atrofia suprapapilar</text>
+        <!-- dilated capillaries -->
+        <g stroke="#B23A48" stroke-width="2" fill="none"><path d="M128,185 q6,-12 0,-24"/><path d="M188,185 q6,-12 0,-24"/><path d="M248,185 q6,-12 0,-24"/></g>
+        <text x="400" y="180" font-family="Inter" font-size="11.5" fill="#4A5B64">Capilares dilatados en papilas</text>
+        <text x="400" y="194" font-family="Inter" font-size="11.5" fill="#8C2A36" font-weight="600">→ explica el signo de Auspitz</text>
+        <text x="380" y="230" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#7E8A8E">Pustulosa: pústula espongiforme de Kogoj</text>
+      </svg>
+      <figcaption>Recuerda: Munro (neutrófilos en córnea) y capilares dilatados → al rascar la escama sangra en puntitos = signo de Auspitz.</figcaption>
+    </figure>
+
+    <h3>Formas clínicas</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Forma</th><th>Lo que la define</th><th>Pista</th></tr></thead>
+      <tbody>
+        <tr><td>Crónica en placas</td><td><b>La más frecuente.</b> Placas eritematoescamosas bien delimitadas, simétricas</td><td>Superficie de <b>EXTENSIÓN</b> (codos, rodillas), lumbosacra, cuero cabelludo; <b>signo de Auspitz</b>; psoriasis inversa (flexuras)</td></tr>
+        <tr><td>En gotas (guttata)</td><td>Lesiones puntiformes salpicadas por el tronco; brotes agudos</td><td>Niños/jóvenes tras <b>faringitis estreptocócica</b>; HLA-Cw6</td></tr>
+        <tr><td>Eritrodérmica</td><td>Dermatitis exfoliativa &gt;90%, con palmas, plantas, uñas, cara</td><td>Grave: fiebre, leucocitosis, malestar</td></tr>
+        <tr><td>Pustulosa generalizada</td><td>Pústulas estériles; brote febril (<b>Von Zumbusch</b>)</td><td>Autoinflamatoria (IL-36)</td></tr>
+        <tr><td>Pustulosa palmoplantar</td><td>Localizada en palmas/plantas</td><td><b>Mujeres, tabaco</b>; asociación con <b>SAPHO</b></td></tr>
+        <tr><td>Cuero cabelludo</td><td>La zona más afectada (79%), una de las primeras</td><td>Escamas "falsa tiña amiantácea"; DD <b>dermatitis seborreica</b> (sebopsoriasis)</td></tr>
+        <tr><td>Ungueal</td><td>Piqueteado (<i>pitting</i>), onicólisis, "mancha de aceite", hiperqueratosis</td><td><b>Predictor de artritis psoriásica</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card pso">
+      <h4>Artritis psoriásica <span class="bug">factor reumatoide NEGATIVO</span></h4>
+      <ul>
+        <li>5-30% de los pacientes; <b>precede</b> a la piel en 10-15%.</li>
+        <li>Predictores: gravedad cutánea, afectación <b>ungueal</b> y de cuero cabelludo.</li>
+        <li>Afectación <b>interfalángica distal</b> (característica), oligoartritis asimétrica, formas poliarticular, axial y mutilante.</li>
+        <li><b>Dactilitis</b> ("dedo en salchicha") y <b>entesitis</b>.</li>
+      </ul>
+    </div>
+
+    <h3>Comorbilidades: la psoriasis va por dentro</h3>
+    <p>Es un <strong>factor de riesgo cardiovascular independiente</strong>: la inflamación crónica (TNF-α) eleva el riesgo de <span class="hl">infarto a edades jóvenes</span> y reduce la esperanza de vida en formas graves. Asociaciones: síndrome metabólico (OR ~2,3), obesidad, HTA, DM2, dislipemia, <b>hígado graso (~50%)</b>, EII (Crohn/colitis), enfermedad renal, ansiedad/depresión, consumo de alcohol y tabaco.</p>
+
+    <h3>Tratamiento (escalera terapéutica)</h3>
+    <div class="grid3">
+      <div class="mini"><h4>Tópico</h4><ul>
+        <li>Corticoides (ojo: <b>taquifilaxia</b> y rebote).</li>
+        <li>Análogos vit. D (<b>calcipotriol</b> + betametasona, tacalcitol).</li>
+        <li>Tazaroteno, alquitranes (coaltar), antralina/ditranol.</li>
+      </ul></div>
+      <div class="mini"><h4>Sistémico clásico + luz</h4><ul>
+        <li>Fototerapia <b>UVB-NB 311 nm</b>, PUVA.</li>
+        <li><b>Acitretino</b> (teratógeno hasta 2-3 años).</li>
+        <li>Metotrexato, ciclosporina.</li>
+        <li><b>Apremilast</b> (inh. PDE-4), fumaratos.</li>
+      </ul></div>
+      <div class="mini"><h4>Biológicos</h4><ul>
+        <li><b>Anti-TNF:</b> adalimumab, etanercept, infliximab.</li>
+        <li><b>Anti-IL17:</b> secukinumab, ixekizumab, brodalumab.</li>
+        <li><b>Anti-IL12/23:</b> ustekinumab.</li>
+        <li><b>Anti-IL23:</b> guselkumab, risankizumab, tildrakizumab.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =================== ESQUEMAS =================== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · Liquen plano vs Psoriasis (lo opuesto en todo)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th></th><th>Liquen plano</th><th>Psoriasis</th></tr></thead>
+      <tbody>
+        <tr><td>Color/lesión</td><td>Pápula violácea, plana, brillante</td><td>Placa rojo-salmón con escama nacarada</td></tr>
+        <tr><td>Superficie</td><td>Estrías de Wickham</td><td>Escama plateada; signo de Auspitz</td></tr>
+        <tr><td>Localización</td><td><b>Flexión</b> de muñecas, tobillos</td><td><b>Extensión</b> (codos, rodillas), lumbosacra</td></tr>
+        <tr><td>Prurito</td><td>Intenso (sin erosiones)</td><td>Variable</td></tr>
+        <tr><td>Histología</td><td>Hipergranulosis, dientes de sierra, banda CD8, Civatte</td><td>Paraqueratosis, Munro, acantosis regular, atrofia suprapapilar</td></tr>
+        <tr><td>Comparten</td><td colspan="2">Fenómeno de <b>Koebner</b> y afectación ungueal</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2 · Histología en dos palabras clave</h3>
+    <div class="chain">
+      <span class="step">Liquen → "dientes de sierra" + Civatte</span><span class="arrow">·</span>
+      <span class="step">Psoriasis → Munro + Kogoj (pustulosa)</span>
+    </div>
+
+    <h3>3 · "Islotes de piel respetada" y otras pistas únicas</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Una pista = un diagnóstico</h4><ul>
+        <li>Estrías de Wickham → <b>liquen plano</b>.</li>
+        <li>Placa heráldica + árbol de Navidad → <b>pitiriasis rosada</b>.</li>
+        <li>Islotes de piel sana + queratodermia amarilla → <b>pitiriasis rubra pilaris</b>.</li>
+        <li>Signo de Auspitz / escama plateada → <b>psoriasis</b>.</li>
+        <li>Blanco marfil genital → <b>liquen escleroatrófico</b>.</li>
+      </ul></div>
+      <div class="mini"><h4>Asociaciones de oro</h4><ul>
+        <li>HLA-Cw6 → psoriasis precoz / en gotas.</li>
+        <li>Estreptococo faríngeo → psoriasis en gotas.</li>
+        <li>VHC → liquen plano oral/erosivo.</li>
+        <li>Parapsoriasis grandes placas → micosis fungoide.</li>
+        <li>Psoriasis → riesgo cardiovascular y síndrome metabólico.</li>
+      </ul></div>
+    </div>
+
+    <h3>4 · Causas de eritrodermia (regla rápida)</h3>
+    <div class="chain">
+      <span class="step">Psoriasis</span><span class="arrow">·</span>
+      <span class="step">Dermatitis (atópica/contacto)</span><span class="arrow">·</span>
+      <span class="step">Fármacos</span><span class="arrow">·</span>
+      <span class="step">Linfoma T / Sézary</span><span class="arrow">·</span>
+      <span class="step">PRP</span><span class="arrow">·</span>
+      <span class="step">Idiopática (20%)</span>
+    </div>
+  </section>
+
+  <!-- =================== OJO CUIDADO =================== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Las parejas que más se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Pitiriasis rosada vs Sífilis secundaria <span class="badge">exantema en tronco</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Pitiriasis rosada</h5><span class="who">HHV-7/6</span><ul><li><b>Placa heráldica</b> previa</li><li>Patrón en árbol de Navidad</li><li><b>RESPETA palmas y plantas</b></li><li>Serología negativa; autolimitada</li></ul></div>
+        <div class="vs-col"><h5>Sífilis secundaria</h5><span class="who">T. pallidum</span><ul><li>Sin placa heráldica</li><li><b>AFECTA palmas y plantas</b></li><li>Condilomas planos, adenopatías</li><li>Serología +</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ante un exantema descamativo en tronco, mira <b>palmas y plantas</b>: respetadas = pitiriasis rosada; afectadas + serología = sífilis 2ª. Siempre haz serología si hay dudas.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Liquen plano vs Psoriasis <span class="badge">papuloescamosas</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Liquen plano</h5><span class="who">CD8 contra basal</span><ul><li>Pápula <b>violácea</b> en cara de <b>flexión</b></li><li>Estrías de Wickham; muy pruriginoso</li><li>Dientes de sierra + Civatte</li></ul></div>
+        <div class="vs-col"><h5>Psoriasis</h5><span class="who">IL-23/IL-17</span><ul><li>Placa <b>roja con escama plateada</b> en <b>extensión</b></li><li>Signo de Auspitz</li><li>Munro + acantosis regular</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> violáceo + flexor + Wickham = liquen; salmón + extensor + Auspitz = psoriasis. Ambos hacen Koebner, así que ese signo NO los distingue.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Psoriasis del cuero cabelludo vs Dermatitis seborreica <span class="badge">caspa con eritema</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Psoriasis</h5><span class="who">placa</span><ul><li>Escama gruesa, nacarada, bien delimitada</li><li>Sobrepasa la línea de implantación</li><li>Otras placas en codos/rodillas, uñas</li></ul></div>
+        <div class="vs-col"><h5>Seborreica</h5><span class="who">Malassezia</span><ul><li>Escama fina <b>grasienta</b></li><li>Surco nasogeniano, cejas</li><li>Mejora con antifúngicos</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> el solapamiento es la <b>sebopsoriasis</b>; busca placas típicas a distancia y afectación ungueal para inclinarte por psoriasis.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Pitiriasis rubra pilaris vs Psoriasis <span class="badge">eritrodermia anaranjada</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Pitiriasis rubra pilaris</h5><span class="who">queratinización</span><ul><li><b>Islotes de piel respetada</b></li><li>Pápulas <b>foliculares</b> hiperqueratósicas</li><li>Queratodermia <b>amarillenta</b></li></ul></div>
+        <div class="vs-col"><h5>Psoriasis</h5><span class="who">inflamatoria</span><ul><li>Sin islotes respetados</li><li>Escama plateada, Auspitz</li><li>Munro en la histología</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> los <b>"islotes de piel sana"</b> dentro del eritema y el tapón folicular apuntan a PRP, no a psoriasis.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Liquen plano oral vs Leucoplasia vs Candidiasis <span class="badge">placa blanca oral</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>LP oral reticular</h5><span class="who">liquen</span><ul><li>Red blanquecina (estrías) yugal</li><li>No se desprende</li></ul></div>
+        <div class="vs-col"><h5>Leucoplasia</h5><span class="who">premaligna</span><ul><li>Placa blanca homogénea fija</li><li>No se desprende; biopsiar</li></ul></div>
+        <div class="vs-col"><h5>Candidiasis</h5><span class="who">muguet</span><ul><li>Placas cremosas que <b>SÍ se desprenden</b></li><li>KOH + (pseudohifas)</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si se desprende al raspar = candida; red reticular = liquen; placa fija homogénea = leucoplasia (vigilar el LP erosivo por su potencial maligno).</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>Las <b>6 P</b> del liquen plano: Pápula, Poligonal, Plana, Púrpura (violácea), Pruriginosa + Placas. Y las <b>estrías de Wickham</b> como sello.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>Histología: liquen = "<b>dientes de sierra</b>" + infiltrado en banda + <b>cuerpos de Civatte</b>; psoriasis = <b>microabscesos de Munro</b> (y pústula de Kogoj en la pustulosa).</p></div>
+    <div class="pearl"><div class="dot">3</div><p><b>Signo de Auspitz</b> (rocío hemorrágico al levantar la escama) en psoriasis; se explica por los capilares dilatados y la atrofia suprapapilar.</p></div>
+    <div class="pearl"><div class="dot">4</div><p>Psoriasis <b>en gotas</b> = niño/joven + <b>faringitis estreptocócica</b> + HLA-Cw6. Algunos fármacos la empeoran: litio, betabloqueantes, antimaláricos, AINE, IFN.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>El liquen plano <b>erosivo oral</b> tiene potencial de malignización y se asocia a <b>VHC</b>; el <b>liquen escleroatrófico</b> genital también puede malignizar (más con HPV-16/18).</p></div>
+    <div class="pearl"><div class="dot">6</div><p>La <b>parapsoriasis en grandes placas</b> progresa a micosis fungoide (~10%/década): biopsias seriadas.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Artritis psoriásica: <b>factor reumatoide negativo</b>, afectación interfalángica distal, dactilitis; la <b>afectación ungueal</b> la predice.</p></div>
+    <div class="pearl"><div class="dot">8</div><p>La psoriasis es un <b>FRCV independiente</b>: pensar en síndrome metabólico, hígado graso (~50%) e infarto precoz, no solo en la piel.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Acitretino</b> es teratógeno hasta 2-3 años tras suspenderlo: evitarlo en mujeres en edad fértil con deseo gestacional.</p></div>
+    <div class="pearl"><div class="dot">10</div><p>El <b>liquen nitidus NO pica</b> (a diferencia del liquen plano), y la erupción liquenoide por fármacos tiene <b>eosinófilos</b> y predomina en tronco.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 5 (Dermatosis eritematodescamativas y Psoriasis) a partir del material docente de la Dra. Elena Zamora Martínez y del Dr. Álvaro González Cantero — Universidad Francisco de Vitoria. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
