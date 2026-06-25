@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>Resumen · Mesotelioma y pleura</title>
+<style>:root{--accent:#6B3FA0;--accent-soft:#EFE7F7;--accent-ink:#43286B}</style>
+<style>
+:root{
+  --accent:#C2362B; --accent-soft:#FBE9E7; --accent-ink:#7A1E17;
+  --paper:#FBFAF6; --panel:#FFFFFF; --ink:#191B1E; --muted:#5E6670;
+  --line:#E4E2D9; --line2:#D3D0C4;
+  --ojo:#B91C1C; --ojo-bg:#FDECEC; --ojo-bd:#F0B7B4;
+  --pista:#0E6E6B; --pista-bg:#E2F1F0; --pista-bd:#A8D8D5;
+  --clave:#9A6A00; --clave-bg:#FBF1DA; --clave-bd:#ECD6A3;
+  --ddx:#27408B; --ddx-bg:#EAEEF8; --ddx-bd:#BCC9EA;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Inter",system-ui,-apple-system,sans-serif;line-height:1.55;font-size:15.5px;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Space Grotesk","Inter",sans-serif;letter-spacing:-.01em;margin:0;line-height:1.15}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+a{color:var(--accent);text-decoration:none}
+
+/* layout */
+.shell{max-width:1180px;margin:0 auto;padding:0 22px;display:grid;grid-template-columns:228px 1fr;gap:34px}
+@media(max-width:880px){.shell{grid-template-columns:1fr;gap:0}}
+
+/* header band */
+header.top{background:var(--accent);color:#fff;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);pointer-events:none}
+.top-inner{max-width:1180px;margin:0 auto;padding:30px 22px 26px;position:relative;z-index:1}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;opacity:.92;margin-bottom:12px}
+header.top h1{font-size:clamp(26px,4.6vw,40px);font-weight:700;color:#fff;max-width:24ch}
+.sub{margin-top:10px;font-size:15px;opacity:.95;max-width:70ch}
+.chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.hchip{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.04em;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:5px 10px;border-radius:999px}
+
+/* TOC */
+nav.toc{align-self:start;position:sticky;top:14px;padding:18px 0}
+@media(max-width:880px){nav.toc{position:static;border-bottom:1px solid var(--line);padding:14px 0}}
+.toc h4{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.toc li{counter-increment:t;margin:1px 0}
+.toc a{display:flex;gap:9px;align-items:baseline;padding:6px 8px;border-radius:8px;color:var(--ink);font-size:13.5px;font-weight:500}
+.toc a:hover{background:var(--accent-soft);color:var(--accent-ink)}
+.toc a::before{content:counter(t,decimal-leading-zero);font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);font-weight:700;flex:0 0 auto}
+.toc .x a{color:var(--ojo);font-weight:700}
+.toc .x a::before{content:"!";color:var(--ojo)}
+.toc .s a::before{content:"§";color:var(--ddx)}
+
+/* main */
+main{padding:26px 0 70px;min-width:0}
+section{scroll-margin-top:16px;margin-bottom:34px}
+.sec-h{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:7px;margin-bottom:14px}
+.sec-h .n{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;color:var(--accent);flex:0 0 auto}
+.sec-h h2{font-size:21px;font-weight:700}
+h3{font-size:15.5px;margin:18px 0 6px;color:var(--accent-ink)}
+p{margin:8px 0}
+ul{margin:8px 0;padding-left:20px}
+li{margin:4px 0}
+strong{font-weight:600}
+.lead{color:var(--muted)}
+mark{background:var(--clave-bg);padding:0 3px;border-radius:3px}
+
+/* data table */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#F2F0E8;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.01em}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:600;white-space:nowrap}
+
+/* callouts */
+.box{border-radius:12px;padding:13px 15px 13px 16px;margin:14px 0;border:1px solid;position:relative}
+.box .lbl{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;margin-bottom:6px}
+.box ul{margin:4px 0 0}
+.box.ojo{background:var(--ojo-bg);border-color:var(--ojo-bd)} .box.ojo .lbl{color:var(--ojo)}
+.box.pista{background:var(--pista-bg);border-color:var(--pista-bd)} .box.pista .lbl{color:var(--pista)}
+.box.clave{background:var(--clave-bg);border-color:var(--clave-bd)} .box.clave .lbl{color:var(--clave)}
+.box.ddx{background:var(--ddx-bg);border-color:var(--ddx-bd)} .box.ddx .lbl{color:var(--ddx)}
+.glyph{width:16px;height:16px}
+
+/* DDx flow */
+.flow{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.frow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.fnode{background:var(--panel);border:1.5px solid var(--ddx-bd);border-radius:9px;padding:8px 11px;font-size:13.5px;flex:1;min-width:150px}
+.fnode b{display:block;font-size:12px;font-family:"JetBrains Mono",monospace;color:var(--ddx);margin-bottom:2px;letter-spacing:.02em}
+.fnode.dx{border-color:var(--accent);background:var(--accent-soft)}
+.fnode.dx b{color:var(--accent-ink)}
+.arrow{align-self:center;color:var(--ddx);font-weight:700;flex:0 0 auto;padding:0 2px}
+.gate{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;align-self:center}
+
+/* pearls grid */
+.pearls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:620px){.pearls{grid-template-columns:1fr}}
+.pearl{background:var(--ojo-bg);border:1px solid var(--ojo-bd);border-left:4px solid var(--ojo);border-radius:0 9px 9px 0;padding:10px 12px;font-size:14px}
+.pearl b{color:var(--ojo)}
+
+footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0 40px;color:var(--muted);font-size:12px;font-family:"JetBrains Mono",monospace;text-align:center}
+
+@media print{
+  nav.toc{display:none}.shell{grid-template-columns:1fr;display:block}
+  header.top{background:#fff;color:#000;border-bottom:3px solid var(--accent)}
+  header.top h1,.kicker{color:var(--accent-ink)} header.top::after{display:none}
+  .hchip{color:#000;border-color:#999;background:#eee}
+  section{break-inside:avoid}.box,table,.fnode{break-inside:avoid}
+  body{font-size:11pt}
+}
+</style>
+</head><body>
+<header class="top">
+  <div class="top-inner">
+    <div class="kicker">Neumología · Cirugía torácica · Tema 24.2</div>
+    <h1>Patología pleural: mesotelioma</h1>
+    <p class="sub">Tumores pleurales. El gran asociado al asbesto y sus trampas de examen.</p>
+    <div class="chips">
+      <span class="hchip">Asbesto · latencia larga</span>
+      <span class="hchip">Localizado vs difuso</span>
+      <span class="hchip">Tto multimodal</span>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<nav class="toc">
+  <h4>Índice</h4>
+  <ol>
+    <li><a href="#tipos">Tipos y concepto</a></li>
+    <li><a href="#riesgo">Factores de riesgo</a></li>
+    <li><a href="#clinica">Clínica y exploración</a></li>
+    <li><a href="#dx">Diagnóstico e imagen</a></li>
+    <li><a href="#ap">Biopsia y anatomía patológica</a></li>
+    <li><a href="#estadio">Estadificación</a></li>
+    <li><a href="#tto">Tratamiento y pronóstico</a></li>
+    <li class="s"><a href="#esquemas">Esquemas DDx</a></li>
+    <li class="x"><a href="#ojo">OJO CUIDADO</a></li>
+  </ol>
+</nav>
+<main>
+
+<section id="tipos">
+  <div class="sec-h"><span class="n">01</span><h2>Concepto y variantes</h2></div>
+  <p class="lead">El mesotelioma es una neoplasia <strong>muy rara</strong> de la pleura. Distinguir las dos formas es la clave de la mayoría de preguntas.</p>
+  <table>
+    <tr><th>Forma</th><th>Características</th><th>Asbesto</th></tr>
+    <tr><td class="k">Localizada</td><td><strong>Tumor fibroso solitario</strong> de la pleura. Comportamiento benigno/limitado.</td><td>NO asociado</td></tr>
+    <tr><td class="k">Difusa</td><td>Tumor <strong>muy agresivo</strong>, crecimiento circunferencial sobre la pleura.</td><td>Asociado (≈75%)</td></tr>
+  </table>
+</section>
+
+<section id="riesgo">
+  <div class="sec-h"><span class="n">02</span><h2>Factores de riesgo</h2></div>
+  <ul>
+    <li><strong>Asbesto</strong> (amianto): principal factor, con <strong>período de latencia largo</strong> (décadas).</li>
+    <li>Otros: otras fibras naturales, radiaciones, virus simio <strong>SV40</strong>.</li>
+    <li><strong>Tabaco: efecto sinérgico pero NO es factor de riesgo independiente.</strong></li>
+    <li>Industrias: pinturas, montaje de automóviles, naval, construcción, ferroviarios.</li>
+  </ul>
+  <div class="box clave"><span class="lbl">◆ Dato clave</span> A diferencia del cáncer de pulmón, el mesotelioma <strong>no se explica por el tabaco</strong>: el actor principal es el <strong>asbesto</strong>.</div>
+</section>
+
+<section id="clinica">
+  <div class="sec-h"><span class="n">03</span><h2>Clínica y exploración</h2></div>
+  <ul>
+    <li>Síntoma más frecuente: <strong>disnea</strong>.</li>
+    <li>Inespecíficos: pérdida de peso, anorexia, sudoración nocturna, debilidad.</li>
+    <li>Exploración variable: desde <strong>derrame pleural</strong> hasta <strong>tumoración palpable</strong>.</li>
+  </ul>
+</section>
+
+<section id="dx">
+  <div class="sec-h"><span class="n">04</span><h2>Diagnóstico e imagen</h2></div>
+  <table>
+    <tr><th>Prueba</th><th>Para qué</th></tr>
+    <tr><td class="k">Radiografía</td><td><strong>Engrosamiento pleural</strong> ± derrame</td></tr>
+    <tr><td class="k">TC / RM</td><td>Extensión locorregional</td></tr>
+    <tr><td class="k">Ecocardiografía</td><td><strong>Descartar afectación pericárdica</strong></td></tr>
+    <tr><td class="k">PET</td><td><strong>Ideal para detectar metástasis</strong></td></tr>
+  </table>
+</section>
+
+<section id="ap">
+  <div class="sec-h"><span class="n">05</span><h2>Biopsia y anatomía patológica</h2></div>
+  <ul>
+    <li>Biopsia: <strong>percutánea (diagnóstica solo en ≈33%)</strong>, VATS (videotoracoscopia) o abierta.</li>
+    <li>Variantes AP: <strong>epitelioide</strong>, <strong>sarcomatosa</strong>, <strong>mixta</strong>.</li>
+    <li>Puede precisar <strong>inmunohistoquímica</strong> o microscopía electrónica para el diagnóstico.</li>
+  </ul>
+</section>
+
+<section id="estadio">
+  <div class="sec-h"><span class="n">06</span><h2>Estadificación</h2></div>
+  <ul>
+    <li>Sistemas: <strong>Butchart</strong>, <strong>TNM</strong> y <strong>Brigham &amp; Women's Hospital</strong> (Boston).</li>
+    <li>Estadio I: dentro de la cápsula de la pleura parietal (ipsilateral) — resecable con ganglios negativos.</li>
+    <li>Estadio IV: metástasis a distancia.</li>
+  </ul>
+</section>
+
+<section id="tto">
+  <div class="sec-h"><span class="n">07</span><h2>Tratamiento y pronóstico</h2></div>
+  <ul>
+    <li>Enfoque <strong>multimodal</strong>: cirugía + <strong>radioterapia (55 Gy)</strong> + <strong>quimioterapia (carboplatino/paclitaxel)</strong>.</li>
+    <li>Pronóstico global malo: <strong>4-12 meses</strong>.</li>
+  </ul>
+  <h3>Opciones quirúrgicas</h3>
+  <table>
+    <tr><th>Técnica</th><th>Notas</th></tr>
+    <tr><td class="k">Pleurodesis</td><td>Paliativa del derrame</td></tr>
+    <tr><td class="k">Decorticación / pleurectomía</td><td>Citorreducción</td></tr>
+    <tr><td class="k">Neumonectomía extrapleural</td><td>Resección <strong>en bloque de pulmón + pleura + diafragma + pericardio</strong>. Mortalidad ≈4%. Supervivencia 50% a 5 años <strong>solo si ganglios negativos y márgenes libres</strong>.</td></tr>
+  </table>
+</section>
+
+<section id="esquemas">
+  <div class="sec-h"><span class="n">§</span><h2>Esquemas de diagnóstico diferencial</h2></div>
+
+  <div class="box ddx"><span class="lbl">§ Engrosamiento pleural ± derrame</span>
+  <div class="flow">
+    <div class="frow"><div class="fnode"><b>Exposición a asbesto (años) + engrosamiento pleural difuso/nodular + derrame recidivante</b></div><span class="arrow">→</span><div class="fnode dx"><b>Mesotelioma difuso</b>PET (metástasis) + biopsia VATS</div></div>
+    <div class="frow"><div class="fnode"><b>Masa pleural única, bien delimitada, SIN antecedente de asbesto</b></div><span class="arrow">→</span><div class="fnode dx"><b>Tumor fibroso solitario</b>(forma "localizada")</div></div>
+  </div></div>
+
+  <div class="box ddx"><span class="lbl">§ Sospecha de mesotelioma — secuencia diagnóstica</span>
+  <div class="flow">
+    <div class="frow">
+      <div class="fnode"><b>Rx</b>Engrosamiento ± derrame</div><span class="arrow">→</span>
+      <div class="fnode"><b>TC/RM</b>Extensión</div><span class="arrow">→</span>
+      <div class="fnode"><b>Eco</b>Pericardio</div><span class="arrow">→</span>
+      <div class="fnode"><b>PET</b>Metástasis</div><span class="arrow">→</span>
+      <div class="fnode dx"><b>Biopsia (VATS)</b>+ IHQ → diagnóstico</div>
+    </div>
+  </div></div>
+</section>
+
+<section id="ojo">
+  <div class="sec-h" style="border-color:var(--ojo)"><span class="n" style="color:var(--ojo)">!</span><h2 style="color:var(--ojo)">OJO CUIDADO — trampas y patognomónicos</h2></div>
+  <div class="pearls">
+    <div class="pearl"><b>Tabaco = sinérgico, NO independiente.</b> Trampa MIR clásica: el factor del mesotelioma es el asbesto.</div>
+    <div class="pearl"><b>Forma localizada = tumor fibroso solitario</b> y NO se asocia a asbesto; la difusa SÍ (≈75%).</div>
+    <div class="pearl"><b>Latencia larga (décadas)</b>: la pista es el oficio antiguo (astillero, construcción, ferroviario).</div>
+    <div class="pearl"><b>PET → metástasis; eco → pericardio.</b> No los intercambies en la pregunta.</div>
+    <div class="pearl"><b>Biopsia percutánea rinde solo ≈33%</b>: si no diagnostica, no descarta → VATS/abierta.</div>
+    <div class="pearl"><b>Neumonectomía extrapleural</b> = pulmón + pleura + diafragma + pericardio en bloque.</div>
+    <div class="pearl"><b>Supervivencia 50% a 5 años solo</b> con ganglios negativos y márgenes libres (no es lo habitual).</div>
+    <div class="pearl"><b>SV40</b> aparece como factor "raro" pero preguntable junto al asbesto.</div>
+  </div>
+  <div class="box pista"><span class="lbl">⚑ Perlas asociadas (refuerzo)</span>
+  <ul>
+    <li>El <strong>tumor fibroso solitario</strong> puede dar <strong>hipoglucemia paraneoplásica (síndrome de Doege-Potter)</strong> y osteoartropatía hipertrófica.</li>
+    <li>Las <strong>placas pleurales</strong> calcificadas son marcador de exposición a asbesto (benignas), no de malignidad.</li>
+  </ul></div>
+</section>
+
+<footer>Resumen de estudio · Tema 24.2 Patología pleural / Mesotelioma · contenido derivado del temario · sin valor clínico asistencial</footer>
+</main>
+</div>
+</body></html>
