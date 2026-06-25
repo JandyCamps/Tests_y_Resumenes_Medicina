@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>Resumen · Pared y malformaciones</title>
+<style>:root{--accent:#1F6FB2;--accent-soft:#E5F0F8;--accent-ink:#134A78}</style>
+<style>
+:root{
+  --accent:#C2362B; --accent-soft:#FBE9E7; --accent-ink:#7A1E17;
+  --paper:#FBFAF6; --panel:#FFFFFF; --ink:#191B1E; --muted:#5E6670;
+  --line:#E4E2D9; --line2:#D3D0C4;
+  --ojo:#B91C1C; --ojo-bg:#FDECEC; --ojo-bd:#F0B7B4;
+  --pista:#0E6E6B; --pista-bg:#E2F1F0; --pista-bd:#A8D8D5;
+  --clave:#9A6A00; --clave-bg:#FBF1DA; --clave-bd:#ECD6A3;
+  --ddx:#27408B; --ddx-bg:#EAEEF8; --ddx-bd:#BCC9EA;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Inter",system-ui,-apple-system,sans-serif;line-height:1.55;font-size:15.5px;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Space Grotesk","Inter",sans-serif;letter-spacing:-.01em;margin:0;line-height:1.15}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+a{color:var(--accent);text-decoration:none}
+
+/* layout */
+.shell{max-width:1180px;margin:0 auto;padding:0 22px;display:grid;grid-template-columns:228px 1fr;gap:34px}
+@media(max-width:880px){.shell{grid-template-columns:1fr;gap:0}}
+
+/* header band */
+header.top{background:var(--accent);color:#fff;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);pointer-events:none}
+.top-inner{max-width:1180px;margin:0 auto;padding:30px 22px 26px;position:relative;z-index:1}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;opacity:.92;margin-bottom:12px}
+header.top h1{font-size:clamp(26px,4.6vw,40px);font-weight:700;color:#fff;max-width:24ch}
+.sub{margin-top:10px;font-size:15px;opacity:.95;max-width:70ch}
+.chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.hchip{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.04em;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:5px 10px;border-radius:999px}
+
+/* TOC */
+nav.toc{align-self:start;position:sticky;top:14px;padding:18px 0}
+@media(max-width:880px){nav.toc{position:static;border-bottom:1px solid var(--line);padding:14px 0}}
+.toc h4{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.toc li{counter-increment:t;margin:1px 0}
+.toc a{display:flex;gap:9px;align-items:baseline;padding:6px 8px;border-radius:8px;color:var(--ink);font-size:13.5px;font-weight:500}
+.toc a:hover{background:var(--accent-soft);color:var(--accent-ink)}
+.toc a::before{content:counter(t,decimal-leading-zero);font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);font-weight:700;flex:0 0 auto}
+.toc .x a{color:var(--ojo);font-weight:700}
+.toc .x a::before{content:"!";color:var(--ojo)}
+.toc .s a::before{content:"§";color:var(--ddx)}
+
+/* main */
+main{padding:26px 0 70px;min-width:0}
+section{scroll-margin-top:16px;margin-bottom:34px}
+.sec-h{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:7px;margin-bottom:14px}
+.sec-h .n{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;color:var(--accent);flex:0 0 auto}
+.sec-h h2{font-size:21px;font-weight:700}
+h3{font-size:15.5px;margin:18px 0 6px;color:var(--accent-ink)}
+p{margin:8px 0}
+ul{margin:8px 0;padding-left:20px}
+li{margin:4px 0}
+strong{font-weight:600}
+.lead{color:var(--muted)}
+mark{background:var(--clave-bg);padding:0 3px;border-radius:3px}
+
+/* data table */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#F2F0E8;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.01em}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:600;white-space:nowrap}
+
+/* callouts */
+.box{border-radius:12px;padding:13px 15px 13px 16px;margin:14px 0;border:1px solid;position:relative}
+.box .lbl{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;margin-bottom:6px}
+.box ul{margin:4px 0 0}
+.box.ojo{background:var(--ojo-bg);border-color:var(--ojo-bd)} .box.ojo .lbl{color:var(--ojo)}
+.box.pista{background:var(--pista-bg);border-color:var(--pista-bd)} .box.pista .lbl{color:var(--pista)}
+.box.clave{background:var(--clave-bg);border-color:var(--clave-bd)} .box.clave .lbl{color:var(--clave)}
+.box.ddx{background:var(--ddx-bg);border-color:var(--ddx-bd)} .box.ddx .lbl{color:var(--ddx)}
+.glyph{width:16px;height:16px}
+
+/* DDx flow */
+.flow{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.frow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.fnode{background:var(--panel);border:1.5px solid var(--ddx-bd);border-radius:9px;padding:8px 11px;font-size:13.5px;flex:1;min-width:150px}
+.fnode b{display:block;font-size:12px;font-family:"JetBrains Mono",monospace;color:var(--ddx);margin-bottom:2px;letter-spacing:.02em}
+.fnode.dx{border-color:var(--accent);background:var(--accent-soft)}
+.fnode.dx b{color:var(--accent-ink)}
+.arrow{align-self:center;color:var(--ddx);font-weight:700;flex:0 0 auto;padding:0 2px}
+.gate{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;align-self:center}
+
+/* pearls grid */
+.pearls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:620px){.pearls{grid-template-columns:1fr}}
+.pearl{background:var(--ojo-bg);border:1px solid var(--ojo-bd);border-left:4px solid var(--ojo);border-radius:0 9px 9px 0;padding:10px 12px;font-size:14px}
+.pearl b{color:var(--ojo)}
+
+footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0 40px;color:var(--muted);font-size:12px;font-family:"JetBrains Mono",monospace;text-align:center}
+
+@media print{
+  nav.toc{display:none}.shell{grid-template-columns:1fr;display:block}
+  header.top{background:#fff;color:#000;border-bottom:3px solid var(--accent)}
+  header.top h1,.kicker{color:var(--accent-ink)} header.top::after{display:none}
+  .hchip{color:#000;border-color:#999;background:#eee}
+  section{break-inside:avoid}.box,table,.fnode{break-inside:avoid}
+  body{font-size:11pt}
+}
+</style>
+</head><body>
+<header class="top">
+  <div class="top-inner">
+    <div class="kicker">Neumología · Cirugía torácica · Tema 19</div>
+    <h1>Pared torácica y malformaciones pulmonares</h1>
+    <p class="sub">Deformidades de pared, tumores, opérculo torácico superior y malformaciones broncopulmonares congénitas.</p>
+    <div class="chips">
+      <span class="hchip">Pectus · Poland</span>
+      <span class="hchip">Opérculo torácico</span>
+      <span class="hchip">Secuestro · cimitarra</span>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<nav class="toc">
+  <h4>Índice</h4>
+  <ol>
+    <li><a href="#excavatum">Pectus excavatum</a></li>
+    <li><a href="#carinatum">Pectus carinatum</a></li>
+    <li><a href="#otras-def">Poland y defectos esternales</a></li>
+    <li><a href="#tumores">Tumores de pared</a></li>
+    <li><a href="#operculo">Opérculo torácico superior</a></li>
+    <li><a href="#agenesia">Agenesia e hipoplasia</a></li>
+    <li><a href="#quistes">Lesiones quísticas y secuestro</a></li>
+    <li><a href="#vasculo">Vasculopatías congénitas</a></li>
+    <li class="s"><a href="#esquemas">Esquemas DDx</a></li>
+    <li class="x"><a href="#ojo">OJO CUIDADO</a></li>
+  </ol>
+</nav>
+<main>
+
+<section id="excavatum">
+  <div class="sec-h"><span class="n">01</span><h2>Pectus excavatum (tórax en embudo)</h2></div>
+  <ul>
+    <li><strong>Depresión</strong> de la región esternal. <strong>Malformación torácica más frecuente</strong> (1/400-1/1000). Hombres <strong>4:1</strong>, predisposición familiar.</li>
+    <li>20% asociado a <strong>Marfán, Ehlers-Danlos, osteogénesis imperfecta, Turner, MEN IIb</strong>. La AP de los cartílagos es <strong>normal</strong>.</li>
+    <li>Clínica: disnea de esfuerzo, dolor torácico, taquipnea en reposo. Tras los 6 años no mejora.</li>
+    <li>Diagnóstico: TC/RM con <strong>índice de Haller &gt; 3,25</strong> (indicación quirúrgica). <strong>FVC normal</strong>; se alteran CPT y volumen residual. ECG por desplazamiento cardíaco.</li>
+  </ul>
+  <table>
+    <tr><th>Cirugía</th><th>En qué consiste</th></tr>
+    <tr><td class="k">Ravitch</td><td>Abierta: resección de cartílagos, plastias musculares y osteotomías. Agresiva, buenos resultados.</td></tr>
+    <tr><td class="k">Nuss</td><td>Mínimamente invasiva: <strong>barra retroesternal</strong> colocada por toracoscopia que se gira para corregir. Sobre todo en niños.</td></tr>
+  </table>
+</section>
+
+<section id="carinatum">
+  <div class="sec-h"><span class="n">02</span><h2>Pectus carinatum (tórax en quilla)</h2></div>
+  <ul>
+    <li><strong>Protrusión</strong> de la pared anterior. Menos frecuente (1/1500), hombres 4:1, caucásicos/hispánicos.</li>
+    <li>Tipos: <strong>condrogladiolar</strong> (el más frecuente, parte media-inferior) y <strong>condromanubrial</strong> (menos frecuente, forma en <strong>Z</strong> lateral).</li>
+    <li>Tratamiento inicial: <strong>corsé</strong> (10-15 años; 75-90% en cumplidores). Cirugía en casos severos / incumplimiento.</li>
+  </ul>
+  <div class="box clave"><span class="lbl">◆ Comparación rápida</span>
+  <table>
+    <tr><th></th><th>Excavatum</th><th>Carinatum</th></tr>
+    <tr><td class="k">Frecuencia</td><td>Más frecuente</td><td>Menos frecuente</td></tr>
+    <tr><td class="k">Índices</td><td>Haller</td><td>Haller + asimetría + rotación</td></tr>
+    <tr><td class="k">Tto inicial</td><td><strong>Quirúrgico</strong></td><td><strong>Corsé</strong></td></tr>
+  </table></div>
+</section>
+
+<section id="otras-def">
+  <div class="sec-h"><span class="n">03</span><h2>Síndrome de Poland y defectos esternales</h2></div>
+  <ul>
+    <li><strong>Síndrome de Poland</strong>: ausencia del <strong>pectoral mayor</strong>, hipoplasia del menor y de cartílagos costales, hipoplasia del pecho/areola y <strong>anomalías de la mano</strong> ipsilateral. Tto: plastia del <strong>dorsal ancho</strong> + segmentos costales autólogos.</li>
+    <li><strong>Defectos esternales</strong>: falta de fusión de las dos bandas mesodérmicas → hendiduras. Superior (ectopia cordis cervical), completa (torácica) y distal (toracoabdominal).</li>
+  </ul>
+</section>
+
+<section id="tumores">
+  <div class="sec-h"><span class="n">04</span><h2>Tumores de la pared torácica</h2></div>
+  <ul>
+    <li>Raros; los más frecuentes en <strong>costillas (85%)</strong>. <strong>Metastásicos &gt; tumores óseos primarios</strong>. Tratamiento: resección quirúrgica.</li>
+  </ul>
+  <table>
+    <tr><th>Grupo</th><th>Ejemplos</th></tr>
+    <tr><td class="k">Óseo benigno</td><td><strong>Displasia fibrosa</strong> (el más frecuente; lítica en "vidrio deslustrado"; síndrome de Albright), condroma, osteocondroma, granuloma eosinófilo, quiste óseo aneurismático</td></tr>
+    <tr><td class="k">Óseo maligno</td><td>Condrosarcoma, osteosarcoma, sarcoma de Ewing, plasmocitoma solitario (mieloma)</td></tr>
+    <tr><td class="k">Partes blandas</td><td>Lipoma/liposarcoma, leiomioma/-sarcoma, neurofibroma/-sarcoma, desmoides/fibrosarcoma</td></tr>
+    <tr><td class="k">Metastásico</td><td>Vía hemática/linfática; por extensión de cáncer de pulmón. <strong>Tumor de Pancoast</strong>: cáncer posteroapical → dolor en brazo, atrofia, destrucción ósea y <strong>síndrome de Horner</strong></td></tr>
+  </table>
+</section>
+
+<section id="operculo">
+  <div class="sec-h"><span class="n">05</span><h2>Síndrome del opérculo torácico superior</h2></div>
+  <ul>
+    <li>Compresión de los <strong>vasos subclavios y del plexo braquial</strong> a la salida del tórax (costilla cervical, apófisis transversa de C7, bandas fibrosas, trauma).</li>
+  </ul>
+  <table>
+    <tr><th>Nivel</th><th>Estructura comprimida</th></tr>
+    <tr><td class="k">Triángulo de los escalenos</td><td>Arteria + plexo braquial</td></tr>
+    <tr><td class="k">Espacio costoclavicular</td><td>Vena subclavia</td></tr>
+    <tr><td class="k">Espacio subcoracoideo</td><td>Arteria, vena y plexo</td></tr>
+  </table>
+  <h3>Clínica</h3>
+  <ul>
+    <li><strong>90% neurogénico</strong> (cubital/mediano): parestesias, debilidad, atrofia.</li>
+    <li>Arterial: enfriamiento, isquemia, <strong>Raynaud</strong>. Venosa: edema, cianosis, colaterales → <strong>síndrome de Paget-Schroetter</strong> (trombosis de vena axilar/subclavia <strong>de esfuerzo</strong>).</li>
+  </ul>
+  <h3>Maniobras</h3>
+  <table>
+    <tr><th>Maniobra</th><th>Qué estrecha</th></tr>
+    <tr><td class="k">Adson</td><td>Espacio interescalénico (inspiración profunda, cuello extendido, giro al mismo lado)</td></tr>
+    <tr><td class="k">Halsted (costoclavicular)</td><td>Espacio costoclavicular (hombros en posición militar)</td></tr>
+    <tr><td class="k">Wright (hiperabducción)</td><td>Subcoracoideo (180º)</td></tr>
+    <tr><td class="k">Roos</td><td>90º + rotación externa</td></tr>
+  </table>
+  <p>Tratamiento: postural + fisioterapia (éxito 50-90%); cirugía si progresión nerviosa o estenosis/trombosis → <strong>resección de la 1.ª costilla por vía transaxilar</strong>.</p>
+</section>
+
+<section id="agenesia">
+  <div class="sec-h"><span class="n">06</span><h2>Agenesia e hipoplasia pulmonar</h2></div>
+  <ul>
+    <li><strong>Agenesia bilateral</strong>: mortal. <strong>Unilateral</strong>: izquierda &gt; derecha, hombres &gt;2:1.</li>
+    <li><strong>Hipoplasia</strong>: causa más frecuente la <strong>hernia de Bochdalek</strong>; asociada a oligohidramnios, síndrome de la cimitarra y dextrocardia.</li>
+  </ul>
+</section>
+
+<section id="quistes">
+  <div class="sec-h"><span class="n">07</span><h2>Lesiones quísticas congénitas y secuestro</h2></div>
+  <table>
+    <tr><th>Entidad</th><th>Claves</th></tr>
+    <tr><td class="k">Quiste broncogénico</td><td>Separación de restos embrionarios; puede ser <strong>masa mediastínica</strong>; 66% sintomáticos (infecciones, tos, hemoptisis). Qx si sintomático o crece.</td></tr>
+    <tr><td class="k">Enfisema lobular congénito</td><td>Lesión quística que más se reseca; <strong>lóbulo superior</strong>; dificultad respiratoria neonatal → <strong>lobectomía</strong>.</td></tr>
+    <tr><td class="k">MAQ congénita</td><td>Malformación adenomatoidea quística: "hamartoma sin cartílago" por proliferación de bronquiolos; insuficiencia respiratoria por atrapamiento → lobectomía.</td></tr>
+    <tr><td class="k">Secuestro pulmonar</td><td>Tejido pulmonar irrigado por una <strong>arteria sistémica anómala (rama de la aorta)</strong>, no por la pulmonar. Extralobular: <strong>pleura propia</strong>. Tto: extirpación.</td></tr>
+  </table>
+</section>
+
+<section id="vasculo">
+  <div class="sec-h"><span class="n">08</span><h2>Vasculopatías congénitas</h2></div>
+  <table>
+    <tr><th>Síndrome</th><th>Claves</th></tr>
+    <tr><td class="k">Swyer-James-McLeod</td><td><strong>Pulmón hiperclaro/hipertransparente</strong> unilateral por bronquiolitis de repetición ("autoneumonectomía"). Tto: profilaxis de infecciones.</td></tr>
+    <tr><td class="k">Cimitarra</td><td><strong>Hipoplasia del pulmón derecho</strong> + drenaje de la vena pulmonar en la <strong>cava inferior</strong>. Cirugía si es significativo o hay HTP.</td></tr>
+    <tr><td class="k">MAV pulmonar</td><td>Síndrome de <strong>Rendu-Osler-Weber</strong>; lesiones &lt;1 cm, múltiples y subpleurales. Embolización/qx. Descartar en hemoptisis inexplicada.</td></tr>
+    <tr><td class="k">Anillo vascular / doble cayado</td><td>Sling de arteria pulmonar (entre tráquea y esófago) → estridor/sibilancias 90%. Doble cayado: ligadura del arco menor.</td></tr>
+  </table>
+</section>
+
+<section id="esquemas">
+  <div class="sec-h"><span class="n">§</span><h2>Esquemas de diagnóstico diferencial</h2></div>
+
+  <div class="box ddx"><span class="lbl">§ Deformidad de pared anterior</span>
+  <div class="flow">
+    <div class="frow"><div class="fnode"><b>Depresión esternal</b>Índice de Haller &gt; 3,25</div><span class="arrow">→</span><div class="fnode dx"><b>Pectus excavatum</b>Cirugía (Nuss/Ravitch)</div></div>
+    <div class="frow"><div class="fnode"><b>Protrusión esternal</b></div><span class="arrow">→</span><div class="fnode dx"><b>Pectus carinatum</b>Corsé inicial</div></div>
+    <div class="frow"><div class="fnode"><b>Ausencia de pectoral mayor + anomalía de la mano</b></div><span class="arrow">→</span><div class="fnode dx"><b>Síndrome de Poland</b></div></div>
+  </div></div>
+
+  <div class="box ddx"><span class="lbl">§ Imagen radiológica orientativa (malformación pulmonar)</span>
+  <div class="flow">
+    <div class="frow"><div class="fnode"><b>Pulmón hiperclaro unilateral</b></div><span class="arrow">→</span><div class="fnode dx"><b>Swyer-James-McLeod</b></div></div>
+    <div class="frow"><div class="fnode"><b>Imagen "en cimitarra" + pulmón derecho pequeño</b></div><span class="arrow">→</span><div class="fnode dx"><b>Síndrome de la cimitarra</b></div></div>
+    <div class="frow"><div class="fnode"><b>Masa basal irrigada por arteria de la aorta</b></div><span class="arrow">→</span><div class="fnode dx"><b>Secuestro pulmonar</b></div></div>
+    <div class="frow"><div class="fnode"><b>Lactante con estridor/sibilancias + compresión traqueal</b></div><span class="arrow">→</span><div class="fnode dx"><b>Anillo vascular</b></div></div>
+  </div></div>
+
+  <div class="box ddx"><span class="lbl">§ Mano/brazo y síntomas vasculonerviosos</span>
+  <div class="flow">
+    <div class="frow"><div class="fnode"><b>Parestesias cubital/mediano + maniobras + (costilla cervical)</b></div><span class="arrow">→</span><div class="fnode dx"><b>Opérculo torácico (neurogénico)</b></div></div>
+    <div class="frow"><div class="fnode"><b>Edema/cianosis de brazo tras esfuerzo repetitivo</b></div><span class="arrow">→</span><div class="fnode dx"><b>Paget-Schroetter (trombosis de esfuerzo)</b></div></div>
+    <div class="frow"><div class="fnode"><b>Dolor en brazo + atrofia + Horner + destrucción costal apical</b></div><span class="arrow">→</span><div class="fnode dx"><b>Tumor de Pancoast</b></div></div>
+  </div></div>
+</section>
+
+<section id="ojo">
+  <div class="sec-h" style="border-color:var(--ojo)"><span class="n" style="color:var(--ojo)">!</span><h2 style="color:var(--ojo)">OJO CUIDADO — trampas y patognomónicos</h2></div>
+  <div class="pearls">
+    <div class="pearl"><b>Excavatum = malformación más frecuente;</b> Haller &gt; 3,25 marca cirugía.</div>
+    <div class="pearl"><b>FVC normal en el excavatum</b> (se alteran CPT y VR): trampa si dicen "FVC muy reducida".</div>
+    <div class="pearl"><b>Carinatum → corsé primero;</b> excavatum → cirugía. No los inviertas.</div>
+    <div class="pearl"><b>Displasia fibrosa = "vidrio deslustrado" + síndrome de Albright</b> (pubertad precoz + manchas café con leche).</div>
+    <div class="pearl"><b>Pancoast → síndrome de Horner</b> + dolor de brazo (C8-T1) + destrucción ósea apical.</div>
+    <div class="pearl"><b>Paget-Schroetter</b> = trombosis venosa <i>de esfuerzo</i> (no confundir con afectación arterial/Raynaud).</div>
+    <div class="pearl"><b>Secuestro</b>: la pista patognomónica es la <b>irrigación por arteria sistémica</b> (rama de la aorta).</div>
+    <div class="pearl"><b>Cimitarra = pulmón DERECHO</b> hipoplásico + drenaje venoso a cava inferior.</div>
+    <div class="pearl"><b>Swyer-James = pulmón hiperclaro</b> unilateral por bronquiolitis de repetición.</div>
+    <div class="pearl"><b>Agenesia bilateral = mortal;</b> la unilateral es más frecuente a la izquierda.</div>
+    <div class="pearl"><b>Hipoplasia pulmonar → causa más frecuente: hernia de Bochdalek.</b></div>
+    <div class="pearl"><b>MAV pulmonar = Rendu-Osler-Weber;</b> descártala ante hemoptisis de origen desconocido (riesgo de embolia paradójica).</div>
+  </div>
+</section>
+
+<footer>Resumen de estudio · Tema 19 Pared torácica y malformaciones pulmonares · contenido derivado del temario · sin valor clínico asistencial</footer>
+</main>
+</div>
+</body></html>
