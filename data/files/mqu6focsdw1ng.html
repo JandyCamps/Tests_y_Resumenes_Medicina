@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen — Diagnóstico y Tratamiento del Tabaquismo</title>
+<style>
+  :root{
+    --tinta:#1c2733;
+    --azul:#0a6b8a;
+    --azul-claro:#e6f3f7;
+    --verde:#2c7a4b;
+    --rojo:#b0322b;
+    --rojo-claro:#fdeeec;
+    --amarillo:#fff7e0;
+    --ambar:#b07a14;
+    --gris:#5a6671;
+    --linea:#d9e0e6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--tinta);
+    line-height:1.6;
+    margin:0;
+    background:#f4f6f8;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{
+    background:linear-gradient(135deg,#0a6b8a 0%,#0e3d52 100%);
+    color:#fff;padding:48px 20px;text-align:center;margin-bottom:8px;
+  }
+  header.hero h1{margin:0 0 8px;font-size:2rem;letter-spacing:.3px;}
+  header.hero p{margin:0;opacity:.9;font-size:1rem;}
+  nav.toc{
+    background:#fff;border:1px solid var(--linea);border-radius:10px;
+    padding:18px 24px;margin:24px 0;
+  }
+  nav.toc h2{margin:0 0 10px;font-size:1rem;color:var(--azul);text-transform:uppercase;letter-spacing:1px;}
+  nav.toc ol{margin:0;padding-left:20px;columns:2;column-gap:30px;}
+  nav.toc a{color:var(--tinta);text-decoration:none;}
+  nav.toc a:hover{color:var(--azul);text-decoration:underline;}
+  section{margin:38px 0;}
+  h2.sec{
+    font-size:1.45rem;color:var(--azul);border-bottom:3px solid var(--azul);
+    padding-bottom:6px;margin-bottom:14px;
+  }
+  h3{font-size:1.15rem;color:var(--tinta);margin:24px 0 6px;}
+  h4{font-size:1rem;color:var(--gris);margin:16px 0 4px;text-transform:uppercase;letter-spacing:.5px;}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.95rem;}
+  th,td{border:1px solid var(--linea);padding:8px 11px;text-align:left;vertical-align:top;}
+  th{background:var(--azul-claro);color:var(--tinta);}
+  tr:nth-child(even) td{background:#fafcfd;}
+  .card{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:18px 22px;margin:14px 0;}
+  .stat{display:inline-block;background:var(--azul-claro);border-radius:8px;padding:4px 10px;margin:3px;font-weight:600;color:var(--azul);}
+  ul{margin:6px 0 6px 0;padding-left:22px;}
+  li{margin:3px 0;}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;}
+  .ev-a{background:#e3f4e8;color:var(--verde);}
+  .ev-b{background:#fff2dc;color:var(--ambar);}
+  /* Exam section */
+  .examen{
+    background:var(--amarillo,#fff7e0);
+    border:2px solid var(--ambar);
+    border-radius:14px;
+    padding:6px 28px 26px;
+    margin-top:48px;
+  }
+  .examen h2{color:#8a5d00;border-bottom:3px solid var(--ambar);}
+  .ojo{
+    background:var(--rojo-claro);border-left:5px solid var(--rojo);
+    border-radius:0 8px 8px 0;padding:12px 18px;margin:14px 0;
+  }
+  .ojo b{color:var(--rojo);}
+  .pista{
+    background:#eef7f0;border-left:5px solid var(--verde);
+    border-radius:0 8px 8px 0;padding:12px 18px;margin:14px 0;
+  }
+  .mini{font-size:.85rem;color:var(--gris);}
+  code{background:#eef2f5;padding:1px 6px;border-radius:4px;font-size:.92em;}
+  footer{text-align:center;color:var(--gris);font-size:.82rem;margin-top:50px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Diagnóstico y Tratamiento del Tabaquismo</h1>
+  <p>Resumen completo del seminario · Neumología</p>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Índice</h2>
+  <ol>
+    <li><a href="#concepto">Concepto y magnitud del problema</a></li>
+    <li><a href="#comparativa">El tabaco frente a otras drogas</a></li>
+    <li><a href="#inicio">Inicio del consumo</a></li>
+    <li><a href="#consecuencias">Consecuencias del tabaco</a></li>
+    <li><a href="#fases">Fases del abandono (Prochaska–DiClemente)</a></li>
+    <li><a href="#intervencion">Intervención: las 5 Aes</a></li>
+    <li><a href="#valoracion">Valoración inicial del fumador</a></li>
+    <li><a href="#tests">Tests (Richmond, Fagerström, Glover-Nilsson)</a></li>
+    <li><a href="#complementarios">Exámenes complementarios (CO, nicotina, cotinina)</a></li>
+    <li><a href="#grado">Grado de tabaquismo</a></li>
+    <li><a href="#tratamiento">Estrategias de tratamiento</a></li>
+    <li><a href="#neuro">Neurobiología de la adicción</a></li>
+    <li><a href="#farmacos">Tratamiento farmacológico</a></li>
+    <li><a href="#psico">Tratamiento psicosocial</a></li>
+    <li><a href="#nuevos">Nuevos productos (e-cig, cachimba, IQoS, Juul)</a></li>
+    <li><a href="#examen">⚠️ Ojo cuidado — para el examen</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================= -->
+<section id="concepto">
+<h2 class="sec">1. Concepto y magnitud del problema</h2>
+<p>La <strong>dependencia del tabaco es una enfermedad crónica con recaídas</strong>, que supone una amenaza para la vida y que requiere manejo con medicación a largo plazo. Está reconocida como <strong>enfermedad adictiva crónica (CIE-10)</strong>.</p>
+<div class="card">
+  <p>En España el tabaco:</p>
+  <span class="stat">≈ 56.000 muertes/año</span>
+  <span class="stat">1ª causa <em>prevenible</em> de morbi-mortalidad</span>
+  <span class="stat">1ª causa evitable de muerte prematura en países desarrollados</span>
+</div>
+<h4>Comparación de mortalidad (datos del seminario)</h4>
+<table>
+  <tr><th>Causa</th><th>Año</th><th>Mes</th><th>Día</th><th>Hora</th></tr>
+  <tr><td><strong>Tabaco</strong></td><td>55.613</td><td>4.634</td><td>154</td><td>6</td></tr>
+  <tr><td>Tráfico</td><td>4.500</td><td>350</td><td>15</td><td>—</td></tr>
+</table>
+<p class="mini">Comparación gráfica usada en clase: la mortalidad por tabaco equivale aproximadamente a “1 accidente aéreo al día” y “2 Torres Gemelas al mes”.</p>
+</section>
+
+<!-- ============================================= -->
+<section id="comparativa">
+<h2 class="sec">2. El tabaco frente a otras drogas</h2>
+<p>La nicotina destaca por su altísimo poder adictivo. Resumen de las jerarquías presentadas:</p>
+<table>
+  <tr><th>Parámetro</th><th>Orden (mayor → menor)</th></tr>
+  <tr><td>Dependencia que genera</td><td><strong>Nicotina</strong> &gt; heroína &gt; cocaína &gt; alcohol &gt; cafeína</td></tr>
+  <tr><td>Dificultad para consolidar la abstinencia</td><td>(alcohol = cocaína = heroína = nicotina) &gt; cafeína</td></tr>
+  <tr><td>Tolerancia</td><td>(alcohol = heroína = nicotina) &gt; cocaína &gt; cafeína</td></tr>
+  <tr><td>Severidad del sd. de abstinencia</td><td>alcohol &gt; heroína &gt; nicotina &gt; cocaína &gt; cafeína</td></tr>
+  <tr><td><strong>Mortalidad</strong></td><td><strong>Nicotina</strong> &gt; alcohol &gt; (cocaína = heroína) &gt; cafeína</td></tr>
+  <tr><td>Intoxicación aguda</td><td>alcohol &gt; (cocaína = heroína) &gt; cafeína &gt; nicotina</td></tr>
+  <tr><td>Prevalencia</td><td>cafeína &gt; <strong>nicotina</strong> &gt; alcohol &gt; (cocaína = heroína)</td></tr>
+</table>
+</section>
+
+<!-- ============================================= -->
+<section id="inicio">
+<h2 class="sec">3. Inicio del consumo</h2>
+<p>Principales factores de iniciación señalados en el seminario:</p>
+<ul>
+  <li><strong>Presión e influencia del grupo de amigos.</strong></li>
+  <li><strong>Familia</strong> (modelado de padres/hermanos) como factor de iniciación.</li>
+</ul>
+<p>El tabaquismo se explica por tres bloques de factores: <strong>sociales</strong> (disponibilidad, accesibilidad, publicidad), <strong>psicológicos</strong> (reforzamiento, hábito, gestualidad) y <strong>dependencia fisiológica de la nicotina</strong>.</p>
+</section>
+
+<!-- ============================================= -->
+<section id="consecuencias">
+<h2 class="sec">4. Consecuencias del tabaco</h2>
+<ul>
+  <li><strong>Enfermedad cerebrovascular</strong> (ictus).</li>
+  <li><strong>Cardiopatía isquémica.</strong></li>
+  <li><strong>Lesiones dérmicas:</strong> poco conocidas pero muy frecuentes; asociadas a gran morbilidad, con <em>trastornos de la cicatrización</em> y <em>envejecimiento cutáneo</em>.</li>
+  <li>Patología respiratoria, oncológica y cardiovascular en general (idea de fondo: “el tabaco te quita años y te quita vida”).</li>
+</ul>
+</section>
+
+<!-- ============================================= -->
+<section id="fases">
+<h2 class="sec">5. Fases del abandono (modelo de Prochaska y DiClemente)</h2>
+<p>El abandono del tabaco se entiende como un <strong>proceso por fases</strong>:</p>
+<table>
+  <tr><th>Fase</th><th>Definición operativa</th></tr>
+  <tr><td><strong>Precontemplación</strong></td><td>No piensa dejar de fumar en los próximos 6 meses.</td></tr>
+  <tr><td><strong>Contemplación</strong></td><td>Piensa dejarlo en los próximos 6 meses, pero no en el próximo mes.</td></tr>
+  <tr><td><strong>Preparación</strong></td><td>Piensa dejarlo en el próximo mes / dispuesto a fijar una fecha.</td></tr>
+  <tr><td><strong>Acción</strong></td><td>Está dispuesto a fijar una fecha de abandono y la pone en marcha.</td></tr>
+  <tr><td><strong>Mantenimiento</strong></td><td>Consolidación de la abstinencia.</td></tr>
+  <tr><td><strong>Finalización</strong></td><td>Abandono definitivo.</td></tr>
+  <tr><td><strong>Recaída</strong></td><td>Reinicio del consumo (parte natural del ciclo).</td></tr>
+</table>
+<h4>Oferta terapéutica según la fase</h4>
+<table>
+  <tr><th>Fase</th><th>Qué ofrecer</th></tr>
+  <tr><td>Precontemplación</td><td>Folleto informativo</td></tr>
+  <tr><td>Contemplación</td><td>Consejo médico</td></tr>
+  <tr><td>Preparación</td><td>Guía práctica</td></tr>
+  <tr><td>Acción</td><td>Tratamiento + seguimiento</td></tr>
+</table>
+</section>
+
+<!-- ============================================= -->
+<section id="intervencion">
+<h2 class="sec">6. Intervención: las 5 Aes</h2>
+<table>
+  <tr><th>A</th><th>Inglés</th><th>Acción</th></tr>
+  <tr><td><strong>Averiguar</strong></td><td>Ask</td><td>Preguntar si fuma a todo paciente.</td></tr>
+  <tr><td><strong>Aconsejar</strong></td><td>Advise</td><td>Consejo claro, firme y personalizado de abandono.</td></tr>
+  <tr><td><strong>Ampliar / Evaluar</strong></td><td>Assess</td><td>Valorar disposición a dejarlo y diagnóstico.</td></tr>
+  <tr><td><strong>Ayudar</strong></td><td>Assist</td><td>Apoyo + tratamiento para dejar de fumar.</td></tr>
+  <tr><td><strong>Acordar</strong></td><td>Arrange</td><td>Planificar seguimiento.</td></tr>
+</table>
+</section>
+
+<!-- ============================================= -->
+<section id="valoracion">
+<h2 class="sec">7. Valoración inicial del fumador</h2>
+<p>La valoración inicial integra cinco bloques:</p>
+<ul>
+  <li><strong>Datos demográficos y relación con el tabaco.</strong></li>
+  <li><strong>Estado de salud.</strong></li>
+  <li><strong>Grado de motivación.</strong></li>
+  <li><strong>Grado de dependencia nicotínica.</strong></li>
+  <li><strong>Valoración del síndrome de abstinencia.</strong></li>
+</ul>
+
+<h3>Datos demográficos y relación con el tabaco</h3>
+<p>Edad del primer cigarrillo y del consumo diario; cómo se inició (presión de amigos, familiares, imitar adultos); motivos para dejarlo (salud, dependencia, economía, prevención, presión familiar, ser modelo para los hijos, prescripción facultativa); entorno fumador (padre, madre, hermanos, cónyuge, hijos, amigos, compañeros); intentos previos (cuántos, métodos, fármacos, tiempo máximo sin fumar, motivo de recaída).</p>
+<div class="card">
+  <strong>Cálculo clave — Paquetes-año:</strong><br>
+  <code>Paquetes-año = (nº cigarrillos/día ÷ 20) × nº de años fumando</code><br>
+  <span class="mini">Equivalente: nº paquetes/día × nº de años fumador.</span>
+</div>
+
+<h3>Estado de salud</h3>
+<p><strong>Exploración física:</strong> orofaringe, auscultación cardíaca y pulmonar, peso, tensión arterial.<br>
+<strong>Pruebas:</strong> <strong>espirometría</strong>, y otras como ECG y Rx de tórax.</p>
+</section>
+
+<!-- ============================================= -->
+<section id="tests">
+<h2 class="sec">8. Tests de valoración</h2>
+
+<h3>Test de Richmond — motivación</h3>
+<p>4 preguntas; puntuación de 0 a 10.</p>
+<table>
+  <tr><th>Puntuación</th><th>Motivación</th></tr>
+  <tr><td>0 – 6</td><td>Baja</td></tr>
+  <tr><td>7 – 9</td><td>Moderada</td></tr>
+  <tr><td>10</td><td>Alta</td></tr>
+</table>
+
+<h3>Test de Fagerström (modificado) — dependencia física</h3>
+<p>Valora la dependencia física de la nicotina (la pregunta de más peso es el tiempo hasta el primer cigarrillo y el nº de cigarrillos/día).</p>
+<table>
+  <tr><th>Puntuación</th><th>Dependencia</th></tr>
+  <tr><td>≤ 4</td><td>Baja</td></tr>
+  <tr><td>5 – 6</td><td>Media</td></tr>
+  <tr><td>≥ 7</td><td>Alta</td></tr>
+</table>
+
+<h3>Test de Glover-Nilsson — dependencia social y conductual</h3>
+<p>11 ítems puntuados de 0 (nada) a 4 (muchísimo).</p>
+<table>
+  <tr><th>Puntuación</th><th>Dependencia</th></tr>
+  <tr><td>&lt; 12</td><td>Leve</td></tr>
+  <tr><td>12 – 22</td><td>Moderada</td></tr>
+  <tr><td>23 – 33</td><td>Fuerte</td></tr>
+  <tr><td>34 – 44</td><td>Muy fuerte</td></tr>
+</table>
+
+<h3>Registro de cigarrillos</h3>
+<p>El paciente anota cada cigarrillo (hora, situación y necesidad de 0 a 2). Sirve para identificar los cigarrillos “clave” y las situaciones desencadenantes.</p>
+
+<h3>Valoración del síndrome de abstinencia</h3>
+<p>Se gradúa (0 = no, 1 = leve, 2 = moderado, 3 = intenso) cada síntoma: <em>craving</em>, ansiedad, irritabilidad, dificultad de concentración, impaciencia, nerviosismo, ánimo deprimido, alteraciones del sueño, aumento del apetito y estreñimiento.</p>
+</section>
+
+<!-- ============================================= -->
+<section id="complementarios">
+<h2 class="sec">9. Exámenes complementarios (marcadores)</h2>
+<p>Tres marcadores: <strong>cooximetría (CO)</strong>, <strong>nicotina</strong> y <strong>cotinina</strong>.</p>
+
+<h3>Cooximetría (CO espirado)</h3>
+<ul>
+  <li>A mayor nivel, mayor probabilidad de enfermedad (especialmente <strong>cardiovascular</strong>).</li>
+  <li>Relación directa con el nº de cigarrillos y relación <strong>lineal CO – carboxihemoglobina (HbCO)</strong> en sangre.</li>
+  <li>Es un <strong>marcador real de abstinencia</strong> y herramienta de motivación.</li>
+  <li>Se <strong>normaliza a las 48–72 horas</strong> del abandono.</li>
+  <li><strong>Fumadores: cifras &gt; 10 ppm.</strong> Depende del patrón de consumo y de las horas desde el último cigarrillo (valorar otras fuentes de exposición).</li>
+</ul>
+
+<h3>Nicotina</h3>
+<ul>
+  <li>Se detecta en sudor, leche, saliva y orina. <strong>Vida media ≈ 2 horas.</strong></li>
+  <li>Metabolismo hepático → <strong>cotinina</strong>.</li>
+  <li>Informa de la abstinencia de las <strong>últimas 24–48 h</strong>. Poco usada en la práctica clínica.</li>
+</ul>
+
+<h3>Cotinina</h3>
+<ul>
+  <li>Metabolito de la nicotina; se mide en saliva, sangre (más estable) y orina.</li>
+  <li><strong>Vida media 11–37 h.</strong> Informa de la abstinencia de los <strong>últimos ~4 días</strong>.</li>
+  <li>Correlación alta con el test de Fagerström; discrimina fumadores de no fumadores y detecta exposición ambiental/laboral al humo.</li>
+</ul>
+</section>
+
+<!-- ============================================= -->
+<section id="grado">
+<h2 class="sec">10. Grado de tabaquismo</h2>
+<p>Se gradúa combinando consumo (paquetes-año) y niveles de CO:</p>
+<table>
+  <tr><th>Grado</th><th>Paquetes-año</th><th>CO espirado</th></tr>
+  <tr><td>Leve</td><td>&lt; 5</td><td>&lt; 15 ppm</td></tr>
+  <tr><td>Moderado</td><td>5 – 15</td><td>15 – 20 ppm</td></tr>
+  <tr><td>Grave</td><td>16 – 25</td><td>21 – 30 ppm</td></tr>
+  <tr><td>Muy grave</td><td>&gt; 25</td><td>&gt; 30 ppm</td></tr>
+</table>
+<div class="card">
+  <strong>Conclusiones — datos mínimos a recoger:</strong> nº paquetes-año · fase de abandono · motivación · intentos previos y análisis de recaídas · Fagerström · cooximetría.
+</div>
+</section>
+
+<!-- ============================================= -->
+<section id="tratamiento">
+<h2 class="sec">11. Estrategias de tratamiento</h2>
+<div class="card">
+  <span class="stat">El 60 % de los fumadores quiere dejar de fumar</span>
+  <span class="stat">El tratamiento farmacológico adecuado <strong>triplica</strong> los éxitos</span>
+  <span class="stat">Solo el 4 % de los intentos llevan tratamiento médico adecuado</span>
+</div>
+<h4>Síndrome de abstinencia (justifica el tratamiento)</h4>
+<p>Síntomas: <em>craving</em>, irritabilidad, nerviosismo, ansiedad, dificultad de concentración, trastornos del sueño, ganancia de peso.</p>
+<ul>
+  <li><strong>Duración: 6 a 12 semanas.</strong></li>
+  <li><strong>Máxima intensidad entre la 1ª y la 8ª semana.</strong></li>
+  <li>Es la <strong>principal causa de recaída</strong>.</li>
+</ul>
+<p>Los tratamientos del tabaquismo son <strong>coste-efectivos</strong> y se consideran patrón de referencia de coste-efectividad asistencial.</p>
+
+<h4>Esquema general</h4>
+<table>
+  <tr><th>1ª línea</th><th>2ª línea</th><th>Apoyo no farmacológico</th></tr>
+  <tr>
+    <td>TSN · Citisina · Bupropión · Vareniclina</td>
+    <td>Clonidina · Nortriptilina</td>
+    <td>Intervención del profesional + materiales de autoayuda + tratamiento conductual</td>
+  </tr>
+</table>
+</section>
+
+<!-- ============================================= -->
+<section id="neuro">
+<h2 class="sec">12. Neurobiología de la adicción</h2>
+<p><strong>Efectos de la nicotina en el SNC:</strong> liberación de adrenalina y noradrenalina, de vasopresina y de beta-endorfinas; aumento de la concentración y de la memoria; disminución del estrés y la depresión.</p>
+<div class="card">
+  <strong>Circuito de recompensa:</strong> la nicotina activa los <strong>receptores nicotínicos α4β2</strong> del <strong>área tegmental ventral (ATV)</strong>, produciendo liberación de <strong>dopamina</strong> en el <strong>núcleo accumbens</strong> → refuerzo y recompensa a corto plazo.
+</div>
+<h4>Mecanismo de los fármacos sobre el receptor nicotínico</h4>
+<table>
+  <tr><th>Fármaco</th><th>Acción sobre el receptor nicotínico</th></tr>
+  <tr><td>TSN (nicotina)</td><td>Aporta nicotina (agonista) sin combustión.</td></tr>
+  <tr><td>Bupropión</td><td>Antagonismo no competitivo del receptor + inhibe recaptación de dopamina y noradrenalina.</td></tr>
+  <tr><td>Vareniclina</td><td><strong>Agonista parcial</strong> del receptor α4β2.</td></tr>
+</table>
+</section>
+
+<!-- ============================================= -->
+<section id="farmacos">
+<h2 class="sec">13. Tratamiento farmacológico</h2>
+
+<h3>Terapia sustitutiva con nicotina (TSN) <span class="tag ev-a">Evidencia A</span></h3>
+<p>Vías: chicle, parche, spray nasal, inhalador bucal, comprimido. Aporta nicotinemia &gt; 10 ng/ml, con pico alto y rápido.</p>
+
+<h4>Chicles de nicotina</h4>
+<ul>
+  <li>Dosis de <strong>2 y 4 mg</strong>; duración mínima 12 semanas; <strong>no más de 24 piezas/día</strong>. <span class="tag ev-a">Evidencia A</span></li>
+  <li>Recomendar los de <strong>4 mg en muy dependientes</strong> (nivel B).</li>
+  <li>EA: dolor oral, hipo, dispepsia, dolor de la ATM. <strong>Las bebidas ácidas interfieren la absorción.</strong></li>
+  <li>Pauta orientativa: baja dependencia → 2 mg, 8–10/día; moderada → 4 mg, 1 pieza/2 h; alta → 4 mg, 1 pieza/1 h.</li>
+</ul>
+
+<h4>Comprimidos/pastillas de nicotina <span class="tag ev-b">Evidencia B</span></h4>
+<ul>
+  <li>Dosis de 1 y 2 mg; 12 semanas; no más de 20 pastillas/día.</li>
+  <li>EA: náuseas, hipo, pirosis. También interfieren las bebidas ácidas.</li>
+</ul>
+
+<h4>Parches de nicotina <span class="tag ev-a">Evidencia A</span></h4>
+<table>
+  <tr><th>Tipo</th><th>Dosis disponibles</th></tr>
+  <tr><td>Parche de <strong>16 horas</strong></td><td>15 / 10 / 5 mg</td></tr>
+  <tr><td>Parche de <strong>24 horas</strong></td><td>21 / 14 / 7 mg</td></tr>
+</table>
+<p>Uso correcto: variar el lugar de colocación. Dosis altas en las primeras 6–8 semanas y pauta descendente (8–12 semanas en total).</p>
+
+<h4>Terapia combinada de TSN</h4>
+<p>Uso simultáneo de dos formas de liberación distintas (p. ej. <strong>parche + chicle</strong>, parche + inhalador, parche + spray). Indicaciones:</p>
+<ul>
+  <li>&gt; 20 cigarrillos/día</li>
+  <li>Fagerström ≥ 6 puntos</li>
+  <li>CO ≥ 30 ppm</li>
+  <li>Cotinemia ≥ 250 ng/ml</li>
+</ul>
+
+<h4>Contraindicaciones de la TSN</h4>
+<p><strong>Comunes:</strong> infarto de miocardio reciente (6–8 semanas previas), arritmias severas, angina inestable, embarazo y lactancia.</p>
+<p><strong>Específicas:</strong> chicle → problemas dentarios, patología de la ATM, infección orofaríngea, hernia de hiato, ulcus; parche → enfermedades dermatológicas; spray → enfermedades de fosas nasales; inhalador → hiperreactividad bronquial.</p>
+<div class="pista">
+  <strong>Seguridad de uso:</strong> aunque la nicotina causa daño cardiovascular, la <strong>TSN no aumenta el riesgo de eventos cardiovasculares</strong>, ni siquiera en cardiopatía isquémica o enfermedad vascular periférica. En el embarazo, si se usa: dosis más baja, mejor chicle que parche.
+</div>
+
+<h3>Citisina</h3>
+<ul>
+  <li>Tabletas de <strong>1,5 mg</strong> (envase de 100).</li>
+  <li>Duración total <strong>25 días</strong>, con <strong>pauta descendente</strong>.</li>
+</ul>
+
+<h3>Bupropión <span class="tag ev-a">Evidencia A</span></h3>
+<ul>
+  <li><strong>Mecanismo:</strong> inhibe la recaptación de dopamina (núcleo accumbens) y de noradrenalina (locus ceruleus).</li>
+  <li><strong>Pauta:</strong> los 3 primeros días, 150 mg por la mañana; después 150 mg dos veces al día (separados 8 h) durante 7–12 semanas.</li>
+  <li><strong>EA:</strong> insomnio (35–40 %), sequedad de boca (10 %).</li>
+  <li><strong>Contraindicaciones:</strong> epilepsia previa, trastornos de la conducta alimentaria, IMAO en los 14 días previos.</li>
+  <li>OR ≈ 2,12.</li>
+</ul>
+
+<h3>Vareniclina <span class="tag ev-a">Evidencia A</span></h3>
+<ul>
+  <li><strong>Mecanismo:</strong> agonista parcial del receptor α4β2 → menor liberación de dopamina en el accumbens y bloqueo de la unión de la nicotina al receptor.</li>
+  <li><strong>Titulación:</strong> días 1–3 → 0,5 mg/día; días 4–7 → 0,5 mg/12 h; día 8 hasta el final → 1 mg/12 h. Tratamiento de 12 semanas (puede añadirse otro ciclo de 12; mantenimiento autorizado hasta 6 meses).</li>
+  <li><strong>EA:</strong> náuseas (tomar con el estómago lleno), alteraciones del sueño, sueños anormales/vívidos.</li>
+  <li>Precaución en insuficiencia renal y diálisis (reducir dosis).</li>
+  <li><strong>Aviso de 2008</strong> por ánimo deprimido, agitación, trastornos de conducta e ideación suicida; el <strong>estudio EAGLES (2016) demostró su seguridad en pacientes psiquiátricos</strong>.</li>
+  <li>OR ≈ 2,55. En estudios comparativos fue superior a bupropión y placebo.</li>
+</ul>
+
+<h4>Combinaciones (Evidencia A)</h4>
+<p>Parche &gt; 14 semanas + otra forma de TSN (chicle); parche + inhalador; parche + bupropión; parche + nortriptilina; parche + otros antidepresivos (paroxetina, venlafaxina). Un metaanálisis (2008) mostró abstinencia a 12 meses: TSN + bupropión 35,5 %; bupropión 30,3 %; TSN 16,4 %; placebo 15,6 %.</p>
+
+<h4>Estrategia de reducción</h4>
+<p>Reducción del 50 % durante 4 meses (validada con CO) en fumadores que no quieren dejarlo pero sí reducir, o con alta dependencia y fracasos previos. Muchos acaban fijando el “día D” y logrando el abandono total.</p>
+
+<h4>Fármacos de 2ª línea <span class="tag ev-a">Evidencia A (2ª línea)</span></h4>
+<p><strong>Clonidina</strong> y <strong>nortriptilina</strong>: cuando no pueden usarse los de 1ª línea (contraindicación o falta de eficacia); requieren supervisión médica.</p>
+</section>
+
+<!-- ============================================= -->
+<section id="psico">
+<h2 class="sec">14. Tratamiento psicosocial</h2>
+<ul>
+  <li><strong>Inespecíficos (consejo breve/intensivo):</strong> deben emplearse en <strong>todos</strong> los fumadores (OR 1,5–2 en metaanálisis).</li>
+  <li><strong>Específicos:</strong> terapia conductual, materiales de autoayuda, grupos de educación sanitaria.</li>
+</ul>
+<p><strong>Terapia conductual:</strong> modifica los antecedentes del consumo, refuerza la conducta de no fumar y enseña técnicas para situaciones de alto riesgo, incluyendo <strong>prevención de recaídas</strong>. Eficacia ≈ 20–25 % a los 6 meses. Puede ser individual o grupal (resultados similares; elegir según disponibilidad y preferencia del paciente).</p>
+<div class="pista">
+  <strong>Mensaje clave:</strong> la combinación de <strong>tratamiento farmacológico + terapia conductual</strong> ofrece un porcentaje de éxito superior a cualquiera de las dos por separado, y es el tratamiento recomendado.
+</div>
+</section>
+
+<!-- ============================================= -->
+<section id="nuevos">
+<h2 class="sec">15. Nuevos productos del tabaco / nicotina</h2>
+
+<h3>Cigarrillo electrónico</h3>
+<ul>
+  <li>No hay combustión → niveles de CO sin riesgo CV. Nicotina de 0 a 36 mg; nitrosaminas mínimas.</li>
+  <li>Excipientes: propilenglicol, glicerina vegetal, polietilenglicol. Por calentamiento de la glicerina se generan <strong>formaldehído y acroleína</strong>.</li>
+  <li>Se detectan <strong>níquel, cromo y plomo</strong> (cancerígenos sin umbral de seguridad) y aditivos.</li>
+  <li><strong>Citotóxico in vitro</strong> para fibroblastos pulmonares y células madre humanas; efectos sobre la función respiratoria; descrita <strong>neumonía lipoidea</strong>.</li>
+  <li>Posible papel en deshabituación, <strong>siempre con seguimiento profesional</strong>; peligro del <strong>uso dual</strong>, pueden crear adicción y son <strong>puerta de inicio en adolescentes</strong>.</li>
+</ul>
+
+<h3>Cachimba / arguile / shisha</h3>
+<ul>
+  <li>Deja en el cuerpo los mismos compuestos químicos que el tabaco.</li>
+  <li>Una sesión de <strong>45–60 min ≈ 200 veces más humo</strong>, <strong>40 veces más alquitrán</strong> y <strong>10 veces más CO</strong> que un cigarro; contiene sustancias cancerígenas.</li>
+  <li><strong>Mitos falsos:</strong> “es menos nocivo”, “el agua filtra las sustancias nocivas”, “irrita menos”, “el tabaco es de frutas”.</li>
+</ul>
+
+<h3>IQoS y Juul</h3>
+<p>Otros dispositivos comercializados (tabaco calentado y cigarrillos electrónicos tipo <em>pod</em>); su etiquetado advierte de que la nicotina es una sustancia adictiva.</p>
+
+<div class="card" style="text-align:center;">
+  <strong>Conclusiones finales del seminario</strong><br>
+  Es posible dejar de fumar · con un programa terapéutico adecuado las posibilidades de éxito se multiplican · existe medicación que ayuda · <strong>identificar a los fumadores y ofrecerles apoyo es una obligación del personal sanitario.</strong>
+</div>
+</section>
+
+<!-- ============================================= EXAM ===== -->
+<section id="examen" class="examen">
+<h2 class="sec">⚠️ Ojo cuidado — Lo que más se pregunta en el examen</h2>
+<p class="mini">Puntos de alto rendimiento, cifras exactas y trampas clásicas extraídas del propio seminario.</p>
+
+<div class="ojo">
+  <b>Los tres tests y sus puntos de corte (¡clásico de examen!):</b>
+  <ul>
+    <li><strong>Richmond</strong> → mide <em>motivación</em> (4 ítems, 0–10): 0–6 baja, 7–9 moderada, 10 alta.</li>
+    <li><strong>Fagerström</strong> → mide <em>dependencia física</em>: ≤4 baja, 5–6 media, ≥7 alta.</li>
+    <li><strong>Glover-Nilsson</strong> → mide <em>dependencia social/conductual</em> (no la física).</li>
+  </ul>
+  <span class="mini">Trampa frecuente: confundir cuál mide motivación (Richmond) y cuál dependencia (Fagerström).</span>
+</div>
+
+<div class="ojo">
+  <b>Marcadores — qué refleja cada uno y en qué ventana de tiempo:</b>
+  <ul>
+    <li><strong>CO (cooximetría):</strong> fumador &gt; 10 ppm; se normaliza a las <strong>48–72 h</strong>; relación <strong>lineal con la HbCO</strong>.</li>
+    <li><strong>Nicotina:</strong> vida media ≈ 2 h → abstinencia de las últimas <strong>24–48 h</strong>.</li>
+    <li><strong>Cotinina:</strong> vida media 11–37 h → abstinencia de los últimos <strong>~4 días</strong>; el marcador más útil/estable.</li>
+  </ul>
+</div>
+
+<div class="ojo">
+  <b>Mecanismos de los fármacos (pregunta muy típica):</b>
+  <ul>
+    <li><strong>Vareniclina = agonista parcial del receptor nicotínico α4β2.</strong></li>
+    <li><strong>Bupropión</strong> = inhibidor de la recaptación de <strong>dopamina y noradrenalina</strong> (+ antagonismo no competitivo del receptor).</li>
+    <li><strong>TSN</strong> = aporte de nicotina (agonista) sin combustión.</li>
+  </ul>
+</div>
+
+<div class="ojo">
+  <b>Contraindicaciones y seguridad (trampas):</b>
+  <ul>
+    <li>TSN contraindicada en: <strong>IAM reciente (6–8 sem), arritmias severas, angina inestable, embarazo y lactancia.</strong></li>
+    <li>Pero ojo: la <strong>TSN NO aumenta el riesgo cardiovascular</strong> en pacientes estables (incluso con cardiopatía isquémica). La nicotina daña; la TSN bien indicada, no.</li>
+    <li><strong>Bupropión:</strong> CI en <strong>epilepsia</strong>, <strong>trastornos de conducta alimentaria</strong> e IMAO recientes (baja el umbral convulsivo).</li>
+    <li><strong>Vareniclina:</strong> aviso neuropsiquiátrico de 2008, pero el <strong>estudio EAGLES (2016) demostró su seguridad</strong>; ajustar en insuficiencia renal.</li>
+  </ul>
+</div>
+
+<div class="ojo">
+  <b>Cifras que pueden caer tal cual:</b>
+  <ul>
+    <li>Paquetes-año = (cig/día ÷ 20) × años.</li>
+    <li>Síndrome de abstinencia: <strong>dura 6–12 semanas</strong>, máxima intensidad entre la <strong>1ª y 8ª semana</strong>, principal causa de recaída.</li>
+    <li>Chicles: 2 y 4 mg, ≤24/día. Parches: 16 h (15/10/5 mg) y 24 h (21/14/7 mg).</li>
+    <li>Citisina: tabletas de 1,5 mg, 25 días, pauta descendente.</li>
+    <li>Indicaciones de terapia combinada: &gt;20 cig/día, Fagerström ≥6, CO ≥30 ppm, cotinemia ≥250 ng/ml.</li>
+  </ul>
+</div>
+
+<div class="ojo">
+  <b>Conceptos transversales:</b>
+  <ul>
+    <li>Modelo de fases = <strong>Prochaska y DiClemente</strong> (saber definir precontemplación vs contemplación vs preparación por el horizonte temporal: 6 meses / 1 mes / fijar fecha).</li>
+    <li>Intervención = <strong>las 5 Aes</strong> (Averiguar, Aconsejar, Ampliar/Evaluar, Ayudar, Acordar).</li>
+    <li>Tabaco = <strong>1ª causa prevenible</strong> de morbi-mortalidad y de muerte prematura en países desarrollados.</li>
+    <li>El tratamiento de elección es <strong>fármaco + terapia conductual combinados</strong>.</li>
+    <li>Fármacos de <strong>1ª línea</strong>: TSN, citisina, bupropión, vareniclina. <strong>2ª línea</strong>: clonidina y nortriptilina.</li>
+  </ul>
+</div>
+
+<div class="pista">
+  <b>Mitos de la cachimba que suelen ponerse como “falso”:</b> que el agua filtra las sustancias nocivas o que es menos dañina. En realidad una sesión equivale a ~200× humo, 40× alquitrán y 10× CO de un cigarro.
+</div>
+</section>
+
+<footer>
+  Resumen elaborado a partir del seminario «Diagnóstico y Tratamiento del Tabaquismo».<br>
+  Material de estudio — verifica dosis y puntos de corte con tu temario oficial antes del examen.
+</footer>
+
+</div>
+</body>
+</html>
