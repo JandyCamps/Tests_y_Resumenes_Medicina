@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 1 · Estructura y función de la piel · Lesiones elementales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --paper-2:#F3EFE6; --card:#FFFFFF;
+    --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --c1:#0E5B61; --c1d:#0A4448;
+    --c2:#B5732A; --c2d:#8E5A1E;
+    --c3:#B0463C; --c3d:#8C342C;
+    --c4:#2E7D5B; --c4d:#1F5C42;
+    --c5:#3A5C9A; --c5d:#2C4778;
+    --c6:#6B4E8C; --c6d:#523970;
+    --c7:#A23E63; --c7d:#812F4E;
+    --c8:#2E6E7E; --c8d:#235662;
+    --teal:#0E5B61; --teal-deep:#0A4448;
+    --coral:#BB3A2B; --coral-bg:#FBEAE6;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --green:#3E7D4F; --red:#BB3A2B;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 8px 28px -16px rgba(32,48,58,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:0 22px 120px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#B0463C 52%,#523970);
+    color:#F5F2EA; padding:54px 0 46px; position:relative; overflow:hidden; border-bottom:3px solid var(--amber);}
+  header.hero:after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% 12%,rgba(255,255,255,.13),transparent 46%);}
+  .hero-inner{max-width:940px; margin:0 auto; padding:0 22px; position:relative}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#D9C8D8; margin:0 0 14px;}
+  .hero h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(27px,5vw,45px); line-height:1.05; margin:0 0 14px; letter-spacing:-.01em;}
+  .hero p{max-width:670px; margin:0; color:#EEE6EC; font-size:16.5px}
+  .hero .meta{margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:#D7C4D2; letter-spacing:.03em;}
+
+  nav.toc{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin:30px 0 10px; box-shadow:var(--shadow);}
+  nav.toc h2{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px; font-weight:500;}
+  nav.toc ol{margin:0; padding:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:0 0 7px; break-inside:avoid}
+  nav.toc a{color:var(--c6); text-decoration:none; font-weight:500; font-size:14.5px; border-bottom:1px solid transparent;}
+  nav.toc a:hover{border-bottom-color:var(--c6)}
+  nav.toc .n{font-family:"IBM Plex Mono",monospace; color:var(--amber); font-size:12px; margin-right:7px}
+
+  section{margin:48px 0 0}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin:0 0 8px; padding-top:14px}
+  .sec-head .num{font-family:"IBM Plex Mono",monospace; font-size:13px; color:#fff; border-radius:7px; padding:4px 9px; letter-spacing:.06em; flex:none; transform:translateY(-3px);}
+  .s1 .num{background:var(--c1)} .s2 .num{background:var(--c2)} .s3 .num{background:var(--c3)} .s4 .num{background:var(--c4)} .s5 .num{background:var(--c5)} .s6 .num{background:var(--c6)} .s7 .num{background:var(--c7)} .s8 .num{background:var(--c8)} .ss .num{background:var(--amber)}
+  h2.title{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(22px,4vw,31px); margin:0; line-height:1.1; letter-spacing:-.01em;}
+  h3{font-family:"Fraunces",serif; font-weight:600; font-size:19.5px; margin:28px 0 4px; letter-spacing:-.01em;}
+  .s1 h3{color:var(--c1d)} .s2 h3{color:var(--c2d)} .s3 h3{color:var(--c3d)} .s4 h3{color:var(--c4d)} .s5 h3{color:var(--c5d)} .s6 h3{color:var(--c6d)} .s7 h3{color:var(--c7d)} .s8 h3{color:var(--c8d)}
+  .lead{color:var(--ink-soft); margin:6px 0 18px; max-width:720px}
+  .rule{height:2px; border:none; margin:6px 0 0; border-radius:2px;}
+  .s1 .rule{background:linear-gradient(90deg,var(--c1),transparent)} .s2 .rule{background:linear-gradient(90deg,var(--c2),transparent)} .s3 .rule{background:linear-gradient(90deg,var(--c3),transparent)} .s4 .rule{background:linear-gradient(90deg,var(--c4),transparent)} .s5 .rule{background:linear-gradient(90deg,var(--c5),transparent)} .s6 .rule{background:linear-gradient(90deg,var(--c6),transparent)} .s7 .rule{background:linear-gradient(90deg,var(--c7),transparent)} .s8 .rule{background:linear-gradient(90deg,var(--c8),transparent)} .ss .rule{background:linear-gradient(90deg,var(--amber),transparent)}
+
+  p{margin:12px 0} strong{color:var(--ink); font-weight:600}
+  .hl{background:linear-gradient(transparent 58%,#FBF2DA 58%); padding:0 1px; font-weight:600}
+
+  .card{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:0 12px 12px 0; padding:16px 22px; margin:14px 0; box-shadow:var(--shadow);}
+  .card.c1{border-left-color:var(--c1)} .card.c2{border-left-color:var(--c2)} .card.c3{border-left-color:var(--c3)} .card.c4{border-left-color:var(--c4)} .card.c5{border-left-color:var(--c5)} .card.c6{border-left-color:var(--c6)} .card.c7{border-left-color:var(--c7)} .card.c8{border-left-color:var(--c8)}
+  .card h4{margin:0 0 4px; font-family:"Fraunces",serif; font-size:18.5px; font-weight:600; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .card .bug{font-family:"IBM Plex Mono",monospace; font-size:12px; color:#fff; background:var(--ink-soft); padding:2px 8px; border-radius:6px; font-weight:400;}
+  .card.c2 .bug{background:var(--c2)} .card.c3 .bug{background:var(--c3)} .card.c4 .bug{background:var(--c4)} .card.c6 .bug{background:var(--c6)}
+  .card ul{margin:9px 0 2px; padding-left:0; list-style:none}
+  .card li{position:relative; padding-left:20px; margin:5px 0; font-size:14.8px}
+  .card li:before{content:"▸"; position:absolute; left:0; color:var(--amber); font-size:13px; top:1px}
+  .card li b{color:var(--ink)}
+  .keyrow{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .tag{font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-soft); border:1px solid var(--line);}
+  .tag.key{background:var(--amber-bg); color:#8a6206; border-color:#EAD4A0; font-weight:500}
+
+  .mir{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:var(--amber); color:#fff; padding:1px 7px; border-radius:5px; letter-spacing:.08em; vertical-align:middle; font-weight:500;}
+
+  .tbl-wrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+  table{width:100%; border-collapse:collapse; font-size:13.2px; min-width:560px; background:var(--card)}
+  thead th{background:var(--teal); color:#F2F7F6; text-align:left; padding:9px 11px; font-weight:600; font-size:11.5px; letter-spacing:.02em;}
+  .s2 thead th{background:var(--c2)} .s3 thead th{background:var(--c3)} .s4 thead th{background:var(--c4)} .s5 thead th{background:var(--c5)} .s6 thead th{background:var(--c6)} .s7 thead th{background:var(--c7)} .s8 thead th{background:var(--c8)}
+  tbody td{padding:8px 11px; border-top:1px solid var(--line-soft); vertical-align:top}
+  tbody tr:nth-child(even){background:#FCFBF7}
+  tbody td:first-child{font-weight:600; color:var(--teal-deep)}
+  td em, th em{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px}
+  caption{caption-side:bottom; text-align:left; padding:9px 4px 0; color:var(--ink-faint); font-size:12.5px}
+
+  figure{margin:24px 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  figure svg{width:100%; height:auto; display:block}
+  figcaption{margin-top:12px; font-size:13px; color:var(--ink-faint); text-align:center; font-family:"IBM Plex Mono",monospace}
+  .fig-title{font-family:"Fraunces",serif; font-weight:600; font-size:17px; margin:0 0 12px; color:var(--teal-deep)}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin:16px 0}
+  .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 17px; box-shadow:var(--shadow)}
+  .mini h4{margin:0 0 7px; font-family:"Fraunces",serif; font-size:15.5px; color:var(--teal-deep)}
+  .mini ul{margin:0; padding-left:16px; font-size:13.4px}
+  .mini li{margin:4px 0}
+  .mini.warn{border-top:3px solid var(--coral)} .mini.ok{border-top:3px solid var(--green)}
+
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:10px 0; font-size:14px}
+  .chain .step{background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:5px 11px; font-weight:600}
+  .chain .arrow{color:var(--amber); font-weight:700}
+
+  .ojo-sec{background:var(--coral-bg); border-radius:18px; padding:6px 26px 30px; margin-top:48px; border:1px solid #F0CFC7}
+  .ojo-head{display:flex; align-items:center; gap:13px; margin:26px 0 4px}
+  .ojo-head .eye{font-size:30px; flex:none}
+  .ojo-head h2{font-family:"Fraunces",serif; color:var(--coral); margin:0; font-size:clamp(23px,4vw,31px)}
+  .vs{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; margin:16px 0; overflow:hidden; box-shadow:0 6px 20px -14px rgba(187,58,43,.4);}
+  .vs-title{background:var(--coral); color:#fff; padding:9px 16px; font-family:"Fraunces",serif; font-weight:600; font-size:16px; display:flex; align-items:center; gap:8px;}
+  .vs-title .badge{font-family:"IBM Plex Mono",monospace; font-size:10.5px; background:rgba(255,255,255,.2); padding:2px 7px; border-radius:5px; font-weight:400; margin-left:auto}
+  .vs-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .vs-body.three{grid-template-columns:1fr 1fr 1fr}
+  .vs-col{padding:13px 16px}
+  .vs-col:not(:last-child){border-right:1px solid #F0D8D2}
+  .vs-col h5{margin:0 0 7px; font-size:14px; color:var(--ink); font-weight:700}
+  .vs-col .who{font-family:"IBM Plex Mono",monospace; font-style:italic; font-size:11.5px; color:var(--coral); display:block; margin-bottom:8px}
+  .vs-col ul{margin:0; padding-left:16px; font-size:13.3px}
+  .vs-col li{margin:4px 0}
+  .clue{background:#fff; border-left:3px solid var(--amber); padding:8px 14px; margin:0; font-size:13px; border-radius:0 0 12px 12px;}
+  .clue b{color:var(--amber)}
+  .pearl{background:var(--card); border:1px solid #EAC9C2; border-radius:12px; padding:13px 18px; margin:13px 0; display:flex; gap:13px; align-items:flex-start;}
+  .pearl .dot{flex:none; width:26px; height:26px; border-radius:50%; background:var(--coral); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; font-family:"Fraunces"}
+  .pearl p{margin:2px 0; font-size:14px}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-faint); font-size:13px}
+
+  @media(max-width:680px){
+    nav.toc ol{columns:1}
+    .vs-body,.vs-body.three{grid-template-columns:1fr}
+    .vs-col:not(:last-child){border-right:none; border-bottom:1px solid #F0D8D2}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff} .card,figure,.tbl-wrap,.mini{box-shadow:none}
+    header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Dermatología · Tema 1</p>
+    <h1>Estructura y función de la piel · Lesiones elementales</h1>
+    <p>El tema base: cómo está hecha la piel, qué hace cada capa y cada célula, y el vocabulario clínico e histológico con el que se describe todo lo demás. Con esquemas y las trampas de examen.</p>
+    <p class="meta">Material del Dr. Domínguez Auñón (UFV) · epidermis · dermis · anejos · lesiones elementales clínicas e histológicas</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><span class="n">1</span><a href="#funciones">Funciones de la piel</a></li>
+      <li><span class="n">2</span><a href="#epidermis">Epidermis: capas y células</a></li>
+      <li><span class="n">3</span><a href="#dermis">Unión dermoepidérmica, dermis e hipodermis</a></li>
+      <li><span class="n">4</span><a href="#anejos">Anejos cutáneos</a></li>
+      <li><span class="n">5</span><a href="#diagnostico">Diagnóstico dermatológico</a></li>
+      <li><span class="n">6</span><a href="#clinicas">Lesiones elementales clínicas</a></li>
+      <li><span class="n">7</span><a href="#config">Configuración y distribución</a></li>
+      <li><span class="n">8</span><a href="#histo">Lesiones elementales histológicas</a></li>
+      <li><span class="n">★</span><a href="#esquemas">Esquemas para simplificar</a></li>
+      <li><span class="n">⚠</span><a href="#ojo">OJO CUIDADO (examen)</a></li>
+    </ol>
+  </nav>
+
+  <!-- =============== 1 FUNCIONES =============== -->
+  <section id="funciones" class="s1">
+    <div class="sec-head"><span class="num">1</span><h2 class="title">Funciones de la piel</h2></div>
+    <hr class="rule">
+    <p class="lead">El órgano más grande del cuerpo: <strong>1,8 m²</strong> de superficie y unos <strong>5 kg</strong> de peso. Cinco grandes funciones, cada una con su "enfermedad espejo" cuando falla.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Función</th><th>En qué consiste</th><th>Cuando falla…</th></tr></thead>
+      <tbody>
+        <tr><td>Barrera / protección</td><td>Frente a agentes externos, microorganismos y deshidratación</td><td>NET por fenitoína → deshidratación y sepsis</td></tr>
+        <tr><td>Sensibilidad</td><td>Receptores de tacto, presión, dolor y temperatura</td><td>—</td></tr>
+        <tr><td>Termorregulación</td><td>Sudor y red vascular (vasodilatación/vasoconstricción)</td><td>Displasia ectodérmica hipohidrótica → golpe de calor</td></tr>
+        <tr><td>Metabólica</td><td>Grasa subcutánea (reserva de TG) y <b>síntesis de vitamina D</b></td><td>—</td></tr>
+        <tr><td>Inmunológica</td><td>Presentación de antígenos, linfocitos T y B, SMF; <b>fotoprotección</b> por melanina</td><td>Albinismo → carcinomas epidermoides precoces; trasplantado → epiteliomas múltiples</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =============== 2 EPIDERMIS =============== -->
+  <section id="epidermis" class="s2">
+    <div class="sec-head"><span class="num">2</span><h2 class="title">Epidermis: capas y células</h2></div>
+    <hr class="rule">
+    <p class="lead">Epitelio escamoso poliestratificado queratinizado (de &lt;0,1 mm en el párpado a 1,5 mm en la planta). El queratinocito nace en la basal y asciende madurando hasta descamarse: <span class="hl">la renovación epidérmica dura unos 30 días</span>.</p>
+
+    <figure>
+      <p class="fig-title">Las cuatro capas y sus células</p>
+      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Capas de la epidermis">
+        <defs><linearGradient id="cor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E2C4"/><stop offset="1" stop-color="#EFD3AC"/></linearGradient></defs>
+        <!-- strata bands -->
+        <rect x="60" y="30" width="520" height="50" fill="url(#cor)" stroke="#E0C08C"/>
+        <rect x="60" y="80" width="520" height="34" fill="#F3DDBE" stroke="#E5C99C"/>
+        <rect x="60" y="114" width="520" height="100" fill="#F0CDA6" stroke="#E2B98A"/>
+        <rect x="60" y="214" width="520" height="40" fill="#EBBE93" stroke="#DBA877"/>
+        <line x1="60" y1="254" x2="580" y2="254" stroke="#9A6B3F" stroke-width="2.5"/>
+        <rect x="60" y="254" width="520" height="40" fill="#F6C9C0" opacity="0.5"/>
+        <!-- corneocytes (flat, anucleate) -->
+        <g stroke="#C99A6A" fill="none"><path d="M70,45 h120 M210,45 h120 M350,45 h120 M70,62 h120 M210,62 h120 M350,62 h120"/></g>
+        <!-- labels -->
+        <g font-family="Inter" font-size="12.5" fill="#8E5A1E" font-weight="600">
+          <text x="595" y="58">Córneo</text>
+          <text x="595" y="100">Granuloso</text>
+          <text x="595" y="167">Espinoso</text>
+          <text x="595" y="237">Basal</text>
+        </g>
+        <g font-family="IBM Plex Mono,monospace" font-size="10" fill="#7E8A8E">
+          <text x="595" y="72">sin núcleo, se descama</text>
+          <text x="595" y="114">queratohialina (filagrina)</text>
+          <text x="595" y="181">desmosomas (espinas)</text>
+          <text x="595" y="251">cuboideas · 17% madre</text>
+        </g>
+        <!-- granular dots -->
+        <g fill="#7A5A2A"><circle cx="120" cy="97" r="2.5"/><circle cx="170" cy="97" r="2.5"/><circle cx="240" cy="97" r="2.5"/><circle cx="320" cy="97" r="2.5"/><circle cx="420" cy="97" r="2.5"/><circle cx="500" cy="97" r="2.5"/></g>
+        <!-- spinous cells -->
+        <g fill="#E7B98A" stroke="#CE9A66"><circle cx="130" cy="150" r="11"/><circle cx="200" cy="165" r="11"/><circle cx="280" cy="150" r="11"/><circle cx="360" cy="168" r="11"/><circle cx="440" cy="150" r="11"/><circle cx="510" cy="165" r="11"/></g>
+        <!-- basal row -->
+        <g fill="#E0A878" stroke="#C68A55"><rect x="95" y="225" width="20" height="22" rx="4"/><rect x="160" y="225" width="20" height="22" rx="4"/><rect x="300" y="225" width="20" height="22" rx="4"/><rect x="370" y="225" width="20" height="22" rx="4"/><rect x="500" y="225" width="20" height="22" rx="4"/></g>
+        <!-- melanocyte (dark, dendritic) basal -->
+        <g><circle cx="235" cy="240" r="9" fill="#3A2A22"/><path d="M235,231 l-6,-12 M235,231 l6,-12 M226,240 l-14,-3" stroke="#3A2A22" stroke-width="2" fill="none"/><text x="218" y="282" font-family="Inter" font-size="10.5" fill="#3A2A22" font-weight="600">Melanocito</text></g>
+        <!-- Langerhans (spinous, dendritic) -->
+        <g><circle cx="405" cy="150" r="8" fill="#6B4E8C"/><path d="M405,142 l-7,-9 M405,142 l7,-9 M397,153 l-11,5" stroke="#6B4E8C" stroke-width="1.8" fill="none"/><text x="372" y="128" font-family="Inter" font-size="10.5" fill="#6B4E8C" font-weight="600">Langerhans</text></g>
+        <!-- Merkel near basal -->
+        <g><circle cx="440" cy="243" r="7" fill="#2E6E7E"/><text x="430" y="282" font-family="Inter" font-size="10.5" fill="#2E6E7E" font-weight="600">Merkel</text></g>
+        <!-- maturation arrow -->
+        <g><line x1="38" y1="250" x2="38" y2="40" stroke="#B6800C" stroke-width="2.5"/><path d="M38,36 l-5,9 h10 Z" fill="#B6800C"/><text x="20" y="150" font-family="Fraunces,serif" font-size="12" fill="#8a6206" transform="rotate(-90 20 150)" font-weight="600">maduración ~30 días</text></g>
+        <text x="320" y="280" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#9A6B3F">membrana basal (hemidesmosomas)</text>
+      </svg>
+      <figcaption>De abajo arriba: basal → espinoso → granuloso → córneo. Queratina + filagrina suponen el 80-90% de la masa epidérmica.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Capa</th><th>Lo esencial</th></tr></thead>
+      <tbody>
+        <tr><td>Basal (germinativa)</td><td>Células cuboideas en hilera única sobre la membrana basal (hemidesmosomas); núcleo grande; <b>17% son células madre</b> (crestas interpapilares); reciben melanosomas</td></tr>
+        <tr><td>Espinoso (Malpighio)</td><td>4-10 capas; citoplasma eosinófilo, aumentan tonofilamentos; <b>puentes intercelulares (espinas) = desmosomas</b></td></tr>
+        <tr><td>Granuloso</td><td>1-3 capas aplanadas; gránulos de <b>queratohialina con profilagrina</b> (→ filagrina, que agrega la queratina)</td></tr>
+        <tr><td>Córneo</td><td>Células poliédricas <b>sin núcleo ni organelas</b>, solo queratina; se aplanan y descaman. Engrosado en palmas/plantas</td></tr>
+      </tbody>
+      <caption>Los <b>cuerpos lamelares</b> aportan la envoltura lipídica del córneo (cohesión e impermeabilidad); están alterados, por ejemplo, en la ictiosis laminar.</caption>
+    </table></div>
+
+    <h3>Las cuatro células de la epidermis</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Célula</th><th>Origen / marcadores</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td>Queratinocito (90-95%)</td><td>Ectodermo; tonofilamentos y desmosomas</td><td>Barrera; inmune (IL-1, IL-8, TNF-α, TGF-β; ICAM-1, MHC-II)</td></tr>
+        <tr><td>Melanocito (1:10 basales)</td><td><b>Cresta neural</b>; <b>tirosinasa+, DOPA+, S100+</b>; sin desmosomas</td><td>Sintetiza melanina (eu/feomelanina) → color, protección UV, control vit. D</td></tr>
+        <tr><td>Célula de Langerhans</td><td>Médula ósea; <b>gránulos de Birbeck</b>; <b>CD1a+, S100+</b></td><td>Presentadora de antígeno (clave en dermatitis de contacto alérgica)</td></tr>
+        <tr><td>Célula de Merkel</td><td>Basal</td><td>Mecanosensorial (tacto)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =============== 3 DERMIS =============== -->
+  <section id="dermis" class="s3">
+    <div class="sec-head"><span class="num">3</span><h2 class="title">Unión dermoepidérmica, dermis e hipodermis</h2></div>
+    <hr class="rule">
+    <p class="lead">La <strong>membrana basal</strong> une epidermis y dermis; muchas enfermedades (genéticas o autoinmunes) atacan sus proteínas. Por debajo, la dermis da el soporte y la hipodermis amortigua y aísla.</p>
+
+    <figure>
+      <p class="fig-title">Corte de la piel: capas, anejos y plexos vasculares</p>
+      <svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Estructura de la piel">
+        <defs><linearGradient id="ep3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E2C4"/><stop offset="1" stop-color="#EBC79B"/></linearGradient></defs>
+        <rect x="40" y="30" width="680" height="40" fill="url(#ep3)" stroke="#DDB98A"/>
+        <rect x="40" y="70" width="680" height="150" fill="#F6CFC6" stroke="#E3A99B"/>
+        <rect x="40" y="220" width="680" height="110" fill="#F8E2B0" stroke="#E2C277"/>
+        <!-- fat lobules -->
+        <g fill="#FBEFC6" stroke="#E2C277"><circle cx="110" cy="280" r="26"/><circle cx="180" cy="285" r="22"/><circle cx="300" cy="280" r="26"/><circle cx="600" cy="282" r="24"/><circle cx="670" cy="285" r="20"/></g>
+        <!-- labels capas -->
+        <g font-family="Inter" font-size="12.5" font-weight="600">
+          <text x="48" y="54" fill="#8E5A1E">Epidermis</text>
+          <text x="48" y="150" fill="#8C342C">Dermis</text>
+          <text x="48" y="285" fill="#8E6A1E">Hipodermis</text>
+        </g>
+        <!-- subpapillary plexus -->
+        <line x1="60" y1="92" x2="700" y2="92" stroke="#B0463C" stroke-width="2"/>
+        <text x="560" y="86" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#8C342C">plexo subpapilar</text>
+        <!-- deep plexus -->
+        <line x1="60" y1="205" x2="700" y2="205" stroke="#B0463C" stroke-width="2.5"/>
+        <text x="560" y="200" font-family="IBM Plex Mono,monospace" font-size="9.5" fill="#8C342C">plexo cutáneo profundo</text>
+        <!-- vertical connectors -->
+        <g stroke="#B0463C" stroke-width="1.5"><line x1="150" y1="92" x2="150" y2="205"/><line x1="500" y1="92" x2="500" y2="205"/></g>
+        <!-- hair follicle -->
+        <g><path d="M250,30 C250,120 268,180 262,250 C260,275 280,278 282,250 C288,180 300,120 300,30 Z" fill="#E7C39A" stroke="#C99A66" stroke-width="1.5"/><ellipse cx="272" cy="258" rx="16" ry="13" fill="#D9A86E" stroke="#B98A52"/><circle cx="272" cy="258" r="5" fill="#9A6B3F"/>
+        <text x="232" y="320" font-family="Inter" font-size="10.5" fill="#8C342C" font-weight="600">Folículo piloso</text></g>
+        <!-- sebaceous gland -->
+        <g><circle cx="318" cy="120" r="15" fill="#F4D58C" stroke="#D9B45E"/><text x="336" y="118" font-family="Inter" font-size="10.5" fill="#8E6A1E" font-weight="600">G. sebácea</text></g>
+        <!-- eccrine gland (coiled) -->
+        <g fill="none" stroke="#3A5C9A" stroke-width="2"><path d="M430,40 C432,120 430,180 432,240"/><circle cx="432" cy="262" r="16" stroke-dasharray="3 3"/></g>
+        <text x="450" y="266" font-family="Inter" font-size="10.5" fill="#2C4778" font-weight="600">G. ecrina</text>
+        <!-- Pacini (onion) deep -->
+        <g><ellipse cx="600" cy="150" rx="16" ry="22" fill="none" stroke="#6B4E8C" stroke-width="1.5"/><ellipse cx="600" cy="150" rx="10" ry="14" fill="none" stroke="#6B4E8C" stroke-width="1.5"/><ellipse cx="600" cy="150" rx="4" ry="7" fill="#6B4E8C"/><text x="618" y="153" font-family="Inter" font-size="10" fill="#523970" font-weight="600">Pacini</text></g>
+        <!-- Meissner papilla -->
+        <g><ellipse cx="660" cy="80" rx="8" ry="12" fill="#2E7D5B"/><text x="636" y="64" font-family="Inter" font-size="10" fill="#1F5C42" font-weight="600">Meissner</text></g>
+      </svg>
+      <figcaption>Dos plexos horizontales (subpapilar y profundo) conectados por canales verticales: nutrición y termorregulación. Pacini (presión/vibración, profundo) y Meissner (tacto, en papila).</figcaption>
+    </figure>
+
+    <div class="grid2">
+      <div class="mini"><h4>Dermis (0,5-5 mm)</h4><ul>
+        <li>Origen <b>mesodérmico</b>; soporte estructural y nutricional.</li>
+        <li><b>Colágeno I (80-90%)</b> y III; fibras elásticas; todo sintetizado por <b>fibroblastos</b>.</li>
+        <li>Células: fibroblastos, macrófagos, <b>dendrocitos dérmicos</b> y mastocitos.</li>
+        <li>Sustancia fundamental: <b>glicosaminoglicanos</b> (gran retención de agua).</li>
+        <li>Papilar (colágeno fino) vs reticular (haces gruesos); aloja nervios, vasos y anejos.</li>
+      </ul></div>
+      <div class="mini"><h4>Hipodermis y receptores</h4><ul>
+        <li>Lobulillos de grasa madura separados por <b>septos conjuntivos</b>.</li>
+        <li>Función: aislante térmico, protector mecánico y reserva de energía (TG).</li>
+        <li><b>Pacini</b>: vibración/presión (dermis reticular y panículo).</li>
+        <li><b>Meissner</b>: tacto (dermis papilar).</li>
+        <li>La mayoría de receptores son <b>terminaciones nerviosas libres</b>.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =============== 4 ANEJOS =============== -->
+  <section id="anejos" class="s4">
+    <div class="sec-head"><span class="num">4</span><h2 class="title">Anejos cutáneos</h2></div>
+    <hr class="rule">
+    <p class="lead">Folículo piloso, glándula sebácea, glándulas sudoríparas (ecrina y apocrina) y uñas. Todos derivan de invaginaciones de la epidermis.</p>
+
+    <figure>
+      <p class="fig-title">Ciclo del pelo: anagen → catagen → telogen</p>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ciclo del pelo">
+        <!-- anagen -->
+        <g transform="translate(70,20)">
+          <rect x="-6" y="0" width="12" height="120" rx="5" fill="#7A4F2A"/>
+          <ellipse cx="0" cy="135" rx="20" ry="22" fill="#9A6B3F"/><circle cx="0" cy="138" r="8" fill="#C68A55"/>
+          <text x="0" y="190" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#1F5C42">Anagen</text>
+          <text x="0" y="208" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">crecimiento</text>
+          <text x="0" y="224" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#B6800C">85-90% · 3-5 años</text>
+        </g>
+        <text x="200" y="95" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <!-- catagen -->
+        <g transform="translate(300,20)">
+          <rect x="-5" y="20" width="10" height="80" rx="4" fill="#7A4F2A"/>
+          <ellipse cx="0" cy="108" rx="13" ry="13" fill="#B98A52"/>
+          <text x="0" y="190" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#1F5C42">Catagen</text>
+          <text x="0" y="208" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">involución</text>
+          <text x="0" y="224" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#B6800C">&lt;1% · 2 semanas</text>
+        </g>
+        <text x="420" y="95" font-family="Fraunces" font-size="22" fill="#B6800C">→</text>
+        <!-- telogen -->
+        <g transform="translate(520,20)">
+          <rect x="-5" y="40" width="10" height="55" rx="4" fill="#9A7048"/>
+          <circle cx="0" cy="100" r="11" fill="#CDA877"/>
+          <text x="0" y="190" text-anchor="middle" font-family="Fraunces,serif" font-weight="600" font-size="15" fill="#1F5C42">Telogen</text>
+          <text x="0" y="208" text-anchor="middle" font-family="Inter" font-size="11" fill="#4A5B64">reposo → caída</text>
+          <text x="0" y="224" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#B6800C">10-15% · 3-5 meses</text>
+        </g>
+        <path d="M640,90 q60,40 0,80" fill="none" stroke="#B6800C" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="660" y="135" font-family="IBM Plex Mono,monospace" font-size="10" fill="#8a6206">reinicio</text>
+      </svg>
+      <figcaption>El folículo es un reservorio de células madre epiteliales y melanocíticas. En el cuero cabelludo la mayoría del pelo está en anagen.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Anejo</th><th>Lo esencial</th></tr></thead>
+      <tbody>
+        <tr><td>Glándula sebácea</td><td>Asociada al folículo (salvo labio, areola, pezón); secreción <b>holocrina</b> (la célula se desintegra); cara, cuero cabelludo, línea media de espalda; función hidratante/bacteriostática</td></tr>
+        <tr><td>Sudorípara ecrina</td><td><b>Aislada</b> (sin folículo); generalizada (más en palmas/plantas); <b>termorreguladora</b>; control <b>simpático colinérgico</b></td></tr>
+        <tr><td>Sudorípara apocrina</td><td>Asociada al folículo; secreción por <b>decapitación</b>; axilas, genitales, areola, CAE (ceruminosas), párpado (Moll); desarrollo <b>puberal</b>; odorífera por bacterias</td></tr>
+        <tr><td>Uña</td><td>Invaginación de la epidermis en el dorso de la última falange</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =============== 5 DIAGNÓSTICO =============== -->
+  <section id="diagnostico" class="s5">
+    <div class="sec-head"><span class="num">5</span><h2 class="title">Diagnóstico dermatológico</h2></div>
+    <hr class="rule">
+    <p class="lead">La piel se "lee": historia enfocada a la lesión y exploración completa (mejor con <strong>luz natural</strong>). Se describe por síntomas, duración, lesión elemental, distribución, topografía y color.</p>
+    <div class="grid2">
+      <div class="mini"><h4>Qué describir</h4><ul>
+        <li><b>Síntomas:</b> prurito, dolor, fiebre.</li>
+        <li><b>Lesión elemental:</b> mácula, pápula, placa, vesícula, pústula…</li>
+        <li><b>Distribución</b> y <b>topografía</b>; <b>color</b>.</li>
+        <li>Apoyo: histopatología, cultivo, <b>dermatoscopia</b>, pruebas epicutáneas, ecografía.</li>
+      </ul></div>
+      <div class="mini"><h4>Duración (orienta mucho)</h4><ul>
+        <li><b>Aguda:</b> urticaria, eccema de contacto, eritema multiforme, toxicodermias.</li>
+        <li><b>Subaguda:</b> ampollosas, sarna, acné.</li>
+        <li><b>Crónica:</b> psoriasis, eccema, vitíligo, genodermatosis, alopecias.</li>
+        <li><b>Intermitente:</b> urticaria crónica, herpes simple, lupus, fotodermatosis.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =============== 6 LESIONES CLÍNICAS =============== -->
+  <section id="clinicas" class="s6">
+    <div class="sec-head"><span class="num">6</span><h2 class="title">Lesiones elementales clínicas</h2></div>
+    <hr class="rule">
+    <p class="lead">El alfabeto de la dermatología. Se agrupan en: cambio de color (máculas), sólidas, de contenido líquido, por pérdida de sustancia, caducas y residuales.</p>
+
+    <figure>
+      <p class="fig-title">Las principales lesiones, en corte</p>
+      <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lesiones elementales en corte">
+        <!-- baseline skin for each -->
+        <g font-family="Inter" font-size="11" fill="#4A5B64" text-anchor="middle">
+          <!-- Mácula -->
+          <g transform="translate(40,40)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><rect x="22" y="20" width="46" height="26" fill="#C98A6A"/><text x="45" y="70" font-weight="600" fill="#523970">Mácula</text><text x="45" y="86" font-size="9.5">plana, no se palpa</text></g>
+          <!-- Pápula -->
+          <g transform="translate(165,40)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><path d="M30,20 q15,-16 30,0 Z" fill="#CE9A82" stroke="#B07860"/><text x="45" y="70" font-weight="600" fill="#523970">Pápula</text><text x="45" y="86" font-size="9.5">&lt;1 cm, elevada</text></g>
+          <!-- Placa -->
+          <g transform="translate(290,40)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><rect x="14" y="11" width="62" height="10" fill="#CE9A82" stroke="#B07860"/><text x="45" y="70" font-weight="600" fill="#523970">Placa</text><text x="45" y="86" font-size="9.5">meseta &gt;1 cm</text></g>
+          <!-- Nódulo -->
+          <g transform="translate(415,40)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><circle cx="45" cy="40" r="13" fill="#B98A6A" stroke="#9A6B4A"/><text x="45" y="70" font-weight="600" fill="#523970">Nódulo</text><text x="45" y="86" font-size="9.5">profundo, palpable</text></g>
+          <!-- Vesícula -->
+          <g transform="translate(540,40)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><path d="M30,20 q15,-15 30,0 Z" fill="#CDE6F0" stroke="#8FBBD0"/><text x="45" y="70" font-weight="600" fill="#523970">Vesícula</text><text x="45" y="86" font-size="9.5">líquido claro</text></g>
+          <!-- Pústula -->
+          <g transform="translate(125,120)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><path d="M30,20 q15,-15 30,0 Z" fill="#F0DE9A" stroke="#CBB45E"/><text x="45" y="70" font-weight="600" fill="#523970">Pústula</text><text x="45" y="86" font-size="9.5">pus</text></g>
+          <!-- Habón -->
+          <g transform="translate(310,120)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><path d="M18,20 q27,-12 54,0 Z" fill="#F4CFC8" stroke="#DDA99B"/><text x="45" y="70" font-weight="600" fill="#523970">Habón</text><text x="45" y="86" font-size="9.5">edema, evanescente</text></g>
+          <!-- Úlcera -->
+          <g transform="translate(495,120)"><rect x="0" y="20" width="90" height="26" fill="#F2D9BC" stroke="#D9B488"/><path d="M30,20 v14 h30 v-14" fill="#B86A60" stroke="#9A4D40"/><text x="45" y="70" font-weight="600" fill="#523970">Úlcera</text><text x="45" y="86" font-size="9.5">pierde dermis, cicatriz</text></g>
+        </g>
+      </svg>
+      <figcaption>La mácula es solo cambio de color (sin relieve); la pápula/placa elevan; el nódulo es profundo; vesícula/pústula tienen contenido; el habón es edema evanescente.</figcaption>
+    </figure>
+
+    <h3>Por cambio de color · Máculas (no se palpan)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Ejemplos / clave</th></tr></thead>
+      <tbody>
+        <tr><td>Por melanina</td><td>Hiperpigmentadas (lentigo, café con leche); hipocrómicas (pitiriasis versicolor); <b>acrómicas</b> (vitíligo, por ausencia de melanina)</td></tr>
+        <tr><td>Vasculares</td><td>Eritema (dilatación, blanquea); cianosis (↑Hb reducida); palidez (nevus anémico); <b>púrpura</b> (hematíes fuera del vaso, <b>no blanquea</b> con diascopia/vitropresión)</td></tr>
+        <tr><td>Pigmentos exo/endógenos</td><td>Carotenodermia, discromías endógenas</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Sólidas</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Lesión</th><th>Definición</th></tr></thead>
+      <tbody>
+        <tr><td>Pápula</td><td>Elevada, circunscrita, <b>0,5-1 cm</b> (sésil, pediculada o plana)</td></tr>
+        <tr><td>Tubérculo</td><td>Elevada, circunscrita, <b>&gt;1 cm</b></td></tr>
+        <tr><td>Placa</td><td>Elevación <b>en meseta &gt;1 cm</b>, por crecimiento o agrupación de pápulas</td></tr>
+        <tr><td>Liquenificación</td><td>Placa por <b>rascado</b>: engrosamiento y aumento de las marcas cutáneas</td></tr>
+        <tr><td>Infiltración</td><td>Engrosamiento de un área amplia, <b>empastada</b> (p. ej. facies leonina)</td></tr>
+        <tr><td>Nódulo</td><td><b>Profundo</b> (dermis/hipodermis), más palpable que visible</td></tr>
+        <tr><td>Tumor</td><td>Masa o proliferación (benigna/maligna) que <b>persiste</b></td></tr>
+        <tr><td>Habón</td><td>Sobreelevación por edema, <b>evanescente</b> (min-horas), bordes cambiantes (urticaria)</td></tr>
+        <tr><td>Angioedema</td><td>Equivalente <b>profundo</b> del habón</td></tr>
+        <tr><td>Quiste</td><td>Cavidad con cápsula y contenido semisólido/líquido</td></tr>
+        <tr><td>Verruga / vegetación / papiloma</td><td>Superficie queratósica y rugosa; vegetantes en pliegues (húmedas); papilomas en mucosa</td></tr>
+        <tr><td>Esclerosis</td><td>Induración imposible de plegar; liso, nacarado; pérdida de anejos (esclerodermia)</td></tr>
+        <tr><td>Comedón</td><td>Folículo pilosebáceo dilatado con "clavo" de queratina y sebo (acné)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>De contenido líquido</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Lesión</th><th>Definición</th></tr></thead>
+      <tbody>
+        <tr><td>Vesícula / Ampolla</td><td>Contenido seroso o hemático; <b>&lt; o &gt; 0,5 cm</b></td></tr>
+        <tr><td>Pústula</td><td>Contiene <b>pus</b> (estéril o no); puede venir de vesículas</td></tr>
+        <tr><td>Forúnculo</td><td>Foliculitis necrotizante profunda con "clavo" central</td></tr>
+        <tr><td>Ántrax</td><td><b>Coalescencia de varios forúnculos</b></td></tr>
+        <tr><td>Absceso</td><td>Cúmulo de pus profundo; eritematoso, caliente, doloroso, <b>fluctuante</b></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Por pérdida de sustancia · caducas · residuales</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Grupo</th><th>Lesiones</th></tr></thead>
+      <tbody>
+        <tr><td>Pérdida de sustancia</td><td><b>Erosión</b> (epidermis, <b>cura sin cicatriz</b>); <b>excoriación</b> (por rascado, lineal); <b>úlcera</b> (≥dermis, <b>cura con cicatriz</b>); herida; <b>fisura</b> (grieta lineal dolorosa); fístula/sinus (hidradenitis)</td></tr>
+        <tr><td>Caducas</td><td><b>Escama</b> (células córneas que se desprenden: furfurácea, psoriasiforme, lamelar, seborreica); <b>queratodermia</b> (córneo difícil de desprender); <b>costra</b> (exudado desecado); <b>escara/esfacelo</b> (membrana necrótica negra); <b>gangrena</b> (seca/húmeda)</td></tr>
+        <tr><td>Residuales</td><td><b>Atrofia</b> (adelgazamiento, pierde anejos); <b>poiquilodermia</b> (atrofia + discromía + telangiectasias); <b>cicatriz</b> (atrófica, hipertrófica o queloidea)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =============== 7 CONFIGURACIÓN =============== -->
+  <section id="config" class="s7">
+    <div class="sec-head"><span class="num">7</span><h2 class="title">Configuración y distribución</h2></div>
+    <hr class="rule">
+    <p class="lead">Cómo se disponen las lesiones entre sí (configuración) y dónde se colocan en el cuerpo (distribución) orienta el diagnóstico tanto como la propia lesión.</p>
+    <div class="grid2">
+      <div class="mini"><h4>Configuración / agrupamiento</h4><ul>
+        <li><b>Lineal:</b> contactante externo, <b>Koebner</b> (psoriasis, liquen plano, verrugas planas, vitíligo), liquen estriado.</li>
+        <li><b>Anular/circinado:</b> crece excéntrico con curación central (tiña, granuloma anular).</li>
+        <li><b>Numular/discoide:</b> en moneda (eccema numular, LE discoide).</li>
+        <li><b>Arciforme/policíclico:</b> arcos y anillos (urticaria, LE subagudo).</li>
+        <li><b>En diana/iris:</b> 3 áreas concéntricas (eritema multiforme).</li>
+        <li><b>Herpetiforme:</b> en racimo.</li>
+      </ul></div>
+      <div class="mini"><h4>Distribución / topografía</h4><ul>
+        <li><b>Flexuras</b> (dermatitis atópica) vs <b>extensoras</b> (psoriasis).</li>
+        <li><b>Áreas seborreicas:</b> cuero cabelludo, cejas, surcos nasogenianos, preesternal.</li>
+        <li><b>Fotoexpuestas</b> vs cubiertas; simétricas vs asimétricas.</li>
+        <li><b>Acral</b> / generalizada.</li>
+        <li><b>Zosteriforme:</b> un dermatomo, no cruza la línea media (herpes zóster).</li>
+        <li><b>Blaschkoide:</b> sigue las líneas de migración embrionaria (incontinentia pigmenti).</li>
+        <li><b>Retiforme:</b> en red (livedo reticularis).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- =============== 8 HISTOLÓGICAS =============== -->
+  <section id="histo" class="s8">
+    <div class="sec-head"><span class="num">8</span><h2 class="title">Lesiones elementales histológicas</h2></div>
+    <hr class="rule">
+    <p class="lead">El vocabulario de la biopsia: alteraciones de epidermis, dermis e hipodermis, y los grandes patrones inflamatorios.</p>
+
+    <h3>Alteraciones de la epidermis</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Término</th><th>Qué es</th></tr></thead>
+      <tbody>
+        <tr><td>Hiperqueratosis</td><td>↑ grosor de la capa córnea (ortoqueratósica o folicular)</td></tr>
+        <tr><td>Hipergranulosis / hipogranulosis</td><td>↑ / ↓ de la capa granulosa (liquen plano / psoriasis)</td></tr>
+        <tr><td>Acantosis</td><td>↑ grosor epidérmico por ↑ nº de queratinocitos del espinoso</td></tr>
+        <tr><td>Papilomatosis</td><td>Alargamiento de las papilas dérmicas (epidermis no engrosada)</td></tr>
+        <tr><td>Atrofia epidérmica</td><td>↓ grosor de la epidermis</td></tr>
+        <tr><td>Paraqueratosis</td><td><b>Núcleos retenidos en la capa córnea</b> (correlato de la escama psoriásica)</td></tr>
+        <tr><td>Disqueratosis</td><td>Queratinocitos apoptóticos (queratinización anómala)</td></tr>
+        <tr><td>Espongiosis</td><td><b>Edema intercelular</b> (eccema); puede formar vesículas espongióticas</td></tr>
+        <tr><td>Acantólisis</td><td><b>Pérdida de cohesión</b> entre queratinocitos (rotura de puentes) → pénfigo</td></tr>
+        <tr><td>Vacuolización / balonización</td><td>Edema intracelular (degeneración balonizante en herpes; hidrópica de la basal en LE/liquen)</td></tr>
+        <tr><td>Exocitosis</td><td>Paso de células (inflamatorias/tumorales) a la epidermis (pústulas, microabscesos)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2">
+      <div class="mini"><h4>Alteraciones de la dermis</h4><ul>
+        <li><b>Infiltrados:</b> perivascular, intersticial, liquenoide, perianexial, granulomas.</li>
+        <li><b>Degeneración elastósica</b> (fotoenvejecimiento), <b>fibrinoide</b> (vasculitis), <b>mucinosa</b> (mixedema, LE), <b>hialina</b> (amiloide, porfirinas).</li>
+        <li><b>Esclerosis</b> (↑ colágeno, esclerodermia); <b>necrobiosis</b> (granuloma anular).</li>
+        <li><b>Depósitos</b> de calcio, ácido úrico (tofo), melanina, amiloide.</li>
+      </ul></div>
+      <div class="mini"><h4>Hipodermis (paniculitis)</h4><ul>
+        <li><b>Septal:</b> eritema nudoso.</li>
+        <li><b>Lobulillar:</b> vasculitis nodular.</li>
+      </ul></div>
+    </div>
+
+    <h3>Grandes patrones histológicos</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Patrón</th><th>Prototipo</th></tr></thead>
+      <tbody>
+        <tr><td>Perivascular</td><td>Eritema migratorio (infiltrado linfocitario perivascular)</td></tr>
+        <tr><td>Interfase vacuolar</td><td>Eritema multiforme (queratinocitos necróticos en la unión)</td></tr>
+        <tr><td>Interfase liquenoide</td><td>Liquen plano (infiltrado en banda, dientes de sierra, hipergranulosis)</td></tr>
+        <tr><td>Espongiótico</td><td>Dermatitis de contacto alérgica</td></tr>
+        <tr><td>Psoriasiforme</td><td>Psoriasis (hiperplasia regular, paraqueratosis confluente)</td></tr>
+        <tr><td>Ampolloso intraepidérmico (acantolítico)</td><td>Pénfigo vulgar</td></tr>
+        <tr><td>Pustuloso subcórneo</td><td>Psoriasis pustulosa</td></tr>
+        <tr><td>Ampolloso subepidérmico</td><td>Penfigoide ampolloso (eosinófilos en la cavidad)</td></tr>
+        <tr><td>Vasculitis pequeño vaso</td><td>Púrpura palpable (leucocitoclasia, fibrina)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- =============== ESQUEMAS =============== -->
+  <section id="esquemas" class="ss">
+    <div class="sec-head"><span class="num">★</span><h2 class="title">Esquemas para simplificarlo todo</h2></div>
+    <hr class="rule">
+
+    <h3>1 · La epidermis de abajo arriba</h3>
+    <div class="chain">
+      <span class="step">Basal (madre)</span><span class="arrow">→</span><span class="step">Espinoso (desmosomas)</span><span class="arrow">→</span>
+      <span class="step">Granuloso (queratohialina)</span><span class="arrow">→</span><span class="step">Córneo (sin núcleo)</span><span class="arrow">≈</span><span class="step">30 días</span>
+    </div>
+
+    <h3>2 · Las 4 células y su "DNI"</h3>
+    <div class="grid2">
+      <div class="mini"><h4>Melanocito</h4><ul><li>Cresta neural · S100/tirosinasa+ · 1:10 · protección UV</li></ul></div>
+      <div class="mini"><h4>Langerhans</h4><ul><li>Birbeck · CD1a/S100+ · presenta antígeno</li></ul></div>
+    </div>
+
+    <h3>3 · El mecanismo histológico que define la ampolla</h3>
+    <div class="chain">
+      <span class="step">Espongiosis → eccema</span><span class="arrow">·</span>
+      <span class="step">Acantólisis → pénfigo (intraepidérmica)</span><span class="arrow">·</span>
+      <span class="step">Interfase → EM / liquen</span><span class="arrow">·</span>
+      <span class="step">Subepidérmica → penfigoide</span>
+    </div>
+
+    <h3>4 · Diferencias que se preguntan</h3>
+    <div class="chain">
+      <span class="step">Erosión = sin cicatriz</span><span class="arrow">vs</span><span class="step">Úlcera = con cicatriz</span><span class="arrow">·</span>
+      <span class="step">Púrpura = no blanquea (diascopia)</span>
+    </div>
+  </section>
+
+  <!-- =============== OJO CUIDADO =============== -->
+  <div class="ojo-sec" id="ojo">
+    <div class="ojo-head"><span class="eye">⚠️</span><h2>OJO CUIDADO — trampas de examen</h2></div>
+    <p style="color:#8a3a2e;max-width:700px;margin:0 0 10px">Definiciones que se confunden y la pista exacta para separarlas.</p>
+
+    <div class="vs">
+      <div class="vs-title">Erosión vs Úlcera <span class="badge">pérdida de sustancia</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Erosión</h5><span class="who">superficial</span><ul><li>Solo epidermis/epitelio</li><li><b>Cura sin cicatriz</b></li></ul></div>
+        <div class="vs-col"><h5>Úlcera</h5><span class="who">profunda</span><ul><li>Llega al menos a dermis</li><li><b>Cura con cicatriz</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> si deja cicatriz, es úlcera; si no, erosión. La excoriación (rascado) está entre medias y puede cicatrizar.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Mácula eritematosa vs purpúrica <span class="badge">diascopia</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Eritema</h5><span class="who">vaso dilatado</span><ul><li>Sangre <b>dentro</b> del vaso</li><li><b>Blanquea</b> a la vitropresión</li></ul></div>
+        <div class="vs-col"><h5>Púrpura</h5><span class="who">extravasación</span><ul><li>Hematíes <b>fuera</b> del vaso</li><li><b>NO blanquea</b></li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> la diascopia (vitropresión) lo resuelve: lo que no blanquea es púrpura.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Espongiosis vs Acantólisis vs Vacuolización <span class="badge">histología</span></div>
+      <div class="vs-body three">
+        <div class="vs-col"><h5>Espongiosis</h5><span class="who">eccema</span><ul><li>Edema <b>inter</b>celular</li></ul></div>
+        <div class="vs-col"><h5>Acantólisis</h5><span class="who">pénfigo</span><ul><li>Rotura de <b>puentes</b> (desmosomas)</li></ul></div>
+        <div class="vs-col"><h5>Vacuolización</h5><span class="who">herpes / LE</span><ul><li>Edema <b>intra</b>celular</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> entre células (espongiosis), pérdida de unión (acantólisis) o dentro de la célula (vacuolización/balonización).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Orto- vs Paraqueratosis <span class="badge">capa córnea</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Ortoqueratosis</h5><span class="who">normal</span><ul><li>Córnea <b>sin núcleos</b></li></ul></div>
+        <div class="vs-col"><h5>Paraqueratosis</h5><span class="who">psoriasis</span><ul><li>Córnea <b>con núcleos</b> retenidos</li><li>Correlato de la escama</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> núcleos en el córneo = paraqueratosis = escama psoriásica.</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Ampolla intra- vs subepidérmica <span class="badge">nivel</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Intraepidérmica</h5><span class="who">acantolítica</span><ul><li>Pénfigo vulgar</li><li>Ampolla flácida</li></ul></div>
+        <div class="vs-col"><h5>Subepidérmica</h5><span class="who">en la unión</span><ul><li>Penfigoide (eosinófilos)</li><li>Ampolla tensa</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> flácida y acantolítica = pénfigo (intraepidérmica); tensa con eosinófilos = penfigoide (subepidérmica).</p>
+    </div>
+
+    <div class="vs">
+      <div class="vs-title">Glándula ecrina vs apocrina <span class="badge">sudor</span></div>
+      <div class="vs-body">
+        <div class="vs-col"><h5>Ecrina</h5><span class="who">termorregula</span><ul><li><b>Aislada</b>, generalizada</li><li>Simpática <b>colinérgica</b></li></ul></div>
+        <div class="vs-col"><h5>Apocrina</h5><span class="who">odorífera</span><ul><li>Con folículo; axila/genital</li><li>Secreción por <b>decapitación</b>; puberal</li></ul></div>
+      </div>
+      <p class="clue"><b>Pista:</b> ecrina = todo el cuerpo y colinérgica; apocrina = pliegues, puberal y por decapitación.</p>
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif;color:var(--coral);font-size:22px;margin:28px 0 4px">Perlas sueltas que caen</h2>
+    <div class="pearl"><div class="dot">1</div><p>La <b>renovación epidérmica</b> dura unos <b>30 días</b> (un queratinocito tarda ~4 semanas en ascender y descamarse); muy acelerada en la psoriasis.</p></div>
+    <div class="pearl"><div class="dot">2</div><p>El <b>melanocito</b> deriva de la <b>cresta neural</b>, es <b>S100+/tirosinasa+</b>, mantiene una unidad melanoepidérmica <b>1:10</b> y protege frente a la UV.</p></div>
+    <div class="pearl"><div class="dot">3</div><p>La <b>célula de Langerhans</b> tiene <b>gránulos de Birbeck</b>, es <b>CD1a+/S100+</b> y presenta antígeno (clave en la dermatitis de contacto alérgica).</p></div>
+    <div class="pearl"><div class="dot">4</div><p><b>Queratina + filagrina</b> = 80-90% de la masa epidérmica; la profilagrina está en los gránulos de <b>queratohialina</b> del estrato granuloso.</p></div>
+    <div class="pearl"><div class="dot">5</div><p>En la dermis, el <b>colágeno I</b> supone el 80-90% y lo sintetiza el <b>fibroblasto</b>; la sustancia fundamental son glicosaminoglicanos.</p></div>
+    <div class="pearl"><div class="dot">6</div><p>Receptores: <b>Pacini</b> (presión/vibración, profundo) y <b>Meissner</b> (tacto, en la papila); la mayoría son terminaciones libres.</p></div>
+    <div class="pearl"><div class="dot">7</div><p>Ciclo del pelo: <b>anagen</b> (85-90%, 3-5 años), catagen (&lt;1%, 2 sem), telogen (10-15%, 3-5 meses). Secreción sebácea = <b>holocrina</b>.</p></div>
+    <div class="pearl"><div class="dot">8</div><p><b>Habón</b> = sobreelevación por edema <b>evanescente</b> (min-horas); el <b>angioedema</b> es su equivalente profundo.</p></div>
+    <div class="pearl"><div class="dot">9</div><p><b>Erosión</b> cura sin cicatriz; <b>úlcera</b> (≥dermis) cura con cicatriz. <b>Ántrax</b> = coalescencia de varios forúnculos.</p></div>
+    <div class="pearl"><div class="dot">10</div><p>El fenómeno de <b>Koebner</b> (lesiones en zonas de trauma) es típico de <b>psoriasis, liquen plano, verrugas planas y vitíligo</b>.</p></div>
+    <div class="pearl"><div class="dot">11</div><p>Prototipos histológicos: <b>eritema nudoso</b> = paniculitis septal; <b>liquen plano</b> = interfase liquenoide; <b>eritema multiforme</b> = interfase vacuolar.</p></div>
+  </div>
+
+  <footer>
+    <p>Resumen de estudio del Tema 1 (Estructura y función de la piel. Introducción al diagnóstico dermatológico. Lesiones elementales clínicas e histológicas) a partir del material docente del Dr. Domínguez Auñón — Facultad de Medicina, Universidad Francisco de Vitoria, curso 2025-26. Documento de uso personal para repaso.</p>
+  </footer>
+
+</div>
+</body>
+</html>
