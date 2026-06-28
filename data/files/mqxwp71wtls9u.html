@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 9 · Vasculitis, Paniculitis y Conectivopatías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 9</p>
+  <h1>Test · Vasculitis, Paniculitis y Conectivopatías (LE · DM · SCL)</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 9 (vasculitis, trastornos hemorrágicos, paniculitis y conectivopatías: lupus, dermatomiositis y esclerodermia) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 9 — Vasculitis, Paniculitis y Conectivopatías (LE, DM, SCL) (UFV, Dr. Domínguez Auñón)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ VASCULITIS: concepto y clasificación ============ */
+{q:"Las vasculitis, según los apuntes, se caracterizan por:",
+ o:["Inflamación y necrosis de los vasos sanguíneos, con clínica distinta según el tamaño del vaso","Una proliferación de melanocitos","Un depósito de colágeno en la dermis","Una infección bacteriana de la epidermis"],c:0,
+ e:"Correcta: las vasculitis son un amplio espectro de enfermedades con inflamación y necrosis de los vasos sanguíneos, con distinta clínica según el tamaño del vaso; el diagnóstico clínico de vasculitis cutánea requiere confirmación histológica."},
+{q:"Según la clasificación de Chapel Hill, ¿cuál es una vasculitis de VASO PEQUEÑO?",
+ o:["La vasculitis leucocitoclástica cutánea","La poliarteritis nudosa","La arteritis de la temporal","La arteritis de Takayasu"],c:0,
+ e:"Correcta: las vasculitis de vaso pequeño incluyen la leucocitoclástica cutánea, la vasculitis IgA (Schönlein-Henoch) y la urticaria-vasculitis; la PAN es de vaso mediano y la arteritis de la temporal/Takayasu de grandes vasos."},
+{q:"Las vasculitis asociadas a ANCA (Wegener, Churg-Strauss, poliangeítis microscópica), según los apuntes, se denominan:",
+ o:["Pauciinmunitarias (el daño está mediado directamente por neutrófilos, no por inmunocomplejos)","Mediadas por inmunocomplejos","Mediadas por anticuerpos antiendotelio","De mecanismo desconocido"],c:0,
+ e:"Correcta: en las vasculitis ANCA, el daño está mediado directamente por neutrófilos (no por inmunocomplejos), por lo que se denominan pauciinmunitarias; la Schönlein-Henoch o la crioglobulinémica sí son por inmunocomplejos."},
+
+/* ============ VASCULITIS LEUCOCITOCLÁSTICA ============ */
+{q:"¿Cuál es el hallazgo histopatológico característico de la vasculitis leucocitoclástica?",
+ o:["Infiltración transmural por neutrófilos con leucocitoclasia (polvo nuclear) y necrosis fibrinoide de la pared","Acantolisis suprabasilar","Paniculitis septal sin vasculitis","Patrón en empalizada"],c:0,
+ e:"Correcta: la vasculitis leucocitoclástica muestra infiltración transmural de neutrófilos con fragmentación nuclear (cariorrexis/leucocitoclasia: 'polvo nuclear'), necrosis fibrinoide de la pared, eritrocitos extravasados y daño endotelial."},
+{q:"La lesión cutánea más característica de la vasculitis leucocitoclástica cutánea es:",
+ o:["La púrpura palpable, con frecuencia en miembros inferiores y simétrica","Las ampollas tensas en flexuras","Las placas escleróticas","Los comedones"],c:0,
+ e:"Correcta: la vasculitis leucocitoclástica cutánea da púrpura, con frecuencia palpable, en miembros inferiores de forma simétrica (también zonas declive y de presión); la afectación sistémica aparece en el 5-25% y suele ser leve."},
+{q:"¿Cuál es la causa más frecuente de la vasculitis leucocitoclástica cutánea según los apuntes?",
+ o:["Desconocida (>50% de los casos)","Fármacos en el 80%","Siempre neoplásica","Siempre infecciosa"],c:0,
+ e:"Correcta: más del 50% de las vasculitis leucocitoclásticas son de causa desconocida; otras causas son fármacos (10-15%), infecciones (15-20%), enfermedades inflamatorias (15-20%) y neoplasias (2-5%, hematológicas)."},
+{q:"Sobre el pronóstico de la vasculitis leucocitoclástica cutánea, según los apuntes:",
+ o:["El 90% se resuelve en pocas semanas o meses, dependiendo de la posible afectación sistémica","Siempre es mortal","Nunca se resuelve","Recurre en el 90% de los casos"],c:0,
+ e:"Correcta: el 90% de las vasculitis leucocitoclásticas se resuelve en pocas semanas o meses; el pronóstico depende de la afectación sistémica y de los procesos subyacentes (conectivopatías, neoplasias)."},
+
+/* ============ SCHÖNLEIN-HENOCH ============ */
+{q:"La púrpura de Schönlein-Henoch (vasculitis IgA), según los apuntes:",
+ o:["Es una vasculitis sistémica con depósito de IgA en la pared vascular, más frecuente en niños","Tiene depósito de IgG","Es propia de ancianos","No afecta el riñón"],c:0,
+ e:"Correcta: la Schönlein-Henoch es una vasculitis sistémica (carácter estacional, invierno) con depósito de IgA en la pared vascular, sobre todo en niños (4-7 años), frecuentemente 1-2 semanas tras una infección de vías altas (estreptococo)."},
+{q:"¿Cuáles son las manifestaciones clínicas típicas de la púrpura de Schönlein-Henoch?",
+ o:["Púrpura palpable (100%), artralgias/artritis (75%), afectación digestiva y renal","Solo lesiones cutáneas","Eritrodermia","Solo afectación pulmonar"],c:0,
+ e:"Correcta: la Schönlein-Henoch da púrpura palpable (100%, en superficies de extensión y nalgas), artralgias/artritis (75%), afectación digestiva (dolor cólico, melenas; invaginación) y renal tardía (hematuria, proteinuria); es autolimitada y peor en adultos."},
+
+/* ============ CRIOGLOBULINEMIA ============ */
+{q:"Las crioglobulinas, según los apuntes, son:",
+ o:["Inmunoglobulinas que precipitan reversiblemente al enfriarse","Anticuerpos contra el citoplasma del neutrófilo","Depósitos de colágeno","Mastocitos circulantes"],c:0,
+ e:"Correcta: las crioglobulinas son inmunoglobulinas que precipitan reversiblemente al enfriarse; la tipo I es monoclonal (25%) y las mixtas (tipo II y III) forman inmunocomplejos."},
+{q:"¿Cuál es la causa conocida más frecuente de la crioglobulinemia mixta?",
+ o:["La infección por el virus de la hepatitis C","La hepatitis A","El estreptococo","El VIH exclusivamente"],c:0,
+ e:"Correcta: la causa conocida más frecuente de la crioglobulinemia mixta (tipos II y III) es la infección por VHC; da púrpura palpable intermitente, artralgias, neuropatía y glomerulonefritis, con hipocomplementemia y FR positivo."},
+
+/* ============ ANCA ============ */
+{q:"El patrón citoplásmico (c-ANCA) contra la proteinasa 3 es típico de:",
+ o:["La granulomatosis con poliangeítis (Wegener)","La poliangeítis microscópica","El síndrome de Churg-Strauss","La PAN clásica"],c:0,
+ e:"Correcta: el c-ANCA (contra la proteinasa 3) es típico de la granulomatosis de Wegener; el p-ANCA (contra la mieloperoxidasa) aparece en la poliangeítis microscópica, el Churg-Strauss y las vasculitis por fármacos."},
+{q:"La granulomatosis con poliangeítis (Wegener) afecta característicamente a:",
+ o:["La vía respiratoria superior, el pulmón y el riñón, con c-ANCA positivo (80%)","Solo la piel","El sistema nervioso central","El tubo digestivo exclusivamente"],c:0,
+ e:"Correcta: la granulomatosis de Wegener afecta la vía respiratoria superior (granuloma de la línea media: epistaxis, sinusitis), el tracto respiratorio (90%) y el riñón (GN, 75%), con c-ANCA positivo en el 80% (muy sensible y específico); su histología muestra vasculitis leucocitoclástica con granulomas."},
+{q:"El síndrome de Churg-Strauss (granulomatosis eosinofílica con poliangeítis), según los apuntes:",
+ o:["Cursa con asma, rinitis alérgica, eosinofilia >10% e IgE elevada, con p-ANCA positivo","Cursa sin eosinofilia","No afecta el pulmón","Tiene c-ANCA positivo"],c:0,
+ e:"Correcta: el Churg-Strauss da clínica pulmonar (asma, rinitis alérgica, pólipos nasales, eosinofilia periférica), cardíaca, digestiva y renal; en laboratorio: eosinofilia >10%, IgE elevada y p-ANCA positivo (55-70%); histología con vasculitis necrotizante, eosinófilos y granulomas extravasculares."},
+{q:"La poliangeítis microscópica, según los apuntes:",
+ o:["Es una vasculitis de vaso pequeño y mediano producida por ANCA, con afectación renal (GN necrotizante) y p-ANCA positivo","Es de grandes vasos","Tiene c-ANCA positivo en el 80%","No afecta el riñón"],c:0,
+ e:"Correcta: la poliangeítis microscópica es una vasculitis sistémica de vaso pequeño y mediano producida por ANCA (p-ANCA positivo en el 60%), con afectación renal (>90%, GN necrotizante en semilunas) y pulmonar (hemorragia alveolar); de mal pronóstico, se trata con prednisona + ciclofosfamida o rituximab."},
+
+/* ============ PAN ============ */
+{q:"La poliarteritis nudosa (PAN) clásica, según los apuntes:",
+ o:["Es una vasculitis de arterias de pequeño y mediano calibre, con afectación renal (microaneurismas, SIN glomerulonefritis)","Afecta solo grandes vasos","Cursa con glomerulonefritis","No afecta el riñón"],c:0,
+ e:"Correcta: la PAN clásica afecta arterias de pequeño y mediano calibre de modo segmentario (varones 40-60 años); da nódulos eritemato-violáceos, úlceras, livedo, e infartos digitales, con afectación renal (70%: microaneurismas, IR, HTA, pero NO glomerulonefritis); se asocia al VHB."},
+{q:"La PAN cutánea, según los apuntes:",
+ o:["Está limitada a la piel (nódulos, livedo, úlceras), con evolución crónica y rara progresión a PAN clásica","Siempre evoluciona a PAN sistémica","Afecta el riñón","Cursa con glomerulonefritis"],c:0,
+ e:"Correcta: la PAN cutánea está limitada a la piel (nódulos en MMII, livedo reticular, úlceras, púrpura), de evolución crónica, con muy rara progresión a PAN clásica; afecta arterias de pequeño/mediano calibre de la unión dermohipodérmica."},
+
+/* ============ GRANDES VASOS ============ */
+{q:"La arteritis de la temporal (de Horton/células gigantes), según los apuntes:",
+ o:["Afecta a mujeres >50 años, con cefalea hemicraneal, claudicación mandibular y riesgo de ceguera, asociada a polimialgia reumática","Afecta a niños","Cursa con eosinofilia","Tiene c-ANCA positivo"],c:0,
+ e:"Correcta: la arteritis de la temporal afecta a mujeres >50 años, con cefalea hemicraneal grave, afectación ocular (riesgo de ceguera) y claudicación mandibular, asociada a polimialgia reumática, VSG >100 e inflamación granulomatosa con células gigantes; responde de forma dramática a los corticoides."},
+{q:"La arteritis de Takayasu, según los apuntes:",
+ o:["Es una vasculitis de grandes vasos (aorta y ramas) en mujeres jóvenes (<50 años), con fenómenos isquémicos","Afecta a ancianos","Es una vasculitis de vaso pequeño","Cursa con eosinofilia"],c:0,
+ e:"Correcta: la enfermedad de Takayasu es una vasculitis de grandes vasos (aorta y sus ramas) en adultos jóvenes (mujeres <50 años), con estenosis arterial y fenómenos isquémicos (cerebral, cardíaco, renal, claudicación de MMSS) y úlceras tipo pioderma gangrenoso."},
+
+/* ============ OTRAS VASCULITIS Y HEMORRÁGICOS ============ */
+{q:"La vasculitis urticariana, según los apuntes:",
+ o:["Se manifiesta por habones persistentes (>24 h), con determinación del complemento fundamental en su estudio","Da habones fugaces de <24 h","No afecta el complemento","Es una vasculitis de grandes vasos"],c:0,
+ e:"Correcta: la vasculitis urticariana da habones persistentes (>24 h) en mujeres de 40-50 años, con afectación articular, glomerulonefritis y complemento bajo (40%); la determinación del complemento es fundamental, y se asocia a LES, Sjögren y VHC."},
+{q:"La púrpura senil (o por corticoides), según los apuntes, se debe a:",
+ o:["La pérdida del soporte de colágeno perivascular (edad, corticoides, fotoexposición)","Una trombopenia grave","Una vasculitis","Una coagulopatía"],c:0,
+ e:"Correcta: la púrpura senil se debe a la pérdida del soporte de colágeno perivascular (edad, corticoides tópicos/sistémicos, fotoexposición crónica), con sufusiones hemorrágicas ante mínimos traumatismos y remisión espontánea."},
+{q:"El síndrome antifosfolípido (anticoagulante lúpico), según los apuntes:",
+ o:["Asocia anticuerpos anticardiolipina con trombosis, abortos de repetición o trombopenia","Cursa con hemorragia salvo trombopenia severa","No produce trombosis","Solo afecta la piel"],c:0,
+ e:"Correcta: el síndrome antifosfolípido asocia anticuerpos anticardiolipina con trombosis (venosa o arterial), abortos de repetición o trombocitopenia; solo da hemorragia si hay trombopenia severa, con livedo, úlceras y necrosis en la piel; se trata con AAS, heparina o cumarínicos."},
+
+/* ============ PANICULITIS: clasificación ============ */
+{q:"Según la clasificación de las paniculitis, ¿cuáles son las paniculitis SEPTALES?",
+ o:["El eritema nodoso y la paniculitis asociada a la esclerodermia","La vasculitis nodular y la paniculitis pancreática","La paniculitis lúpica","La paniculitis histiocítica citofágica"],c:0,
+ e:"Correcta: las paniculitis septales son el eritema nodoso y la paniculitis de la esclerodermia; el resto (vasculitis nodular, pancreática, traumática, frío, esclerosante, citofágica, neonatal) son lobulillares, y la paniculitis lúpica es mixta."},
+
+/* ============ ERITEMA NODOSO ============ */
+{q:"El eritema nodoso, según los apuntes, es:",
+ o:["La paniculitis más frecuente y el prototipo de la paniculitis septal","Una paniculitis lobulillar","Una vasculitis de grandes vasos","Un linfoma subcutáneo"],c:0,
+ e:"Correcta: el eritema nodoso es la paniculitis más frecuente y el prototipo de la paniculitis septal; más frecuente en mujeres (3-6/1) entre 20-30 años, con nódulos eritematosos dolorosos bilaterales en la región pretibial."},
+{q:"Los nódulos del eritema nodoso, según los apuntes:",
+ o:["Se resuelven espontáneamente en 3-6 semanas SIN ulceración ni cicatriz, con aspecto contusiforme","Se ulceran siempre","Dejan cicatriz atrófica","Persisten años"],c:0,
+ e:"Correcta: los nódulos del eritema nodoso adquieren un aspecto contusiforme característico a partir de la 2-3ª semana y se resuelven espontáneamente en 3-6 semanas sin ulceración ni cicatriz."},
+{q:"¿Cuál es el hallazgo histopatológico característico del eritema nodoso?",
+ o:["Paniculitis septal sin vasculitis, con granulomas radiales de Miescher en los septos","Paniculitis lobulillar con vasculitis","Acantolisis","Células fantasma"],c:0,
+ e:"Correcta: el eritema nodoso es el prototipo de paniculitis septal sin vasculitis, con septos gruesos y edematosos y granulomas radiales de Miescher (cúmulos de histiocitos alrededor de hendiduras) en los septos."},
+{q:"¿Cuáles son posibles causas del eritema nodoso según los apuntes?",
+ o:["Infecciones (estreptococo, TB, Yersinia), fármacos (ACO, sulfamidas), neoplasias y enfermedades sistémicas (sarcoidosis, EII)","Solo el frío","Solo la exposición solar","Únicamente picaduras"],c:0,
+ e:"Correcta: el eritema nodoso es un proceso reactivo de hipersensibilidad con múltiples causas: infecciosas (estreptococo, TB, Yersinia), fármacos (ACO, sulfamidas), neoplasias (linfomas, leucemias) y enfermedades sistémicas (sarcoidosis, EII); en el 50% es idiopático, pero siempre debe buscarse la causa."},
+
+/* ============ VASCULITIS NODULAR ============ */
+{q:"La vasculitis nodular / eritema indurado de Bazin, según los apuntes:",
+ o:["Es el prototipo de paniculitis lobulillar, con nódulos en la cara posterior de las piernas que se ulceran y dejan cicatriz","Es una paniculitis septal","No se ulcera","Cura sin cicatriz"],c:0,
+ e:"Correcta: la vasculitis nodular (eritema indurado de Bazin) es el prototipo de paniculitis lobulillar (mujeres de mediana edad), con nódulos en la cara posterior de las piernas, de evolución más crónica que el eritema nodoso, con tendencia a la ulceración y cicatrices atróficas; los primeros casos se asociaron a tuberculosis."},
+
+/* ============ PANICULITIS PANCREÁTICA ============ */
+{q:"La paniculitis pancreática, según los apuntes:",
+ o:["Se asocia a pancreatitis y carcinoma pancreático, con necrosis grasa por saponificación y 'células fantasma'","Se asocia al lupus","No deja células fantasma","Es una paniculitis septal"],c:0,
+ e:"Correcta: la paniculitis pancreática (asociada a pancreatitis y carcinoma pancreático) da nódulos que exudan material aceitoso, por necrosis grasa por saponificación debida a las lipasas; la histología muestra paniculitis lobulillar sin vasculitis con 'células fantasma' (adipocitos anucleados esmerilados)."},
+
+/* ============ PANICULITIS LÚPICA Y OTRAS ============ */
+{q:"La paniculitis lúpica (lupus profundo), según los apuntes:",
+ o:["Es una paniculitis mixta con infiltrado linfocitario en folículos, vasculitis linfocítica y depósito de mucina","Es una paniculitis septal con granulomas de Miescher","No deja secuelas","Cursa con células fantasma"],c:0,
+ e:"Correcta: la paniculitis lúpica es una paniculitis mixta (lobulillar y septal) con predominio de linfocitos que forman folículos linfoides, vasculitis linfocítica, necrosis hialina y depósito de mucina; al regresar deja áreas deprimidas e hiperpigmentadas (lupus profundo)."},
+{q:"La paniculitis asociada al déficit de alfa-1 antitripsina, según los apuntes:",
+ o:["Se debe a la actividad exagerada de proteasas, con nódulos que ulceran y exudan material aceitoso (genotipo PiZZ)","Se asocia al lupus","Cursa sin ulceración","Es una paniculitis septal"],c:0,
+ e:"Correcta: la paniculitis por déficit de alfa-1 antitripsina (genotipo PiZZ) se debe a la actividad exagerada de proteasas en la grasa subcutánea, con nódulos/placas que ulceran y exudan material aceitoso; se asocia a enfisema, hepatitis y cirrosis, con paniculitis lobulillar neutrofílica."},
+{q:"La necrosis grasa subcutánea del recién nacido, según los apuntes:",
+ o:["Es benigna, en niños sanos a los pocos días de nacer, con cristales 'en aguja' de triglicéridos en los adipocitos","Tiene muy mal pronóstico","Aparece en prematuros graves","No cura espontáneamente"],c:0,
+ e:"Correcta: la necrosis grasa subcutánea del RN es benigna, en niños sanos a los pocos días de nacer (factor precipitante: hipotermia), con nódulos que curan espontáneamente; histología con paniculitis lobulillar y cristales 'en aguja' de triglicéridos en adipocitos e histiocitos (a diferencia del esclerema neonatal, de muy mal pronóstico)."},
+
+/* ============ LUPUS ERITEMATOSO: concepto y clasificación ============ */
+{q:"El lupus eritematoso, según los apuntes, es:",
+ o:["Una enfermedad multisistémica, crónica y autoinmune con autoanticuerpos contra antígenos nucleares y citoplasmáticos","Una infección crónica","Un tumor cutáneo","Una dermatosis ampollosa por anticuerpos contra desmosomas"],c:0,
+ e:"Correcta: el lupus eritematoso es una enfermedad multisistémica, crónica y autoinmune, con autoanticuerpos contra antígenos nucleares (ADN propio) y del citoplasma; abarca desde formas exclusivamente cutáneas hasta el lupus sistémico."},
+{q:"La lesión típica del lupus eritematoso cutáneo crónico es:",
+ o:["La lesión 'discoide': placa con eritema, queratosis (tapones córneos) y atrofia","La ampolla tensa","El habón persistente","El nódulo subcutáneo"],c:0,
+ e:"Correcta: la lesión discoide es típica del lupus cutáneo crónico: placa delimitada con tres zonas concéntricas (eritema en el borde, queratosis con tapones córneos foliculares y atrofia central sin ulceración previa), de evolución lenta, que deja cicatriz."},
+{q:"El lupus eritematoso cutáneo subagudo (LECS), según los apuntes:",
+ o:["Es fotosensible, no cicatriza, con formas anular y psoriasiforme, asociado a anti-Ro positivo (60-100%)","Deja cicatriz atrófica","No es fotosensible","Tiene anti-Scl70 positivo"],c:0,
+ e:"Correcta: el LECS (10-15% de los lupus, mujeres de edad media) es fotosensible, evoluciona en brotes sin cicatrizar, con formas anular (policíclica) y psoriasiforme (papuloescamosa), en zonas fotoexpuestas, asociado a anti-Ro positivo (60-100%); hay que descartar fármacos (tiazidas, IECA, terbinafina)."},
+{q:"En el lupus eritematoso cutáneo agudo (LECA) localizado, ¿cuál es la lesión característica?",
+ o:["El eritema facial 'en alas de mariposa'","La lesión discoide","Los nódulos pretibiales","El habón persistente"],c:0,
+ e:"Correcta: el LECA localizado da el eritema facial 'en alas de mariposa' (respeta los pliegues nasolabiales); el generalizado da un exantema maculopapuloso (rash del LES); aparece o se exacerba tras la exposición solar y se asocia a enfermedad sistémica activa."},
+{q:"El lupus eritematoso túmido, según los apuntes:",
+ o:["Cursa sin descamación ni cicatriz, empeora con el sol y NO hay lesión de la interfase dermoepidérmica","Deja cicatriz","Tiene afectación visceral grave","Cursa con tapones córneos"],c:0,
+ e:"Correcta: el lupus túmido (lupus cutáneo intermitente) cursa sin descamación ni cicatriz, empeora claramente con el sol, sin afectación visceral, y en la anatomía patológica no hay lesión de la interfase dermoepidérmica."},
+{q:"¿Qué riesgo tiene un paciente con lupus cutáneo crónico (discoide) de desarrollar LES?",
+ o:["Un 5-10%; además, el 25% de los LES presentan lesiones discoides en algún momento","Un 100%","Ninguno","Un 90%"],c:0,
+ e:"Correcta: un 5-10% de los pacientes con lupus cutáneo crónico desarrollan LES (con lesiones generalizadas y anti-ADN ss); el 25% de los pacientes con LES presentan lesiones de lupus discoide en algún momento (es uno de los criterios de la ARA)."},
+
+/* ============ LES: clínica, anatomía patológica, inmunología ============ */
+{q:"¿Cuál es el hallazgo histopatológico característico del lupus eritematoso cutáneo?",
+ o:["La dermatitis de interfase (degeneración vacuolar de la basal), con infiltrado linfohistiocítico y depósito de mucina","La paniculitis septal","La acantolisis suprabasilar","Los microabscesos de neutrófilos"],c:0,
+ e:"Correcta: el lupus cutáneo muestra dermatitis de interfase (degeneración vacuolar/hidrópica de las células basales), infiltrado linfohistiocítico (perivascular y perianexial en las discoides, con tapones foliculares), engrosamiento de la membrana basal (PAS+) y depósito de mucina en dermis."},
+{q:"El test de la banda lúpica consiste en:",
+ o:["Un depósito de IgG, IgM, IgA y complemento en la unión dermoepidérmica por inmunofluorescencia directa","Anticuerpos circulantes en suero","Una tinción de Gram","Un depósito intercelular de IgG"],c:0,
+ e:"Correcta: el test de la banda lúpica es la IFD que muestra depósito de anticuerpos (IgG, IgM, IgA) y complemento en la unión dermoepidérmica y alrededor de los folículos (en piel lesional y normal no fotoexpuesta); no es necesario si la clínica e histopatología son definitivas."},
+{q:"Sobre los anticuerpos antinucleares (ANA) en el lupus, según los apuntes:",
+ o:["Son el principal marcador serológico pero NO son específicos del LE","Son específicos del LE","No aparecen en el LES","Se detectan por inmunofluorescencia directa"],c:0,
+ e:"Correcta: los ANA son el principal marcador serológico de las enfermedades del tejido conectivo (prototipo el LES), pero no son específicos del LE: aparecen también en otras enfermedades autoinmunes, infecciones virales, procesos inflamatorios crónicos y con ciertos fármacos; se detectan por inmunofluorescencia indirecta."},
+{q:"El lupus eritematoso neonatal, según los apuntes:",
+ o:["Da lesiones tipo LECS transitorias en hijos de madres Ro+, con riesgo de bloqueo cardiaco congénito","Es permanente","Se asocia a anti-Scl70","No tiene riesgo cardiaco"],c:0,
+ e:"Correcta: el lupus neonatal da lesiones cutáneas tipo LECS anular transitorias en recién nacidos de madres Ro+ (desaparece a los 6-12 meses), con riesgo de bloqueo cardiaco congénito (puede ser la única manifestación y condiciona el pronóstico)."},
+{q:"¿Cuál es el tratamiento sistémico de primera elección del lupus eritematoso cutáneo?",
+ o:["Los antipalúdicos (cloroquina, hidroxicloroquina), con control oftalmológico","Los corticoides sistémicos siempre","La sulfona","La ciclofosfamida"],c:0,
+ e:"Correcta: el tratamiento del lupus incluye fotoprotección y corticoides tópicos; el sistémico de primera elección son los antipalúdicos (cloroquina, hidroxicloroquina) con control oftalmológico por toxicidad retiniana; otros: corticoides sistémicos, retinoides, talidomida, y nuevos (belimumab, anifrolumab, rituximab)."},
+
+/* ============ DERMATOMIOSITIS ============ */
+{q:"La dermatomiositis, según los apuntes, se caracteriza por:",
+ o:["Una miopatía inflamatoria proximal y simétrica de la musculatura extensora junto con lesiones cutáneas características","Solo lesiones cutáneas","Una fibrosis cutánea","Una vasculitis de grandes vasos"],c:0,
+ e:"Correcta: la dermatomiositis es una enfermedad de probable patogenia autoinmune con miopatía inflamatoria proximal y simétrica de la musculatura extensora y lesiones cutáneas características (la polimiositis no tiene lesiones cutáneas y la amiopática no tiene miositis)."},
+{q:"¿Cuáles son las lesiones cutáneas PATOGNOMÓNICAS de la dermatomiositis?",
+ o:["El eritema heliotropo palpebral y las pápulas/signo de Gottron en los nudillos","El eritema en alas de mariposa","La lesión discoide","La esclerodactilia"],c:0,
+ e:"Correcta: son patognomónicas de la dermatomiositis el eritema/poiquiloderma violáceo (heliotropo) palpebral con edema, y las pápulas/signo de Gottron (pápulas eritemato-violáceas en los nudillos, codos y rodillas)."},
+{q:"¿Cuál es el marcador de laboratorio más sensible y específico de la actividad muscular en la dermatomiositis?",
+ o:["La elevación de la CK sérica","Los ANA","La VSG","La aldolasa exclusivamente"],c:0,
+ e:"Correcta: la elevación de la CK sérica es el marcador más sensible y específico de la actividad muscular en la DM/PM (elevada en el 90-95%); la aldolasa es menos sensible pero puede estar elevada con CK normal."},
+{q:"Respecto a la asociación de la dermatomiositis con neoplasias, según los apuntes:",
+ o:["Entre el 10-50% de los adultos con DM tienen neoplasia interna (el más frecuente, el cáncer de ovario)","No hay asociación con neoplasias","La DM juvenil se asocia a neoplasia","Solo se asocia a leucemias"],c:0,
+ e:"Correcta: el 10-50% de los adultos con DM padecen neoplasia interna (el más frecuente, el cáncer de ovario; también colon, mama, pulmón), pero no hay asociación en la DM juvenil ni en la polimiositis; se asocia a anticuerpos anti-TIF1-γ o NXP-2."},
+{q:"El anticuerpo antisintetasa (Jo-1) en la dermatomiositis se asocia a:",
+ o:["Enfermedad pulmonar intersticial y 'manos de mecánico' (síndrome antisintetasa)","Asociación a neoplasia","DM amiopática","Buen pronóstico"],c:0,
+ e:"Correcta: los anticuerpos antisintetasa (Jo-1) se asocian a enfermedad pulmonar intersticial y manos de mecánico (síndrome antisintetasa: fiebre, afectación pulmonar, poliartritis, Raynaud y mala respuesta al tratamiento); el anti-p155 a neoplasia y el anti-MDA5 a DM amiopática con enfermedad pulmonar rápidamente progresiva."},
+{q:"¿Cuál es el tratamiento de primera elección de la dermatomiositis según los apuntes?",
+ o:["Los corticoides orales (mantenidos 1-3 años para evitar recidivas)","Los antipalúdicos","La cirugía","Los antibióticos"],c:0,
+ e:"Correcta: los corticoides orales son la primera elección de la dermatomiositis (dosis altas al inicio, mantenidos 1-3 años); el 25% no responde en los primeros 2 meses (MTX, micofenolato, IgIV); la piel responde mal y se trata con corticoides tópicos, antimaláricos y MTX."},
+
+/* ============ ESCLERODERMIA ============ */
+{q:"La esclerodermia, según los apuntes, se caracteriza por:",
+ o:["Fibrosis y obliteración vascular en piel y órganos internos, con daño endotelial y depósito exagerado de colágeno","Acantolisis","Una vasculitis leucocitoclástica","Un infiltrado neutrofílico"],c:0,
+ e:"Correcta: la esclerodermia es una enfermedad crónica de etiología desconocida que afecta la microvasculatura y el tejido conectivo, con fibrosis y obliteración vascular; sus tres alteraciones clave son el daño endotelial, la inflamación/activación inmunológica y el depósito exagerado de colágeno."},
+{q:"¿Cuál es la forma MÁS frecuente de esclerodermia localizada (morfea)?",
+ o:["La morfea en placas (localización más frecuente: el tronco)","La morfea generalizada","La esclerodermia lineal","La morfea profunda"],c:0,
+ e:"Correcta: la morfea en placas es la forma más frecuente de esclerodermia localizada: placas induradas, marfileñas, con borde violáceo característico, más frecuentes en el tronco; la esclerodermia localizada no afecta órganos internos."},
+{q:"La esclerodermia lineal en 'coup de sabre', según los apuntes:",
+ o:["Aparece en la infancia, unilateral, pudiendo afectar músculo y hueso con hemiatrofia facial","Aparece en ancianos","Afecta órganos internos","Es la forma más leve sin secuelas"],c:0,
+ e:"Correcta: la esclerodermia lineal (infancia/adolescencia, unilateral) puede afectar el músculo y el hueso subyacentes, con alteraciones del crecimiento, contracturas y hemiatrofias; el 'coup de sabre' da hemiatrofia facial."},
+{q:"En la esclerodermia sistémica, ¿cuál es el signo más temprano y casi constante?",
+ o:["El fenómeno de Raynaud","La calcinosis","La microstomía","La fibrosis pulmonar"],c:0,
+ e:"Correcta: el fenómeno de Raynaud (vasoconstricción episódica de arterias digitales, con palidez-cianosis-hiperemia) es el signo más temprano y casi constante de la esclerodermia sistémica; puede anticiparse meses (ES difusa) o años (ES circunscrita) a las lesiones cutáneas."},
+{q:"Las lesiones cutáneas de la esclerodermia sistémica evolucionan en tres fases:",
+ o:["Edema → induración → atrofia (manos y cara las más afectadas)","Eritema → ampolla → costra","Mancha → placa → tumor","Palidez → cianosis → hiperemia"],c:0,
+ e:"Correcta: las lesiones cutáneas de la esclerodermia sistémica evolucionan en edema → induración → atrofia; las manos y la cara son las más afectadas, con esclerodactilia, microstomía, arrugas peribucales y cara inexpresiva."},
+{q:"El síndrome de CREST corresponde a la esclerodermia sistémica:",
+ o:["Circunscrita (limitada), con anticuerpos anticentrómero (60-80%)","Difusa, con anti-Scl70","Localizada (morfea)","Lineal"],c:0,
+ e:"Correcta: el síndrome de CREST acompaña a la esclerosis sistémica circunscrita (limitada/acroesclerosis), con anticuerpos anticentrómero (60-80%); el anti-Scl70 (antitopoisomerasa) es el más específico de la ES y se asocia a la forma difusa con neumopatía intersticial."},
+{q:"¿Cuál es actualmente la primera causa de muerte en la esclerodermia sistémica?",
+ o:["La afectación pulmonar (fibrosis difusa, hipertensión pulmonar)","La afectación cutánea","La calcinosis","Las telangiectasias"],c:0,
+ e:"Correcta: la afectación pulmonar (fibrosis difusa con patrón restrictivo, hipertensión pulmonar) es actualmente la primera causa de muerte en la esclerodermia sistémica (afecta a 2/3 de los pacientes); por eso es importante el seguimiento pulmonar."},
+{q:"El anticuerpo antitopoisomerasa (anti-Scl70), según los apuntes:",
+ o:["Es el más específico de la esclerodermia sistémica y se asocia a la afectación cutánea difusa y la neumopatía intersticial","Se asocia al síndrome de CREST","Aparece en el lupus","Indica buen pronóstico"],c:0,
+ e:"Correcta: el anti-Scl70 (antitopoisomerasa) es el anticuerpo más específico de la esclerodermia sistémica (20%, y 45% de la ES difusa), asociado a afectación cutánea difusa, neumopatía intersticial y afectación multiorgánica; el anticentrómero se asocia a la ES limitada (CREST)."},
+{q:"¿Cuál es el hallazgo histopatológico de la esclerodermia?",
+ o:["Depósito excesivo de colágeno en la dermis (engrosamiento, fibras homogéneas eosinófilas), con escasas células","Dermatitis de interfase","Paniculitis septal con granulomas de Miescher","Acantolisis"],c:0,
+ e:"Correcta: la esclerodermia muestra depósito excesivo y anormal de colágeno en la dermis y el tejido subcutáneo (ensanchamiento de las fibras, homogéneas y eosinófilas), con notable engrosamiento de la dermis (esclerosis), escasas células y 'atrapamiento' de los anejos; en la ES hay alteración vascular."},
+{q:"En la crisis renal de la esclerodermia sistémica difusa, ¿cuál es el tratamiento?",
+ o:["Los inhibidores de la enzima convertidora de angiotensina (IECA)","Los antipalúdicos","Los corticoides a dosis altas","Los antihistamínicos"],c:0,
+ e:"Correcta: la crisis renal (IRA con hipertensión arterial maligna) de la esclerodermia sistémica difusa se trata con IECA, que han mejorado el pronóstico; es importante el control de la tensión arterial."},
+
+/* ====== Matices añadidos ====== */
+{q:"La vasculitis séptica, según los apuntes:",
+ o:["Está causada por gérmenes como N. meningitidis o estafilococo, puede dar shock, CID y púrpura fulminans","Es una vasculitis idiopática benigna","No tiene afectación sistémica","Cursa con eosinofilia"],c:0,
+ e:"Correcta: la vasculitis séptica (N. meningitidis, estafilococo, neumococo, pseudomonas, gonococo, lúes 2ª) da afectación general, posible shock, CID (púrpura fulminans) y fallo multiorgánico; la histología muestra vasculitis leucocitoclástica con trombos y bacterias; tratamiento con antibióticos IV."},
+{q:"La coagulación intravascular diseminada (CID) / púrpura fulminans, según los apuntes:",
+ o:["Es un trastorno adquirido con sistema de coagulación hiperactivado, trombos microvasculares y consumo de factores que produce hemorragia","Es una vasculitis","Es una trombopenia aislada","No produce hemorragia"],c:0,
+ e:"Correcta: la CID es un trastorno adquirido de la coagulación, con sistema de coagulación hiperactivado, trombos en la microvasculatura y consumo de factores/plaquetas que lleva a hemorragia; causas: infecciones, neoplasias, traumatismos; predispone el déficit de proteína C o S (lesiones precoces: trombos; tardías: hemorragia)."},
+{q:"La púrpura pigmentaria de Schamberg, según los apuntes:",
+ o:["Da lesiones purpúricas puntiformes que dejan mancha marrón (hemosiderina) en piernas, sin asociarse a insuficiencia venosa","Se asocia siempre a insuficiencia venosa crónica","Es una vasculitis necrotizante","Cursa con afectación sistémica grave"],c:0,
+ e:"Correcta: la púrpura pigmentaria (Schamberg) es un cuadro común por extravasación hemática en piernas, con lesiones purpúricas puntiformes que dejan mancha marrón por hemosiderina; más frecuente en varones, no se asocia a insuficiencia venosa crónica y tiene evolución crónica."},
+{q:"La paniculitis por frío, según los apuntes:",
+ o:["Es una paniculitis lobulillar rara en mejillas de niños (chupar hielo) y en muslos/nalgas de mujeres, que cura sin cicatriz","Es una paniculitis septal","Deja siempre cicatriz","Se asocia a pancreatitis"],c:0,
+ e:"Correcta: la paniculitis por frío es una paniculitis lobulillar rara, en mejillas de niños (chupar hielo/polos) y en nalgas y muslos de mujeres con exposición prolongada al frío (motociclismo, equitación), con nódulos eritemato-violáceos que curan sin cicatriz."},
+{q:"La paniculitis esclerosante (lipodermatoesclerosis) asociada a insuficiencia venosa, según los apuntes:",
+ o:["Da placas induradas 'leñosas' en la cara interna de las pantorrillas, con aspecto final en 'botella de champán invertida'","Es una paniculitis septal con granulomas de Miescher","Cursa con células fantasma","No se relaciona con la insuficiencia venosa"],c:0,
+ e:"Correcta: la paniculitis esclerosante (lipodermatoesclerosis) es frecuente en mujeres adultas con insuficiencia venosa, con placas eritematosas induradas 'leñosas' en la cara interna de las pantorrillas que dan el aspecto final en 'botella de champán invertida', con patrón membranoquístico/lipomembranoso en la histología."},
+{q:"La paniculitis histiocítica citofágica, según los apuntes:",
+ o:["Tiene una forma maligna que puede ser una fase temprana de un linfoma T subcutáneo, con citofagocitosis (células 'en bolsa de judías')","Es siempre benigna","Es una paniculitis septal","No se asocia a linfoma"],c:0,
+ e:"Correcta: la paniculitis histiocítica citofágica tiene dos formas (benigna crónica y maligna fulminante, a veces fase temprana de un linfoma T subcutáneo paniculítico), con fiebre, pancitopenia y coagulopatía; histología con citofagocitosis (síndrome hemofagocítico, células 'en bolsa de judías')."},
+{q:"Sobre la etiología del lupus eritematoso, ¿qué papel tiene la radiación ultravioleta?",
+ o:["Induce apoptosis de queratinocitos y traslocación de antígenos nucleares (Ro, La) a la membrana, exponiéndolos al sistema inmune","No influye en el lupus","Protege frente a los brotes","Solo afecta a la esclerodermia"],c:0,
+ e:"Correcta: la luz (UVB, UVA) provoca y agrava las lesiones de lupus: la irradiación con UVB induce apoptosis y traslocación de antígenos nucleares alterados (Ro, La) a la membrana celular, exponiendo antígenos propios, con producción de autoanticuerpos, citoquinas y activación de células T y dendríticas (IFN-α)."},
+{q:"En la etiología hormonal del lupus eritematoso sistémico, según los apuntes:",
+ o:["Predomina en mujeres (9:1), por el efecto de los estrógenos y la progesterona que estimulan la autorreactividad humoral","Predomina en varones","Las hormonas no influyen","Mejora en el embarazo"],c:0,
+ e:"Correcta: el LES tiene predilección por mujeres (9:1), probablemente por el efecto de las hormonas sexuales (los niveles altos de estrógenos y progesterona estimulan la autorreactividad humoral), con exacerbación en embarazadas."},
+{q:"Los criterios de Bohan y Peter para el diagnóstico de la dermatomiositis incluyen:",
+ o:["Erupción cutánea característica, debilidad muscular proximal simétrica, alteraciones en el EMG, biopsia muscular compatible y aumento de enzimas musculares","Solo la elevación de la CK","Solo la biopsia cutánea","Aftas orales y úlceras genitales"],c:0,
+ e:"Correcta: los criterios de Bohan y Peter (1975) son: erupción cutánea característica, debilidad muscular simétrica y proximal, alteraciones en el electromiograma, biopsia muscular compatible con miositis y aumento de las enzimas musculares."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
