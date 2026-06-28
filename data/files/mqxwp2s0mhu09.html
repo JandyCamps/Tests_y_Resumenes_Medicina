@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 4 · Eccemas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 4</p>
+  <h1>Test · Eccemas</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 4 (Eccemas) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 4 — Eccemas (UFV, Elena Zamora)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ====== Concepto, clasificación, histología ====== */
+{q:"Según los apuntes, los términos 'eccema' o 'dermatitis' definen:",
+ o:["Un patrón de respuesta inflamatoria cutánea que puede deberse a múltiples etiologías","Una única enfermedad de causa conocida","Un tumor epidérmico benigno","Una infección bacteriana superficial"],c:0,
+ e:"Correcta: eccema/dermatitis es un patrón de respuesta inflamatoria cutánea de etiologías múltiples, con prurito y polimorfismo lesional (eritema, edema, papulovesículas, descamación, liquenificación)."},
+{q:"¿Cuál es el hallazgo histológico característico de la fase AGUDA del eccema?",
+ o:["Espongiosis (edema intercelular) con vesícula intraepidérmica","Hiperqueratosis con elongación de crestas","Acantosis con paraqueratosis","Atrofia epidérmica"],c:0,
+ e:"Correcta: la fase aguda muestra espongiosis (edema intercelular e intracelular) con vesícula intraepidérmica y exocitosis. La subaguda da acantosis con paraqueratosis y la crónica hiperqueratosis."},
+{q:"¿Cuál de estos es un eccema ENDÓGENO según la clasificación de los apuntes?",
+ o:["Eccema atópico","Dermatitis de contacto irritativa","Dermatitis de contacto alérgica","Eccema de contacto fotoinducido"],c:0,
+ e:"Correcta: los endógenos incluyen el atópico, seborreico, dishidrótico, numular, asteatósico, liquen simple crónico y dermatitis de estasis; los de contacto (irritativa, alérgica, fotoinducida) son exógenos."},
+{q:"En la fase CRÓNICA del eccema, la histología muestra:",
+ o:["Hiperqueratosis con elongación de crestas epidérmicas y papilas dérmicas","Espongiosis con vesícula intraepidérmica","Edema dérmico sin cambios epidérmicos","Acantólisis suprabasal"],c:0,
+ e:"Correcta: la fase crónica da hiperqueratosis con elongación de crestas y papilas, sobre un infiltrado linfohistiocitario perivascular superficial."},
+
+/* ====== DC irritativa ====== */
+{q:"La dermatitis de contacto IRRITATIVA, según los apuntes:",
+ o:["Es una reacción inflamatoria por una sustancia irritante a través de un mecanismo NO inmunológico, sin sensibilización previa","Requiere sensibilización previa (mecanismo inmunológico)","Es una hipersensibilidad tipo IV","Solo aparece en individuos atópicos"],c:0,
+ e:"Correcta: la DC irritativa es una reacción local por un agente irritante mediante un mecanismo NO inmunológico, sin sensibilización previa (a diferencia de la alérgica)."},
+{q:"La DC irritativa CRÓNICA (acumulativa), según los apuntes:",
+ o:["Resulta de la suma de irritantes débiles repetidos; ejemplos: dermatitis del ama de casa y eccema hiperqueratósico palmar","Aparece desde el primer contacto con agentes potentes","Es una reacción de hipersensibilidad retardada","Nunca favorece la DC alérgica"],c:0,
+ e:"Correcta: la DC irritativa crónica es acumulativa (jabones, disolventes, microtraumatismos), da la 'dermatitis del ama de casa' y el eccema hiperqueratósico palmar, y favorece el desarrollo de DC alérgica."},
+{q:"La DC irritativa AGUDA se caracteriza por:",
+ o:["Lesiones desde el primer contacto, por agentes potentes, limitadas a la zona de contacto","Necesitar exposiciones repetidas durante meses","Diseminarse fuera de la zona de contacto","Requerir sensibilización previa"],c:0,
+ e:"Correcta: la DC irritativa aguda aparece desde el primer contacto con agentes potentes, con eccema agudo (edema, vesículas, incluso necrosis) limitado a la zona de contacto y de fácil diagnóstico."},
+
+/* ====== DC alérgica ====== */
+{q:"La dermatitis de contacto ALÉRGICA está mediada por:",
+ o:["Una hipersensibilidad retardada (tipo IV) en un individuo previamente sensibilizado","Una hipersensibilidad inmediata IgE (tipo I)","Un mecanismo no inmunológico","Inmunocomplejos (tipo III)"],c:0,
+ e:"Correcta: la DC alérgica es una hipersensibilidad retardada de tipo IV (inmunidad celular) que requiere sensibilización previa al hapteno."},
+{q:"¿Qué célula procesa y presenta el alérgeno en la fase de sensibilización de la DC alérgica?",
+ o:["La célula de Langerhans","El mastocito","El queratinocito basal","El neutrófilo"],c:0,
+ e:"Correcta: las células de Langerhans procesan el alérgeno (unido a una molécula HLA de clase II) y migran al ganglio para presentarlo a los linfocitos T."},
+{q:"Para que una sustancia química actúe como hapteno-sensibilizante, según los apuntes, suele tener:",
+ o:["Bajo peso molecular (<500 Da), ser lipofílica y de estructura química reactiva","Alto peso molecular (>5000 Da)","Carácter hidrofílico e inerte","Ausencia de actividad proinflamatoria"],c:0,
+ e:"Correcta: el hapteno suele tener peso molecular <500 Da, ser lipofílico, de estructura reactiva, con actividad proinflamatoria y capacidad de madurar la célula de Langerhans."},
+{q:"¿Cuál es la localización MÁS frecuente de la dermatitis de contacto?",
+ o:["Las manos","El cuero cabelludo","Las plantas de los pies","La espalda"],c:0,
+ e:"Correcta: las manos son la localización más frecuente de la DC; en la cara destacan los párpados."},
+{q:"En la DC alérgica, la 'sensibilidad CRUZADA' se refiere a:",
+ o:["Reacción a sustancias de composición química semejante","Reacción a varias sustancias del mismo producto","Reacción a sustancias sin relación entre sí","Reacción solo al alérgeno original"],c:0,
+ e:"Correcta: la sensibilidad cruzada es la reacción a sustancias de química semejante; la concomitante es a sustancias del mismo producto y la múltiple a sustancias sin relación entre sí."},
+
+/* ====== Pruebas epicutáneas ====== */
+{q:"Las pruebas epicutáneas (del parche), según los apuntes:",
+ o:["Permiten el diagnóstico del 80% de las DC; se colocan en la parte alta de la espalda con lecturas a las 48 h y a las 72-96 h","Diagnostican la DC irritativa","Se leen a los 20 minutos","Detectan IgE específica"],c:0,
+ e:"Correcta: las pruebas epicutáneas (TRUE TEST) diagnostican el 80% de las DC alérgicas; se aplican en la parte alta de la espalda, con primera lectura a las 48 h y segunda a las 72-96 h."},
+{q:"En la lectura de las pruebas de contacto, ¿qué significa '+++'?",
+ o:["Reacción positiva extrema (ampolla)","Reacción dudosa (eritema mínimo)","Reacción positiva débil (solo eritema)","Reacción irritativa"],c:0,
+ e:"Correcta: +++ es reacción positiva extrema (ampolla); +/- dudosa, + débil (eritema), ++ fuerte (eritema-edema-pápula-vesícula), IR irritativa."},
+
+/* ====== Alérgenos ====== */
+{q:"¿Cuál es el alérgeno de contacto MÁS frecuente en España?",
+ o:["El níquel","El cromo","La parafenilendiamina","El bálsamo del Perú"],c:0,
+ e:"Correcta: el níquel es el alérgeno más frecuente en España, con claro predominio en mujeres (bisutería)."},
+{q:"El cromo y el cobalto como alérgenos de contacto predominan en:",
+ o:["Varones, por el cemento (y el cromo en el curtido de pieles)","Mujeres jóvenes, por cosméticos","Niños, por juguetes","Ancianos, por medicamentos"],c:0,
+ e:"Correcta: cromo y cobalto predominan en varones por el cemento (ambiente laboral); el cromo también en el curtido de pieles."},
+{q:"La 'sarna del níquel' descrita en los apuntes corresponde a:",
+ o:["Un eccema de contacto diseminado con pápulas pruriginosas de predominio nocturno, por extensión de un eccema localizado","Una infestación por Sarcoptes en alérgicos al níquel","Una urticaria de contacto inmediata","Una reacción fototóxica"],c:0,
+ e:"Correcta: la 'sarna del níquel' es un eccema de contacto diseminado (pápulas pruriginosas de predominio nocturno) por extensión de un eccema de contacto localizado."},
+{q:"La parafenilendiamina (PPD), alérgeno frecuente, está presente sobre todo en:",
+ o:["Tintes capilares y textiles, calzado y tatuajes temporales","Bisutería y botones metálicos","Cemento de construcción","Guantes quirúrgicos de látex"],c:0,
+ e:"Correcta: la PPD se encuentra en tintes capilares, textiles y de calzado y en los tatuajes temporales; se asocia al síndrome de la PPPP (púrpura, petequias, prurito y prueba positiva a PPD)."},
+{q:"El eccema alérgico de contacto SISTÉMICO se produce por:",
+ o:["Exposición sistémica a un sensibilizante que previamente sensibilizó por vía tópica (p. ej. neomicina/estreptomicina, etilendiamina/aminofilina)","Contacto único con un irritante potente","Hipersensibilidad inmediata mediada por IgE","Radiación ultravioleta sin alérgeno"],c:0,
+ e:"Correcta: el eccema de contacto sistémico aparece por exposición sistémica a un sensibilizante tópico previo (etilendiamina/aminofilina iv, neomicina/estreptomicina, urushiol/anacardos y mango)."},
+{q:"En los alérgenos de las gomas, ¿qué alérgeno se asocia a usuarios de guantes y al síndrome de la PPPP?",
+ o:["La parafenilendiamina (y la mezcla de tiuram en los guantes)","El níquel","El bálsamo del Perú","La colofonia"],c:0,
+ e:"Correcta: en las gomas destacan tiuram, mercaptobenzotiazol, carbas, IPPD y PPD; los guantes de goma dan eccema en zonas de contacto y la PPD se asocia al síndrome de la PPPP."},
+
+/* ====== Fotoeccemas ====== */
+{q:"En el eccema de contacto fotoinducido, ¿qué agentes se asocian al eccema FOTOTÓXICO?",
+ o:["Tiazidas, AINE, doxiciclina y furosemida","Solo los protectores solares","El níquel y el cromo","Los ácaros del polvo"],c:0,
+ e:"Correcta: el eccema fototóxico se asocia a tiazidas, AINE, doxiciclina y furosemida; el fotoalérgico, a los protectores solares."},
+
+/* ====== Dermatitis atópica ====== */
+{q:"La dermatitis atópica, según los apuntes, es:",
+ o:["Una enfermedad inflamatoria pruriginosa, crónica, en brotes, con predisposición genética y comienzo habitual en la infancia","Una reacción no inmunológica por irritantes","Una infección por Malassezia","Un tumor cutáneo"],c:0,
+ e:"Correcta: la DA es una enfermedad inflamatoria pruriginosa crónica, en brotes recidivantes, con predisposición genética y comienzo en la infancia; forma parte de la marcha atópica (asma, rinoconjuntivitis)."},
+{q:"¿Qué prevalencia tiene la dermatitis atópica según los apuntes?",
+ o:["Unos 20% en la población infantil y 3% en adultos","50% en adultos","1/1000 en la población general","Igual en todas las edades"],c:0,
+ e:"Correcta: la DA afecta al 20% de la población infantil y al 3% de los adultos (disminuye con la edad); el 80-90% presenta lesiones antes de los 5 años."},
+{q:"¿Qué gen, implicado en la barrera cutánea, se relaciona con la dermatitis atópica?",
+ o:["El gen de la filagrina (proteína que agrega los filamentos de queratina)","El gen de la desmogleína 3","El gen del colágeno VII","El gen EVER"],c:0,
+ e:"Correcta: las mutaciones del gen de la filagrina (20-50% de niños europeos con DA) alteran la barrera, aumentan la pérdida de agua transepidérmica y predisponen a DA temprana persistente y a asma."},
+{q:"En la fase AGUDA de la dermatitis atópica predomina la subpoblación linfocitaria:",
+ o:["Th2 (IL-4, IL-5, IL-13)","Th1 (IFN-gamma)","Th17 (IL-17)","Treg (IL-10)"],c:0,
+ e:"Correcta: en las lesiones agudas de la DA predomina la respuesta Th2 (IL-4, IL-5, IL-13); en la crónica vira a Th1."},
+{q:"¿Qué bacteria coloniza muy frecuentemente la piel atópica y puede exacerbar la inflamación con superantígenos?",
+ o:["Staphylococcus aureus","Streptococcus pyogenes","Pseudomonas aeruginosa","Malassezia furfur"],c:0,
+ e:"Correcta: S. aureus coloniza muy a menudo la piel atópica y, mediante toxinas que actúan como superantígenos, mantiene o exacerba la inflamación."},
+{q:"En la FASE DEL LACTANTE de la dermatitis atópica, ¿qué zona característicamente se RESPETA?",
+ o:["La zona centrofacial","Las flexuras de las extremidades","El dorso de las manos","Los pliegues poplíteos"],c:0,
+ e:"Correcta: en el lactante (2-6 meses) la DA afecta cuero cabelludo, mejillas y mentón y la superficie de extensión, respetando la zona centrofacial."},
+{q:"En la FASE INFANTIL y del ADULTO de la dermatitis atópica, ¿cuál es la localización típica?",
+ o:["Las flexuras de las extremidades","La superficie de extensión exclusivamente","La zona del pañal","Solo la cara central"],c:0,
+ e:"Correcta: en la fase infantil (2-12 años) y del adulto la DA afecta sobre todo las flexuras (y en el adulto, párpados, cuello y dorso de manos/pies), con xerosis y liquenificación."},
+{q:"¿Cuál de estos es un signo/estigma asociado a la dermatitis atópica según los apuntes?",
+ o:["El pliegue infraorbitario de Dennie-Morgan","El signo de Nikolsky","La jalea de manzana","El signo de Pastia"],c:0,
+ e:"Correcta: entre los estigmas atópicos están el pliegue de Dennie-Morgan, la pitiriasis alba, el dermografismo blanco, la xerosis, la queratosis folicular, la catarata subcapsular y el queratocono."},
+{q:"¿Qué diferencia clínica clave separa el eccema seborreico infantil del eccema atópico del lactante?",
+ o:["El seborreico no produce prurito, empieza hacia la 3ª semana y afecta el centro de la cara/pliegues; el atópico pica intensamente, empieza hacia los 3 meses y afecta la periferia de la cara","El seborreico pica más que el atópico","El atópico cura en 2-3 semanas sin recidivar","Ambos empiezan a la misma edad y son idénticos"],c:0,
+ e:"Correcta: el seborreico infantil aparece hacia la 3ª semana, sin antecedentes de atopia, en centro de la cara y pliegues, sin prurito y cura en 2-3 semanas; el atópico empieza hacia los 3 meses, con prurito intenso, en la periferia de la cara, y cursa en brotes."},
+{q:"Sobre los criterios diagnósticos de dermatitis atópica, se requiere:",
+ o:["Dermatitis pruriginosa más 3 o más criterios (inicio precoz, piel seca, afectación de pliegues, antecedentes de atopia, dermatitis flexural visible)","Solo la presencia de IgE elevada","Una biopsia patognomónica","Pruebas epicutáneas positivas"],c:0,
+ e:"Correcta: el diagnóstico exige dermatitis pruriginosa más 3 o más criterios (inicio antes de los 2 años, piel seca, afectación de pliegues, antecedentes personales/familiares de atopia, dermatitis flexural visible); la histología es inespecífica."},
+{q:"¿Qué índices se usan para medir la GRAVEDAD de la dermatitis atópica?",
+ o:["EASI y SCORAD","Hurley e IHS4","Breslow y Clark","PASI y BSA exclusivamente"],c:0,
+ e:"Correcta: la gravedad de la DA se mide con EASI (moderada 7-21, grave 21-50, muy grave 50-72) y SCORAD; el prurito empeora la calidad de vida medida por el DLQI."},
+{q:"Entre los tratamientos SISTÉMICOS modernos de la dermatitis atópica, ¿cuál es un anticuerpo frente a IL-4 e IL-13?",
+ o:["Dupilumab","Omalizumab","Adalimumab","Rituximab"],c:0,
+ e:"Correcta: dupilumab bloquea IL-4 e IL-13; tralokinumab y lebrikizumab actúan sobre IL-13, omalizumab es anti-IgE y hay inhibidores de JAK (baricitinib, upadacitinib, abrocitinib)."},
+{q:"¿Qué grupo de inmunomoduladores TÓPICOS (inhibidores de la calcineurina) se emplea en la dermatitis atópica?",
+ o:["Tacrolimus y pimecrolimus","Imiquimod y 5-fluorouracilo","Calcipotriol y tazaroteno","Mupirocina y ácido fusídico"],c:0,
+ e:"Correcta: tacrolimus y pimecrolimus son inhibidores de la calcineurina que reducen la liberación de citocinas; se usan junto con corticoides y emolientes."},
+
+/* ====== Eccema dishidrótico ====== */
+{q:"El eccema dishidrótico, según los apuntes:",
+ o:["Es una dermatitis eruptiva pruriginosa de manos y pies que cursa en brotes, con vesículas/ampollas simétricas en dedos, palmas y plantas","Da placas redondeadas 'en moneda' en las piernas","Aparece sobre piel seca en ancianos","Afecta las áreas seborreicas de la cara"],c:0,
+ e:"Correcta: el eccema dishidrótico es una dermatitis pruriginosa de manos y pies, en brotes, con vesículas o ampollas simétricas en dedos, palmas y plantas, frecuentemente periungueales."},
+{q:"¿Qué perfil epidemiológico tiene el eccema dishidrótico?",
+ o:["Más frecuente en mujeres, entre 20-40 años, a veces con periodicidad estacional","Más frecuente en varones ancianos","Exclusivo de la infancia","Sin relación con la atopia"],c:0,
+ e:"Correcta: el dishidrótico predomina en mujeres de 20-40 años, con periodicidad estacional en el 20%; se relaciona con atopia (la mitad de las DA graves infantiles lo desarrollan)."},
+
+/* ====== Eccema numular ====== */
+{q:"El eccema numular se caracteriza por:",
+ o:["Placas eccematosas redondeadas, discoides o 'en moneda', pruriginosas, en extremidades (sobre todo inferiores) y tronco","Vesículas en palmas y plantas","Piel cuarteada 'en porcelana'","Placas grasientas en áreas seborreicas"],c:0,
+ e:"Correcta: el eccema numular da placas eccematosas discoides u ovales ('en moneda'), pruriginosas, bilaterales y simétricas, sobre todo en extremidades inferiores y tronco; predomina en varones y en invierno."},
+
+/* ====== Eccema xerodérmico ====== */
+{q:"El eccema xerodérmico (asteatótico o 'craquelé'), según los apuntes:",
+ o:["Es frecuente en ancianos sobre piel seca, agravado por el frío, con aspecto cuarteado 'en porcelana' en piernas, brazos y dorso de manos","Da vesículas simétricas en las palmas","Afecta los pliegues con placas grasientas","Es propio de niños atópicos"],c:0,
+ e:"Correcta: el eccema xerodérmico/asteatótico aparece en mayores sobre piel seca, agravado por el frío y el uso excesivo de jabones, con aspecto cuarteado 'en porcelana' en piernas, brazos y dorso de manos."},
+
+/* ====== Dermatitis seborreica ====== */
+{q:"La dermatitis seborreica, según los apuntes:",
+ o:["NO es una enfermedad de la glándula sebácea, sino una dermatitis crónica con placas eritemato-escamosas en áreas seborreicas","Es una enfermedad primaria de la glándula sebácea con aumento de la cantidad de sebo","Es una infección bacteriana de los anejos","Solo aparece en la infancia"],c:0,
+ e:"Correcta: la dermatitis seborreica no es una enfermedad de la glándula sebácea (hay alteraciones cualitativas más que cuantitativas del sebo); da placas eritemato-escamosas bien delimitadas en cuero cabelludo, cara y tronco."},
+{q:"¿En qué situaciones es especialmente frecuente o severa la dermatitis seborreica?",
+ o:["En pacientes VIH+ (incidencia 30-80%) y en enfermedades neurológicas como el Parkinson","Solo en niños sanos","En deportistas jóvenes","En alérgicos al níquel"],c:0,
+ e:"Correcta: la dermatitis seborreica es muy frecuente y severa en el VIH+ (30-80%) y en enfermedades neurológicas (Parkinson, parálisis facial, epilepsia) y psiquiátricas."},
+{q:"¿Qué microorganismo tiene un papel patogénico en la dermatitis seborreica del adulto?",
+ o:["Malassezia","Staphylococcus aureus","Trichophyton rubrum","Sarcoptes scabiei"],c:0,
+ e:"Correcta: en el adulto se implica a Malassezia (aumentada en las lesiones, con mejoría al usar antifúngicos); la forma infantil incluye la costra láctea."},
+{q:"La forma INFANTIL de la dermatitis seborreica incluye:",
+ o:["La costra láctea del cuero cabelludo, con lesiones en cara centrofacial y área del pañal, que debe diferenciarse de la enfermedad de Leiner","Vesículas simétricas en las palmas","Placas 'en moneda' en las piernas","Nódulos en los acuarios"],c:0,
+ e:"Correcta: la seborreica infantil (3-4ª semana) da la costra láctea, con afectación centrofacial, pliegues y pañal; la eritrodermia obliga a diferenciar de la enfermedad de Leiner (déficit de C5)."},
+{q:"¿Cuál es un tratamiento de la dermatitis seborreica del cuero cabelludo según los apuntes?",
+ o:["Champús con sulfuro de selenio, piritiona de zinc, antifúngicos o ácido salicílico","Penicilina benzatina sistémica","Permetrina al 5%","Isotretinoína oral"],c:0,
+ e:"Correcta: el cuero cabelludo se trata con champús de sulfuro de selenio, piritiona de zinc, antifúngicos, ácido salicílico o derivados del alquitrán; en la piel, imidazólicos y corticoides tópicos."},
+
+/* ====== Dermatitis de estasis ====== */
+{q:"La dermatitis de estasis, según los apuntes, es un componente frecuente de:",
+ o:["La insuficiencia venosa crónica (hipertensión venosa)","La insuficiencia arterial","La dermatitis atópica del lactante","La psoriasis en placas"],c:0,
+ e:"Correcta: la dermatitis de estasis acompaña a la insuficiencia venosa crónica, con varicosidades, edema, depósito de hemosiderina, úlceras y lipodermatoesclerosis (paniculitis esclerosante)."},
+
+/* ====== Patrones clínicos no eccematosos de la DC ====== */
+{q:"Entre los patrones clínicos NO eccematosos de la dermatitis de contacto, la erupción tipo liquenoide se asocia a:",
+ o:["Reveladores de color y mercurio","Aldehído y alcohol cinámico","Sales metálicas","Hidrocarburos aromáticos"],c:0,
+ e:"Correcta: los apuntes asocian la erupción liquenoide a reveladores de color y mercurio; la ampollosa a aldehído/alcohol cinámico, la granulomatosa a sales metálicas y la esclerodermiforme a hidrocarburos."},
+{q:"¿Qué patrón no eccematoso de DC se asocia a maderas, plantas y medicamentos tópicos?",
+ o:["Erupción tipo eritema exudativo multiforme","Erupción granulomatosa","Erupción purpúrica pigmentada","Erupción pustulosa"],c:0,
+ e:"Correcta: la erupción tipo EEM se asocia a maderas, plantas y medicamentos tópicos; la granulomatosa a sales metálicas y la purpúrica pigmentada a PPD, tintes azo y bálsamo del Perú."},
+{q:"La urticaria de contacto, como patrón especial de DC, puede deberse a:",
+ o:["Hipersensibilidad inmediata IgE (látex de caucho natural) o tipo IV (aditivo tiuram)","Solo a un mecanismo no inmunológico","Exclusivamente a radiación ultravioleta","Únicamente a metales pesados"],c:0,
+ e:"Correcta: los apuntes describen la urticaria de contacto por hipersensibilidad inmediata IgE (látex de caucho natural) y por tipo IV (aditivo tiuram)."},
+{q:"La dermatitis de contacto linfomatoide, según los apuntes, se asocia a:",
+ o:["IPPD, oro y tintes textiles","Latex y tiuram","Cemento y cromo","Protectores solares"],c:0,
+ e:"Correcta: la DC linfomatoide se asocia a IPPD, oro y tintes textiles (es un patrón clínico no eccematoso de la DC)."},
+
+/* ====== Etiopatogenia de la DC alérgica ====== */
+{q:"En la fase de SENSIBILIZACIÓN de la DC alérgica, ¿qué citocinas intervienen en la migración de las células de Langerhans al ganglio?",
+ o:["TNF, IL-1 y GM-CSF","IL-4, IL-5 e IL-13","IL-17 e IL-23","Solo el interferón gamma"],c:0,
+ e:"Correcta: la activación de las células de Langerhans condiciona su migración a los ganglios mediante la síntesis de TNF, IL-1 y GM-CSF y la expresión de moléculas de adhesión."},
+{q:"¿Dónde se produce la 'sinapsis inmunológica' entre la célula de Langerhans y el linfocito T no sensibilizado?",
+ o:["En la zona paracortical del ganglio linfático regional","En la epidermis basal","En la dermis papilar","En la circulación sanguínea"],c:0,
+ e:"Correcta: la CL presenta el antígeno al linfocito T no sensibilizado en la zona paracortical del ganglio linfático regional, constituyendo la sinapsis inmunológica."},
+{q:"En la fase de SENSIBILIZACIÓN, el alérgeno se une a la superficie de la célula de Langerhans a través de:",
+ o:["Una glucoproteína de clase II del sistema HLA","Una molécula de clase I del HLA","Un receptor para IgE","La filagrina"],c:0,
+ e:"Correcta: el alérgeno se une mediante enlaces covalentes a una glucoproteína (molécula de clase II del HLA) en la superficie de la célula de Langerhans para su presentación."},
+
+/* ====== Más alérgenos concretos ====== */
+{q:"¿Qué alérgeno de las uñas artificiales (metacrilato) puede dar pulpitis?",
+ o:["El metil metacrilato","El níquel","La colofonia","El bálsamo del Perú"],c:0,
+ e:"Correcta: el metil metacrilato de las uñas artificiales puede producir pulpitis (también las lacas de uñas por la resina toluensulfonamida-formaldehído)."},
+{q:"¿Qué conservante de las toallitas húmedas se cita como alérgeno de contacto?",
+ o:["La metilisotiazolinona","El dimetilfumarato","El propóleo","El limoneno"],c:0,
+ e:"Correcta: la metilisotiazolinona es el conservante alergénico de las toallitas húmedas; el dimetilfumarato es el de los saquitos antimoho y el propóleo un producto natural."},
+{q:"Entre los alérgenos de los cosméticos, ¿cuáles destacan según los apuntes?",
+ o:["Mezcla de fragancias y bálsamo del Perú, conservantes (Kathon CG, parabenos) y PPD","Tiuram y mercaptobenzotiazol","Cemento y cromo","Tiazidas y AINE"],c:0,
+ e:"Correcta: en cosméticos destacan la mezcla de fragancias y el bálsamo del Perú, conservantes (Kathon CG, quaternium, formaldehído, parabenos), PPD, colofonia y la resina de las lacas de uñas."},
+{q:"El eccema de contacto por COSMÉTICOS es más frecuente en:",
+ o:["Mujeres jóvenes, localizado en cara, cuello y manos","Varones de edad avanzada","Niños pequeños","Trabajadores de la construcción"],c:0,
+ e:"Correcta: la DC por cosméticos es más frecuente en mujeres jóvenes, localizada donde contacta el cosmético (cara, cuello y manos), a veces diseminada."},
+{q:"El eccema de contacto por MEDICAMENTOS tópicos es más frecuente en:",
+ o:["Pacientes de edad media o avanzada (neomicina, caínas, tixocortol…)","Niños lactantes","Adolescentes deportistas","Mujeres embarazadas exclusivamente"],c:0,
+ e:"Correcta: la DC por medicamentos (10% de los parcheados) afecta sobre todo a personas de edad media-avanzada, con alérgenos como neomicina, mezcla de caínas, quinoleínas y tixocortol."},
+
+/* ====== Más DA ====== */
+{q:"En la etiopatogenia farmacológica de la dermatitis atópica se describe:",
+ o:["Aumento de la fosfodiesterasa, con bloqueo beta-adrenérgico y predominio alfa que causa vasoconstricción (palidez, dermografismo blanco)","Déficit de fosfodiesterasa con vasodilatación","Aumento de la actividad beta-adrenérgica","Ausencia de alteraciones vasculares"],c:0,
+ e:"Correcta: en la DA hay incremento de la fosfodiesterasa en los leucocitos, con bloqueo beta-adrenérgico y estimulación alfa que produce vasoconstricción (palidez facial, dermografismo blanco)."},
+{q:"¿Qué prueba se usa para estudiar la alergia alimentaria asociada a la dermatitis atópica?",
+ o:["El prick test y la IgE sérica específica","Las pruebas epicutáneas (del parche)","El examen con luz de Wood","El citodiagnóstico de Tzanck"],c:0,
+ e:"Correcta: la alergia alimentaria de la DA se estudia con prick test e IgE sérica específica; la prueba del parche con aeroalérgenos (ácaros) es positiva en el 30-50%."},
+{q:"En la fase CRÓNICA de la dermatitis atópica, ¿qué subpoblación linfocitaria predomina?",
+ o:["Th1","Th2","Th17","Treg"],c:0,
+ e:"Correcta: en la fase aguda predomina Th2 (IL-4, IL-13) y en la crónica vira a Th1 (con IL-12, IL-18 de macrófagos, dendríticas y eosinófilos)."},
+
+/* ====== Más numular/seborreica ====== */
+{q:"¿Qué medicamentos sistémicos se asocian al eccema numular según los apuntes?",
+ o:["Metildopa, oro, estreptomicina, isoniazida e isotretinoína","Tiazidas y furosemida","Penicilina y cloxacilina","Tacrolimus y pimecrolimus"],c:0,
+ e:"Correcta: entre los desencadenantes del eccema numular se citan medicamentos sistémicos como metildopa, oro, estreptomicina, isoniazida e isotretinoína."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
