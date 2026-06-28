@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 1 · Estructura y función de la piel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 1</p>
+  <h1>Test · Estructura y función de la piel</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 1 (estructura y función de la piel; lesiones elementales clínicas e histológicas) · Universidad Francisco de Vitoria. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 1 — Estructura y función de la piel · Lesiones elementales
+// o[0] = respuesta correcta; o[1..3] = distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* --- Funciones y generalidades --- */
+{q:"¿Cuál de estas NO es una de las funciones clásicas de la piel?",
+ o:["Hematopoyesis","Barrera frente a la deshidratación","Termorregulación","Síntesis de vitamina D"],c:0,
+ e:"Correcta: la hematopoyesis no es función de la piel. Sí lo son la barrera, la termorregulación, la sensibilidad, la función metabólica (vitamina D, reserva de grasa) y la inmunológica."},
+{q:"Un joven con displasia ectodérmica hipohidrótica sufre un golpe de calor durante una carrera. ¿Qué función cutánea está alterada?",
+ o:["Termorregulación","Fotoprotección","Barrera","Sensibilidad"],c:0,
+ e:"Correcta: sin glándulas sudoríparas suficientes falla la termorregulación. La fotoprotección depende de la melanina y la barrera del estrato córneo."},
+{q:"Un albino de África central desarrolla múltiples carcinomas epidermoides antes de los 25 años. ¿Qué función falla?",
+ o:["Fotoprotección","Termorregulación","Barrera mecánica","Metabólica"],c:0,
+ e:"Correcta: la ausencia de melanina suprime la fotoprotección frente a la radiación UV, favoreciendo el cáncer cutáneo precoz."},
+
+/* --- Epidermis: capas --- */
+{q:"¿Cuál es el orden correcto de las capas de la epidermis, de profunda a superficial?",
+ o:["Basal, espinoso, granuloso, córneo","Córneo, granuloso, espinoso, basal","Basal, granuloso, espinoso, córneo","Espinoso, basal, córneo, granuloso"],c:0,
+ e:"Correcta: el queratinocito nace en la basal y asciende por espinoso y granuloso hasta el córneo, donde se descama."},
+{q:"¿En qué capa de la epidermis se encuentran los gránulos de queratohialina con profilagrina?",
+ o:["Estrato granuloso","Estrato basal","Estrato córneo","Estrato espinoso"],c:0,
+ e:"Correcta: la queratohialina (profilagrina → filagrina) caracteriza el estrato granuloso. La filagrina agrega los filamentos de queratina para formar el córneo."},
+{q:"¿Qué caracteriza a las células del estrato córneo?",
+ o:["Carecen de núcleo y organelas, solo tienen queratina","Tienen núcleo grande y nucléolo evidente","Contienen melanosomas primarios","Presentan gránulos de Birbeck"],c:0,
+ e:"Correcta: los corneocitos pierden núcleo y organelas y quedan formados solo por queratina; se aplanan y descaman."},
+{q:"Los puentes intercelulares visibles ('espinas') del estrato espinoso corresponden a:",
+ o:["Desmosomas","Hemidesmosomas","Gránulos de Birbeck","Cuerpos lamelares"],c:0,
+ e:"Correcta: las 'espinas' son los desmosomas (uniones entre queratinocitos). Los hemidesmosomas anclan la basal a la membrana basal."},
+{q:"¿Qué porcentaje aproximado de la masa epidérmica suponen la queratina y la filagrina?",
+ o:["80-90%","20-30%","Menos del 10%","Exactamente el 50%"],c:0,
+ e:"Correcta: queratina y filagrina constituyen el 80-90% de la masa de la epidermis."},
+{q:"¿Cuánto dura aproximadamente la renovación (queratinización) epidérmica normal?",
+ o:["Unos 30 días","48 horas","6 meses","1 año"],c:0,
+ e:"Correcta: el tránsito de un queratinocito desde la basal hasta su descamación dura unos 30 días (≈4 semanas); está muy acelerado en la psoriasis."},
+{q:"Las células madre de la epidermis se localizan sobre todo en:",
+ o:["Las crestas interpapilares de la capa basal","El estrato córneo","La capa granulosa","La dermis reticular"],c:0,
+ e:"Correcta: alrededor del 17% de las células basales tienen capacidad de división y se localizan sobre todo en las crestas interpapilares."},
+{q:"Los cuerpos lamelares de la epidermis son responsables de:",
+ o:["La envoltura lipídica e impermeabilidad del estrato córneo","La síntesis de melanina","La presentación de antígenos","El anclaje a la membrana basal"],c:0,
+ e:"Correcta: los cuerpos lamelares aportan los lípidos que dan cohesión e impermeabilidad al córneo; están alterados, por ejemplo, en la ictiosis laminar."},
+
+/* --- Epidermis: células --- */
+{q:"¿Qué célula de la epidermis deriva de la cresta neural y es S100+ y tirosinasa+?",
+ o:["Melanocito","Queratinocito","Célula de Langerhans","Célula de Merkel"],c:0,
+ e:"Correcta: el melanocito procede de la cresta neural, sintetiza melanina y es tirosinasa+, DOPA+ y S100+."},
+{q:"La relación habitual melanocito : queratinocitos basales (unidad melanoepidérmica) es de:",
+ o:["1:10","1:1","1:100","10:1"],c:0,
+ e:"Correcta: hay aproximadamente 1 melanocito por cada 10 queratinocitos basales."},
+{q:"¿Qué célula epidérmica presenta gránulos de Birbeck y es CD1a+ / S100+?",
+ o:["Célula de Langerhans","Melanocito","Célula de Merkel","Queratinocito"],c:0,
+ e:"Correcta: la célula de Langerhans (presentadora de antígeno) tiene gránulos de Birbeck en raqueta y es CD1a+ y S100+."},
+{q:"En la dermatitis de contacto alérgica, ¿qué célula epidérmica es el principal efector inmunitario?",
+ o:["Célula de Langerhans","Melanocito","Mastocito","Célula de Merkel"],c:0,
+ e:"Correcta: tras activarse, las células de Langerhans migran a los ganglios y presentan el antígeno, clave en la dermatitis de contacto alérgica."},
+{q:"La célula de Merkel cumple una función principalmente:",
+ o:["Mecanosensorial (tacto)","Inmunitaria","Melanogénica","Secretora"],c:0,
+ e:"Correcta: la célula de Merkel, en la capa basal, tiene función mecanosensorial (tacto)."},
+{q:"¿Qué tipo celular constituye el 90-95% de la epidermis?",
+ o:["Queratinocito","Melanocito","Célula de Langerhans","Fibroblasto"],c:0,
+ e:"Correcta: el queratinocito es la célula mayoritaria (90-95%); el fibroblasto es de la dermis."},
+
+/* --- Unión, dermis, hipodermis --- */
+{q:"La unión entre epidermis y dermis está constituida por:",
+ o:["La membrana basal","El estrato córneo","El panículo adiposo","La fascia superficial"],c:0,
+ e:"Correcta: la membrana basal une epidermis y dermis; muchas enfermedades ampollosas (genéticas o autoinmunes) atacan sus proteínas."},
+{q:"¿Qué tipo de colágeno predomina en la dermis (80-90%)?",
+ o:["Colágeno I","Colágeno IV","Colágeno VII","Colágeno XVII"],c:0,
+ e:"Correcta: el colágeno I supone el 80-90% de la dermis (con algo de III); lo sintetiza el fibroblasto."},
+{q:"¿Qué célula dérmica sintetiza el colágeno, las fibras elásticas y la sustancia fundamental?",
+ o:["Fibroblasto","Mastocito","Melanocito","Queratinocito"],c:0,
+ e:"Correcta: el fibroblasto produce colágeno, elastina y los glicosaminoglicanos de la matriz."},
+{q:"La sustancia fundamental de la dermis está formada por glicosaminoglicanos cuya propiedad principal es:",
+ o:["Gran capacidad de retención de agua","Conducir impulsos nerviosos","Sintetizar melanina","Fagocitar microorganismos"],c:0,
+ e:"Correcta: los glicosaminoglicanos (mucopolisacáridos) retienen gran cantidad de agua, dando turgencia a la dermis."},
+{q:"El corpúsculo de Pacini detecta sobre todo:",
+ o:["Presión y vibración","Tacto fino","Temperatura","Dolor"],c:0,
+ e:"Correcta: Pacini (dermis reticular y panículo) capta presión y vibración; Meissner (papila) capta el tacto."},
+{q:"El sistema vascular de la dermis se organiza en:",
+ o:["Dos plexos horizontales (subpapilar y profundo) unidos por canales verticales","Un único plexo central","Arterias terminales sin anastomosis","Una red exclusivamente linfática"],c:0,
+ e:"Correcta: hay dos plexos horizontales (subpapilar y cutáneo profundo) conectados por canales verticales; sirven a nutrición y termorregulación."},
+{q:"La función principal de la hipodermis (tejido celular subcutáneo) incluye todas EXCEPTO:",
+ o:["Presentación de antígenos","Aislamiento térmico","Protección mecánica","Reserva energética (triglicéridos)"],c:0,
+ e:"Correcta (la excepción): la presentación de antígenos no es función de la hipodermis. Sí lo son el aislamiento, la amortiguación y la reserva de energía."},
+
+/* --- Anejos --- */
+{q:"En el cuero cabelludo, la mayoría del pelo se encuentra en la fase:",
+ o:["Anagen","Catagen","Telogen","Exógena"],c:0,
+ e:"Correcta: el anagen (crecimiento) abarca el 85-90% del pelo del cuero cabelludo y dura 3-5 años."},
+{q:"¿Qué tipo de secreción tiene la glándula sebácea?",
+ o:["Holocrina","Merocrina","Apocrina (por decapitación)","Ecrina"],c:0,
+ e:"Correcta: la glándula sebácea tiene secreción holocrina (la célula se desintegra y libera su contenido al infundíbulo)."},
+{q:"Las glándulas sudoríparas ecrinas se controlan por fibras:",
+ o:["Simpáticas postganglionares colinérgicas","Parasimpáticas","Somáticas motoras","Simpáticas adrenérgicas exclusivamente"],c:0,
+ e:"Correcta: las ecrinas (termorreguladoras, aisladas, generalizadas) reciben inervación simpática colinérgica (calor, estrés, alimentos)."},
+{q:"¿Cuál es una diferencia clave de las glándulas apocrinas frente a las ecrinas?",
+ o:["Se asocian al folículo, se desarrollan en la pubertad y secretan por decapitación","Son generalizadas por toda la piel","Su función es la termorregulación","Carecen de relación con bacterias"],c:0,
+ e:"Correcta: las apocrinas van con el folículo (axila, genital, areola, CAE, párpado), aparecen en la pubertad y secretan por decapitación; son odoríferas por las bacterias."},
+
+/* --- Diagnóstico / duración --- */
+{q:"¿Cuál de estas dermatosis es característicamente de curso CRÓNICO?",
+ o:["Psoriasis","Urticaria aguda","Eritema multiforme","Eccema de contacto agudo"],c:0,
+ e:"Correcta: la psoriasis (como el vitíligo, las genodermatosis o las alopecias) tiende a persistir. Las otras son de curso agudo."},
+{q:"El herpes zóster se distribuye típicamente:",
+ o:["Siguiendo un dermatomo, sin cruzar la línea media","De forma simétrica y generalizada","En áreas seborreicas","Solo en palmas y plantas"],c:0,
+ e:"Correcta: el zóster afecta un dermatomo de forma unilateral y no pasa de la línea media (patrón zosteriforme)."},
+
+/* --- Lesiones elementales clínicas --- */
+{q:"Una lesión que solo cambia el color de la piel, sin relieve ni cambio de textura, es una:",
+ o:["Mácula","Pápula","Placa","Vesícula"],c:0,
+ e:"Correcta: la mácula es puro cambio de color y no se palpa. Pápula y placa son sólidas y elevadas."},
+{q:"Mediante diascopia (vitropresión), una mácula PURPÚRICA se comporta así:",
+ o:["No blanquea (hematíes fuera del vaso)","Blanquea por completo","Cambia a color azul","Desaparece y no reaparece"],c:0,
+ e:"Correcta: la púrpura no blanquea porque los hematíes están extravasados; el eritema (sangre dentro del vaso) sí blanquea."},
+{q:"Una elevación sólida, circunscrita, de 0,5-1 cm de diámetro, es una:",
+ o:["Pápula","Placa","Nódulo","Mácula"],c:0,
+ e:"Correcta: la pápula mide 0,5-1 cm. Por encima de 1 cm en meseta es una placa; el nódulo es profundo."},
+{q:"Una elevación 'en meseta' mayor de 1 cm, por agrupación o crecimiento de pápulas, es una:",
+ o:["Placa","Pápula","Vesícula","Costra"],c:0,
+ e:"Correcta: la placa es una elevación en meseta >1 cm (típica de la psoriasis)."},
+{q:"Una lesión profunda, más palpable que visible, originada en dermis o tejido subcutáneo, es un:",
+ o:["Nódulo","Mácula","Habón","Comedón"],c:0,
+ e:"Correcta: el nódulo es una lesión sólida profunda. La mácula es plana y el habón es superficial y evanescente."},
+{q:"El habón se caracteriza por ser:",
+ o:["Una sobreelevación por edema, evanescente (min-horas), de bordes cambiantes","Una pérdida de sustancia que cura con cicatriz","Una lesión córnea muy adherente","Un folículo dilatado con queratina"],c:0,
+ e:"Correcta: el habón (urticaria) es edema dérmico evanescente; su equivalente profundo es el angioedema."},
+{q:"La liquenificación es:",
+ o:["Una placa por rascado con engrosamiento y aumento de las marcas cutáneas","Una mácula hiperpigmentada","Una vesícula de contenido seroso","Una pérdida de epidermis"],c:0,
+ e:"Correcta: la liquenificación resulta del rascado crónico (p. ej. liquen simple crónico), con piel engrosada y cuadriculada."},
+{q:"El comedón es:",
+ o:["Un folículo pilosebáceo dilatado y lleno de un 'clavo' de queratina y sebo","Una ampolla de contenido purulento","Una placa esclerótica","Una mácula vascular"],c:0,
+ e:"Correcta: el comedón (acné) es el folículo pilosebáceo taponado por queratina y sebo."},
+{q:"Una lesión de contenido líquido seroso o hemático menor de 0,5 cm es una:",
+ o:["Vesícula","Pústula","Pápula","Placa"],c:0,
+ e:"Correcta: la vesícula (<0,5 cm) y la ampolla (>0,5 cm) contienen líquido seroso o hemático; la pústula contiene pus."},
+{q:"El ántrax (en inglés 'carbuncle') se define como:",
+ o:["La coalescencia de varios forúnculos","Una única foliculitis superficial","Un cúmulo de pus en la hipodermis","Una mácula necrótica"],c:0,
+ e:"Correcta: el ántrax es la confluencia de varios forúnculos. El absceso es un cúmulo profundo y fluctuante de pus."},
+{q:"¿Qué diferencia una erosión de una úlcera?",
+ o:["La erosión cura sin cicatriz; la úlcera (≥dermis) cura con cicatriz","La úlcera es siempre superficial","La erosión siempre deja cicatriz","No hay diferencia"],c:0,
+ e:"Correcta: la erosión afecta solo a epidermis y cura sin cicatriz; la úlcera llega al menos a dermis y cicatriza."},
+{q:"Una hendidura lineal y dolorosa de la piel, por pérdida de elasticidad o tensión excesiva, es una:",
+ o:["Fisura (grieta)","Erosión","Fístula","Escama"],c:0,
+ e:"Correcta: la fisura es una grieta lineal dolorosa, típica de zonas periorificiales, pliegues, palmas y plantas."},
+{q:"Una membrana necrótica muy adherente, gris oscura o negra, por necrosis del tejido, es una:",
+ o:["Escara (esfacelo)","Costra","Escama","Atrofia"],c:0,
+ e:"Correcta: la escara/esfacelo es tejido necrótico negro adherente. La costra es exudado desecado (sangre, suero, pus)."},
+{q:"La poiquilodermia se define por la combinación de:",
+ o:["Atrofia, discromía (hiper/hipopigmentación) y telangiectasias","Pústulas, costras y escamas","Pápulas, placas y nódulos","Vesículas, ampollas y erosiones"],c:0,
+ e:"Correcta: la poiquilodermia asocia atrofia, alteraciones de la pigmentación y telangiectasias (p. ej. radiodermitis, micosis fungoide)."},
+{q:"La escara seca por necrosis cutánea isquémica con momificación se denomina:",
+ o:["Gangrena seca","Erosión","Habón","Liquenificación"],c:0,
+ e:"Correcta: la gangrena seca es muerte tisular con momificación; la húmeda añade vesículas, ampollas y exudación."},
+
+/* --- Configuración / distribución --- */
+{q:"El fenómeno isomórfico de Koebner (lesiones donde hay traumatismo) es típico de:",
+ o:["Psoriasis, liquen plano, verrugas planas y vitíligo","Pénfigo vulgar","Eritema nudoso","Melanoma"],c:0,
+ e:"Correcta: el Koebner aparece en psoriasis, liquen plano, verrugas planas y vitíligo; NO en el pénfigo."},
+{q:"Una lesión que dibuja anillos con crecimiento excéntrico y curación central (tiña, granuloma anular) es:",
+ o:["Anular o circinada","Numular","En diana","Lineal"],c:0,
+ e:"Correcta: el patrón anular/circinado crece por la periferia y cura por el centro."},
+{q:"Las lesiones 'en diana' o en iris, con al menos 3 anillos concéntricos, son típicas de:",
+ o:["Eritema multiforme","Psoriasis","Urticaria","Vitíligo"],c:0,
+ e:"Correcta: la lesión en diana (3 áreas concéntricas) caracteriza el eritema multiforme."},
+{q:"Una distribución que sigue las líneas de migración celular de la embriogénesis se denomina:",
+ o:["Blaschkoide","Zosteriforme","Numular","Retiforme"],c:0,
+ e:"Correcta: el patrón blaschkoide (p. ej. incontinentia pigmenti) sigue las líneas de Blaschko; el zosteriforme sigue un dermatomo."},
+{q:"La dermatitis atópica y la psoriasis se diferencian, en distribución, en que:",
+ o:["La atópica afecta flexuras y la psoriasis superficies extensoras","Ambas afectan solo palmas","La psoriasis es flexural y la atópica extensora","Ninguna tiene patrón topográfico"],c:0,
+ e:"Correcta: clásicamente la atópica predomina en flexuras y la psoriasis en superficies extensoras (codos, rodillas)."},
+
+/* --- Lesiones histológicas --- */
+{q:"La presencia de NÚCLEOS retenidos en la capa córnea se denomina:",
+ o:["Paraqueratosis","Ortoqueratosis","Hipergranulosis","Acantólisis"],c:0,
+ e:"Correcta: la paraqueratosis (núcleos en el córneo) es el correlato histológico de la escama psoriásica; la ortoqueratosis es córnea normal sin núcleos."},
+{q:"El edema INTERcelular de la epidermis (típico del eccema) se llama:",
+ o:["Espongiosis","Acantólisis","Vacuolización","Acantosis"],c:0,
+ e:"Correcta: la espongiosis es edema entre los queratinocitos y puede formar vesículas espongióticas (eccema)."},
+{q:"La pérdida de cohesión entre queratinocitos por rotura de los puentes intercelulares se denomina:",
+ o:["Acantólisis","Espongiosis","Papilomatosis","Hiperqueratosis"],c:0,
+ e:"Correcta: la acantólisis (rotura de desmosomas) es el mecanismo de la ampolla del pénfigo."},
+{q:"La acantosis es:",
+ o:["Aumento del grosor epidérmico por más queratinocitos del estrato espinoso","Aumento de la capa córnea","Alargamiento de las papilas dérmicas","Adelgazamiento de la epidermis"],c:0,
+ e:"Correcta: la acantosis es engrosamiento del estrato espinoso (Malpighio). La papilomatosis alarga las papilas y la hiperqueratosis engruesa el córneo."},
+{q:"El eritema nudoso es el prototipo histológico de:",
+ o:["Paniculitis septal","Paniculitis lobulillar","Vasculitis de gran vaso","Dermatitis espongiótica"],c:0,
+ e:"Correcta: el eritema nudoso es una paniculitis septal sin vasculitis; la vasculitis nodular es lobulillar."},
+{q:"El infiltrado linfocitario 'en banda' que borra la unión dermoepidérmica, con epidermis en dientes de sierra, corresponde al patrón:",
+ o:["Interfase liquenoide (liquen plano)","Espongiótico (eccema)","Psoriasiforme (psoriasis)","Vasculítico"],c:0,
+ e:"Correcta: el patrón liquenoide con infiltrado en banda e hipergranulosis es del liquen plano."},
+{q:"Una ampolla SUBepidérmica con numerosos eosinófilos en su interior sugiere:",
+ o:["Penfigoide ampolloso","Pénfigo vulgar","Dermatitis espongiótica","Psoriasis pustulosa"],c:0,
+ e:"Correcta: el penfigoide produce ampolla subepidérmica con eosinófilos; el pénfigo vulgar da ampolla intraepidérmica acantolítica."},
+{q:"La degeneración fibrinoide de la pared vascular es característica de:",
+ o:["La vasculitis necrotizante","El fotoenvejecimiento","El mixedema","La esclerodermia"],c:0,
+ e:"Correcta: la degeneración fibrinoide define la vasculitis. La elastósica es del fotoenvejecimiento, la mucinosa del mixedema y la esclerosis de la esclerodermia."},
+{q:"El depósito dérmico que se observa en un tofo gotoso es de:",
+ o:["Ácido úrico","Calcio","Melanina","Hierro"],c:0,
+ e:"Correcta: el tofo es un depósito de cristales de ácido úrico en la dermis."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
