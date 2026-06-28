@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 7 · Acné, Rosácea, Fotobiología, Dermatosis físicas y Pigmentación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 7</p>
+  <h1>Test · Acné, Rosácea, Fotobiología y Dermatosis físicas</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 7 (acné, rosácea, hidradenitis, fotobiología, dermatosis físicas y alteraciones de la pigmentación) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 7 — Acné, Rosácea, Hidradenitis, Fotobiología, Dermatosis físicas y Pigmentación (UFV, Pablo Fonda)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ ACNÉ ============ */
+{q:"¿Qué alimentos pueden empeorar el acné según los apuntes?",
+ o:["Los de alto contenido en azúcar, comidas grasas y el alto consumo de leche y lácteos","Las verduras y frutas frescas","El pescado azul","El agua y las infusiones"],c:0,
+ e:"Correcta: pueden empeorar el acné los alimentos/bebidas con alto contenido en azúcar, las comidas grasas (fritos, ácidos grasos saturados y trans) y el alto consumo de leche, lácteos y complementos proteicos."},
+{q:"Sobre la influencia hormonal del acné, según los apuntes:",
+ o:["El acné de la mujer adulta tiene una influencia hormonal patológica, a diferencia del de la adolescencia (fisiológica)","El acné neonatal no tiene relación hormonal","El acné del adolescente es siempre patológico","No se recomienda estudio hormonal en mujeres adultas con acné"],c:0,
+ e:"Correcta: el acné neonatal se debe a hormonas maternas, el del adolescente tiene influencia hormonal fisiológica/temporal y el de la mujer adulta es patológico; se recomienda estudio hormonal a mujeres adultas con acné."},
+{q:"El síndrome SAHA, según los apuntes, incluye:",
+ o:["Seborrea, Acné, Hirsutismo y Alopecia androgénica","Sinovitis, Acné, Pustulosis e Hiperostosis","Seborrea, Atrofia, Hipertricosis y Anhidrosis","Sequedad, Adenopatías, Hepatomegalia y Artritis"],c:0,
+ e:"Correcta: el síndrome SAHA es Seborrea, Acné, Hirsutismo y Alopecia androgénica; aparece en mujeres con hiperandrogenismo ovárico/suprarrenal o hipersensibilidad de los receptores periféricos a andrógenos (causas: SOP, prolactina/insulina)."},
+{q:"La lesión NO inflamatoria característica del acné es:",
+ o:["El comedón","La pústula","El nódulo","El absceso"],c:0,
+ e:"Correcta: el comedón es la lesión no inflamatoria característica del acné: cerrado (puntos blancos) o abierto (puntos negros, con tapón de queratina y melanina); las inflamatorias son pápulas, pústulas, nódulos, abscesos y quistes."},
+{q:"En el diagnóstico diferencial con la rosácea, ésta se caracteriza por:",
+ o:["Ausencia de comedones, localización centrofacial y lesiones monomorfas","Presencia de comedones","Lesiones polimorfas en la espalda","Afectación de las extremidades"],c:0,
+ e:"Correcta: frente al acné, la rosácea no tiene comedones, es centrofacial y monomorfa; en el DD del acné importan la edad, la localización y la presencia/ausencia de comedones."},
+{q:"Las erupciones acneiformes (acné medicamentoso), según los apuntes:",
+ o:["Dan lesiones monomorfas y sin comedones (esteroides, corticoides, litio, inhibidores del EGFR)","Tienen muchos comedones","Son siempre por alimentos","Nunca se asocian a fármacos"],c:0,
+ e:"Correcta: el acné medicamentoso/iatrogénico (esteroides anabolizantes, corticoides, litio, inhibidores del EGFR) da lesiones monomorfas y sin comedones."},
+{q:"El acné fulminans, según los apuntes:",
+ o:["Es la forma más grave, de aparición súbita, con síntomas sistémicos, elevación de reactantes y proteinuria","No tiene manifestaciones sistémicas","Es la forma más leve","Solo afecta el cuero cabelludo"],c:0,
+ e:"Correcta: el acné fulminans es la forma más grave (cara y tronco, nódulo-quístico, abscesos, cicatrices), de aparición súbita, con síntomas sistémicos, elevación de reactantes y proteinuria; el acné conglobata es nódulo-quístico severo súbito SIN manifestaciones sistémicas."},
+{q:"El síndrome SAPHO incluye:",
+ o:["Sinovitis, Acné, Pustulosis, Hiperostosis y Osteítis","Seborrea, Acné, Hirsutismo y Alopecia","Sequedad, Artritis, Psoriasis, Hepatitis y Osteoporosis","Sinovitis, Anemia, Púrpura, Hematuria y Osteomielitis"],c:0,
+ e:"Correcta: el SAPHO es Sinovitis, Acné, Pustulosis, Hiperostosis y Osteítis (acné fulminans, pustulosis palmoplantar, psoriasis pustulosa); la inflamación ósea afecta la pared torácica anterior y la columna."},
+{q:"La tétrada de oclusión folicular incluye:",
+ o:["Acné conglobata, hidradenitis supurativa, foliculitis decalvante y sinus pilonidal","Seborrea, acné, hirsutismo y alopecia","Sinovitis, acné, pustulosis y osteítis","Acné, rosácea, dermatitis perioral y melasma"],c:0,
+ e:"Correcta: la tétrada de oclusión folicular es acné conglobata, hidradenitis supurativa, foliculitis decalvante del cuero cabelludo y sinus pilonidal (no siempre aparecen las cuatro)."},
+{q:"En el tratamiento tópico del acné, los retinoides tópicos:",
+ o:["Son de primera elección en acné leve-moderado, normalizan la hiperqueratinización folicular y están contraindicados en el embarazo","Se usan siempre en monoterapia en acné grave","Son seguros en el embarazo","No actúan sobre el comedón"],c:0,
+ e:"Correcta: los retinoides tópicos (adapaleno, tretinoína, tazaroteno) son primera elección en acné leve-moderado comedoniano (normalizan la hiperqueratinización), se combinan con antibiótico o peróxido de benzoilo en lesiones inflamatorias y están contraindicados en el embarazo."},
+{q:"El peróxido de benzoilo, según los apuntes:",
+ o:["Tiene propiedades antibacterianas y comedolíticas, y a la menor concentración (2,5%) es igual de efectivo con menos irritación","No tiene acción antibacteriana","Es más eficaz cuanto mayor la concentración","No decolora la ropa"],c:0,
+ e:"Correcta: el peróxido de benzoilo es antibacteriano y comedolítico; al 2,5% parece igual de efectivo que al 5-10% con menos irritación, y decolora la ropa."},
+{q:"Sobre la antibioterapia TÓPICA en el acné, según los apuntes:",
+ o:["Nunca se usa en monoterapia; las más usadas son la clindamicina y la eritromicina","Se usa siempre sola","No produce foliculitis","Es la primera elección en acné grave"],c:0,
+ e:"Correcta: la antibioterapia tópica (clindamicina, eritromicina) nunca se usa en monoterapia; puede producir foliculitis por gramnegativos que hay que diferenciar de un fallo al tratamiento."},
+{q:"Sobre los antibióticos SISTÉMICOS en el acné, según los apuntes:",
+ o:["Los más usados son las tetraciclinas (doxiciclina, minociclina), con efecto bactericida y antiinflamatorio, útiles en los brotes","Son los retinoides orales","Se mantienen siempre más de un año","No tienen efecto antiinflamatorio"],c:0,
+ e:"Correcta: los antibióticos sistémicos (tetraciclinas como doxiciclina/minociclina, macrólidos, cotrimoxazol) reducen rápidamente las lesiones inflamatorias (útil en brotes) pero recidivan al suspender; los más usados son doxiciclina y minociclina 1,5-3 meses."},
+{q:"La isotretinoína, según los apuntes:",
+ o:["Es un retinoide derivado de la vitamina A que actúa sobre la glándula sebácea, indicado en acnés graves o con cicatrices","Es un antibiótico tópico","No reduce la producción de sebo","Es seguro en el embarazo"],c:0,
+ e:"Correcta: la isotretinoína es un retinoide derivado de la vitamina A que actúa sobre la glándula sebácea (reduce sebo, hiperqueratosis e inflamación), indicada en acnés graves, fracaso de tratamientos previos o cicatrices; cura el acné en el 70-80% con un solo ciclo."},
+{q:"¿Cuál es el efecto adverso más grave de la isotretinoína?",
+ o:["La teratogenicidad (contraindicada en gestantes, requiere doble anticoncepción)","La hipertensión arterial","La diabetes","La fotoprotección excesiva"],c:0,
+ e:"Correcta: la isotretinoína es teratogénica incluso a dosis bajas (contraindicada en gestantes, con anticoncepción estricta antes y 2-3 ciclos después); otros efectos predecibles/dosis-dependientes son sequedad, queilitis, fotosensibilidad, hipertensión craneal benigna (+ tetraciclinas) y alteraciones analíticas."},
+{q:"En la terapia hormonal del acné en mujeres, ¿qué fármaco se usa con anticonceptivos orales?",
+ o:["La espironolactona (50-100 mg/día, uso compasivo)","La doxiciclina","El peróxido de benzoilo","El adapaleno"],c:0,
+ e:"Correcta: la terapia hormonal (efecto lento, valorar a los 6 meses) usa anticonceptivos antiandrogénicos (acetato de ciproterona, drospirenona...), espironolactona 50-100 mg/día (con anticonceptivos) y metformina en pacientes con SOP."},
+
+/* ============ ROSÁCEA ============ */
+{q:"La rosácea, según los apuntes, es:",
+ o:["Una dermatosis inflamatoria crónica, frecuente en mujeres de 30-45 años de origen anglosajón","Una infección bacteriana aguda","Un tumor cutáneo","Una dermatosis ampollosa"],c:0,
+ e:"Correcta: la rosácea es una dermatosis inflamatoria crónica, frecuente en mujeres de 30-45 años de origen anglosajón, con predisposición genética (25%) y desencadenantes (UV, calor, picantes, alcohol, estrés, corticoides tópicos)."},
+{q:"¿Qué microorganismo se relaciona con la patogenia de la rosácea?",
+ o:["Demodex folliculorum (ácaro comensal aumentado en número)","Cutibacterium acnes","Malassezia","Sarcoptes scabiei"],c:0,
+ e:"Correcta: en la rosácea se implica el Demodex folliculorum (ácaro comensal de glándulas sebáceas/folículos), aumentado en número, junto con alteración de la inmunidad innata, disfunción de la barrera e hiperreactividad vascular (flushing)."},
+{q:"¿Cuál de estos es un subtipo clínico de rosácea?",
+ o:["La rosácea eritemato-telangiectásica, la pápulo-pustulosa, la fimatosa y la ocular","La rosácea comedoniana","La rosácea nodular del bañador","La rosácea liquenoide"],c:0,
+ e:"Correcta: los subtipos de rosácea son la eritemato-telangiectásica (flushing y eritema centrofacial), la pápulo-pustulosa (pápulas/pústulas sin comedones), la fimatosa (hipertrofia sebácea, rinofima) y la ocular."},
+{q:"La rosácea fimatosa, según los apuntes:",
+ o:["Es la única forma más frecuente en varones, con hipertrofia sebácea y fibrosis (rinofima), y puede aparecer de novo","Es más frecuente en mujeres","Es siempre la forma terminal de la rosácea","Solo afecta los párpados"],c:0,
+ e:"Correcta: la rosácea fimatosa (hipertrofia de glándulas sebáceas + fibrosis) es la única forma más frecuente en varones; no se considera terminal y puede aparecer de novo (nariz/rinofima, barbilla, frente, orejas)."},
+{q:"La rosácea ocular, según los apuntes:",
+ o:["Afecta al 50% de los pacientes y en el 20% precede a la afectación cutánea (blefaritis, conjuntivitis, chalazión)","Es muy rara","Nunca precede a la afectación cutánea","No produce síntomas oculares"],c:0,
+ e:"Correcta: la rosácea ocular afecta al 50% (en el 20% precede a la piel), con sequedad, lagrimeo, orzuelos, blefaritis, conjuntivitis, escleritis y chalazión."},
+{q:"En el tratamiento tópico de la rosácea pápulo-pustulosa, según los apuntes, se usan:",
+ o:["Metronidazol gel, ivermectina crema y ácido azelaico","Peróxido de benzoilo al 10% siempre","Corticoides tópicos de forma crónica","Hidroquinona al 20%"],c:0,
+ e:"Correcta: la rosácea pápulo-pustulosa se trata tópicamente con metronidazol gel 0,75%, ivermectina crema 1% y ácido azelaico (también retinoides, inhibidores de calcineurina, permetrina); de forma sistémica, doxiciclina/minociclina, azitromicina o isotretinoína a dosis bajas."},
+{q:"Para el eritema persistente de la rosácea eritemato-telangiectásica, según los apuntes, se usan:",
+ o:["Agonistas alfa-adrenérgicos tópicos (brimonidina, oximetazolina)","Antibióticos sistémicos","Hidroquinona","Corticoides tópicos potentes"],c:0,
+ e:"Correcta: el eritema persistente se trata con agonistas alfa-adrenérgicos tópicos (brimonidina gel 0,5%, oximetazolina) y dosis bajas de betabloqueantes; las telangiectasias con láser de colorante pulsado o luz pulsada intensa."},
+
+/* ============ HIDRADENITIS SUPURATIVA ============ */
+{q:"La hidradenitis supurativa, según los apuntes, es:",
+ o:["Una enfermedad inflamatoria inmunomediada, progresiva, crónica y recurrente, por oclusión de la unidad pilosebácea","Una infección bacteriana primaria","Un tumor de las glándulas sudoríparas","Una micosis profunda"],c:0,
+ e:"Correcta: la hidradenitis supurativa (HS) es una enfermedad inflamatoria inmunomediada (IMID), crónica, dolorosa y recurrente, por trastorno de la queratinización y oclusión del poro de la unidad pilosebácea, con citoquinas IL-1/IL-17/IL-23/TNFα; la infección bacteriana es secundaria, no causal."},
+{q:"¿Cuáles son las localizaciones más frecuentes de la hidradenitis supurativa?",
+ o:["Regiones axilares, inguinales, anogenitales y submamarias (áreas con glándulas apocrinas)","Cara y cuero cabelludo","Palmas y plantas","Superficies de extensión de codos y rodillas"],c:0,
+ e:"Correcta: la HS afecta áreas con glándulas apocrinas: axilas, ingles, anogenital y submamaria, con nódulos, abscesos, fístulas y cicatrices dolorosos; es más frecuente en mujeres y en raza negra, y empeora con fricción, tabaco y sobrepeso."},
+{q:"¿Qué clasificación se usa para estadificar la severidad de la hidradenitis supurativa?",
+ o:["La clasificación de Hurley (grados I-III)","El espesor de Breslow","Los niveles de Clark","La escala SCORAD"],c:0,
+ e:"Correcta: la severidad de la HS se estadifica con la clasificación de Hurley (I: nódulos/abscesos; II: abscesos recurrentes con escasas fístulas/cicatrices; III: afectación difusa con múltiples abscesos, fístulas y cicatrices); la ecografía ayuda a ver lesiones subclínicas."},
+{q:"La escala IHS4 de la hidradenitis supurativa, según los apuntes:",
+ o:["Suma 1×nódulos inflamatorios + 2×abscesos + 4×fístulas drenantes (leve ≤3, moderado 4-10, severo >11)","Mide solo el número de comedones","Valora el espesor en mm","Solo cuenta las cicatrices"],c:0,
+ e:"Correcta: la IHS4 suma 1×(nódulos inflamatorios) + 2×(abscesos) + 4×(fístulas drenantes): leve ≤3, moderado 4-10, severo >11; una única fístula drenante ya clasifica como moderado, permitiendo iniciar tratamiento sistémico precoz."},
+{q:"¿Qué fármaco biológico anti-TNF se usa en la hidradenitis supurativa según los apuntes?",
+ o:["Adalimumab","Rituximab","Omalizumab","Vismodegib"],c:0,
+ e:"Correcta: en la HS se usan biológicos como adalimumab (anti-TNF), secukinumab y bimekizumab (anti-IL17), además de antibióticos (clindamicina, rifampicina), antiinflamatorios (colchicina, sulfona, corticoides), terapia folículo-reguladora (acitretino, isotretinoína, cinc), control hormonal y cirugía/láser CO2."},
+{q:"El criterio HiSCR para evaluar la respuesta al tratamiento de la HS se define por:",
+ o:["Una reducción ≥50% del número de abscesos y nódulos inflamatorios, sin aumento de abscesos ni fístulas","Una reducción del 100%","Solo la desaparición de las cicatrices","La negativización de los cultivos"],c:0,
+ e:"Correcta: el HiSCR se define como una reducción ≥50% en el número total de abscesos y nódulos inflamatorios desde la basal, sin aumento de abscesos ni fístulas."},
+
+/* ============ TRASTORNOS DE LA PIGMENTACIÓN ============ */
+{q:"El vitíligo, según los apuntes:",
+ o:["Afecta al 1% de la población y resulta de la destrucción local de los melanocitos, con carácter familiar","Es un aumento de melanocitos","Es una infección por hongos","No tiene componente familiar"],c:0,
+ e:"Correcta: el vitíligo afecta al 1% de la población, por destrucción local de los melanocitos, con carácter familiar (herencia multifactorial); la piel afectada carece de melanocitos."},
+{q:"¿Qué teoría etiopatogénica del vitíligo se apoya en su asociación a otras enfermedades autoinmunes?",
+ o:["La teoría autoinmune (anemia perniciosa, Graves, Addison, diabetes)","La teoría neurogénica","La teoría infecciosa","La teoría traumática"],c:0,
+ e:"Correcta: la teoría autoinmune se apoya en la asociación a anemia perniciosa, enfermedad de Graves, Addison y diabetes (con anticuerpos antitiroideos, antitiroglobulina y anticélulas parietales gástricas); también hay teorías autocitotóxica y neurogénica (vitíligos segmentarios)."},
+{q:"¿Qué forma clínica de vitíligo se distribuye por dermatomas?",
+ o:["El segmentario","El generalizado","El focal","El universal"],c:0,
+ e:"Correcta: el vitíligo segmentario se distribuye por dermatomas; el generalizado da placas simétricas en superficies de extensión y periorificiales, el focal placas únicas y el universal pérdida completa de la pigmentación. Las manchas son acrómicas (luz de Wood +)."},
+{q:"¿Cuál es un tratamiento del vitíligo según los apuntes?",
+ o:["Corticoides/tacrolimus tópicos, fototerapia (UVB-BE 311 nm, PUVA), láser excímero y ruxolitinib tópico","Isotretinoína oral","Hidroquinona al 20% en todas las lesiones","Antibióticos sistémicos"],c:0,
+ e:"Correcta: el vitíligo (remite espontáneamente en el 10-20%) se trata con corticoides/tacrolimus tópicos, fotoprotección, fototerapia (UVB-BE 311 nm, PUVA), láser excímero 308 nm, maquillaje, despigmentación con hidroquinona al 20% y ruxolitinib tópico (inhibidor de JAK2)."},
+{q:"El albinismo, según los apuntes, es:",
+ o:["Una enfermedad autosómica recesiva por déficit de la actividad de la tirosinasa","Una enfermedad autosómica dominante","Un aumento de la melanina","Una infección congénita"],c:0,
+ e:"Correcta: el albinismo es autosómico recesivo, por déficit parcial o total de la tirosinasa (albinismo oculocutáneo, tirosinasa positivo/negativo), con hipopigmentación de piel, cabello y ojos; tratamiento: fotoprotección total, gafas de sol y controles de cáncer de piel."},
+{q:"Las efélides (pecas), según los apuntes:",
+ o:["Son máculas de 2-5 mm en zonas fotoexpuestas que aumentan y regresan con el sol, SIN aumento de melanocitos","Tienen aumento de melanocitos en la basal","No varían con la exposición solar","Aparecen en zonas no fotoexpuestas"],c:0,
+ e:"Correcta: las efélides son máculas de 2-5 mm en zonas fotoexpuestas que aumentan y regresan con la exposición solar, sin aumento de melanocitos; los lentigos simples sí tienen aumento de melanocitos en la basal y no varían con el sol."},
+{q:"El melasma, según los apuntes:",
+ o:["Es una pigmentación de bordes mal delimitados en la zona centrofacial de mujeres adultas, relacionada con estrógenos, embarazo y anticonceptivos","Es una mácula azulada sacra del lactante","Es una hipopigmentación","No se relaciona con las hormonas"],c:0,
+ e:"Correcta: el melasma es una pigmentación de bordes mal delimitados en zona centrofacial de mujeres adultas, relacionada con estrógenos, embarazos y anticonceptivos hormonales."},
+{q:"Los lentigos solares (actínicos), frente a las efélides, según los apuntes:",
+ o:["Se limitan a zonas de exposición solar acumulada y están presentes todo el año (las efélides ceden en invierno)","Ceden en invierno","No se relacionan con el sol","Son hipopigmentados"],c:0,
+ e:"Correcta: los lentigos solares se limitan a zonas de exposición solar acumulada (cara, escote, dorso de manos) y están presentes todo el año, a diferencia de las efélides que ceden en invierno."},
+
+/* ============ FOTOBIOLOGÍA ============ */
+{q:"Respecto a los tipos de radiación ultravioleta, ¿cuál penetra hasta la dermis media y atraviesa el cristal?",
+ o:["La UVA (320-400 nm)","La UVB (290-320 nm)","La UVC (200-290 nm)","Los infrarrojos"],c:0,
+ e:"Correcta: la UVA (320-400 nm) penetra hasta la dermis media, atraviesa el cristal, da bronceado rápido y más fotoalergias; la UVB (290-320 nm) es superficial, no atraviesa el cristal y produce más quemadura; la UVC (200-290 nm) es la de mayor poder de quemadura pero la filtra la atmósfera."},
+{q:"¿Qué tipo de radiación ultravioleta produce MÁS quemadura solar según los apuntes?",
+ o:["La UVC (aunque la atmósfera la filtra), seguida de la UVB","La UVA","Los infrarrojos","La luz visible"],c:0,
+ e:"Correcta: el poder de quemadura es UVC (+++) > UVB (++) > UVA (+); la UVC apenas llega a la Tierra, por lo que en la práctica la quemadura la causa sobre todo la UVB; el bronceado es rápido con UVA y lento con UVB."},
+{q:"¿Cuál es el principal cromóforo de la radiación UVB en la piel?",
+ o:["El ADN (también melanina y ácido urocánico)","Solo la hemoglobina","El colágeno","El agua"],c:0,
+ e:"Correcta: los cromóforos de la UVB son el ADN (absorción máxima 260 nm, espectro de acción con picos a 250 y 295 nm), la melanina y el ácido urocánico; la UVA produce sobre todo radicales libres (ROS/EROs)."},
+{q:"Las reacciones FOTOTÓXICAS, según los apuntes:",
+ o:["Aparecen en todos los individuos, recuerdan a una quemadura solar (savia de higueras, tetraciclinas)","Solo aparecen en predispuestos","Son de mecanismo inmunológico","Dan lesiones eccematosas"],c:0,
+ e:"Correcta: las fototoxias aparecen en todos los individuos y recuerdan a la quemadura solar (contacto con savia de higueras/hierbas, fármacos tópicos o sistémicos como tetraciclinas); las fotoalergias solo en predispuestos, con lesiones eccematosas y mecanismo inmunológico (sulfamidas)."},
+{q:"Las reacciones FOTOALÉRGICAS, según los apuntes:",
+ o:["Solo aparecen en individuos predispuestos, con lesiones eccematosas en áreas fotoexpuestas y mecanismo inmunológico","Aparecen en todos los individuos","Recuerdan a una quemadura solar","No se relacionan con medicamentos"],c:0,
+ e:"Correcta: las fotoalergias solo aparecen en predispuestos, con lesiones eccematosas en áreas fotoexpuestas, por mecanismo inmunológico, generalmente por medicamentos (sulfamidas)."},
+
+/* ============ DERMATOSIS FÍSICAS: TÉRMICAS ============ */
+{q:"En la clasificación de las quemaduras por calor según la profundidad, las de 2º grado superficiales:",
+ o:["Afectan la dermis parcialmente, con ampollas sobre base eritematosa muy dolorosas, que curan en 3 semanas si no se infectan","Solo afectan la epidermis","Destruyen toda la piel hasta la hipodermis","Curan en 7-10 días"],c:0,
+ e:"Correcta: las quemaduras de 1er grado afectan solo la epidermis (eritema, curan en 7-10 días); las de 2º superficiales afectan la dermis parcialmente (ampollas, muy dolorosas, curan en 3 semanas); las de 2º profundas toda la dermis; las de 3er grado destruyen la piel hasta la hipodermis (escaras)."},
+{q:"Las congelaciones, según los apuntes, se producen por:",
+ o:["Exposición prolongada a temperaturas inferiores al punto de congelación, con cristales de hielo, vasoconstricción y trombosis arteriolar","Exposición a calor moderado","Una reacción inmunológica","El contacto con agua templada"],c:0,
+ e:"Correcta: las congelaciones son necrosis por exposición prolongada a temperaturas bajo cero (-2 ºC), con cristales de hielo intra/extracelulares, vasoconstricción y trombosis arteriolar que causa isquemia; grados 1º (piel pálida), 2º (ampollas), 3º (necrosis en zonas acras)."},
+{q:"El eritema ab igne, según los apuntes:",
+ o:["Aparece por exposición prolongada y recurrente a calor moderado, con eritema reticulado, pigmentación, atrofia y telangiectasias","Aparece por el frío","Es una urticaria","No tiene riesgo de cáncer"],c:0,
+ e:"Correcta: el eritema ab igne se debe a la exposición prolongada y recurrente a calor moderado (braseros, botellas de agua caliente), con eritema reticulado, pigmentación, atrofia y telangiectasias; puede asociarse a carcinoma epidermoide."},
+{q:"La perniosis (sabañones), según los apuntes:",
+ o:["Aparece por exposición prolongada y recurrente a frío moderado, con placas eritemato-violáceas en dedos, talones, nariz y orejas, que remiten con el buen tiempo","Aparece por calor","Es un tumor","No mejora con el buen tiempo"],c:0,
+ e:"Correcta: la perniosis se debe a la exposición prolongada a frío moderado (falta de calefacción, agua fría), con placas eritemato-violáceas dolorosas/pruriginosas en dedos, talones, nariz y orejas, que remiten con el buen tiempo; tratamiento: protección, corticoides, vasodilatadores."},
+{q:"El fenómeno de Raynaud, según los apuntes, cursa con la triple respuesta:",
+ o:["Palidez → cianosis → hiperemia","Eritema → ampolla → costra","Hiperemia → palidez → necrosis","Cianosis → palidez → atrofia"],c:0,
+ e:"Correcta: el Raynaud (mujeres de 10-30 años, desencadenado por frío, en manos) da la triple respuesta (50-66%): palidez (vasoconstricción/isquemia), cianosis (estasis) e hiperemia (dilatación); puede ser primario/idiopático o secundario (esclerosis sistémica, LES, etc.)."},
+{q:"La urticaria por frío, según los apuntes, se diagnostica con:",
+ o:["El test del cubito de hielo","La luz de Wood","Las pruebas epicutáneas","El fotoparche"],c:0,
+ e:"Correcta: la urticaria por frío (idiopática en >90%, o asociada a crioglobulinemia) da habones tras la exposición al frío; se diagnostica con el test del cubito de hielo y se trata con antihistamínicos a demanda antes de la exposición."},
+
+/* ============ RADIODERMITIS ============ */
+{q:"La radiodermitis aguda, según los apuntes:",
+ o:["Aparece en 1-7 días por dosis muy elevadas, con eritema, edema doloroso, vesículas, ulceración (radionecrosis) y cicatrices atróficas","Aparece tras meses-años","Se debe a dosis fraccionadas","No produce ulceración"],c:0,
+ e:"Correcta: la radiodermitis aguda aparece en 1-7 días por dosis muy elevadas de radiaciones ionizantes, con eritema, edema doloroso, vesículas/ampollas, ulceración (radionecrosis) y cicatrices atróficas deformantes."},
+{q:"La radiodermitis crónica, según los apuntes:",
+ o:["Aparece tras meses-años por dosis fraccionadas, con poiquilodermia y riesgo de carcinoma epidermoide (20-30%)","Aparece en 1-7 días","No tiene riesgo de tumores","Cura sin secuelas"],c:0,
+ e:"Correcta: la radiodermitis crónica aparece tras meses-años por dosis fraccionadas (acúmulo), con atrofia, telangiectasias, pigmentación irregular (poiquilodermia), esclerosis y riesgo de tumores (carcinoma epidermoide 20-30%, basocelular, sarcomas); el fenómeno del recall reactiva la zona radiada tras quimioterapia."},
+
+/* ============ DERMATOSIS MECÁNICAS Y PATOMIMIA ============ */
+{q:"El mal perforante plantar, según los apuntes:",
+ o:["Es una úlcera crónica de bordes callosos por presión y falta de sensibilidad (neuropatía), que NO duele","Es una úlcera muy dolorosa","Se debe a insuficiencia venosa","Aparece en la cara"],c:0,
+ e:"Correcta: el mal perforante plantar es una úlcera crónica de bordes callosos en la planta (cabeza de 1º/5º metatarsiano), por presión continuada y falta de sensibilidad por neuropatía (diabetes, alcoholismo, lepra, tabes); característicamente NO duele."},
+{q:"Las úlceras por decúbito (presión), según los apuntes, se clasifican en grados donde el grado IV es:",
+ o:["Afectación de músculo, ligamentos y hueso","Eritema que no aclara con la presión","Pérdida solo de la epidermis","Pérdida del panículo adiposo hasta la fascia"],c:0,
+ e:"Correcta: las úlceras por presión (sobre planos óseos: talones, sacro) van del grado I (eritema que no aclara) al IV (afectación de músculo, ligamentos y hueso); factores: inmovilización, incontinencia, hipoalbuminemia, caquexia. La escala de Norton valora el riesgo."},
+{q:"La dermatitis artefacta, según los apuntes:",
+ o:["Son lesiones autoprovocadas cuya responsabilidad es negada por el paciente, con bordes angulados-geométricos que no recuerdan ninguna patología","Son lesiones que el paciente reconoce haberse provocado","Son tumores cutáneos","Tienen morfología de dermatosis conocidas"],c:0,
+ e:"Correcta: la dermatitis artefacta son lesiones autoprovocadas (consciente o inconscientemente) cuya responsabilidad niega el paciente (a diferencia de las excoriaciones neuróticas/tricotilomanía, que son hábitos compulsivos reconocidos); más en mujeres, con bordes geométricos, necrosis superficial y antecedentes psiquiátricos."},
+{q:"La condrodermatitis nodular del hélix, según los apuntes, muestra histológicamente:",
+ o:["Hiperplasia epitelial, fibrosis, tejido de granulación y degeneración del cartílago","Acantólisis suprabasal","Microabscesos de Munro","Infiltrado en banda de linfocitos"],c:0,
+ e:"Correcta: la condrodermatitis nodular del hélix muestra hiperplasia epitelial, fibrosis, tejido de granulación y degeneración del cartílago."},
+
+/* ====== Matices añadidos ====== */
+{q:"En el tratamiento escalonado del acné, ¿qué corresponde al acné MODERADO (pápulas y pústulas)?",
+ o:["Antibiótico tópico + peróxido de benzoilo o retinoide tópico","Solo peróxido de benzoilo en el leve","Isotretinoína oral de entrada","Antiandrógenos siempre"],c:0,
+ e:"Correcta: en el acné leve (comedones) se usa peróxido de benzoilo o retinoides tópicos; en el moderado (pápulas/pústulas), antibiótico tópico + peróxido de benzoilo o retinoide; el grave/resistente (nódulos, quistes, cicatrices) requiere isotretinoína oral."},
+{q:"El edema facial sólido o enfermedad de Morbihan, según los apuntes:",
+ o:["Es una complicación poco frecuente del acné y la rosácea, por alteración del drenaje linfático y fibrosis","Es la forma más leve de acné","Es una infección bacteriana","Cursa con muchos comedones"],c:0,
+ e:"Correcta: el edema facial sólido o enfermedad de Morbihan es una complicación poco frecuente del acné y la rosácea, con edema de tejidos blandos por alteración del drenaje linfático y desarrollo de fibrosis."},
+{q:"¿Cuál es el tratamiento de la rosácea fimatosa (rinofima) según los apuntes?",
+ o:["Es resistente al tratamiento médico; puede responder a isotretinoína y a tratamientos físicos (electrocoagulación, cirugía o láser CO2)","Solo antihistamínicos","Hidroquinona al 20%","Corticoides tópicos potentes"],c:0,
+ e:"Correcta: la rosácea fimatosa es resistente al tratamiento médico; puede responder a isotretinoína y a tratamientos físicos (electrocoagulación, cirugía o láser de CO2)."},
+{q:"La acrocianosis, según los apuntes:",
+ o:["Da coloración cianótica persistente en manos y pies (aumenta con el frío), dedos fríos y sudorosos, por vasoespasmo sin alteraciones estructurales","Cursa con la triple respuesta de Raynaud","Es una urticaria","Da úlceras necróticas"],c:0,
+ e:"Correcta: la acrocianosis (mujeres, historia familiar) da coloración cianótica en manos y pies que aumenta con el enfriamiento y las emociones, con dedos fríos y sudorosos, por vasoespasmo arteriolar y dilatación capilar secundaria, sin alteraciones estructurales."},
+{q:"La livedo reticularis, según los apuntes, es:",
+ o:["Una coloración cianótica temporal de la piel con patrón reticulado, por alteración local de la circulación cutánea","Una hiperpigmentación permanente","Una infección bacteriana","Un tumor vascular"],c:0,
+ e:"Correcta: la livedo reticularis es un signo cutáneo de coloración cianótica temporal con patrón reticulado, por alteración local de la circulación cutánea, con múltiples causas (similar al Raynaud)."},
+{q:"El talón negro, según los apuntes:",
+ o:["Son manchas o líneas negras en los talones en relación con deportes de deslizamiento/saltos, cuyo DD es el melanoma","Es una infección por hongos","Es un tumor maligno","Aparece por el frío"],c:0,
+ e:"Correcta: el talón negro son manchas o líneas negras en los talones por deportes que implican deslizamientos o saltos (depósito hemático intraepidérmico); su DD, como el del hematoma subungueal, es el melanoma."},
+{q:"La mancha mongólica (melanocitosis dérmica), según los apuntes:",
+ o:["Es una mácula azulada en la zona sacra, presente en el 90% de los bebés asiáticos y el 10% de los caucásicos, que cede con los años","Es permanente en la edad adulta","Es una hipopigmentación","Es un factor de riesgo de melanoma"],c:0,
+ e:"Correcta: la mancha mongólica es una mácula azulada en la zona sacra (melanocitosis dérmica), presente en el 90% de los bebés de raza asiática y solo el 10% de la caucásica, que cede con los años."},
+{q:"¿Cuáles son tratamientos de las CICATRICES del acné según los apuntes?",
+ o:["Peelings químicos, láser fraccionado, subcisión, rellenos de ácido hialurónico e inductores del colágeno","Antibióticos sistémicos","Antihistamínicos","Fototerapia UVB"],c:0,
+ e:"Correcta: las cicatrices del acné se tratan con peelings químicos, luz pulsada, láser fraccionado (ablativo y no ablativo), subcisión, rellenos de ácido hialurónico e inductores del colágeno (hidroxiapatita cálcica)."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
