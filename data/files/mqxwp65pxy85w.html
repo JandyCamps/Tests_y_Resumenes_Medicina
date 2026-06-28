@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 8 · Enfermedades ampollosas autoinmunes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 8</p>
+  <h1>Test · Enfermedades ampollosas autoinmunes</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 8 (enfermedades ampollosas autoinmunes: pénfigo, penfigoides, dermatitis herpetiforme, IgA lineal y EAA) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 8 — Enfermedades ampollosas autoinmunes (UFV, Dr. Domínguez Auñón)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ INTRODUCCIÓN ============ */
+{q:"En las dermatosis ampollosas autoinmunes, ¿cuál es el criterio MÁS importante para el diagnóstico?",
+ o:["El patrón de inmunofluorescencia (sitio de unión de los autoanticuerpos)","El hemograma","La clínica aislada","El cultivo del líquido de la ampolla"],c:0,
+ e:"Correcta: el sitio de unión de los autoanticuerpos determina la clínica, la histología y el patrón de inmunofluorescencia, siendo éste el criterio más importante para el diagnóstico; la lesión elemental es la ampolla."},
+{q:"¿Cuál de estas es una enfermedad ampollosa autoinmune según los apuntes?",
+ o:["El pénfigo, el penfigoide ampolloso, la dermatitis herpetiforme y la epidermolisis ampollosa adquirida","La psoriasis","El liquen plano","La pitiriasis rosada"],c:0,
+ e:"Correcta: las enfermedades ampollosas autoinmunes incluyen el pénfigo, el penfigoide ampolloso, el penfigoide cicatricial, la dermatitis herpetiforme, el herpes gestationis, la dermatosis IgA lineal y la epidermolisis ampollosa adquirida."},
+{q:"¿Qué nuevos tratamientos han mejorado el pronóstico de las dermatosis ampollosas autoinmunes?",
+ o:["El rituximab, las inmunoglobulinas IV y las terapias contra autoanticuerpos","Los antibióticos tópicos","La crioterapia","Los antifúngicos sistémicos"],c:0,
+ e:"Correcta: el pronóstico ha mejorado con rituximab, inmunoglobulinas IV y terapias contra autoanticuerpos."},
+
+/* ============ PÉNFIGO: concepto y patogenia ============ */
+{q:"El pénfigo, según los apuntes, es:",
+ o:["Una enfermedad autoinmune de piel y mucosas por autoanticuerpos contra la superficie celular de los queratinocitos, con acantolisis","Una enfermedad subepidérmica por anticuerpos contra la membrana basal","Una infección viral","Una reacción medicamentosa no inmunológica"],c:0,
+ e:"Correcta: el pénfigo es una enfermedad autoinmune de piel y mucosas por autoanticuerpos contra la superficie celular de los queratinocitos, que produce acantolisis (pérdida de adhesión) y ampollas intraepidérmicas."},
+{q:"Sobre la epidemiología del pénfigo, según los apuntes:",
+ o:["Comienza más frecuentemente entre los 50-60 años, con mayor frecuencia en judíos y el área mediterránea","Es propio de la infancia","Es exclusivo de varones","Es más frecuente en el norte de Europa"],c:0,
+ e:"Correcta: el pénfigo tiene igualdad de sexos o leve predominio femenino, comienzo entre los 50-60 años y distribución universal, con mayor frecuencia en judíos y el área mediterránea (incidencia 0,76-5 casos/millón/año)."},
+{q:"En el pénfigo vulgar, ¿cuál es la localización de comienzo más frecuente?",
+ o:["La mucosa oral (60%)","Las palmas y plantas","El cuero cabelludo exclusivamente","Las uñas"],c:0,
+ e:"Correcta: el pénfigo vulgar comienza más frecuentemente en la mucosa oral (60%) o en la piel (ingles, cuero cabelludo, cara, axilas, genitales); la afectación oral es prácticamente constante (~100%)."},
+{q:"¿Qué tipo de ampolla es característica del pénfigo vulgar?",
+ o:["Ampollas flácidas de techo fino que se rompen rápido formando erosiones","Ampollas tensas grandes y duraderas","Vesículas agrupadas herpetiformes","Pústulas estériles"],c:0,
+ e:"Correcta: el pénfigo vulgar da ampollas flácidas de techo fino que rápidamente se rompen formando erosiones que se cubren de costras, con poca tendencia a la curación; deja hiperpigmentación residual sin cicatriz."},
+{q:"El signo de Nikolsky en el pénfigo vulgar consiste en:",
+ o:["El despegamiento de la epidermis al presionar/rozar la piel","La urticación al frotar","La aparición de habones lineales por presión","Puntos hemorrágicos al desprender escamas"],c:0,
+ e:"Correcta: el signo de Nikolsky (despegamiento epidérmico por presión/roce) es típico del pénfigo, que afecta sobre todo zonas de presión y roce; es negativo en el penfigoide ampolloso."},
+{q:"El pénfigo vegetante, según los apuntes:",
+ o:["Es una variante rara de pénfigo vulgar con lesiones vegetantes y papilomatosas en pliegues, por exceso de tejido de granulación","Es una forma de penfigoide","Afecta solo las mucosas","No se relaciona con el pénfigo vulgar"],c:0,
+ e:"Correcta: el pénfigo vegetante es una variante rara de pénfigo vulgar en la que las erosiones forman excesivo tejido de granulación y costras, con lesiones vegetantes/papilomatosas en pliegues (tipos Neumann y Hallopeau)."},
+{q:"El pénfigo foliáceo, según los apuntes:",
+ o:["Da ampollas muy superficiales que dejan exfoliación, NO afecta a mucosas y empeora con sol y calor","Afecta siempre las mucosas","Da ampollas tensas profundas","Tiene mal estado general"],c:0,
+ e:"Correcta: el pénfigo foliáceo da ampollas muy difíciles de ver (se rompen al aparecer) con erosiones/exfoliación, comienza en cara-cuero cabelludo-pecho-espalda, puede generalizarse a eritrodermia, NO afecta mucosas, con buen estado general y exacerbación con sol y calor."},
+{q:"El fogo selvagem es:",
+ o:["La forma endémica brasileña de pénfigo foliáceo (¿vector contagioso?)","Una variante de pénfigo vulgar","Un penfigoide cicatricial","Una dermatitis herpetiforme"],c:0,
+ e:"Correcta: el fogo selvagem (pénfigo foliáceo brasileño) es la forma endémica, con posible vector contagioso (mosca); los autoanticuerpos se unen a la desmogleína 1."},
+{q:"El pénfigo eritematoso o seborreico (síndrome de Senear-Usher) es:",
+ o:["La forma localizada del pénfigo foliáceo (solo áreas seborreicas)","Una forma de pénfigo vulgar","Un penfigoide ampolloso","Una epidermolisis ampollosa"],c:0,
+ e:"Correcta: el pénfigo eritematoso o seborreico (síndrome de Senear-Usher) es la forma localizada del pénfigo foliáceo, que afecta solo áreas seborreicas, con lesiones 'en hojaldre'."},
+
+/* ============ PÉNFIGO: histología y antígenos ============ */
+{q:"¿Cuál es el hallazgo histológico característico del pénfigo vulgar?",
+ o:["Acantolisis suprabasilar con ampolla intraepidérmica","Ampolla subepidérmica rica en eosinófilos","Microabscesos de neutrófilos en las papilas","Patrón en empalizada"],c:0,
+ e:"Correcta: el pénfigo vulgar muestra acantolisis suprabasilar con ampolla intraepidérmica (en fases iniciales puede haber espongiosis con eosinófilos); las células basales acantolíticas quedan como una 'fila de tumbas'."},
+{q:"En el pénfigo foliáceo, ¿a qué nivel se produce la acantolisis?",
+ o:["En la parte alta de la epidermis (capa granulosa)","En la capa basal","En la dermis papilar","En la hipodermis"],c:0,
+ e:"Correcta: en el pénfigo foliáceo la acantolisis es alta (capa granulosa), mientras que en el pénfigo vulgar es suprabasilar."},
+{q:"En el pénfigo vulgar con afectación SOLO mucosa, ¿contra qué antígeno se dirigen los autoanticuerpos?",
+ o:["La desmogleína 3 (la mucosa no tiene Dsg1 suficiente para compensar)","La desmogleína 1","El colágeno VII","El BP180"],c:0,
+ e:"Correcta: si solo hay autoanticuerpos anti-Dsg3 (130 kD) la forma es solo mucosa (la mucosa no tiene Dsg1 suficiente para compensar); la presencia de anti-Dsg1 y anti-Dsg3 da la forma mucocutánea."},
+{q:"En el pénfigo foliáceo, los autoanticuerpos se dirigen contra:",
+ o:["La desmogleína 1 (160 kD)","La desmogleína 3 (130 kD)","El BP230","La laminina 332"],c:0,
+ e:"Correcta: en el pénfigo foliáceo los autoanticuerpos son anti-desmogleína 1 (160 kD); las desmogleínas son cadherinas que forman parte de los desmosomas."},
+{q:"¿Por qué el pénfigo foliáceo (anti-Dsg1) NO produce ampollas en las mucosas?",
+ o:["Porque en la mucosa la adhesión está mediada principalmente por la Dsg3, que compensa la pérdida de Dsg1","Porque la mucosa no tiene desmosomas","Porque los autoanticuerpos no llegan a la mucosa","Porque la mucosa tiene más Dsg1"],c:0,
+ e:"Correcta: en las mucosas la adhesión célula-célula está mediada sobre todo por la Dsg3, que compensa la pérdida de Dsg1; por eso el pénfigo foliáceo (anti-Dsg1) no da ampollas mucosas."},
+{q:"¿Con qué antígenos HLA tiene fuerte asociación el pénfigo vulgar?",
+ o:["HLA-DRB1 y HLA-DQB1","HLA-B27","HLA-Cw6","HLA-B51"],c:0,
+ e:"Correcta: el pénfigo vulgar tiene fuerte asociación con HLA-DRB1 y HLA-DQB1; puede asociar otras enfermedades autoinmunes (miastenia gravis, timoma, colitis ulcerosa)."},
+
+/* ============ PÉNFIGO: inmunofluorescencia ============ */
+{q:"¿Cuál es el patrón de inmunofluorescencia directa (IFD) característico del pénfigo?",
+ o:["Depósito de IgG intercelular en la epidermis (100%)","Depósito lineal de IgG en la membrana basal","Depósito granular de IgA en las papilas dérmicas","Depósito de C3 en el suelo de la ampolla"],c:0,
+ e:"Correcta: la IFD del pénfigo muestra depósito de IgG intercelular en la epidermis (positiva en el 100%); la IFI detecta anticuerpos antisustancia intercelular IgG en el 90%, cuyo título se relaciona con la actividad de la enfermedad."},
+{q:"En el pénfigo, el título de anticuerpos circulantes (IFI), según los apuntes:",
+ o:["Se relaciona con la actividad de la enfermedad","No tiene relación con la actividad","Siempre es negativo","Solo es positivo en el pénfigo foliáceo"],c:0,
+ e:"Correcta: en el pénfigo, el título de anticuerpos antisustancia intercelular IgG (IFI positiva en el 90%) se relaciona con la actividad de la enfermedad; una IFD negativa predice remisión mantenida tras suspender el tratamiento."},
+
+/* ============ OTROS PÉNFIGOS ============ */
+{q:"El pénfigo inducido por fármacos, según los apuntes:",
+ o:["Se asocia a fármacos con grupos sulfhidrilo (penicilamina, captopril), suele ser tipo foliáceo y remite al suspenderlo","Es siempre tipo vulgar mucoso","No mejora al retirar el fármaco","Se asocia solo a antibióticos betalactámicos"],c:0,
+ e:"Correcta: el pénfigo inducido por fármacos (penicilamina, captopril con grupos sulfhidrilo que interactúan con Dsg1/Dsg3; también pembrolizumab, secukinumab) es más frecuentemente tipo foliáceo (no afecta mucosas) y la mayoría remite al suspender el fármaco."},
+{q:"El pénfigo paraneoplásico, según los apuntes:",
+ o:["Se asocia a neoplasias linfoides (linfoma no Hodgkin, LLC, Castleman), con estomatitis severa intratable y bronquiolitis obliterante, de alta mortalidad","Es de buen pronóstico","No afecta mucosas","Se asocia a tumores cutáneos"],c:0,
+ e:"Correcta: el pénfigo paraneoplásico se asocia a neoplasias linfoides (linfoma no Hodgkin, LLC, enfermedad de Castleman), con estomatitis severa intratable, conjuntivitis pseudomembranosa, bronquiolitis obliterante grave y afectación cutánea polimorfa (lesiones tipo EEM); es grave, con alta mortalidad."},
+{q:"El pénfigo IgA, según los apuntes:",
+ o:["Está mediado por anticuerpos IgA (no IgG), con vesiculopústulas en formas anulares en axilas e ingles, contra la desmocolina 1","Está mediado por IgG","Da ampollas subepidérmicas","Afecta sobre todo las mucosas"],c:0,
+ e:"Correcta: el pénfigo IgA está mediado por anticuerpos IgA contra la desmocolina 1, con vesiculopústulas que confluyen en formas anulares/circinadas (axilas, ingles), prurito y cúmulos de neutrófilos intraepidérmicos; se trata con sulfona."},
+
+/* ============ PÉNFIGO: pronóstico y tratamiento ============ */
+{q:"Sobre el pronóstico del pénfigo, según los apuntes:",
+ o:["Antes de los corticoides la mortalidad era del 73% a los 5 años; actualmente es del 5%","Sigue siendo del 73%","Nunca ha tenido mortalidad","Es del 50% en la actualidad"],c:0,
+ e:"Correcta: antes de los corticoides la mortalidad del pénfigo era del 73% a los 5 años; actualmente es del 5%, y el pronóstico es mejor cuanto más precoz es el diagnóstico y el tratamiento."},
+{q:"¿Cuál es la base del tratamiento del pénfigo según los apuntes?",
+ o:["Los corticoides sistémicos (1-2 mg/kg/día), a menudo con inmunosupresores; el rituximab se considera ya de 1ª elección por algunos","La dapsona en monoterapia","Los antibióticos sistémicos","La fototerapia"],c:0,
+ e:"Correcta: la base del tratamiento del pénfigo son los corticoides sistémicos (1-2 mg/kg/día), asociados a inmunosupresores (azatioprina, micofenolato, ciclofosfamida, MTX) para reducir efectos secundarios; el rituximab (anti-CD20) se considera ya de 1ª elección por algunos autores; también IgIV y plasmaféresis."},
+
+/* ============ PENFIGOIDE AMPOLLOSO ============ */
+{q:"El penfigoide ampolloso, según los apuntes:",
+ o:["Es la enfermedad ampollosa autoinmune MÁS frecuente, típica de ancianos (65-75 años), con ampollas tensas subepidérmicas pruriginosas","Es propio de la infancia","Da ampollas flácidas intraepidérmicas","Afecta sobre todo las mucosas"],c:0,
+ e:"Correcta: el penfigoide ampolloso es la enfermedad ampollosa autoinmune más frecuente (7/10⁶), típica de ancianos (65-75 años), con ampollas tensas subepidérmicas grandes y pruriginosas sobre piel inflamada."},
+{q:"A diferencia del pénfigo, en el penfigoide ampolloso, según los apuntes:",
+ o:["Las ampollas duran días, las erosiones epitelizan fácilmente sin cicatriz y el signo de Nikolsky es negativo","Las ampollas se rompen inmediatamente","El Nikolsky es positivo","Hay afectación mucosa constante"],c:0,
+ e:"Correcta: en el penfigoide ampolloso las ampollas duran bastantes días, las erosiones no aumentan y epitelizan fácilmente sin cicatriz (Nikolsky negativo); la afectación mucosa es rara (10-20%) y leve, con buen estado general y buen pronóstico."},
+{q:"¿Cuál es el hallazgo histológico del penfigoide ampolloso?",
+ o:["Ampolla subepidérmica con infiltrado dérmico rico en eosinófilos, sin acantolisis","Ampolla intraepidérmica con acantolisis","Microabscesos de neutrófilos en las papilas","Patrón en empalizada"],c:0,
+ e:"Correcta: el penfigoide ampolloso muestra ampolla subepidérmica sin acantolisis, con infiltrado dérmico superficial rico en eosinófilos (también en la ampolla)."},
+{q:"¿Cuál es el patrón de inmunofluorescencia directa del penfigoide ampolloso?",
+ o:["Depósito lineal de IgG (80%) y C3 (casi 100%) en la membrana basal","Depósito intercelular de IgG","Depósito granular de IgA en las papilas","Negativa siempre"],c:0,
+ e:"Correcta: la IFD del penfigoide ampolloso muestra depósito lineal de IgG (80%) y C3 (casi 100%) en la membrana basal; la IFI detecta IgG anti-membrana basal en el 60-80%."},
+{q:"¿Contra qué antígenos se dirigen los autoanticuerpos del penfigoide ampolloso?",
+ o:["BP230 (BPAG1) y BP180 (BPAG2/colágeno XVII), proteínas del hemidesmosoma","La desmogleína 1 y 3","La desmocolina 1","La transglutaminasa tisular"],c:0,
+ e:"Correcta: el penfigoide ampolloso se caracteriza por anticuerpos contra proteínas del hemidesmosoma: el BPAG1 (BP230, desmoplaquina intracelular, reconocido por el 97% de los sueros) y el BPAG2 (BP180/colágeno XVII, transmembrana, 50-70%)."},
+{q:"En la IFI con piel separada ('salt split skin'), ¿dónde se unen los autoanticuerpos del penfigoide ampolloso?",
+ o:["En el lado epidérmico (techo de la ampolla)","En el lado dérmico (suelo de la ampolla)","En la sustancia intercelular","En las papilas dérmicas"],c:0,
+ e:"Correcta: en la piel separada con sal, el antígeno del penfigoide ampolloso queda en el lado epidérmico (la ampolla se forma a nivel de la lámina lúcida), mientras que el antígeno de la epidermolisis ampollosa adquirida queda en el lado dérmico."},
+{q:"¿Qué fármacos pueden inducir un penfigoide ampolloso según los apuntes?",
+ o:["Las gliptinas, los anti-PD1 y los anti-TNF alfa","Las penicilinas exclusivamente","Los corticoides","Los antihistamínicos"],c:0,
+ e:"Correcta: entre los fármacos inductores de penfigoide están las gliptinas, los anti-PD1 y los anti-TNF alfa, que probablemente actúan como desencadenantes en pacientes con predisposición genética."},
+{q:"¿Cuál es el tratamiento de elección del penfigoide ampolloso?",
+ o:["Los corticosteroides sistémicos (y tópicos de alta potencia en formas localizadas)","La sulfona en monoterapia","Los antibióticos","La cirugía"],c:0,
+ e:"Correcta: el tratamiento de elección del penfigoide ampolloso son los corticosteroides sistémicos (0,5-0,75 mg/kg/día con pauta descendente), siendo muy útiles los esteroides tópicos de alta potencia; otros: doxiciclina, dapsona, rituximab (muy efectivo), omalizumab, dupilumab e inmunosupresores. Suele remitir en 2-6 años."},
+
+/* ============ PENFIGOIDE CICATRICIAL ============ */
+{q:"El penfigoide cicatricial (penfigoide de mucosas), según los apuntes:",
+ o:["Es una enfermedad ampollosa subepitelial que afecta las mucosas con tendencia a la cicatrización","Afecta sobre todo la piel sin cicatriz","Es propio de niños","No deja secuelas"],c:0,
+ e:"Correcta: el penfigoide cicatricial afecta las mucosas (erosiones/úlceras) con tendencia a la cicatrización (mujeres 2:1, 60-80 años); la oral (85-100%) y la conjuntival (60-80%) son las más afectadas, con rara afectación cutánea (25%) y poca tendencia a la remisión."},
+{q:"¿Qué complicación grave puede producir el penfigoide cicatricial por la afectación conjuntival?",
+ o:["Sinequias y cicatrices que pueden llevar a la ceguera","Glaucoma agudo","Cataratas","Desprendimiento de retina"],c:0,
+ e:"Correcta: el penfigoide cicatricial da brotes repetidos de ampollas con cicatrización posterior, formando sinequias (incluida la conjuntiva, con riesgo de ceguera); su histología es igual a la del penfigoide ampolloso pero con fibrosis y cicatriz en la dermis superficial."},
+{q:"Los autoanticuerpos del penfigoide cicatricial reconocen:",
+ o:["Una variedad de antígenos (BPAG1, BPAG2, laminina 332, integrinas, colágeno VII)","Solo la desmogleína 3","Solo la transglutaminasa","Solo la desmocolina 1"],c:0,
+ e:"Correcta: el penfigoide cicatricial es un grupo heterogéneo cuyos autoanticuerpos reconocen varios antígenos (BPAG1, BPAG2, laminina 332, integrinas, colágeno VII) que comparten fenotipo; se trata con corticoides y ciclofosfamida en formas severas, o rituximab."},
+
+/* ============ HERPES GESTATIONIS ============ */
+{q:"El penfigoide gestacional (herpes gestationis), según los apuntes:",
+ o:["Suele aparecer en el 2º trimestre, con lesiones polimorfas muy pruriginosas periumbilicales, sin afectar mucosas","Es una infección por herpesvirus","Afecta siempre las mucosas","Aparece solo en el puerperio"],c:0,
+ e:"Correcta: el penfigoide gestacional aparece sobre todo en el 2º trimestre (HLA-DR3/DR4), con lesiones polimorfas muy pruriginosas (papulovesiculosas, anulares) periumbilicales y en flexuras, sin afectar mucosas; recurre en embarazos posteriores y los ACO lo exacerban, con riesgo de prematuridad y bajo peso."},
+{q:"¿Cuál es la base diagnóstica del herpes gestationis en la inmunofluorescencia directa?",
+ o:["El depósito de C3 en la membrana basal (100%)","El depósito intercelular de IgG","El depósito granular de IgA","La negatividad de la IFD"],c:0,
+ e:"Correcta: la IFD del herpes gestationis muestra C3 en la membrana basal en el 100% (característico y base diagnóstica), con IgG solo en el 30%; el antígeno es el BP180, y la histología es igual a la del penfigoide ampolloso. Tratamiento: corticoides orales o tópicos."},
+
+/* ============ DERMATITIS HERPETIFORME ============ */
+{q:"La dermatitis herpetiforme (enfermedad de Duhring-Brocq), según los apuntes:",
+ o:["Da papulovesículas muy pruriginosas simétricas en superficies de extensión, asociada a la enfermedad celíaca","Da ampollas flácidas mucosas","Es un penfigoide","No produce prurito"],c:0,
+ e:"Correcta: la dermatitis herpetiforme da pápulas/papulovesículas pruriginosas simétricas en superficies de extensión (codos, rodillas, glúteos, nuca), con inicio entre los 20-40 años, intenso prurito y lesiones excoriadas; las mucosas no se afectan."},
+{q:"¿Cuál es el hallazgo histológico de la dermatitis herpetiforme?",
+ o:["Microabscesos de neutrófilos en las papilas dérmicas con ampolla subepidérmica","Acantolisis suprabasilar","Ampolla rica en eosinófilos","Patrón en empalizada"],c:0,
+ e:"Correcta: la dermatitis herpetiforme muestra microabscesos de neutrófilos en las papilas dérmicas con cavidades subepidérmicas; más de un tercio de casos tiene histología inespecífica, por lo que la IFD es imprescindible."},
+{q:"¿Cuál es el patrón de inmunofluorescencia directa de la dermatitis herpetiforme?",
+ o:["Depósito GRANULAR de IgA en la dermis papilar (casi 100%) en piel normal","Depósito lineal de IgG en la membrana basal","Depósito intercelular de IgG","Depósito lineal de IgA en la membrana basal"],c:0,
+ e:"Correcta: la IFD de la dermatitis herpetiforme muestra depósito granular de IgA en la dermis papilar de piel normal en casi el 100%; la IFI es negativa para anticuerpos anti-membrana basal, pero hay IgA-antiendomisio e IgA-antitransglutaminasa en >70%."},
+{q:"¿Con qué genotipos HLA se asocia fuertemente la dermatitis herpetiforme?",
+ o:["HLA-DQ2 y HLA-DQ8","HLA-B27","HLA-Cw6","HLA-B51"],c:0,
+ e:"Correcta: la dermatitis herpetiforme tiene fuerte asociación con HLA-DQ2 y HLA-DQ8 (como la enfermedad celíaca), con anticuerpos IgA anti-TG2 y anti-TG3; se asocia a tiroiditis de Hashimoto, DMID y mayor incidencia de linfoma intestinal."},
+{q:"¿Cuál es el tratamiento de la dermatitis herpetiforme según los apuntes?",
+ o:["Dieta exenta de gluten y sulfona (efecto dramático a las 48 h, pero sin efecto intestinal)","Corticoides sistémicos exclusivamente","Rituximab","Antibióticos"],c:0,
+ e:"Correcta: la dermatitis herpetiforme se trata con dieta exenta de gluten (si es estricta, la mayoría puede prescindir de sulfona y reduce el riesgo intestinal) y sulfona 50-150 mg/día (efecto dramático a las 48 h en la piel, no en el intestino); antes hay que pedir G-6PDH (riesgo de anemia hemolítica)."},
+{q:"Las alteraciones intestinales de la dermatitis herpetiforme, según los apuntes:",
+ o:["Son atrofia en placas de las vellosidades (similar a la celíaca), pero solo un pequeño porcentaje presenta clínica intestinal","Son siempre sintomáticas","No existen","Son una colitis ulcerosa"],c:0,
+ e:"Correcta: la dermatitis herpetiforme tiene alteraciones intestinales similares a la celíaca (atrofia en placas de las vellosidades, malabsorción de grasa y D-xilosa), pero solo un pequeño porcentaje presenta clínica intestinal."},
+
+/* ============ DERMATOSIS IgA LINEAL ============ */
+{q:"La forma infantil de la dermatosis IgA lineal (dermatosis crónica ampollosa de la infancia), según los apuntes:",
+ o:["Afecta a niños menores de 5 años, con lesiones anulares en 'collar de perlas' o 'huevo frito' en genitales y cara","Afecta a ancianos","No produce prurito","No afecta las mucosas"],c:0,
+ e:"Correcta: la dermatosis IgA lineal infantil afecta a niños <5 años, con prurito y lesiones vesículo-ampollosas que crecen formando lesiones anulares ('collar de perlas'/'huevo frito') en genitales, abdomen, muslos y cara, con afectación mucosa hasta en el 75%; remite en 2-4 años."},
+{q:"En la forma ADULTA de la dermatosis IgA lineal, ¿qué fármaco es una causa frecuente?",
+ o:["La vancomicina","La penicilina","El paracetamol","La metformina"],c:0,
+ e:"Correcta: la forma adulta de la dermatosis IgA lineal (parecida a la dermatitis herpetiforme) es con frecuencia farmacoinducida, sobre todo por vancomicina, y suele remitir 2-6 semanas tras interrumpir el fármaco."},
+{q:"¿Cuál es el patrón de inmunofluorescencia directa de la dermatosis IgA lineal?",
+ o:["Depósito LINEAL de IgA en la membrana basal","Depósito granular de IgA en las papilas","Depósito intercelular de IgG","Depósito de C3 intercelular"],c:0,
+ e:"Correcta: la dermatosis IgA lineal muestra en la IFD un depósito lineal de IgA en la membrana basal (a diferencia del granular de la dermatitis herpetiforme); su histología es casi indistinguible de la DH, por lo que el diagnóstico se basa en la IFD. Tratamiento: dapsona."},
+
+/* ============ EPIDERMOLISIS AMPOLLOSA ADQUIRIDA ============ */
+{q:"La epidermolisis ampollosa adquirida (EAA), en su presentación clásica, según los apuntes:",
+ o:["Da fragilidad de la piel con ampollas, erosiones, cicatrices y quistes de milio en zonas de roce/presión","Da ampollas tensas sobre piel inflamada","Afecta solo las mucosas","Es propia de la infancia"],c:0,
+ e:"Correcta: la EAA (comienza a los 40-50 años) da fragilidad cutánea con ampollas espontáneas/traumáticas, erosiones, cicatrices y quistes de milio en zonas distales o de roce (dorso de manos, codos, rodillas), parecida a la epidermolisis ampollosa distrófica; afecta mucosas hasta en el 50%."},
+{q:"¿Contra qué antígeno se dirigen los autoanticuerpos de la epidermolisis ampollosa adquirida?",
+ o:["El colágeno VII de las fibrillas de anclaje (sublámina densa)","El BP180","La desmogleína 3","La transglutaminasa tisular"],c:0,
+ e:"Correcta: la EAA se produce por IgG contra el colágeno VII de las fibrillas de anclaje de la sublámina densa; en la IFI con piel separada, el antígeno queda en el lado dérmico (suelo de la ampolla)."},
+{q:"¿Cómo se diferencia la EAA del penfigoide ampolloso en la inmunofluorescencia, si la IFD/IFI son idénticas?",
+ o:["Por la IFI en piel separada ('split'): el antígeno de la EAA está en el lado dérmico y el del PA en el epidérmico","Por el tipo de ampolla","Por la edad del paciente","No se pueden diferenciar"],c:0,
+ e:"Correcta: la IFD (IgG y C3 en membrana basal) y la IFI son idénticas en la EAA y el penfigoide ampolloso; se diferencian con la IFI en piel separada con sal ('salt split skin'), donde el antígeno de la EAA queda en el lado dérmico y el del PA en el epidérmico."},
+
+/* ====== Matices añadidos ====== */
+{q:"En el pénfigo, las desmogleínas (Dsg1 y Dsg3) forman parte de:",
+ o:["Los desmosomas (son cadherinas)","Los hemidesmosomas","Las fibrillas de anclaje","La lámina densa"],c:0,
+ e:"Correcta: las desmogleínas 1 y 3 son cadherinas que forman parte de los desmosomas (uniones entre queratinocitos); el complejo desmosómico incluye también desmocolinas, plakoglobina, plakofilina y desmoplakina, que une la queratina a la membrana."},
+{q:"En el pénfigo vulgar, ¿qué dos subgrupos clínicos se distinguen según los apuntes?",
+ o:["El tipo mucoso dominante y el tipo mucocutáneo","El agudo y el crónico","El localizado y el generalizado","El infantil y el del adulto"],c:0,
+ e:"Correcta: en el pénfigo vulgar se distinguen el tipo mucoso dominante (anti-Dsg3) y el tipo mucocutáneo (anti-Dsg3 + anti-Dsg1); en general todos desarrollan lesiones dolorosas en la mucosa oral y más de la mitad ampollas y erosiones cutáneas."},
+{q:"Sobre la patogenia del pénfigo, según los apuntes:",
+ o:["Son importantes tanto la inmunidad humoral como la celular (los autoanticuerpos no producen acantolisis sin complemento o células inflamatorias)","Solo interviene la inmunidad humoral","Solo interviene la inmunidad celular","No interviene el sistema inmune"],c:0,
+ e:"Correcta: en la patogenia del pénfigo son importantes la inmunidad humoral y la celular; los autoanticuerpos no pueden producir acantolisis sin complemento o células inflamatorias."},
+{q:"En la dermatitis herpetiforme, ¿cuáles son los 4 signos que avalan el diagnóstico según los apuntes?",
+ o:["Papulovesículas pruriginosas en extensoras, infiltración neutrofílica de las papilas, depósito granular de IgA en piel normal, y respuesta cutánea (no intestinal) a la dapsona","Ampollas tensas, eosinófilos, IgG lineal y respuesta a corticoides","Acantolisis, IgG intercelular, Nikolsky y respuesta a rituximab","Úlceras mucosas, fibrosis, C3 lineal y cicatrices"],c:0,
+ e:"Correcta: los 4 signos de la DH son: papulovesículas pruriginosas/excoriadas en superficies extensoras, infiltración por neutrófilos de las papilas dérmicas con vesículas, depósito granular de IgA en las papilas de piel normal adyacente, y respuesta de la enfermedad cutánea (no la intestinal) a la dapsona."},
+{q:"En el penfigoide ampolloso, ¿qué antígeno reconoce el 97% de los sueros?",
+ o:["El BPAG1 (BP230), una desmoplaquina intracelular del hemidesmosoma","El BPAG2 (BP180), proteína transmembrana","La desmogleína 1","El colágeno VII"],c:0,
+ e:"Correcta: en el penfigoide ampolloso, el 97% de los sueros reconoce el BPAG1 (BP230, desmoplaquina intracelular del hemidesmosoma) y el 50-70% el BPAG2 (BP180/colágeno XVII, transmembrana)."},
+{q:"¿Cuáles son factores de riesgo de muerte en el primer año del penfigoide ampolloso según los apuntes?",
+ o:["La edad, los corticoides a altas dosis, la hipoalbuminemia y la VSG >30","El sexo femenino","La afectación mucosa","El prurito"],c:0,
+ e:"Correcta: los factores de riesgo de muerte en el primer año del penfigoide ampolloso son la edad avanzada, los corticoides a altas dosis, la hipoalbuminemia y la VSG >30; en general tiene buen pronóstico y remite en 2-6 años."},
+{q:"La transglutaminasa, antígeno relacionado con la dermatitis herpetiforme y la celiaquía, es:",
+ o:["Una enzima con función reparadora de la matriz extracelular tisular","Una cadherina del desmosoma","Una proteína del hemidesmosoma","Un colágeno de anclaje"],c:0,
+ e:"Correcta: la transglutaminasa es una enzima con función reparadora de la matriz extracelular tisular; los anticuerpos IgA-antiendomisio e IgA-antitransglutaminasa (anti-TG2/TG3) tienen importancia patogénica en la DH y la celiaquía."},
+{q:"En el penfigoide cicatricial, ¿cuál es el resultado habitual de la IFI?",
+ o:["Habitualmente negativa (IgG positiva solo en el 20%), sin correlación con la actividad","Siempre positiva a títulos altos","Depósito granular de IgA","Idéntica a la del pénfigo"],c:0,
+ e:"Correcta: en el penfigoide cicatricial la IFD es como la del PA (IgG y C3 en membrana basal, 80-95%), pero la IFI es habitualmente negativa (IgG positiva solo en el 20%) y no hay correlación entre los anticuerpos y la actividad de las lesiones."},
+{q:"En el modelo de la membrana basal epidérmica, las fibrillas de anclaje (colágeno VII) conectan:",
+ o:["La lámina densa con la dermis papilar","La queratina con el hemidesmosoma","Los queratinocitos entre sí","La epidermis con el estrato córneo"],c:0,
+ e:"Correcta: las fibrillas de anclaje (colágeno VII) atan la lámina densa y la epidermis suprayacente a la dermis papilar; su afectación por autoanticuerpos IgG es la base de la epidermolisis ampollosa adquirida."},
+{q:"En el penfigoide gestacional, ¿contra qué antígeno se dirigen los autoanticuerpos?",
+ o:["El BP180 (proteína transmembrana del hemidesmosoma)","La desmogleína 1","El colágeno VII","La desmocolina 1"],c:0,
+ e:"Correcta: el antígeno del penfigoide gestacional (herpes gestationis) es el BP180 (proteína transmembrana del hemidesmosoma); la histología es igual a la del penfigoide ampolloso y la IFD muestra C3 en la membrana basal (base diagnóstica)."},
+{q:"Resumiendo el plano de la ampolla, ¿cuál de estas enfermedades da una ampolla INTRAEPIDÉRMICA?",
+ o:["El pénfigo (vulgar y foliáceo)","El penfigoide ampolloso","La dermatitis herpetiforme","La epidermolisis ampollosa adquirida"],c:0,
+ e:"Correcta: el pénfigo da ampolla intraepidérmica (por acantolisis); el penfigoide ampolloso, la dermatitis herpetiforme, la dermatosis IgA lineal y la epidermolisis ampollosa adquirida dan ampolla subepidérmica."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
