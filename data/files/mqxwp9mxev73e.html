@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 13 · Tumores cutáneos (CBC, CE y partes blandas)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 13</p>
+  <h1>Test · Tumores cutáneos: CBC, CE y partes blandas</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 13 (tumores cutáneos epidérmicos, CBC, CE y tumores de partes blandas) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 13 — Tumores cutáneos: epidérmicos, CBC, CE y partes blandas (UFV, Elena Zamora)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ====== Concepto y clasificación ====== */
+{q:"Según el concepto de Ramón y Cajal recogido en los apuntes, un tumor es:",
+ o:["Toda masa neoplásica con tendencia a persistir y/o crecer indefinidamente, con independencia biológica y sin utilidad para el organismo","Una reacción inflamatoria reversible","Una malformación vascular congénita","Un acúmulo transitorio de neutrófilos"],c:0,
+ e:"Correcta: el tumor es una neoformación tisular con tendencia a persistir/crecer indefinidamente, con independencia biológica del tejido y sin utilidad, a diferencia de la inflamación."},
+{q:"Dentro de la clasificación de los tumores cutáneos, ¿cuáles son los tumores EPIDÉRMICOS malignos?",
+ o:["El carcinoma basocelular y el carcinoma epidermoide","El dermatofibroma y el lipoma","El siringoma y el hidrocistoma","El nevus epidérmico y la queratosis seborreica"],c:0,
+ e:"Correcta: los tumores epidérmicos malignos son el carcinoma basocelular y el epidermoide; los benignos incluyen el nevus epidérmico/sebáceo/Becker, la queratosis seborreica y los quistes."},
+{q:"Los tumores de partes blandas (mesenquimatosos), según los apuntes, derivan de:",
+ o:["El tejido extraesquelético no epitelial (músculos, grasa, tejido fibroso, vasos y sistema nervioso periférico)","El epitelio epidérmico exclusivamente","Los melanocitos","Las glándulas sebáceas"],c:0,
+ e:"Correcta: los tumores de partes blandas o mesenquimatosos proceden del tejido extraesquelético no epitelial (músculo, grasa, tejido fibroso, vasos y SNP); pueden ser benignos o malignos (sarcomas)."},
+
+/* ====== Tumores benignos epidérmicos/anexiales ====== */
+{q:"El nevus epidérmico, según los apuntes, es:",
+ o:["Un hamartoma presente al nacer o poco después, por mosaicismo, de morfología lineal","Un tumor maligno de la edad adulta","Una melanocitosis dérmica","Un quiste folicular"],c:0,
+ e:"Correcta: el nevus epidérmico es un hamartoma (1/1000 RN) por mosaicismo, localizado y lineal; puede asociarse a otras malformaciones (síndrome del nevus epidérmico) y existe la forma inflamatoria lineal (NEVIL)."},
+{q:"El nevus sebáceo (de Jadassohn), según los apuntes:",
+ o:["Es una placa lineal, glabra y amarillenta en el cuero cabelludo, presente al nacer, que puede desarrollar tumores benignos y a veces malignos","Es un nevus hiperpigmentado adquirido de la región escapular","Es un tumor maligno metastatizante","Es una melanocitosis del trigémino"],c:0,
+ e:"Correcta: el nevus sebáceo es un tumor benigno de glándulas sebáceas inmaduras, placa lineal glabra amarillenta del cuero cabelludo (RN); asocia tumores benignos y a veces malignos (síndrome del nevus organoide con alteraciones oculares/cerebrales)."},
+{q:"El nevus de Becker se caracteriza por:",
+ o:["Ser un nevus epidérmico hiperpigmentado adquirido en la región escapular de varones, con aumento de melanina sin aumento de melanocitos","Aparecer al nacer en el cuero cabelludo","Ser una melanocitosis dérmica lumbosacra","Asociarse al síndrome de Gorlin"],c:0,
+ e:"Correcta: el nevus de Becker es un nevus epidérmico hiperpigmentado adquirido, típico de varones en la región escapular, con aumento de melanina sin aumento de melanocitos (acantosis e hiperqueratosis), asociado a hamartoma de músculo liso."},
+{q:"La queratosis seborreica, según los apuntes:",
+ o:["Es el tumor epidérmico benigno más frecuente, constante en ancianos","Es un carcinoma in situ","Es un tumor maligno melanocítico","Solo aparece en la infancia"],c:0,
+ e:"Correcta: la queratosis seborreica es el tumor epidérmico benigno más frecuente, constante en ancianos, con proliferación de queratinocitos basaloides, hiperqueratosis, acantosis, papilomatosis y quistes córneos."},
+{q:"El signo de Leser-Trélat consiste en:",
+ o:["La aparición brusca de múltiples queratosis seborreicas como síndrome paraneoplásico (tumores gastrointestinales)","Una placa indurada tipo cicatriz","Un halo hipocrómico alrededor de un nevus","La pigmentación del pliegue ungueal"],c:0,
+ e:"Correcta: el signo de Leser-Trélat es la aparición brusca de múltiples queratosis seborreicas como fenómeno paraneoplásico, en relación con tumores gastrointestinales."},
+{q:"Los quistes cutáneos llamados 'mal' quistes sebáceos, según los apuntes:",
+ o:["Se originan a partir del epitelio folicular (quistes epidérmicos/infundibulares, pilares/triquilemales)","Derivan de la glándula sebácea","Son tumores malignos","Provienen de los melanocitos"],c:0,
+ e:"Correcta: los quistes son formaciones nodulares benignas originadas del epitelio folicular (mal llamados sebáceos): epidérmicos/infundibulares, pilares/triquilemales (AD) y el pilomatrixoma (epitelioma calcificante de Malherbe, de la matriz pilosa)."},
+{q:"El pilomatrixoma (epitelioma calcificante de Malherbe) se origina en:",
+ o:["La matriz pilosa","La glándula sebácea","El endotelio vascular","Los melanocitos dérmicos"],c:0,
+ e:"Correcta: el pilomatrixoma o epitelioma calcificante de Malherbe se origina en la matriz pilosa."},
+
+/* ====== Tumores mesenquimatosos benignos ====== */
+{q:"El dermatofibroma, según los apuntes:",
+ o:["Es más frecuente en mujeres, en extremidades inferiores, con proliferación de fibroblastos e histiocitos; IHQ factor XIIIa positivo y CD34 negativo","Es un sarcoma de alto grado","Es CD34 positivo y factor XIIIa negativo","Deriva del músculo liso vascular"],c:0,
+ e:"Correcta: el dermatofibroma predomina en mujeres y extremidades inferiores (reacción fibrosa a trauma/picaduras), con fibroblastos e histiocitos; inmunohistoquímica factor XIIIa positivo y CD34 negativo (lo contrario del dermatofibrosarcoma)."},
+{q:"El leiomioma pilar deriva del:",
+ o:["Músculo erector del pelo","Músculo dartos del escroto","Músculo liso de la pared vascular","Músculo estriado"],c:0,
+ e:"Correcta: el leiomioma pilar deriva del músculo erector del pelo; el angioleiomioma del músculo liso de la pared vascular y el leiomioma del dartos del escroto, vulva, pezón y areola. Suelen ser dolorosos."},
+{q:"El granuloma piógeno, según los apuntes:",
+ o:["Es de crecimiento rápido, relacionado con traumatismos, como pápula/nódulo rojizo friable y a menudo ulcerado","Es un sarcoma de alto grado","Es un tumor doloroso de las partes acras","Es una melanocitosis dérmica"],c:0,
+ e:"Correcta: el granuloma piógeno es de crecimiento rápido (relacionado con traumatismos), una pápula o nódulo rojizo friable y a menudo ulcerado; entra en el DD del melanoma amelanótico."},
+{q:"El tumor glómico se origina en:",
+ o:["Las células musculares lisas modificadas de las comunicaciones arteriovenosas de partes acras, con dolor paroxístico","El endotelio de los grandes vasos","La matriz pilosa","La glándula sebácea"],c:0,
+ e:"Correcta: el tumor glómico procede de células musculares lisas modificadas de las comunicaciones arteriovenosas de partes acras, solitario o múltiple, con dolor paroxístico característico."},
+{q:"El lipoma, según los apuntes, es:",
+ o:["Una masa subcutánea lobulada, blanda, bien delimitada y móvil, frecuente en adultos","Una placa indurada tipo cicatriz","Un nódulo doloroso con dolor paroxístico","Un tumor vascular de la infancia"],c:0,
+ e:"Correcta: el lipoma es una masa subcutánea lobulada, blanda, bien delimitada y móvil, frecuente en adultos; suele ser solitario, aunque las formas múltiples pueden ser hereditarias."},
+
+/* ====== Hemangiomas ====== */
+{q:"Los hemangiomas infantiles, según los apuntes:",
+ o:["Son los tumores benignos más frecuentes de la infancia (2-12%), no suelen estar presentes al nacer y tienen fase de crecimiento, estabilización y regresión","Están siempre presentes al nacimiento y no regresan","Son malignos y metastatizan","Son exclusivos de los ancianos"],c:0,
+ e:"Correcta: los hemangiomas son los tumores benignos más frecuentes de la infancia (2-12%, raza blanca, niñas, prematuros), no suelen estar al nacer, predominan en cabeza/cuello y pasan por crecimiento, estabilización y regresión."},
+{q:"Los hemangiomas segmentarios de la cara se asocian al síndrome:",
+ o:["PHACES","Gorlin","Peutz-Jeghers","LEOPARD"],c:0,
+ e:"Correcta: los hemangiomas segmentarios de la cara se asocian al síndrome PHACES; también puede aparecer el fenómeno de Kasabach-Merritt."},
+{q:"¿Cuál es un tratamiento médico de los hemangiomas infantiles según los apuntes?",
+ o:["Propranolol (vasoconstricción, apoptosis, descenso de factores proangiogénicos)","Imatinib","Vismodegib","Vinblastina"],c:0,
+ e:"Correcta: el propranolol (vasoconstricción, apoptosis, descenso de factores proangiogénicos) es un tratamiento de los hemangiomas; también timolol tópico, corticoides, cirugía o láser."},
+
+/* ====== DFSP ====== */
+{q:"El dermatofibrosarcoma protuberans (DFSP), según los apuntes:",
+ o:["Es un sarcoma de bajo grado con capacidad destructiva local y recidivas, escaso poder metastatizante, CD34 positivo y translocación (17;22)","Es CD34 negativo y factor XIIIa positivo","Tiene alta capacidad metastatizante","Es un tumor benigno de la infancia"],c:0,
+ e:"Correcta: el DFSP es un sarcoma de bajo grado (destructivo localmente, recidivante, poco metastatizante), en varones jóvenes en el tronco, CD34 positivo, con translocación (17;22); se trata con cirugía de Mohs e imatinib."},
+{q:"¿Qué marcador y técnica de cirugía caracterizan al dermatofibrosarcoma protuberans?",
+ o:["CD34 positivo y cirugía micrográfica de Mohs","Factor XIIIa positivo y curetaje","S100 positivo y crioterapia","HMB45 positivo y radioterapia"],c:0,
+ e:"Correcta: el DFSP es CD34 positivo y se trata con cirugía micrográfica de Mohs (y también imatinib en avanzados)."},
+
+/* ====== Sarcoma de Kaposi ====== */
+{q:"¿Cuál de estas es una de las formas de sarcoma de Kaposi según los apuntes?",
+ o:["La forma clásica (ancianos varones, lesiones simétricas en piernas y pies)","La forma congénita gigante","La forma del trigémino","La forma calcificante de Malherbe"],c:0,
+ e:"Correcta: las formas de Kaposi son la clásica (ancianos varones, piernas/pies, edema leñoso), la endémica africana, la asociada a inmunosupresión/trasplante y la asociada al SIDA."},
+{q:"El sarcoma de Kaposi asociado al SIDA, según los apuntes:",
+ o:["Es la neoplasia más frecuente en el SIDA, con el 95% en homo/bisexuales y distribución diseminada","Es de buen pronóstico independientemente de la enfermedad de base","Aumentó tras el tratamiento TARGA","Solo afecta las piernas de ancianos"],c:0,
+ e:"Correcta: el Kaposi del SIDA es la neoplasia más frecuente en él (95% homo/bisexuales, contagio sexual), con distribución diseminada; su pronóstico depende de la enfermedad de base y disminuyó tras el TARGA."},
+{q:"La histología del sarcoma de Kaposi muestra:",
+ o:["Proliferación de estructuras vasculares y de células fusiformes (con atipias y mitosis) que dejan hendiduras vasculares, con infiltrado mononuclear","Patrón en empalizada de células basaloides","Globos córneos con disqueratosis","Cuerpos de Kamino"],c:0,
+ e:"Correcta: el Kaposi muestra proliferación de vasos neoformados (espacios dilatados) y de células fusiformes con atipias y mitosis que dejan hendiduras vasculares, con infiltrado mononuclear."},
+
+/* ====== CCNM: generalidades ====== */
+{q:"Sobre el cáncer de piel no melanoma (CCNM), señale lo CORRECTO:",
+ o:["El carcinoma basocelular y el epidermoide son los cánceres humanos más frecuentes, derivan de los queratinocitos y no suelen metastatizar","Metastatizan con mucha frecuencia","Derivan de los melanocitos","Son menos frecuentes que el melanoma"],c:0,
+ e:"Correcta: el CBC y el CE son los cánceres humanos más frecuentes (95% de los CCNM), derivan de los queratinocitos y no suelen metastatizar, aunque causan destrucción local; las queratosis actínicas son un CE intraepitelial."},
+{q:"Respecto a la epidemiología del CCNM, según los apuntes:",
+ o:["Es el cáncer más frecuente en raza blanca, aumenta con la edad y el CE es el tumor cutáneo más común en piel oscura","Es más frecuente en piel oscura","Disminuye con la edad","Tiene una mortalidad muy elevada"],c:0,
+ e:"Correcta: el CCNM es el cáncer más frecuente en raza blanca (70 veces más en piel clara), aumenta con la edad, con mortalidad baja (mayor en el CE de oreja); el CE es el tumor cutáneo más común en piel oscura."},
+
+/* ====== Patogenia ====== */
+{q:"¿Cuál es el gen supresor que muta con MÁS frecuencia en el cáncer humano ('guardián del genoma')?",
+ o:["El gen p53 (brazo corto del cromosoma 17)","El gen PTCH","El gen BRAF","El gen CD34"],c:0,
+ e:"Correcta: el p53 (guardián del genoma, brazo corto del C17) es el gen supresor que más muta en el cáncer humano; bloquea el ciclo celular favoreciendo la apoptosis."},
+{q:"La vía de señalización Hedgehog y el gen PTCH se relacionan sobre todo con:",
+ o:["El carcinoma basocelular (y el síndrome de Gorlin)","El carcinoma epidermoide","El melanoma","El dermatofibroma"],c:0,
+ e:"Correcta: la mayoría de los CBC presentan alteración de la vía Hedgehog (mutación desactivadora de PTCH, 9q22.3); aparece en el 100% del síndrome de Gorlin y en el 90% de los CBC esporádicos. El CE no se asocia a síndrome hereditario."},
+
+/* ====== Factores de riesgo ====== */
+{q:"En cuanto a la exposición solar, ¿qué patrón se asocia a cada cáncer cutáneo según los apuntes?",
+ o:["Acumulada en el CE; intermitente y quemaduras en el CB","Acumulada en el CB; intermitente en el CE","Ninguno se relaciona con el sol","Ambos solo con exposición intermitente"],c:0,
+ e:"Correcta: la luz solar acumulada se asocia al CE; la intermitente y las quemaduras al CB."},
+{q:"En el paciente trasplantado/inmunodeprimido, según los apuntes:",
+ o:["El CE tiene una incidencia entre 40 y 250 veces superior","El CBC desaparece","No hay mayor riesgo de cáncer cutáneo","Solo aumenta el melanoma"],c:0,
+ e:"Correcta: en trasplantados (corazón, pulmón, riñón, hígado) el CE tiene una incidencia 40-250 veces superior; el VIH se asocia al CE anal."},
+
+/* ====== Precancerosis ====== */
+{q:"La queratosis actínica, según los apuntes, es:",
+ o:["El carcinoma escamoso 'in situ' más frecuente, en zonas expuestas, con riesgo de evolución a CE invasor del 1-20%","Un carcinoma basocelular superficial","Un tumor benigno sin riesgo","Una melanocitosis dérmica"],c:0,
+ e:"Correcta: la queratosis actínica es el CE in situ más frecuente (zonas expuestas, múltiples, 'campo de cancerización'), con riesgo de evolución a CE invasor del 1-20% (dolor, induración, inflamación, fallo al tratamiento)."},
+{q:"La queilitis actínica corresponde a:",
+ o:["Una queratosis actínica en la semimucosa del labio inferior","Una leucoplasia del glande","Un carcinoma verrugoso oral","Un quiste triquilemal"],c:0,
+ e:"Correcta: la queilitis actínica es la queratosis actínica localizada en la semimucosa del labio inferior."},
+{q:"La leucoplasia, según los apuntes:",
+ o:["Es una placa blanquecina fija en la mucosa oral, lesión precancerosa, favorecida por alcohol, tabaco, VPH y mala higiene","Es una placa eritematosa brillante en mucosas","Es un carcinoma invasor","Es un quiste folicular"],c:0,
+ e:"Correcta: la leucoplasia es una placa blanquecina fija de la mucosa oral, precancerosa, favorecida por alcohol, tabaco, VPH, mala higiene e inflamación crónica; si hay atipia y mitosis es un carcinoma in situ de mucosas."},
+{q:"La eritroplasia de mucosas, según los apuntes:",
+ o:["Es el equivalente mucoso de la enfermedad de Bowen (placa eritematosa brillante); en el glande es la eritroplasia de Queyrat","Es una placa blanquecina queratósica","Es un tumor benigno","Tiene menor riesgo de carcinoma infiltrante que la leucoplasia"],c:0,
+ e:"Correcta: la eritroplasia es el equivalente mucoso de la enfermedad de Bowen (placa eritematosa brillante); en el glande es la eritroplasia de Queyrat (PIN, VPH 8 y 16), con mayor probabilidad de carcinoma infiltrante que la Bowen (10%)."},
+{q:"La enfermedad de Bowen, según los apuntes, es:",
+ o:["Un carcinoma in situ cutáneo 'sin lesión previa', placa eritematosa escamosa bien delimitada de crecimiento lento","Un carcinoma basocelular nodular","Un tumor benigno anexial","Una melanocitosis dérmica"],c:0,
+ e:"Correcta: la enfermedad de Bowen es un carcinoma in situ cutáneo 'sin lesión previa', placa eritematosa escamosa bien delimitada, única, de crecimiento lento en zonas expuestas; el VPH 16 se asocia a la Bowen genital, digital y periungueal."},
+{q:"El queratoacantoma, según los apuntes:",
+ o:["Es un nódulo de centro crateriforme y crecimiento rápido, hoy considerado una variante de carcinoma epidermoide","Es un carcinoma basocelular pigmentado","Es un tumor benigno melanocítico","Es una placa cicatricial morfeiforme"],c:0,
+ e:"Correcta: el queratoacantoma es un nódulo de centro crateriforme y crecimiento rápido, en zonas fotoexpuestas de ancianos, a veces indistinguible del CE; actualmente se considera una variante de carcinoma epidermoide."},
+
+/* ====== Carcinoma epidermoide ====== */
+{q:"El carcinoma epidermoide, según los apuntes, deriva de:",
+ o:["Los queratinocitos epidérmicos suprabasales (y epitelio escamoso estratificado de boca, esófago, vagina)","Las células basales no queratinizadas","Los melanocitos","Las células de Langerhans"],c:0,
+ e:"Correcta: el CE deriva de los queratinocitos epidérmicos suprabasales (también de epitelio escamoso de boca, esófago, vagina), surge sobre lesiones previas y conlleva un 50% de riesgo de un segundo CCNM."},
+{q:"¿Qué localización del CE se asocia a la exposición al arsénico?",
+ o:["Palmas y plantas","Cabeza, cuello y brazos","El labio inferior","El área anal"],c:0,
+ e:"Correcta: los CE inducidos por radiación UV aparecen en cabeza, cuello y brazos, mientras que los del arsénico se localizan en palmas y plantas; los subungueales y la Bowen se relacionan con el VPH."},
+{q:"En la histología del carcinoma epidermoide, ¿qué hallazgo es característico?",
+ o:["Globos córneos (tendencia a queratinizar, disqueratosis) con queratinocitos anaplásicos que invaden la dermis","Patrón en empalizada de células basaloides","Cuerpos de Kamino","Hendiduras vasculares con células fusiformes"],c:0,
+ e:"Correcta: el CE muestra queratinocitos anaplásicos desordenados con mitosis que invaden la dermis, tendencia a queratinizar (disqueratosis, globos córneos) y signos de lesiones preinvasivas; se gradúa en bien, moderada o pobremente diferenciado."},
+{q:"El carcinoma verrugoso, según los apuntes, es:",
+ o:["Una variante de CE de bajo grado y lento crecimiento que NO debe tratarse con radioterapia","Un CE muy agresivo y metastatizante","Un carcinoma basocelular","Un tumor benigno"],c:0,
+ e:"Correcta: el carcinoma verrugoso es una variante de CE de bajo grado y lento crecimiento (papilomatosis oral florida, condiloma gigante de Buschke-Löwenstein, epitelioma cuniculado); no se trata con radioterapia."},
+{q:"¿Cuál es un factor de MAL pronóstico del carcinoma epidermoide según los apuntes?",
+ o:["Tamaño >2 cm, profundidad >4 mm, invasión perineural y mala diferenciación","Tamaño <1 cm bien diferenciado","Localización en el tronco sin invasión","Crecimiento lento sin síntomas"],c:0,
+ e:"Correcta: son factores de mal pronóstico el tamaño >2 cm, la profundidad >4 mm, la localización (labio metastatiza, oreja recidiva), las cicatrices/áreas radiadas, la invasión perineural/linfovascular, la mala diferenciación, la inmunosupresión y las recurrencias."},
+{q:"Respecto a las metástasis del carcinoma epidermoide, ¿qué localización tiene mayor riesgo?",
+ o:["El labio (más metástasis) y las mucosas (recidivan y metastatizan más)","El tronco","La oreja, que solo recidiva","Las palmas"],c:0,
+ e:"Correcta: el CE del labio metastatiza más, la oreja recidiva más, y los CE de mucosas recidivan y metastatizan más; el sol acumulado, las cicatrices y las infecciones crónicas favorecen el CE."},
+
+/* ====== Carcinoma basocelular ====== */
+{q:"El carcinoma basocelular, según los apuntes, deriva de:",
+ o:["Células NO queratinizadas de la capa basal de la epidermis o sus apéndices, sobre líneas de cierre embrionario","Los queratinocitos suprabasales","Los melanocitos","El endotelio vascular"],c:0,
+ e:"Correcta: el CBC deriva de células no queratinizadas de la capa basal (o anejos), sobre líneas de cierre embrionario; es el cáncer más frecuente del ser humano (75% de los CCNM)."},
+{q:"¿Qué hallazgo histológico es característico del carcinoma basocelular?",
+ o:["Agregados de células basaloides con ordenación de los núcleos en la periferia ('patrón en empalizada')","Globos córneos con disqueratosis","Cuerpos de Kamino","Melanocitos pagetoides"],c:0,
+ e:"Correcta: el CBC muestra islotes o cordones de células basaloides con los núcleos ordenados en la periferia ('patrón en empalizada')."},
+{q:"¿Cuál es la localización más frecuente del carcinoma basocelular?",
+ o:["La cara (80%)","Las palmas y plantas","Las mucosas","El tronco (80%)"],c:0,
+ e:"Correcta: el CBC se localiza sobre todo en la cara (80%) y el tronco (15%), siendo excepcional en mucosas, palmas y plantas; es poco sintomático."},
+{q:"¿Cuál es la forma clínica MÁS frecuente de carcinoma basocelular?",
+ o:["El nodular (60%): pápula/placa perlada con telangiectasias y ulceración central","El superficial","El esclerodermiforme","El infiltrante"],c:0,
+ e:"Correcta: el CBC nodular es el más frecuente (60%): pápula o placa perlada color carne o rosada, friable, con telangiectasias y ulceración central, en cabeza y cuello; a veces pigmentado (DD melanoma)."},
+{q:"El carcinoma basocelular de extensión superficial, según los apuntes:",
+ o:["Aparece en el tronco y zonas no fotoexpuestas, en pacientes más jóvenes, como placa eritemato-descamativa de límites netos","Es la forma más agresiva","Se localiza en la cara","Recuerda a una cicatriz"],c:0,
+ e:"Correcta: el CBC superficial (15%) aparece en el tronco y zonas no fotoexpuestas, en pacientes más jóvenes, como placa eritemato-descamativa o queratósica de límites netos y lenta evolución (DD: Bowen, psoriasis, tiña)."},
+{q:"El carcinoma basocelular esclerodermiforme (morfeiforme), según los apuntes:",
+ o:["Es una placa indurada blanco-amarillenta que recuerda a una cicatriz, con bordes imprecisos, en cabeza y cuello","Es una pápula perlada con telangiectasias","Es una placa eritemato-descamativa del tronco","Es un nódulo crateriforme de crecimiento rápido"],c:0,
+ e:"Correcta: el CBC esclerodermiforme/morfeiforme (3%) es una placa indurada blanco-amarillenta tipo cicatriz, de bordes imprecisos, en cabeza y cuello (nariz, mejillas)."},
+{q:"Respecto a la evolución del carcinoma basocelular, según los apuntes:",
+ o:["Es de crecimiento lento, con agresividad local y metástasis excepcional, y hay mayor frecuencia de un segundo basocelular (40%)","Metastatiza con frecuencia","No recidiva nunca","Crece muy rápido y es muy sintomático"],c:0,
+ e:"Correcta: el CBC es de crecimiento lento, agresivo localmente (destruye tejidos, recidiva si la extirpación es incompleta), con metástasis excepcional y mayor frecuencia de un segundo basocelular (40%)."},
+
+/* ====== Tratamiento ====== */
+{q:"¿Cuál es el tratamiento de elección del carcinoma basocelular?",
+ o:["La cirugía (con márgenes de 4 mm)","La radioterapia exclusiva","El imatinib","La quimioterapia con vinblastina"],c:0,
+ e:"Correcta: la cirugía es el tratamiento de elección del CBC (márgenes de 4 mm); existen alternativas según factores individuales y tumorales (crioterapia, electrocoagulación, radioterapia, TFD, imiquimod, 5-FU)."},
+{q:"¿Cuándo está especialmente indicada la cirugía micrográfica de Mohs en el carcinoma basocelular?",
+ o:["En recidivas, zonas de fusión embrionaria centrofacial, variedad esclerodermiforme, tumores >2 cm o mal definidos e invasión perineural","En cualquier CBC superficial pequeño","Solo en CBC pigmentados","Nunca está indicada"],c:0,
+ e:"Correcta: la cirugía de Mohs se reserva para recidivas, zonas de fusión embrionaria centrofacial, la variedad esclerodermiforme, tumores >2 cm o mal definidos, sobre cicatrices e invasión perineural."},
+{q:"En los carcinomas localmente avanzados o metastásicos, ¿qué fármacos dirigidos se usan?",
+ o:["Vismodegib para el CBC y cemiplimab para el CE","Imatinib para el CBC y vinblastina para el CE","Propranolol para ambos","Interferón para el CBC"],c:0,
+ e:"Correcta: en los avanzados/metastásicos se usa vismodegib (inhibidor de Hedgehog) en el CBC y cemiplimab (anti-PD-1) en el CE."},
+{q:"La terapia fotodinámica (TFD) y los tratamientos de campo, según los apuntes, se emplean en:",
+ o:["Queratosis actínicas, enfermedad de Bowen y CBC superficial","El carcinoma verrugoso","El melanoma nodular","El dermatofibrosarcoma"],c:0,
+ e:"Correcta: la TFD (convencional o luz de día) y los tratamientos de campo (5-FU, diclofenaco, imiquimod, tirbanibulina) se usan en queratosis actínicas, enfermedad de Bowen y CBC superficial."},
+{q:"Respecto a la radioterapia en el cáncer cutáneo no melanoma, según los apuntes:",
+ o:["Es una opción terapéutica, pero NO se usa en el carcinoma verrugoso","Es de primera línea en todos los casos","Es el único tratamiento del CBC","Está contraindicada en todos los CE"],c:0,
+ e:"Correcta: la radioterapia es una opción en el CCNM, pero no debe emplearse en el carcinoma verrugoso."},
+
+/* ====== Matices añadidos ====== */
+{q:"Entre las proliferaciones anexiales con diferenciación SEBÁCEA de los apuntes se incluyen:",
+ o:["Las glándulas sebáceas ectópicas (Fordyce), el nevus de Jadassohn y la hiperplasia sebácea","El siringoma y el hidrocistoma","El quiste tricolémico y la pápula fibrosa","El leiomioma y el lipoma"],c:0,
+ e:"Correcta: las proliferaciones con diferenciación sebácea incluyen las glándulas sebáceas ectópicas (Fordyce), el nevus de Jadassohn y la hiperplasia sebácea; el siringoma y el hidrocistoma son de diferenciación ecrina/apocrina."},
+{q:"El siringoma y el hidrocistoma, según los apuntes, son proliferaciones anexiales con diferenciación:",
+ o:["Ecrina y apocrina","Folicular","Sebácea","Melanocítica"],c:0,
+ e:"Correcta: el siringoma, el hidrocistoma y el pezón supernumerario son proliferaciones con diferenciación ecrina y apocrina; la pápula fibrosa y los quistes infundibular/tricolémico son de diferenciación folicular."},
+{q:"El dermatofibroma puede aparecer de forma MÚLTIPLE en relación con:",
+ o:["Enfermedades autoinmunes, tratamiento inmunosupresor, leucemias, trasplantados o SIDA","Solo en niños sanos","La exposición solar intensa","La mutación del gen PTCH"],c:0,
+ e:"Correcta: los dermatofibromas múltiples se asocian a enfermedades autoinmunes, tratamiento inmunosupresor, leucemias, trasplantados y SIDA."},
+{q:"El sarcoma de Kaposi ENDÉMICO (africano), según los apuntes:",
+ o:["Afecta a hombres de 30-40 años en zonas como África ecuatorial, con formas nodular, florida, infiltrativa y linfadenopática","Es propio de ancianos europeos","Aparece solo en trasplantados renales","Es la forma asociada al SIDA"],c:0,
+ e:"Correcta: el Kaposi endémico africano afecta a hombres de 30-40 años (África ecuatorial; Congo 10% de la población), con formas nodular, florida/vegetante, infiltrativa y linfadenopática (esta en niños/jóvenes con afectación intestinal)."},
+{q:"¿Cuál es un tratamiento del sarcoma de Kaposi según los apuntes?",
+ o:["Observación, cirugía, radioterapia, quimioterapia (vinblastina), interferón o disminuir la inmunosupresión","Vismodegib","Propranolol","Imatinib en monoterapia"],c:0,
+ e:"Correcta: el Kaposi se trata con observación, cirugía, radioterapia, quimioterapia (vinblastina), inmunoterapia (interferón) y la disminución de la inmunosupresión."},
+{q:"¿Cuáles son síndromes genéticos que predisponen al cáncer cutáneo no melanoma según los apuntes?",
+ o:["Xeroderma pigmentoso, albinismo, epidermodisplasia verruciforme y síndrome de Gorlin","Peutz-Jeghers y LEOPARD","Síndrome PHACES y Kasabach-Merritt","Síndrome de Fitz-Hugh-Curtis"],c:0,
+ e:"Correcta: entre los síndromes genéticos predisponentes al CCNM están el xeroderma pigmentoso, el albinismo, la epidermodisplasia verruciforme y el síndrome de Gorlin (nevus basocelular)."},
+{q:"En el tratamiento del CE invasivo, según los apuntes, se emplea:",
+ o:["Cirugía (cierre directo, colgajo, injerto o Mohs)","Únicamente propranolol","Solo crioterapia en todos los casos","Vismodegib de primera línea"],c:0,
+ e:"Correcta: el CE invasivo se trata con cirugía (cierre directo, colgajo, injerto, Mohs); como alternativas, RT (no en verrugoso), curetaje, electrocoagulación, crioterapia, TFD y tratamientos tópicos de campo; en avanzados, cemiplimab."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
