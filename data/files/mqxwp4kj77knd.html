@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 6 · Urticaria, EEM, Dermatosis neutrofílicas y Toxicodermias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 6</p>
+  <h1>Test · Urticaria, EEM, Dermatosis neutrofílicas y Toxicodermias</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 6 (urticaria y angioedema, eritema multiforme, dermatosis neutrofílicas y toxicodermias) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 6 — Urticaria, EEM, Dermatosis neutrofílicas y Toxicodermias (UFV, Pablo Fonda)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ URTICARIA Y ANGIOEDEMA ============ */
+{q:"La urticaria, según los apuntes, se caracteriza por:",
+ o:["Habones o ronchas fugaces (<24 h), sin descamación ni lesión residual, por liberación de histamina","Placas descamativas persistentes que dejan cicatriz","Vesículas agrupadas en un dermatomo","Pústulas estériles en pliegues"],c:0,
+ e:"Correcta: la urticaria engloba procesos con ronchas o habones, lesiones fugaces (<24 h), sin descamación ni lesión residual, por liberación de histamina y otros mediadores; tiene múltiples etiologías."},
+{q:"El angioedema, según los apuntes, se diferencia de la urticaria en que:",
+ o:["La vasodilatación y el edema se producen en la dermis profunda e hipodermis, con quemazón/dolor más que picor","Las lesiones son más superficiales y pruriginosas","Nunca compromete la vida","Deja siempre lesiones residuales"],c:0,
+ e:"Correcta: el angioedema es el equivalente de la urticaria cuando el edema afecta la dermis profunda e hipodermis; cursa con hinchazón, quemazón y dolor (más que picor), afecta ojos/boca/genitales, involuciona más lento y puede comprometer la vida (edema de glotis)."},
+{q:"¿Cómo se clasifican la urticaria y el angioedema según su duración?",
+ o:["Aguda (<6 semanas) y crónica (>6 semanas)","Aguda (<24 horas) y crónica (>24 horas)","Aguda (<1 semana) y crónica (>1 semana)","Aguda (<3 meses) y crónica (>3 meses)"],c:0,
+ e:"Correcta: la urticaria aguda dura menos de 6 semanas (niños/adolescentes) y la crónica más de 6 semanas (mujeres de 3ª-4ª década)."},
+{q:"En la urticaria crónica, según los apuntes, la causa idiopática:",
+ o:["Es un diagnóstico de exclusión y representa más del 70% de las crónicas","Se identifica fácilmente en la mayoría","Es muy infrecuente","Siempre es de base genética"],c:0,
+ e:"Correcta: la urticaria idiopática es un diagnóstico de exclusión y supone más del 70% de las urticarias crónicas; el objetivo terapéutico es identificar el factor desencadenante y, si no se encuentra, dar tratamiento sintomático."},
+{q:"El dermografismo, una urticaria física, consiste en:",
+ o:["Habones de disposición lineal tras una moderada presión sobre la piel","Habones tras la exposición solar","Habones tras el contacto con el frío","Habones desencadenados por el sudor"],c:0,
+ e:"Correcta: el dermografismo da habones lineales tras una presión moderada (5-9% de la población); suele ser asintomático y, si da síntomas, se llama urticaria facticia."},
+{q:"La urticaria colinérgica, según los apuntes:",
+ o:["Da habones de pequeño tamaño desencadenados por el sudor (calor, ejercicio, estrés), por estimulación colinérgica","Da habones grandes tras el frío","Aparece minutos después del sol","Se asocia a crioglobulinas"],c:0,
+ e:"Correcta: la urticaria colinérgica da habones pequeños (mm) desencadenados por el sudor (hipertermia, ejercicio, estrés), por estimulación colinérgica postganglionar simpática; típica de adultos jóvenes."},
+{q:"La urticaria a frigore se diagnostica con la prueba de provocación de:",
+ o:["Aplicar hielo durante 5-15 minutos","Fotoestimulación con UVB","Presión prolongada de 30 minutos","Contacto con agua durante 15 minutos"],c:0,
+ e:"Correcta: la urticaria a frigore (por contacto con frío: hielo, agua, aire, alimentos fríos) se provoca con hielo 5-15 min; es idiopática en el 96% y secundaria a crioproteínas (crioglobulinas) en el 1%."},
+{q:"La urticaria solar, según los apuntes:",
+ o:["Da habones pocos minutos tras la exposición solar (UVB > luz visible), con DD de la erupción solar polimorfa","Aparece tras el contacto con el agua","Da habones tras presión prolongada","Se provoca con hielo"],c:0,
+ e:"Correcta: la urticaria solar da habones pocos minutos tras la exposición solar en zonas expuestas (UVB > luz visible), con duración de 1-2 horas; el DD es la erupción solar polimorfa."},
+{q:"La urticaria por presión, según los apuntes:",
+ o:["Aparece en el 37% de las urticarias crónicas, con lesiones profundas dolorosas tras presión prolongada, mala respuesta a antiH1 y tratamiento con esteroides","Da habones inmediatos muy pruriginosos","Se provoca con hielo","Responde muy bien a los antihistamínicos"],c:0,
+ e:"Correcta: la urticaria por presión (37% de las crónicas, varones de 3ª-4ª década) da lesiones profundas dolorosas poco pruriginosas tras presión prolongada (30 min a 9 h), de 2-3 días, con mala respuesta a antiH1 y tratamiento con esteroides."},
+{q:"La urticaria-vasculitis, según los apuntes:",
+ o:["Da habones con componente purpúrico que duran 24-72 h, con vasculitis de pequeño vaso en la biopsia y asociación a conectivopatías","Da habones fugaces de <24 h sin púrpura","Es una urticaria física","Nunca se asocia al LES"],c:0,
+ e:"Correcta: la urticaria-vasculitis da habones con componente purpúrico de 24-72 h (mujeres de mediana edad), con vasculitis de pequeño vaso por inmunocomplejos en la biopsia; se asocia a conectivopatías (5-10% de los LES) y tiene pronóstico benigno."},
+{q:"El angioedema hereditario, según los apuntes:",
+ o:["Es autosómico dominante por alteración del inhibidor de C1, con episodios recurrentes de angioedema y edema de laringe, SIN urticaria","Es una urticaria física","Cursa siempre con habones pruriginosos","Tiene C4 elevado"],c:0,
+ e:"Correcta: el angioedema hereditario es autosómico dominante, por alteración cuantitativa/cualitativa del inhibidor de C1, con episodios recurrentes de angioedema y edema de laringe, sin urticaria; el C4 está descendido en todos los casos."},
+{q:"En el angioedema hereditario, ¿qué fármacos se usan en la profilaxis estimulando el C1 inhibidor?",
+ o:["Danazol y estanozolol","Adrenalina y antihistamínicos","Omalizumab","Colchicina y dapsona"],c:0,
+ e:"Correcta: la profilaxis del angioedema hereditario estimula el C1 inhibidor con danazol o estanozolol (con riesgo de virilización en mujeres y hepatopatía); ante desencadenantes (infecciones, traumatismos, intervenciones dentarias) se multiplica la dosis los días previos."},
+{q:"El déficit ADQUIRIDO de C1-inhibidor, según los apuntes:",
+ o:["Se inicia en la 5ª-6ª década y se asocia a procesos linfoproliferativos o anticuerpos contra el C1-inhibidor","Es autosómico dominante de inicio en la infancia","Cursa con C4 elevado","Nunca se asocia a enfermedades autoinmunes"],c:0,
+ e:"Correcta: el déficit adquirido de C1-inhibidor se inicia en la 5ª-6ª década, asociado a procesos linfoproliferativos o a anticuerpos contra el C1-inhibidor; a diferencia del hereditario, el C1 también está descendido."},
+{q:"Respecto a los medicamentos como desencadenantes de urticaria, según los apuntes:",
+ o:["Son causa frecuente de urticaria aguda y la 2ª erupción en frecuencia debida a fármacos","Nunca causan urticaria","Solo producen urticaria crónica","Son la causa más rara"],c:0,
+ e:"Correcta: los medicamentos son causa frecuente de urticaria aguda (por mecanismo inmunológico, liberación directa o alteración del metabolismo del ácido araquidónico) y la 2ª erupción en frecuencia debida a fármacos; pueden causar shock anafiláctico."},
+{q:"Sobre los alimentos como desencadenantes de urticaria, los escómbridos (atún, caballa) producen:",
+ o:["Intoxicación por histamina (mecanismo no inmunológico/anafilactoide)","Una reacción mediada por IgE exclusivamente","Angioedema hereditario","Urticaria por presión"],c:0,
+ e:"Correcta: los alimentos causan el 20-60% de las urticarias agudas; por mecanismo no inmunológico (anafilactoide) los escómbridos (atún, caballa, sardina) dan intoxicación por histamina, los vinos tintos aminas vasoactivas y los blancos sulfitos."},
+{q:"La urticaria crónica autoinmune, según los apuntes:",
+ o:["Tiene origen autoinmune en el 25-45% (autoanticuerpos liberadores de histamina) y se asocia a enfermedad tiroidea autoinmune","Nunca tiene base autoinmune","Se asocia siempre a atopia","Se diagnostica con luz de Wood"],c:0,
+ e:"Correcta: la urticaria crónica idiopática tiene origen autoinmune en el 25-45% (autoanticuerpos IgG anti-IgE o IgE anti-FcεRI liberadores de histamina); se asocia a enfermedad tiroidea autoinmune. No se asocia a atopia."},
+{q:"¿Qué prueba diagnóstica se usa en la urticaria autoinmune según los apuntes?",
+ o:["La prueba cutánea (intradérmica) con suero autólogo","La luz de Wood","El test del hielo","El citodiagnóstico de Tzanck"],c:0,
+ e:"Correcta: en la urticaria autoinmune se usa la prueba intradérmica con suero autólogo (suero en fase activa, lectura a los 30 min, positiva si pápula >1,5 mm); es sugestiva pero no diagnóstica, y se confirma con análisis in vitro."},
+{q:"¿Cuál es la base del tratamiento de la urticaria según los apuntes?",
+ o:["Los antihistamínicos (sobre todo anti-H1 de 2ª generación)","Los corticoides sistémicos de primera línea","Los antibióticos","La adrenalina en todos los casos"],c:0,
+ e:"Correcta: los antihistamínicos (anti-H1 de 2ª generación, pudiéndose triplicar la dosis) son la base del tratamiento; se deben evitar AINE/AAS, y los corticoides se evitan porque favorecen el rebrote."},
+{q:"En la urticaria crónica, el omalizumab es:",
+ o:["Un anticuerpo monoclonal humanizado anti-IgE (300 mg cada 30 días)","Un corticoide tópico","Un antihistamínico H2","Un inhibidor de la calcineurina"],c:0,
+ e:"Correcta: el omalizumab (Xolair) es un anticuerpo monoclonal humanizado anti-IgE, a dosis de 300 mg cada 30 días (primera dosis bajo supervisión médica), usado en la urticaria crónica."},
+{q:"¿Cuál es el tratamiento de elección de las formas graves de urticaria/angioedema (shock anafiláctico, edema de glotis)?",
+ o:["La adrenalina (1/1000, subcutánea, 0,3-0,5 cc)","Los antihistamínicos orales","El omalizumab","La colchicina"],c:0,
+ e:"Correcta: la adrenalina (1/1000, subcutánea, 0,3-0,5 cc) es de elección en las formas graves, el shock anafiláctico y el edema de glotis."},
+
+/* ============ DERMATOSIS NEUTROFÍLICAS ============ */
+{q:"Las dermatosis neutrofílicas se caracterizan por:",
+ o:["La activación y acumulación de neutrófilos en ausencia de infección","Una proliferación clonal de linfocitos T","Un depósito de IgA en las papilas","Una infección bacteriana de la dermis"],c:0,
+ e:"Correcta: las dermatosis neutrofílicas son un grupo (Sweet, pioderma gangrenoso, Behçet...) caracterizado por la activación y acumulación de neutrófilos en ausencia de infección."},
+{q:"El síndrome de Sweet (dermatosis neutrofílica febril aguda), según los apuntes:",
+ o:["Predomina en mujeres (2-4:1), de inicio brusco con fiebre y placas eritemato-edematosas dolorosas en cabeza, cuello y EESS","Predomina en varones ancianos","Cursa sin fiebre","Da úlceras necróticas de progresión rápida"],c:0,
+ e:"Correcta: el síndrome de Sweet predomina en mujeres (2-4:1, 30-60 años), con comienzo brusco, fiebre (>50%) y pápulas/placas eritemato-edematosas dolorosas (aspecto pseudovesiculoso) en cabeza, cuello, tronco superior y EESS."},
+{q:"¿Cuál es la causa más frecuente del síndrome de Sweet y a qué neoplasia se asocia sobre todo?",
+ o:["Idiopático (50%); se asocia a neoplasias hematológicas (LMA)","Siempre por fármacos; tumores sólidos","Siempre infeccioso; melanoma","Siempre paraneoplásico; cáncer de mama"],c:0,
+ e:"Correcta: el síndrome de Sweet es idiopático en el 50%; otras causas son infecciones respiratorias altas, neoplasias (hematológicas como la LMA > sólidas), fármacos (G-CSF), enfermedades inflamatorias/autoinmunes y embarazo."},
+{q:"¿Cuál es el hallazgo histopatológico del síndrome de Sweet?",
+ o:["Infiltrado neutrofílico con edema en dermis, SIN vasculitis","Vasculitis leucocitoclástica","Acantólisis suprabasal","Depósito granular de IgA"],c:0,
+ e:"Correcta: el Sweet muestra infiltrado neutrofílico denso con edema en dermis, sin vasculitis; en la analítica hay leucocitosis con neutrofilia (típica pero no constante) y elevación de VSG/PCR."},
+{q:"¿Cuál es el tratamiento de primera línea del síndrome de Sweet?",
+ o:["Corticoides sistémicos (respuesta muy rápida)","Adrenalina","Antibióticos","Ciclosporina"],c:0,
+ e:"Correcta: los corticoides sistémicos son la primera línea del Sweet (respuesta muy rápida); alternativas: yoduro potásico, colchicina y dapsona. Las lesiones desaparecen en 5-12 semanas sin cicatriz, con recurrencias en el 30%."},
+{q:"El pioderma gangrenoso, según los apuntes:",
+ o:["Se asocia a enfermedades sistémicas en el 50-70% (EII, AR, neoplasias hematológicas)","No se asocia a enfermedades sistémicas","Es una infección bacteriana","Predomina en niños sanos"],c:0,
+ e:"Correcta: el pioderma gangrenoso se asocia a enfermedades sistémicas en el 50-70%: enfermedad inflamatoria intestinal (20-30%), enfermedades autoinmunes (AR), neoplasias hematológicas (15-25%: LMA, LMC, gammapatía IgA) e inmunodeficiencias."},
+{q:"¿Cuál es la forma clínica MÁS frecuente del pioderma gangrenoso?",
+ o:["La ulcerosa o clásica","La pustulosa","La ampollosa","La vegetante"],c:0,
+ e:"Correcta: las cuatro formas (regla 'PUVA': Pustuloso, Ulceroso, Vegetante, Ampolloso) tienen como más frecuente la ulcerosa o clásica: papulopústula dolorosa que evoluciona a necrosis y úlcera de bordes violáceos, con progresión rápida y patergia."},
+{q:"¿Cuál es el tratamiento de primera línea del pioderma gangrenoso?",
+ o:["Corticoides (tópicos/sistémicos) y ciclosporina","Adrenalina","Antibióticos sistémicos","Desbridamiento quirúrgico agresivo de primera línea"],c:0,
+ e:"Correcta: la primera línea del pioderma gangrenoso son los corticoides (tópicos/sistémicos) y la ciclosporina; en segunda línea, otros inmunosupresores (micofenolato, azatioprina, metotrexato), colchicina, dapsona y biológicos (anti-TNF, anti-IL17, anti-IL12/23)."},
+{q:"La enfermedad de Behçet, según los apuntes, es muy frecuente en:",
+ o:["Los países de la Ruta de la Seda (Turquía, Japón, Oriente Medio, área mediterránea)","El norte de Europa exclusivamente","América del Norte","África subsahariana"],c:0,
+ e:"Correcta: la enfermedad de Behçet es muy frecuente en los países de la Ruta de la Seda (Turquía, Japón, Oriente Medio, área mediterránea), con pico de incidencia a los 20-35 años."},
+{q:"¿Qué antígeno HLA se asocia a la enfermedad de Behçet?",
+ o:["HLA-B51","HLA-Cw6","HLA-B27","HLA-DR4"],c:0,
+ e:"Correcta: la enfermedad de Behçet se asocia a HLA-B51 (80% en asiáticos, 37% en España, 15% en países nórdicos)."},
+{q:"¿Cuál es el signo más prevalente e inicial de la enfermedad de Behçet?",
+ o:["Las aftas orales (prácticamente en el 100% de los pacientes)","Las úlceras genitales","La uveítis posterior","La patergia"],c:0,
+ e:"Correcta: las aftas orales están presentes en casi el 100% de los pacientes y son el signo más prevalente e inicial; las úlceras genitales son altamente específicas."},
+{q:"En la enfermedad de Behçet, ¿cuál es la afectación ocular más característica?",
+ o:["La uveítis posterior","La conjuntivitis bacteriana","La queratitis herpética","El glaucoma agudo"],c:0,
+ e:"Correcta: la afectación ocular (25-75%) más característica de la Behçet es la uveítis posterior; también hay afectación vascular (vasculitis de cualquier calibre, trombosis), articular, neurológica, gastrointestinal, etc."},
+{q:"El fenómeno de patergia, presente en la enfermedad de Behçet, consiste en:",
+ o:["Una pápula de 2 mm o más a las 48 h de una punción cutánea con aguja de 20G en el antebrazo","La urticación al frotar la lesión","El despegamiento epidérmico al frotar piel sana","La aparición de habones lineales por presión"],c:0,
+ e:"Correcta: el fenómeno de patergia es la aparición de una pápula ≥2 mm a las 48 h de una punción cutánea con aguja de 20G en la cara anterior del antebrazo; también puede verse en el Sweet y el pioderma gangrenoso."},
+{q:"La aftosis oral recidivante idiopática, según los apuntes:",
+ o:["Es la forma más frecuente, afecta al 20% de la población, sobre todo a mujeres en la adolescencia y se relaciona con el estrés","Es siempre secundaria a enfermedad celíaca","Solo afecta a ancianos","Cursa con úlceras genitales obligatorias"],c:0,
+ e:"Correcta: la aftosis oral recidivante idiopática es la más frecuente (20% de la población, mujeres, adolescencia, estrés); las formas secundarias se asocian a enfermedades hematológicas, digestivas (celíaca, EII), déficits (hierro, folato, B12, zinc), VIH, LES y AINE."},
+{q:"Las aftas orales tipo 'minor' (las más frecuentes), según los apuntes:",
+ o:["Miden <1 cm y curan en 10-14 días SIN dejar cicatriz","Miden >1 cm y dejan cicatriz","Son agrupadas de 1-2 mm","Tardan 6 semanas en curar"],c:0,
+ e:"Correcta: las aftas minor (70-85%) miden <1 cm y curan en 10-14 días sin cicatriz; las major (10-15%) son >1 cm, profundas, muy dolorosas, tardan hasta 6 semanas y dejan cicatriz; las herpetiformes (5-10%) son de 1-2 mm agrupadas."},
+
+/* ============ TOXICODERMIAS ============ */
+{q:"Las toxicodermias, según los apuntes, son:",
+ o:["Dermatosis que afectan piel, mucosas y/o anejos por el efecto nocivo de sustancias (generalmente medicamentos)","Infecciones cutáneas por bacterias","Tumores epidérmicos","Dermatosis ampollosas autoinmunes"],c:0,
+ e:"Correcta: las toxicodermias afectan piel, mucosas y/o anejos por el efecto nocivo de sustancias (generalmente medicamentos) que entran por diversas vías; son el efecto adverso más frecuente (25-30%) y van en aumento."},
+{q:"¿Qué factor predisponente vírico se asocia a un exantema con ampicilina/amoxicilina en el 90% de los casos?",
+ o:["El virus de Epstein-Barr (mononucleosis)","El VIH","El citomegalovirus","El virus de la hepatitis B"],c:0,
+ e:"Correcta: el VEB (mononucleosis) produce un exantema con ampicilina o amoxicilina en el 90% de los casos; el VIH multiplica por 5-20 las toxicodermias (sobre todo a sulfamidas/cotrimoxazol)."},
+{q:"En la clasificación etiopatogénica, una toxicodermia tipo A (dosis-dependiente) es:",
+ o:["La sobredosis, interacciones o toxicidad acumulativa (ej.: mucositis por QT, queilitis por isotretinoína)","Una reacción idiosincrásica","Una reacción mediada por IgE","Un síndrome de Stevens-Johnson"],c:0,
+ e:"Correcta: las tipo A (dosis-dependiente) incluyen sobredosis, interacciones y toxicidad acumulativa (mucositis por QT, queilitis por isotretinoína, psoriasis por litio); las tipo B son independientes de la dosis (idiosincrásicas e inmunológicas)."},
+{q:"En las toxicodermias inmunológicas, el síndrome de Stevens-Johnson y la NET corresponden a una hipersensibilidad:",
+ o:["Tipo IV (inmunidad celular retardada)","Tipo I (mediada por IgE)","Tipo II (citotóxica)","Tipo III (inmunocomplejos)"],c:0,
+ e:"Correcta: las reacciones tipo IV (inmunidad celular retardada) incluyen las erupciones exantemáticas, fijas, liquenoides, el síndrome de Stevens-Johnson y la necrolisis epidérmica tóxica; la tipo I da urticaria/angioedema/anafilaxia."},
+{q:"El exantema fijo medicamentoso, según los apuntes:",
+ o:["Aparece 1-2 semanas tras la primera exposición y a las 24 h en reexposiciones, en las mismas localizaciones, dejando pigmentación parda residual","Aparece siempre tras 7-21 días sin recidivar","Se extiende de forma aleatoria cada vez","No deja pigmentación"],c:0,
+ e:"Correcta: el exantema fijo medicamentoso aparece a las 1-2 semanas de la primera exposición y a las 24 h en exposiciones posteriores, en las mismas localizaciones (labios, cara, manos, genitales), con placa eritematosa y ampolla central y pigmentación parda residual; fármacos: antibióticos, AINE, sulfona."},
+{q:"El eritema multiforme (EM), según los apuntes:",
+ o:["Es una dermatosis reactiva aguda y autolimitada, con lesiones en diana simétricas, en relación con infecciones (VHS) o fármacos","Es una infección bacteriana crónica","Es un tumor cutáneo","Solo se debe a fármacos"],c:0,
+ e:"Correcta: el EM es una dermatosis reactiva aguda autolimitada, cutáneo-mucosa, con lesiones en diana simétricas (centro purpúrico/vesiculoso) en dorso de manos/pies y caras extensoras, en relación con infecciones (VHS, mycoplasma) o fármacos (10%); idiopático en el 40%."},
+{q:"El EM minor, según los apuntes:",
+ o:["Se asocia al VHS en el 80% de los casos, sin pródromos, con afectación cutánea (cara y acral) bilateral y simétrica","Se debe a fármacos en la mayoría","Cursa con afectación de al menos 2 mucosas y fiebre","Deja secuelas graves"],c:0,
+ e:"Correcta: el EM minor (VHS en el 80%) afecta a la 2ª-4ª década, sin pródromos, con afectación cutánea bilateral y simétrica (cara y acral) y sin síntomas asociados ni secuelas; el tratamiento es tópico."},
+{q:"El EM major o síndrome de Stevens-Johnson, según los apuntes:",
+ o:["Se debe a fármacos (o Mycoplasma) en la mayoría, con pródromos, afectación cutáneo-mucosa de al menos 2 mucosas y posibles secuelas","Se asocia al VHS sin afectación mucosa","No tiene mortalidad","Cura siempre sin secuelas"],c:0,
+ e:"Correcta: el EM major/SSJ se debe a fármacos o Mycoplasma, con pródromos (fiebre, malestar, tos), afectación cutánea más extensa (tronco) y de al menos 2 mucosas (oral, conjuntival...), alteraciones analíticas, posibles secuelas (sinequias, ceguera) y mortalidad del 5-15%."},
+{q:"¿Cuál es el hallazgo anatomopatológico del eritema multiforme/SSJ?",
+ o:["Queratinocitos necróticos con alteración vacuolar de la membrana basal e infiltrado linfocitario perivascular","Infiltrado neutrofílico sin vasculitis","Acantólisis suprabasal","Microabscesos de Munro"],c:0,
+ e:"Correcta: el EM/SSJ muestra queratinocitos necróticos, alteración vacuolar de la membrana basal e infiltrado linfocitario perivascular."},
+{q:"¿Cuáles son fármacos de ALTO riesgo de SSJ/NET según los apuntes?",
+ o:["Alopurinol, AINE (piroxicam, diclofenaco), anticonvulsivantes, antibióticos (sulfonamidas) y nevirapina","Solo los antihistamínicos","Solo los corticoides","Únicamente los betabloqueantes"],c:0,
+ e:"Correcta: los fármacos de alto riesgo de SSJ/NET son el alopurinol, los AINE (piroxicam, diclofenaco, ibuprofeno), los anticonvulsivantes, los antibióticos (penicilinas, tetraciclinas, sulfonamidas) y la nevirapina."},
+{q:"La necrolisis epidérmica tóxica (NET), según los apuntes:",
+ o:["Tiene una mortalidad de alrededor del 30% y cura con cicatrices residuales","No tiene mortalidad","Es la forma más leve del espectro","Nunca deja secuelas"],c:0,
+ e:"Correcta: la NET tiene una mortalidad de alrededor del 30% y cura con cicatrices residuales; forma parte del espectro EM/SSJ/NET (la superposición SSJ-NET tiene mortalidad del 10-15%)."},
+{q:"El DRESS (síndrome de hipersensibilidad con eosinofilia y síntomas sistémicos), según los apuntes:",
+ o:["Aparece 2-6 semanas tras el fármaco, con edema facial y eosinofilia, y se diagnostica con los criterios RegiSCAR","Aparece en minutos (mediado por IgE)","No tiene afectación sistémica","Se diagnostica con luz de Wood"],c:0,
+ e:"Correcta: el DRESS aparece 2-6 semanas tras el fármaco, con edema facial, eosinofilia y síntomas sistémicos; se diagnostica con los criterios RegiSCAR (posible 2-3 puntos, probable 4-5, definitivo ≥6) y tiene una mortalidad del 10%."},
+{q:"La pustulosis exantemática aguda generalizada (PEAG), según los apuntes:",
+ o:["Aparece en horas (<48 h) y tiene una mortalidad baja (1-2%)","Aparece tras 7-21 días","Tiene una mortalidad del 30%","Es mediada por IgE"],c:0,
+ e:"Correcta: la pustulosis exantemática aguda generalizada aparece en horas (<48 h) tras el fármaco y tiene una mortalidad baja (1-2%)."},
+{q:"Según el intervalo de tiempo de las toxicodermias, ¿qué cuadros aparecen en minutos u horas (<36 h)?",
+ o:["La urticaria, el angioedema y la anafilaxia","El SSJ/NET","El DRESS","Las erupciones liquenoides"],c:0,
+ e:"Correcta: la urticaria, el angioedema y la anafilaxia aparecen en minutos u horas (<36 h); el exantema maculopapular, la vasculitis y el SSJ/NET en 7-21 días, el DRESS en 2-6 semanas y las erupciones liquenoides en meses/años."},
+{q:"¿Cuál de estas reacciones medicamentosas tiene una mortalidad más alta según los apuntes?",
+ o:["La necrolisis epidérmica tóxica (NET): ~30%","La pustulosis exantemática aguda generalizada: 1-2%","La anafilaxia: 5%","El síndrome de hipersensibilidad (DRESS): 10%"],c:0,
+ e:"Correcta: por orden de mortalidad: PEAG 1-2%, anafilaxia y SSJ 5%, DRESS 10%, superposición SSJ-NET 10-15% y NET ~30% (la más alta)."},
+
+/* ====== Matices añadidos ====== */
+{q:"La urticaria por contacto, según los apuntes:",
+ o:["Da habones 30-60 min tras el contacto con sustancias (látex, alimentos, saliva/pelo de animales) por mecanismo inmunológico o no","Aparece a las 48 horas","Solo es de mecanismo inmunológico","Nunca se asocia a asma o rinitis"],c:0,
+ e:"Correcta: la urticaria por contacto da habones 30-60 min tras el contacto con múltiples sustancias (látex, alimentos, cosméticos, saliva y pelo de animales, medicamentos), por mecanismo inmunológico o no inmunológico; se asocia a asma y rinitis."},
+{q:"La urticaria acuagénica se provoca con:",
+ o:["El contacto con agua a cualquier temperatura (15 minutos)","Hielo durante 5-15 minutos","Presión prolongada de 30 minutos","Fotoestimulación"],c:0,
+ e:"Correcta: la urticaria acuagénica se provoca con el contacto con agua a cualquier temperatura (15 min); su DD incluye la urticaria colinérgica, la urticaria a frigore y el prurito acuagénico (sin lesiones)."},
+{q:"En la patogenia de la urticaria, además de la histamina, ¿qué otros mediadores se liberan?",
+ o:["Prostaglandinas, leucotrienos y citoquinas (TNF, IL-3, IL-5)","Solo histamina","Anticuerpos antidesmogleína","Complemento exclusivamente"],c:0,
+ e:"Correcta: la degranulación libera histamina, prostaglandinas, leucotrienos y citoquinas (TNF, IL-3, IL-5...), que activan/dañan el endotelio y reclutan células, con respuesta inflamatoria."},
+{q:"Sobre la historia natural de la urticaria crónica, según los apuntes:",
+ o:["El 50% dura 3-12 meses y un 20% persiste más de 10 años","Todas se resuelven en 6 semanas","Ninguna dura más de 1 año","Siempre evoluciona a anafilaxia"],c:0,
+ e:"Correcta: en la urticaria crónica, el 50% dura 3-12 meses; un 40% de los pacientes con más de 6 meses de evolución tiene afectación más de 10 años, y si hay angioedema añadido el 75% supera 1 año y el 20% más de 20 años."},
+{q:"Entre los antihistamínicos H1 SEDANTES citados en los apuntes para la urticaria están:",
+ o:["La dexclorfeniramina (Polaramine) y la hidroxicina (Atarax)","La cetirizina y la loratadina","La fexofenadina y la ebastina","La desloratadina y la levocetirizina"],c:0,
+ e:"Correcta: los antiH1 sedantes (al final del día) incluyen dexclorfeniramina (Polaramine) e hidroxicina (Atarax); la doxepina (antidepresivo tricíclico con actividad antiH1/H2) se da por la noche. Los no sedantes (cetirizina, loratadina, ebastina, fexofenadina) se dan en dosis única matutina."},
+{q:"Respecto a las precauciones de los antihistamínicos según los apuntes:",
+ o:["No deben darse en recién nacidos (efecto paradójico) y hay que tener cuidado en geriátricos, gestantes y hepatopatía/insuficiencia renal severas","Son seguros en todos los grupos sin excepción","Solo se evitan en deportistas","No pasan a la leche materna"],c:0,
+ e:"Correcta: los antihistamínicos no deben usarse en recién nacidos (efecto paradójico), con precaución en geriátricos, gestantes (seleccionar) y hepatopatía/insuficiencia renal severas; pasan a la leche e interaccionan con alcohol y tricíclicos."},
+{q:"En el manejo de la urticaria, según los apuntes, los corticoides:",
+ o:["Se deben evitar porque favorecen el rebrote (salvo angioedema asociado o pauta corta domiciliaria)","Son el tratamiento de primera línea","Se usan siempre de forma crónica","Están totalmente contraindicados en cualquier caso"],c:0,
+ e:"Correcta: en la urticaria crónica se evitan los corticoides porque favorecen el rebrote, salvo angioedema asociado o sintomatología no controlada (pauta corta de 7 días domiciliaria); la base son los antiH1 de 2ª generación (dosis triplicable)."},
+{q:"Los criterios diagnósticos del síndrome de Sweet (Su y Liu) requieren:",
+ o:["Cumplir los 2 criterios mayores y al menos 2 de los menores","Solo 1 criterio mayor","3 puntos en una escala","Un criterio mayor y 2 menores como en Behçet"],c:0,
+ e:"Correcta: el diagnóstico de Sweet (criterios de Su y Liu, 1986) exige cumplir los 2 criterios mayores y al menos 2 de los menores."},
+{q:"En el síndrome de Sweet, ¿qué porcentaje de pacientes presenta recurrencias?",
+ o:["El 30% (hasta el 50% en los casos asociados a trastornos hematológicos)","Ninguno","El 90%","Solo si no se trata"],c:0,
+ e:"Correcta: el Sweet recurre en el 30% de los pacientes (con o sin tratamiento), llegando al 50% en los casos asociados a trastornos hematológicos; las lesiones desaparecen en 5-12 semanas sin cicatriz."},
+{q:"En las toxicodermias, ¿por qué predominan en mujeres (60%) según los apuntes?",
+ o:["Por diferencias metabólicas y de composición corporal (más rica en grasas y menor masa)","Porque toman más fármacos siempre","Por un factor genético ligado al X","Por mayor exposición solar"],c:0,
+ e:"Correcta: las toxicodermias predominan en mujeres (60%) por diferencias metabólicas y de composición corporal (más rica en grasas y menor masa corporal); otros factores son los genéticos (acetiladores lentos, citocromo P-450) y la edad."},
+{q:"La eritrodermia de causa farmacológica, según los apuntes, comparte cuadro con otras causas como:",
+ o:["Psoriasis, eccemas y linfomas (síndrome de Sézary, micosis fungoide)","Solo infecciones bacterianas","Únicamente tumores melanocíticos","Exclusivamente picaduras de insecto"],c:0,
+ e:"Correcta: la eritrodermia (eritema + descamación de >90% de la superficie) puede ser farmacológica, pero también consecuencia de psoriasis, eccemas y linfomas (síndrome de Sézary, micosis fungoide)."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
