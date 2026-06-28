@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 3 · Dermatosis infecciosas (VIH, hongos, virus, parásitos, ITS)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 3</p>
+  <h1>Test · Dermatosis infecciosas (VIH · hongos · virus · parásitos · ITS)</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 3 (manifestaciones en VIH, hongos, virus, zooparasitosis e ITS) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 3 — Dermatosis infecciosas: VIH, hongos, virus, zooparasitosis e ITS (UFV)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ 3.1 VIH ============ */
+{q:"Según los apuntes, ¿cuál es el órgano MÁS frecuentemente afectado en el paciente VIH+?",
+ o:["La piel (hasta el 90% a lo largo de la enfermedad)","El pulmón","El sistema nervioso central","El hígado"],c:0,
+ e:"Correcta: la piel es el órgano más frecuentemente afectado en el VIH+ (90% a lo largo de la enfermedad), y a veces es la primera manifestación."},
+{q:"En la primoinfección VIH sintomática (50%), ¿qué cuadro aparece a las 2-4 semanas del contagio?",
+ o:["Un síndrome pseudogripal o mononucleósico autolimitado","Una sífilis terciaria","Un sarcoma de Kaposi","Una candidiasis esofágica"],c:0,
+ e:"Correcta: la mitad de las primoinfecciones dan un síndrome pseudogripal/mononucleósico de aparición brusca y autolimitado, con fiebre, adenopatías, faringitis, etc."},
+{q:"¿Cuál es la neoplasia vascular asociada al SIDA más frecuente y su agente?",
+ o:["Sarcoma de Kaposi, por el herpesvirus humano tipo 8","Angiosarcoma, por el VEB","Linfoma de Burkitt, por el VHH-8","Melanoma, por el VPH"],c:0,
+ e:"Correcta: el sarcoma de Kaposi es la neoplasia vascular más frecuente del SIDA y su agente es el herpesvirus humano tipo 8 (95% en hombres homo/bisexuales)."},
+{q:"La angiomatosis bacilar, marcador de infección VIH, está causada por:",
+ o:["Bartonella henselae (gato como reservorio/vector)","Treponema pallidum","Pseudomonas aeruginosa","Mycobacterium leprae"],c:0,
+ e:"Correcta: la angiomatosis bacilar la causa Bartonella henselae ('enfermedad por arañazo de gato'); se trata con macrólidos o doxiciclina y da pápulas/nódulos angiomatosos tipo Kaposi."},
+{q:"En el paciente VIH, ¿cómo se comporta característicamente la sífilis según los apuntes?",
+ o:["Mayor severidad, rápida progresión a sífilis terciaria, frecuente afectación neurológica y alteración de la serología","Curso más leve y autolimitado","Sin afectación neurológica","Excelente respuesta al tratamiento"],c:0,
+ e:"Correcta: en el VIH la sífilis es más grave, progresa rápido a terciaria, afecta más al sistema nervioso, altera la serología (falsos + y −) y responde peor al tratamiento."},
+{q:"¿Qué onicomicosis es marcador de inmunosupresión/VIH y por qué dermatofito?",
+ o:["La onicomicosis subungueal proximal (T. rubrum)","La onicomicosis subungueal distal","La onicomicosis blanca superficial","La paroniquia candidiásica"],c:0,
+ e:"Correcta: la onicomicosis subungueal proximal (por T. rubrum) es marcador de inmunosupresión y de VIH."},
+{q:"La leucoplasia oral vellosa, frecuente en el VIH, se asocia a:",
+ o:["Virus de Epstein-Barr","Citomegalovirus","Virus del molusco contagioso","Candida albicans"],c:0,
+ e:"Correcta: la leucoplasia oral vellosa se debe a la replicación del VEB en las células epiteliales orofaríngeas, frecuente en VIH e inmunodeprimidos por trasplante."},
+{q:"La foliculitis eosinofílica asociada al VIH, según los apuntes:",
+ o:["Es marcador de inmunosupresión intensa (CD4 < 200-250), casi exclusiva de hombres, con pápulas foliculares pruriginosas y mala respuesta al tratamiento","Cura espontáneamente en días","Aparece con CD4 normales","Se trata fácilmente con antibiótico tópico"],c:0,
+ e:"Correcta: la foliculitis eosinofílica del VIH es marcador de inmunosupresión intensa (CD4 < 200-250), casi exclusiva de hombres, crónica y de mala respuesta al tratamiento."},
+{q:"¿Qué grupo de fármacos es el que más reacciones medicamentosas produce en el paciente VIH?",
+ o:["Las sulfamidas (trimetoprim-sulfametoxazol)","Los betabloqueantes","Los IECA","Las estatinas"],c:0,
+ e:"Correcta: las sulfamidas (cotrimoxazol) son la causa más frecuente de reacción medicamentosa en el VIH, junto con antirretrovirales, antituberculosos y AINE."},
+{q:"En el VIH, ¿qué efecto cutáneo se asocia clásicamente a la zidovudina y cuál a la estavudina?",
+ o:["Pigmentación (zidovudina) y lipodistrofia (estavudina)","Lipodistrofia (zidovudina) y alopecia (estavudina)","Vitíligo (zidovudina) y pigmentación (estavudina)","Ninguno de los dos produce efectos cutáneos"],c:0,
+ e:"Correcta: la zidovudina se asocia a hiperpigmentación (uñas y piel) y la estavudina a lipodistrofia."},
+
+/* ============ 3.2 HONGOS ============ */
+{q:"¿Qué diferencia a las levaduras de los hongos filamentosos (mohos) según los apuntes?",
+ o:["Las levaduras son unicelulares y se reproducen por gemación (blastosporos); los mohos son multicelulares con hifas y micelios","Las levaduras son multicelulares y los mohos unicelulares","Ambos se reproducen solo por esporas","Las levaduras solo viven de forma independiente"],c:0,
+ e:"Correcta: las levaduras son unicelulares (gemación, blastosporos) con colonias cremosas; los mohos son multicelulares (hifas/artroconidios y micelios) con colonias vellosas."},
+{q:"Los dermatofitos antropófilos, frente a los zoófilos, se caracterizan por:",
+ o:["Parasitar solo a humanos, causar escasa inflamación y dar epidemias","Causar mayor inflamación","Tener reservorio en el suelo","Provenir de perros y gatos"],c:0,
+ e:"Correcta: los antropófilos (T. rubrum, T. tonsurans, E. floccosum) solo parasitan humanos, dan poca inflamación y epidemias; los zoófilos (M. canis, T. verrucosum) dan más inflamación."},
+{q:"¿Cuál es la dermatofitosis MÁS frecuente según los apuntes?",
+ o:["La tiña del pie (T. pedis)","La tiña del cuero cabelludo","La tiña de la barba","La tiña inguinal"],c:0,
+ e:"Correcta: la tiña de los pies es la dermatofitosis más frecuente (factores: calzado oclusivo, piscinas, hiperhidrosis)."},
+{q:"En Europa, ¿cuál es el agente más frecuente de la tiña del cuero cabelludo?",
+ o:["Microsporum canis","Trichophyton tonsurans","Trichophyton violaceum","Epidermophyton floccosum"],c:0,
+ e:"Correcta: en Europa el agente más frecuente de la tiña capitis es M. canis (en EEUU T. tonsurans, en África T. violaceum)."},
+{q:"En la tiña tonsurante NO inflamatoria, ¿qué ocurre con el folículo y la alopecia?",
+ o:["Lesiona el pelo sin afectar el folículo, por lo que la alopecia es reversible","Destruye el folículo y deja alopecia cicatricial","Provoca alopecia irreversible siempre","No produce alopecia"],c:0,
+ e:"Correcta: la tiña tonsurante lesiona el pelo sin afectar el folículo, por lo que la alopecia es reversible (típica de niños, rara en la pubertad)."},
+{q:"El Querion de Celso, según los apuntes, es:",
+ o:["Una tiña del cuero cabelludo muy inflamatoria que deja alopecia cicatricial","Una tiña tonsurante no inflamatoria reversible","Una candidiasis del cuero cabelludo","Una dermatofítide"],c:0,
+ e:"Correcta: el Querion de Celso es una tiña inflamatoria (D. zoófilos/geófilos) con eritema, pústulas y costras, que deja alopecia cicatricial."},
+{q:"¿Qué fluorescencia da M. canis con la luz de Wood?",
+ o:["Verde","Rojo coral","Amarillenta","No fluoresce"],c:0,
+ e:"Correcta: M. canis da fluorescencia verde con la luz de Wood; el favus (T. schoenleinii) da fluorescencia verde-grisácea."},
+{q:"La tiña corporal (herpes circinado) se caracteriza por:",
+ o:["Placas eritematosas con aclaramiento central y borde descamativo en piel lampiña","Máculas hipopigmentadas con imagen de espaguetis y albóndigas","Placas amarronadas que fluorescen rojo coral","Pústulas foliculares en el tronco"],c:0,
+ e:"Correcta: la tiña corporis da placas con aclaramiento central y borde descamativo activo en piel lampiña (T. rubrum, T. mentagrophytes, M. canis)."},
+{q:"La tiña inguinal (T. cruris o eczema marginado de Hebra), según los apuntes:",
+ o:["Es casi exclusiva de varones, por autoinoculación desde lesiones interdigitales, y el escroto se preserva","Afecta sobre todo a mujeres","Afecta característicamente el escroto","Da fluorescencia rojo coral"],c:0,
+ e:"Correcta: la T. cruris es casi exclusiva de varones, por autoinoculación desde los pies, con placas anulares en ingles que preservan el escroto (DD con eritrasma, candidiasis)."},
+{q:"¿Cuál es la forma clínica MÁS frecuente de onicomicosis dermatofítica?",
+ o:["Onicomicosis subungueal distal","Onicomicosis subungueal proximal","Onicomicosis blanca superficial","Paroniquia"],c:0,
+ e:"Correcta: la onicomicosis subungueal distal es la forma más frecuente (la proximal es marcador de VIH y la blanca superficial es típica de los pies por T. mentagrophytes)."},
+{q:"Las dermatofítides, según los apuntes, son:",
+ o:["Erupciones a distancia, NO parasitadas, por hipersensibilidad tardía a antígenos del hongo, con curso paralelo a la infección","Lesiones llenas de hifas en la propia tiña","Una forma de candidiasis sistémica","Una micobacteriosis atípica"],c:0,
+ e:"Correcta: las dermatofítides son erupciones no parasitadas a distancia (dishidrosiformes, liquenoides, eritema nudoso...) por hipersensibilidad tardía a antígenos micóticos, con curso paralelo a la infección."},
+{q:"¿Cuándo se usan antifúngicos SISTÉMICOS en las dermatofitosis según los apuntes?",
+ o:["En infecciones que comprometen el pelo y, combinados con tópicos, en onicomicosis","Siempre, en cualquier tiña","Nunca, basta con el tópico","Solo en la pitiriasis versicolor"],c:0,
+ e:"Correcta: los antifúngicos sistémicos (griseofulvina, terbinafina, itraconazol, fluconazol) se reservan a las tiñas que comprometen el pelo y, combinados con tópicos, a la onicomicosis."},
+{q:"¿Cuál es la especie de Candida más frecuente y cuál su forma cutánea más habitual?",
+ o:["C. albicans; el intértrigo candidiásico","C. parapsilosis; la onixis","C. albicans; la candidiasis sistémica","C. glabrata; la queilitis angular"],c:0,
+ e:"Correcta: C. albicans es la más frecuente (70-80%) y el intértrigo candidiásico es la forma cutánea más habitual (grandes pliegues, con lesiones satélite)."},
+{q:"La candidiasis pseudomembranosa aguda (muguet), según los apuntes:",
+ o:["Da placas blanquecinas tipo pseudomembrana cremosa que sangran al raspado; aparece en el 90% de los VIH","Da máculas que fluorescen rojo coral","Es una placa hiperqueratósica plantar","No afecta nunca a inmunodeprimidos"],c:0,
+ e:"Correcta: el muguet son placas blanquecinas, cremosas, que sangran al raspado, en mucosa oral; aparece en el 90% de los pacientes VIH y puede extenderse a faringe/esófago."},
+{q:"¿Qué factores predisponen a la candidiasis según los apuntes?",
+ o:["Humedad/maceración/oclusión, diabetes, embarazo, inmunosupresión, antibióticos y corticoides","Solo el contacto con animales","Solo la exposición solar","La buena higiene"],c:0,
+ e:"Correcta: los apuntes citan factores locales (humedad, maceración), fisiológicos (lactantes, ancianos, embarazo), patológicos (diabetes, inmunosupresión, linfomas) e iatrogénicos (antibióticos, corticoides, anovulatorios)."},
+{q:"¿Cuál es el hallazgo del examen directo (KOH) en la candidiasis?",
+ o:["Levaduras y pseudohifas","Imagen de espaguetis y albóndigas","Artrosporos en cadena","Amastigotes en histiocitos"],c:0,
+ e:"Correcta: en la candidiasis el KOH muestra levaduras y pseudohifas (su aislamiento en cultivo no implica enfermedad, por ser flora transitoria)."},
+{q:"La pitiriasis versicolor está causada por:",
+ o:["Malassezia (furfur y globosa)","Trichophyton rubrum","Candida albicans","Corynebacterium minutissimum"],c:0,
+ e:"Correcta: la pitiriasis versicolor la causa Malassezia (furfur/globosa), que pasa de la flora normal a su forma patógena micelial con el calor, la humedad y la inmunodepresión."},
+{q:"¿Cuál es la imagen típica del KOH en la pitiriasis versicolor y su fluorescencia con luz de Wood?",
+ o:["Imagen de 'espaguetis y albóndigas'; fluorescencia amarillenta","Levaduras y pseudohifas; fluorescencia verde","Hifas tabicadas; fluorescencia rojo coral","Amastigotes; sin fluorescencia"],c:0,
+ e:"Correcta: la PV da en el KOH levaduras esféricas e hifas ('espaguetis y albóndigas') y fluorescencia amarillenta con la luz de Wood."},
+
+/* ============ 3.3 VIRUS ============ */
+{q:"Sobre los herpesvirus, ¿qué afirmación es CORRECTA según los apuntes?",
+ o:["Son virus ADN con replicación intranuclear, fase de latencia tras la primoinfección y reactivaciones controladas más por la inmunidad celular que la humoral","Son virus ARN sin latencia","No producen inclusiones intranucleares","La inmunidad humoral impide las recurrencias"],c:0,
+ e:"Correcta: los herpesvirus son ADN, con inclusiones intranucleares, latencia tras la primoinfección y reactivaciones dependientes sobre todo de la inmunidad celular."},
+{q:"¿Dónde queda latente el virus del herpes simple tras la primoinfección?",
+ o:["En los ganglios sensitivos de los nervios (trigémino, vago, sacro)","En la médula ósea","En los queratinocitos de la basal","En los linfocitos B"],c:0,
+ e:"Correcta: tras la primoinfección el VHS queda latente en los ganglios sensitivos (trigémino, vago, sacro) y se reactiva desde ahí."},
+{q:"La gingivoestomatitis herpética, primoinfección típica por VHS-1, se caracteriza por:",
+ o:["Fiebre y lesiones vesiculosas/úlceras en encías, lengua, labios y paladar, respetando las amígdalas, con resolución en 2 semanas","Vesículas genitales agrupadas con disuria","Un único chancro indoloro","Pápulas umbilicadas color piel"],c:0,
+ e:"Correcta: la gingivoestomatitis herpética cursa con fiebre, encías edematosas/sangrantes y lesiones vesículo-ulcerosas que respetan las amígdalas, resolviéndose en 2 semanas."},
+{q:"El eccema herpético (erupción variceliforme de Kaposi), según los apuntes:",
+ o:["Es una infección vírica generalizada en niños/jóvenes con dermatitis atópica u otras dermatosis, con múltiples vesiculopústulas, afectación general y mortalidad considerable","Es un herpes zóster en un dermatomo","Es una candidiasis diseminada","Es una primoinfección banal sin riesgo"],c:0,
+ e:"Correcta: el eccema herpético es una infección por VHS generalizada sobre una dermatosis de base (atopia, Darier...), con vesiculopústulas, afectación del estado general y morbimortalidad considerables."},
+{q:"¿Qué prueba citológica rápida apoya el diagnóstico de las infecciones herpéticas?",
+ o:["El citodiagnóstico de Tzanck","La intradermorreacción de Mitsuda","El examen en campo oscuro","El test del cubito de hielo"],c:0,
+ e:"Correcta: el citodiagnóstico de Tzanck muestra células multinucleadas; la PCR es la más sensible y el cultivo el más específico."},
+{q:"En el herpes simple resistente a aciclovir (cepas mutadas en la timidincinasa), ¿qué tratamiento se usa?",
+ o:["Foscarnet IV (o cidofovir)","Más aciclovir oral","Penicilina benzatina","Doxiciclina"],c:0,
+ e:"Correcta: ante resistencia a aciclovir por mutación del gen de la timidincinasa se usa foscarnet IV (alternativa: cidofovir), sobre todo en inmunodeprimidos/VIH."},
+{q:"El herpes zóster se debe a:",
+ o:["La reactivación del virus varicela-zóster latente en los ganglios sensoriales","Una primoinfección por VHS-2","El VEB","El parvovirus B19"],c:0,
+ e:"Correcta: el herpes zóster es la reactivación del VVZ latente en los ganglios sensoriales tras la primoinfección (varicela)."},
+{q:"El signo de Hutchinson en el herpes zóster indica:",
+ o:["Afectación de la rama nasociliar del V par (vesículas en punta y cara lateral de la nariz), con riesgo de lesiones oculares","Afectación del nervio facial y auditivo","Parálisis general progresiva","Neuralgia postherpética establecida"],c:0,
+ e:"Correcta: el signo de Hutchinson (vesículas en punta nasal) refleja la afectación de la rama nasociliar y obliga a vigilar la afectación ocular. El compromiso facial/auditivo es el síndrome de Ramsay-Hunt."},
+{q:"El síndrome de Ramsay-Hunt consiste en:",
+ o:["Parálisis facial con herpes zóster del conducto auditivo externo/tímpano (nervios facial y auditivo)","Vesículas en la punta nasal","Neuralgia del trigémino sin lesiones","Afectación de la rama oftálmica con queratitis"],c:0,
+ e:"Correcta: el síndrome de Ramsay-Hunt es la parálisis facial asociada a herpes zóster del conducto auditivo externo/membrana timpánica, por compromiso del facial y el auditivo."},
+{q:"¿Cuál es la complicación más característica del herpes zóster y sus factores de riesgo?",
+ o:["La neuralgia postherpética; ancianos, rama oftálmica y erupción/pródromos intensos","La neumonía; en niños","La meningitis aséptica; en jóvenes","La sepsis; en sanos"],c:0,
+ e:"Correcta: la neuralgia postherpética (10-15%) es la complicación típica, con riesgo en ancianos, rama oftálmica y erupción intensa."},
+{q:"¿Qué vacuna frente al herpes zóster se cita en los apuntes?",
+ o:["Shingrix (recombinante), en 2 dosis","La BCG","Gardasil 9","La vacuna de la varicela de virus vivo en adultos"],c:0,
+ e:"Correcta: los apuntes citan la vacuna Shingrix (recombinante), en 2 dosis."},
+{q:"El exantema súbito (roséola o sexta enfermedad) está producido por:",
+ o:["Los herpesvirus humanos 6 y 7","El VEB","El parvovirus B19","El virus del molusco"],c:0,
+ e:"Correcta: el exantema súbito (roséola) lo causan los herpesvirus 6 y 7, que también se relacionan con la pitiriasis rosada."},
+{q:"El molusco contagioso, según los apuntes:",
+ o:["Lo causa un poxvirus, da pápulas umbilicadas color piel, es endémico en niños y de transmisión sexual en adultos","Es un herpesvirus","Da vesículas agrupadas dolorosas","Tiene potencial oncogénico"],c:0,
+ e:"Correcta: el molusco contagioso es un poxvirus que da pápulas hemisféricas umbilicadas color piel; endémico en niños y de transmisión sexual en adultos (formas atípicas/diseminadas en VIH)."},
+{q:"Respecto al potencial oncogénico del VPH, ¿qué genotipos se asocian a la mayoría de los cánceres de cérvix?",
+ o:["VPH 16, 18, 31, 33 y 35 (alto riesgo)","VPH 1, 2 y 4","VPH 6 y 11","VPH 3 y 10"],c:0,
+ e:"Correcta: los genotipos de alto riesgo (16, 18, 31, 33, 35...) causan la mayoría de los cánceres de cérvix; los 6 y 11 son de bajo riesgo (condilomas) y 1/2/4/3/10 son cutáneos no oncogénicos."},
+{q:"¿Qué genotipos de VPH causan la mayoría (90%) de los condilomas acuminados anogenitales?",
+ o:["VPH 6 y 11","VPH 16 y 18","VPH 5 y 8","VPH 1 y 2"],c:0,
+ e:"Correcta: los tipos 6 y 11 causan el 90% de los condilomas acuminados (bajo riesgo); los 16/18/31/33/35 se asocian a papulosis bowenoide y cáncer de cérvix."},
+{q:"¿Cuál es el hallazgo histológico característico de la infección por VPH?",
+ o:["Coilocitos","Células multinucleadas con inclusiones intranucleares","Amastigotes","Cuerpos de Donovan"],c:0,
+ e:"Correcta: la infección por VPH muestra coilocitos en la anatomía patológica."},
+{q:"La epidermodisplasia verruciforme, según los apuntes:",
+ o:["Es una genodermatosis (AR, genes EVER) con HPV 5 y 8 y riesgo de carcinoma escamoso","Es una ITS por VPH 6 y 11","Es una infección aguda autolimitada sin riesgo","Está causada por poxvirus"],c:0,
+ e:"Correcta: la epidermodisplasia verruciforme es rara, en el 50% familiar (AR, mutaciones EVER1/EVER2), con HPV 5 y 8 y desarrollo de carcinomas escamosos."},
+{q:"¿Qué cubre la vacuna Gardasil 9 (nonavalente) frente al VPH según los apuntes?",
+ o:["Tipos 6, 11, 16, 18 + 31, 33, 45, 52 y 58","Solo 6 y 11","Solo 16 y 18","Solo los tipos cutáneos 1, 2 y 4"],c:0,
+ e:"Correcta: Gardasil 9 es nonavalente (6, 11, 16, 18 + 31, 33, 45, 52, 58); se administra desde los 12 años, en 2 dosis (3 en pacientes de riesgo)."},
+{q:"La papulosis bowenoide está asociada sobre todo a:",
+ o:["VPH 16, con atipia celular semejante a la enfermedad de Bowen / carcinoma in situ","VPH 6 y 11, sin atipia","Poxvirus","Malassezia"],c:0,
+ e:"Correcta: la papulosis bowenoide (VPH 16) da pápulas/placas rojo-marronáceas genitales en adultos jóvenes, con atipia tipo Bowen (Ca in situ) y potencial oncogénico."},
+
+/* ============ 3.4 ZOOPARASITOSIS ============ */
+{q:"La leishmaniasis está causada por:",
+ o:["Protozoos flagelados del género Leishmania (parásito intracelular obligado)","Una espiroqueta","Un ácaro","Un poxvirus"],c:0,
+ e:"Correcta: la leishmaniasis la causan protozoos flagelados del género Leishmania, parásitos intracelulares obligados."},
+{q:"¿Cuál es el vector de la leishmaniasis?",
+ o:["La hembra del flebotomo (Phlebotomus, 'sandfly')","La garrapata Ixodes","El piojo del cuerpo","El mosquito Anopheles"],c:0,
+ e:"Correcta: el vector es la hembra del flebotomo (Phlebotomus perniciosus, P. ariasi); el reservorio suele ser el perro, y la forma cutánea es el 'botón de Oriente'."},
+{q:"En el estudio histológico de la leishmaniasis, ¿qué microorganismos se ven dentro de los histiocitos?",
+ o:["Amastigotes","Coilocitos","Pseudohifas","Diplococos en granos de café"],c:0,
+ e:"Correcta: en la AP se ven amastigotes dentro de los histiocitos (infiltrado dérmico con histiocitos y células plasmáticas, a veces granulomatoso). La PCR tiene sensibilidad 97-100%."},
+{q:"¿Cuál es la pediculosis MÁS frecuente y a quién afecta sobre todo?",
+ o:["La pediculosis capitis, sobre todo a niñas (5:1)","La pediculosis corporis, a personas con mala higiene","La pediculosis pubis, por contacto sexual","Todas por igual"],c:0,
+ e:"Correcta: la pediculosis capitis es la más frecuente, con predominio en niñas (5:1); se diagnostica viendo liendres y piojos en nuca y zona retroauricular."},
+{q:"La pediculosis corporis ('enfermedad del vagabundo'), según los apuntes:",
+ o:["Es propia de personas con malos hábitos higiénicos; el piojo vive en costuras y pliegues de la ropa","La transmite el contacto sexual","El piojo vive adherido al pelo del pubis","No produce prurito"],c:0,
+ e:"Correcta: la pediculosis corporis es propia de mala higiene; el piojo vive en las costuras de la ropa y da pápulas pruriginosas con pigmentación postinflamatoria (enfermedad del vagabundo)."},
+{q:"¿Cuál es el tratamiento de elección de las pediculosis según los apuntes?",
+ o:["Permetrina tópica (champú/crema 1-1,5%) más eliminación de liendres","Penicilina benzatina","Doxiciclina oral 21 días","Antimoniales intralesionales"],c:0,
+ e:"Correcta: el tratamiento es permetrina tópica (1-1,5%) con eliminación de liendres, lavado de objetos y tratamiento de convivientes; alternativa, ivermectina."},
+{q:"La escabiosis está causada por:",
+ o:["Sarcoptes scabiei var. hominis (un ácaro)","Phthirus pubis","Pediculus humanus","Demodex folliculorum"],c:0,
+ e:"Correcta: la sarna la causa el ácaro Sarcoptes scabiei var. hominis; la hembra excava un surco en el estrato córneo donde deposita los huevos."},
+{q:"¿Cuál es la clínica típica de la escabiosis según los apuntes?",
+ o:["Prurito intenso nocturno que respeta cara y cuero cabelludo, con surco acarino en espacios interdigitales, muñecas, axilas y genitales, y carácter familiar","Prurito diurno en la cara","Lesiones que no pican","Afectación exclusiva del cuero cabelludo"],c:0,
+ e:"Correcta: la sarna da prurito intenso nocturno que respeta cara y cuero cabelludo, con el surco acarino como lesión específica y carácter familiar."},
+{q:"La sarna noruega o costrosa aparece típicamente en:",
+ o:["Inmunodeprimidos o pacientes con deterioro neurológico; es altamente contagiosa, con innumerables ácaros y sin surcos","Niños sanos","Personas con buena inmunidad","Solo en la cara"],c:0,
+ e:"Correcta: la sarna costrosa (noruega) se da en inmunodeprimidos o con deterioro neurológico, con placas hiperqueratósicas llenas de ácaros, muy contagiosa y sin surcos."},
+{q:"¿Cuál es el tratamiento de la escabiosis según los apuntes?",
+ o:["Permetrina al 5% en crema (por la noche, toda la superficie excepto la cabeza) + tratar a convivientes y la ropa","Permetrina al 1% en la cabeza","Penicilina benzatina","Doxiciclina 21 días"],c:0,
+ e:"Correcta: permetrina al 5% en crema (por la noche, toda la superficie salvo la cabeza, 1-3 aplicaciones), tratando a convivientes y la ropa; alternativa, ivermectina oral."},
+{q:"La fiebre botonosa está causada por Rickettsia conorii, cuyo vector y reservorio son:",
+ o:["La garrapata Rhipicephalus sanguineus (vector) y el perro (reservorio)","El flebotomo y el perro","Ixodes y los roedores","El piojo y el ser humano"],c:0,
+ e:"Correcta: la fiebre botonosa la transmite la garrapata Rhipicephalus sanguineus, con el perro como reservorio; endémica en el sur de Europa, África y Oriente Próximo."},
+{q:"¿Cuál es la lesión inicial típica de la fiebre botonosa en el punto de la picadura?",
+ o:["La 'mancha negra' (ulceración con costra hemorrágica)","Un chancro indoloro indurado","Un eritema migratorio anular","Una pápula umbilicada"],c:0,
+ e:"Correcta: la fiebre botonosa empieza con la 'mancha negra' en la picadura, seguida de fiebre y exantema máculo-papuloso que afecta palmas y plantas; se trata con doxiciclina."},
+{q:"La enfermedad de Lyme está causada por:",
+ o:["Borrelia burgdorferi (espiroqueta), transmitida por la garrapata Ixodes ricinus en Europa","Rickettsia conorii","Treponema pallidum","Leishmania infantum"],c:0,
+ e:"Correcta: la enfermedad de Lyme la causa la espiroqueta Borrelia burgdorferi, transmitida por Ixodes ricinus (Europa), con reservorio en roedores y curso en etapas."},
+{q:"¿Cuál es la manifestación cutánea temprana más característica de la enfermedad de Lyme?",
+ o:["El eritema crónico migrans (pápula que crece de forma centrífuga con aclaramiento central)","La mancha negra","El chancro duro","El eritema nudoso"],c:0,
+ e:"Correcta: el eritema crónico migrans (50-80%) es la lesión temprana: pápula en la picadura que crece de forma centrífuga con aclaramiento central. Tratamiento: doxiciclina en todos los estadios."},
+
+/* ============ 3.5 ITS ============ */
+{q:"La sífilis está producida por Treponema pallidum, del que se dice que:",
+ o:["Es una espiroqueta móvil NO cultivable en medios de laboratorio, y la sífilis es 'la gran imitadora'","Es un diplococo gram negativo","Es cultivable fácilmente en agar","Es un protozoo flagelado"],c:0,
+ e:"Correcta: T. pallidum es una espiroqueta móvil no cultivable; la sífilis, 'la gran imitadora', cursa en estadios primario, secundario y terciario con periodos de latencia."},
+{q:"Respecto a las pruebas serológicas de la sífilis, las NO treponémicas (VDRL, RPR):",
+ o:["Son cuantitativas, se relacionan con la actividad y sirven para el control del tratamiento","Permanecen positivas toda la vida pese al tratamiento","Son las pruebas de confirmación","No se positivizan nunca en la sífilis primaria"],c:0,
+ e:"Correcta: las no treponémicas (VDRL, RPR) son cuantitativas, reflejan actividad y se usan para el seguimiento; las treponémicas (FTA-ABS) confirman y quedan positivas de por vida."},
+{q:"Sobre las pruebas treponémicas (FTA-ABS, MHA-TP), señale lo CORRECTO:",
+ o:["Son las primeras en positivizarse, de altísima especificidad, y permanecen positivas toda la vida aún con tratamiento correcto","Son cuantitativas y sirven para el seguimiento del tratamiento","Se negativizan tras un tratamiento eficaz","Detectan anticuerpos anticardiolipina"],c:0,
+ e:"Correcta: las treponémicas son las primeras en positivizarse (FTA-ABS), muy específicas, y permanecen positivas de por vida; NO sirven para evaluar el tratamiento."},
+{q:"El chancro de la sífilis primaria (chancro duro) se caracteriza por ser:",
+ o:["Una úlcera única, indurada, de fondo limpio e INDOLORA, que cura sola en 2-6 semanas","Múltiples úlceras blandas y dolorosas","Una úlcera de fondo purulento y hemorrágico","Vesículas agrupadas dolorosas"],c:0,
+ e:"Correcta: el chancro duro es una úlcera (habitualmente única) de bordes indurados, fondo limpio e indolora, que cura espontáneamente en 2-6 semanas, con adenopatías duras e indoloras."},
+{q:"¿Cómo son las adenopatías satélite del chancro duro?",
+ o:["Duras, rodaderas, indoloras, no inflamatorias, inguinales y bilaterales","Unilaterales, dolorosas y fluctuantes","Abscesificadas y dolorosas","Blandas y supurativas"],c:0,
+ e:"Correcta: las adenopatías de la sífilis primaria son duras, rodaderas, indoloras, no inflamatorias, inguinales y bilaterales."},
+{q:"¿Cuáles son manifestaciones típicas de la sífilis SECUNDARIA según los apuntes?",
+ o:["Roséola sifilítica que afecta palmas y plantas, condilomas planos, depapilación lingual 'en pradera segada' y alopecia 'apolillada'","Chancro único indoloro","Gomas y aortitis","Eritema migratorio"],c:0,
+ e:"Correcta: la secundaria da el exantema (roséola) en palmas y plantas, condilomas planos muy infectivos, depapilación lingual 'en pradera segada' y alopecia no cicatricial apolillada."},
+{q:"La sífilis terciaria, según los apuntes:",
+ o:["Aparece en un tercio de los no tratados, con gomas (lesiones granulomatosas) y afectación de piel, hueso, SNC y aorta","Es la fase más contagiosa y precoz","Da el chancro duro","Cursa con serología siempre negativa"],c:0,
+ e:"Correcta: la terciaria afecta a un tercio de los no tratados, con gomas granulomatosos y afectación cutánea, ósea, neurológica (neurosífilis) y cardiovascular (aortitis de la aorta ascendente)."},
+{q:"En la neurosífilis, las pupilas de Argyll-Robertson son típicas de:",
+ o:["La parálisis general progresiva","La tabes dorsal","El chancro blando","La fiebre botonosa"],c:0,
+ e:"Correcta: las pupilas de Argyll-Robertson aparecen en la parálisis general progresiva; la tabes dorsal cursa con desmielinización de cordones posteriores, ataxia y úlceras plantares."},
+{q:"¿Cuál es el tratamiento de la sífilis precoz (primaria, secundaria y latente precoz)?",
+ o:["Penicilina G benzatina 2.400.000 U IM en dosis única (alternativa: doxiciclina)","Ceftriaxona IM única","Aciclovir oral","Doxiciclina 200 mg/día durante 21 días siempre"],c:0,
+ e:"Correcta: la sífilis precoz se trata con penicilina G benzatina 2.400.000 U IM en dosis única (3 dosis si VIH con chancro); alternativa, doxiciclina."},
+{q:"La reacción de Jarisch-Herxheimer se relaciona con:",
+ o:["El inicio del tratamiento de la sífilis","La vacunación frente al VPH","La picadura de la garrapata en el Lyme","El raspado del muguet"],c:0,
+ e:"Correcta: la reacción de Jarisch-Herxheimer aparece al iniciar el tratamiento de la sífilis (sobre todo en la neurosífilis con penicilina)."},
+{q:"El chancro blando (chancroide) está causado por:",
+ o:["Haemophilus ducreyi (cocobacilo gram negativo)","Treponema pallidum","Chlamydia trachomatis","Neisseria gonorrhoeae"],c:0,
+ e:"Correcta: el chancroide lo causa Haemophilus ducreyi; es la causa más frecuente de úlcera genital en África y se asocia a la transmisión del VIH."},
+{q:"¿Cómo son las úlceras del chancro blando frente al chancro duro?",
+ o:["Múltiples, blandas, de fondo sucio purulento-hemorrágico y DOLOROSAS","Única, indurada, de fondo limpio e indolora","Vesículas agrupadas","Una placa anular con aclaramiento central"],c:0,
+ e:"Correcta: el chancro blando da varias úlceras blandas, de fondo purulento-hemorrágico y dolorosas, con adenopatía inguinal unilateral dolorosa y fluctuante (frente al chancro duro: único, indurado, limpio e indoloro)."},
+{q:"¿Cuál es el tratamiento del chancro blando según los apuntes?",
+ o:["Ceftriaxona 500 mg IM en dosis única o azitromicina 1 g oral","Penicilina G benzatina","Aciclovir oral","Permetrina tópica"],c:0,
+ e:"Correcta: el chancroide se trata con ceftriaxona 500 mg IM única o azitromicina 1 g oral; si la adenopatía es fluctuante, aspiración o incisión-drenaje."},
+{q:"El linfogranuloma venéreo está causado por:",
+ o:["Chlamydia trachomatis (serotipos L1, L2, L3)","Haemophilus ducreyi","Treponema pallidum","Klebsiella granulomatis"],c:0,
+ e:"Correcta: el linfogranuloma venéreo lo causa Chlamydia trachomatis (L1-L3); se trata con doxiciclina 21 días o azitromicina."},
+{q:"La infección gonocócica está causada por Neisseria gonorrhoeae, que se describe como:",
+ o:["Un diplococo gram negativo que se agrupa en 'granos de café', patógeno humano estricto","Un cocobacilo gram negativo","Una espiroqueta no cultivable","Un protozoo flagelado"],c:0,
+ e:"Correcta: N. gonorrhoeae es un diplococo gram negativo ('granos de café'), patógeno humano estricto."},
+{q:"¿Cuál es la manifestación más frecuente de la gonococia genital masculina?",
+ o:["La uretritis anterior aguda (85%) con exudado purulento amarillo-verdoso y disuria","La proctitis aislada","La orquioepididimitis bilateral","La infección asintomática en el 90%"],c:0,
+ e:"Correcta: la gonococia masculina da sobre todo uretritis anterior aguda (85%), con exudado purulento amarillo-verdoso espontáneo y disuria."},
+{q:"En la gonococia femenina, el síndrome de Fitz-Hugh-Curtis corresponde a:",
+ o:["Una perihepatitis gonocócica","Una artritis séptica","Una endocarditis","Una conjuntivitis neonatal"],c:0,
+ e:"Correcta: el síndrome de Fitz-Hugh-Curtis es la perihepatitis gonocócica, complicación de la enfermedad inflamatoria pélvica."},
+{q:"¿Qué medio de cultivo se usa para el gonococo y cuál es la técnica diagnóstica recomendada?",
+ o:["Medio de Thayer-Martin; la PCR es la técnica recomendada","Medio de Löwenstein; la luz de Wood","Medio NMN; el Tzanck","Agar Sabouraud; el KOH"],c:0,
+ e:"Correcta: el gonococo crece en el medio de Thayer-Martin (24-48 h); el frotis con Gram muestra diplococos intracelulares y la PCR es la técnica recomendada."},
+{q:"¿Cuál es el tratamiento de la infección gonocócica según los apuntes?",
+ o:["Ceftriaxona 500 mg IM en dosis única + doxiciclina (por la frecuente coinfección por C. trachomatis)","Penicilina G benzatina","Permetrina tópica","Aciclovir oral"],c:0,
+ e:"Correcta: ceftriaxona 500 mg IM única más doxiciclina (cubriendo la coinfección por Chlamydia); alternativa, cefixima oral + doxiciclina."},
+{q:"La causa más frecuente de uretritis NO gonocócica es:",
+ o:["Chlamydia trachomatis","Neisseria gonorrhoeae","Treponema pallidum","Candida albicans"],c:0,
+ e:"Correcta: la uretritis no gonocócica se debe sobre todo a Chlamydia trachomatis (también Mycoplasma genitalium); cursa con exudado claro escaso ('gota matinal') y se trata con doxiciclina o azitromicina."},
+{q:"La mpox (viruela del mono), según los apuntes:",
+ o:["Es una zoonosis por un poxvirus ADN, con reservorio en roedores (no el mono), brote/emergencia en 2022, transmisión por contacto directo (MSM) y diagnóstico por PCR","Es un herpesvirus","Tiene como reservorio al mono","Se diagnostica con luz de Wood"],c:0,
+ e:"Correcta: la mpox es una zoonosis por poxvirus (ADN), con reservorio en roedores, brote en 2022 (emergencia mundial), transmisión por contacto directo y diagnóstico por PCR; tto sintomático/tecovirimat y vacuna."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
