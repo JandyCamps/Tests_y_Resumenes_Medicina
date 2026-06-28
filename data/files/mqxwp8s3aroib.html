@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 12 · Nevus melanocítico y Melanoma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 12</p>
+  <h1>Test · Nevus melanocítico y Melanoma</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 12 (Tumores melanocíticos: nevus y melanoma) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 12 — Tumores melanocíticos: nevus y melanoma (UFV, Elena Zamora)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ====== Hiperplasias melanocíticas (lentigos) ====== */
+{q:"El lentigo simple, según los apuntes, se caracteriza por:",
+ o:["Ser independiente de la radiación UV, aparecer en la infancia y asociarse a anomalías somáticas (Peutz-Jeghers, LEOPARD, LAMB)","Tener relación directa con la edad y el sol","Aparecer solo en zonas fotoexpuestas de ancianos","Ser un factor de riesgo de melanoma"],c:0,
+ e:"Correcta: el lentigo simple es independiente de la RUV, propio de la infancia (piel o mucosas), y se asocia a síndromes como Peutz-Jeghers, LEOPARD y LAMB; da una mácula bien delimitada de patrón reticulado."},
+{q:"El lentigo solar (senil), a diferencia del lentigo simple:",
+ o:["Tiene relación directa con la edad y la RUV, aparece en zonas fotoexpuestas y es factor de riesgo de melanoma y CCNM","Es independiente del sol","Aparece en la infancia","Se asocia al síndrome de Peutz-Jeghers"],c:0,
+ e:"Correcta: el lentigo solar se relaciona directamente con la edad y la RUV (también PUVA), aparece en zonas fotoexpuestas con otras lesiones de daño solar y es factor de riesgo de melanoma y CCNM."},
+
+/* ====== Concepto de nevus ====== */
+{q:"Según los apuntes, un nevus melanocítico es:",
+ o:["Cualquier neoplasia benigna, congénita o adquirida, de los melanocitos","Una proliferación maligna de melanocitos","Una hiperplasia exclusiva de la capa basal","Un tumor de células de Langerhans"],c:0,
+ e:"Correcta: el nevus es una malformación congénita por proliferación de cualquier célula presente al nacimiento; el nevus melanocítico es cualquier neoplasia benigna (congénita o adquirida) de los melanocitos."},
+{q:"En el proceso de maduración de un nevus melanocítico, ¿cómo evoluciona la localización de los melanocitos?",
+ o:["Empiezan en la unión dermoepidérmica (nevus de la unión), agrupados en nidos, y tienden a penetrar en la dermis (nevus compuesto y dérmico)","Empiezan en la dermis profunda y ascienden a la epidermis","Permanecen siempre en la capa córnea","Se localizan exclusivamente en la hipodermis"],c:0,
+ e:"Correcta: el nevus comienza en la unión dermoepidérmica (juntural), con nidos/tecas, y al evolucionar penetra en la dermis (compuesto y dérmico); las células superficiales son mayores y con más melanina, las profundas más pequeñas y en cordones."},
+
+/* ====== Nevus adquiridos / atípico / SND ====== */
+{q:"¿Qué mutación es característica de los nevus melanocíticos adquiridos según los apuntes?",
+ o:["B-RAF (70-80%)","NRAS","CDKN2A","C-Kit"],c:0,
+ e:"Correcta: los nevus melanocíticos adquiridos son lesiones clonales con mutaciones B-RAF en el 70-80%; aumentan en número hasta la edad adulta y disminuyen con la edad."},
+{q:"El nevus melanocítico ATÍPICO (de Clark), según los apuntes, se caracteriza por:",
+ o:["Bordes irregulares, pigmentación irregular, asimetría y tamaño >5 mm, a veces con morfología 'en huevo frito'","Ser siempre menor de 2 mm y simétrico","Localizarse en plantas y palmas","No suponer riesgo de melanoma"],c:0,
+ e:"Correcta: el nevus atípico (10% de la población) muestra bordes y pigmentación irregulares, asimetría y >5 mm, a veces 'en huevo frito', en zonas de exposición intermitente; es marcador de riesgo de melanoma."},
+{q:"El síndrome del nevus con atipia (síndrome del nevus displásico) se asocia a mutaciones en:",
+ o:["El gen CDKN2A (20-40%)","El gen BRAF exclusivamente","El gen de la filagrina","El gen EVER"],c:0,
+ e:"Correcta: el síndrome del nevus con atipia (familias con numerosos nevus atípicos) presenta mutaciones en CDKN2A (20-40%) y mayor frecuencia de degeneración a melanoma; su histología es la del nevus de Clark."},
+
+/* ====== Spitz / Reed / Sutton ====== */
+{q:"El nevus de Spitz, según los apuntes:",
+ o:["Es una proliferación benigna de melanocitos epitelioides y/o fusiformes, frecuente en niños y en la cara, con cuerpos de Kamino","Es un melanoma in situ de los ancianos","Se localiza típicamente en plantas y palmas","Es totalmente intradérmico y de color azul"],c:0,
+ e:"Correcta: el nevus de Spitz es una proliferación benigna de melanocitos epitelioides/fusiformes, frecuente en niños y en la cara, poco pigmentado (aspecto angiomatoso), con cuerpos de Kamino en la histología."},
+{q:"El nevus de Reed se describe como:",
+ o:["Un nevus pigmentado de células fusiformes, muy pigmentado, en piernas de mujeres jóvenes, simulador de melanoma","Un nevus totalmente acrómico","Un melanoma nodular","Una melanocitosis dérmica del trigémino"],c:0,
+ e:"Correcta: el nevus de Reed (¿variante del de Spitz?) es un nevus pigmentado de células fusiformes, muy pigmentado, en piernas de mujeres jóvenes, que simula un melanoma."},
+{q:"El nevus de Sutton (halo-nevus) se caracteriza por:",
+ o:["Un nevus rodeado de un halo hipocrómico, con anticuerpos antimelanocito circulantes, que tiende a desaparecer y puede asociarse a vitíligo","Un nevus de color azul intradérmico","Un nevus gigante congénito","Una mácula en huevo frito"],c:0,
+ e:"Correcta: el nevus de Sutton es un nevus melanocítico rodeado por un halo hipocrómico, con anticuerpos antimelanocito; la lesión tiende a desaparecer, el halo se repigmenta y puede asociarse a vitíligo (histología con infiltrado linfocitario)."},
+
+/* ====== Nevus congénitos ====== */
+{q:"Los nevus melanocíticos congénitos, según los apuntes:",
+ o:["Están presentes al nacer o poco después (hasta los 2 años), con incidencia del 1%, y el riesgo de melanoma es proporcional al tamaño","Aparecen siempre en la edad adulta","Nunca degeneran en melanoma","Son siempre menores de 1 cm"],c:0,
+ e:"Correcta: los nevus congénitos están presentes al nacer o poco después (incidencia 1%), se clasifican por tamaño (pequeños, medianos, gigantes) y el riesgo de melanoma es proporcional al tamaño."},
+{q:"Los nevus congénitos gigantes de cabeza y cuello se asocian a:",
+ o:["Melanocitosis neurocutánea (convulsiones, hidrocefalia, retraso mental, melanoma)","Espina bífida exclusivamente","Síndrome de Peutz-Jeghers","Nevus de Ota"],c:0,
+ e:"Correcta: los congénitos de cabeza y cuello se asocian a melanocitosis neurocutánea (convulsiones, hidrocefalia, retraso mental, melanoma); los de la zona media dorsal, a espina bífida. Se hace RMN si se sospecha melanosis."},
+{q:"¿Qué mutación se asocia a los nevus melanocíticos congénitos?",
+ o:["NRAS","BRAF","CDKN2A","C-Kit"],c:0,
+ e:"Correcta: los nevus congénitos asocian mutaciones NRAS (vía de crecimiento y supervivencia celular), con doble componente de proliferación melanocítica dérmico y epidérmico."},
+
+/* ====== Nevus dérmicos ====== */
+{q:"El nevus azul, según los apuntes, es:",
+ o:["Un nevus melanocítico totalmente intradérmico (sin componente juntural), con pigmento melánico en la dermis profunda","Un nevus de la unión muy superficial","Una hiperplasia de la capa basal","Un melanoma in situ"],c:0,
+ e:"Correcta: el nevus azul es un nevus melanocítico totalmente intradérmico (sin componente juntural), con melanocitos fusiformes y abundante pigmento en la dermis profunda (color azul); la variante celular puede degenerar a melanoma."},
+{q:"El nevus de Ota se caracteriza por:",
+ o:["Melanocitosis dérmica con pigmentación gris-pizarra unilateral en el territorio del trigémino (1ª y 2ª ramas), frecuente en japoneses","Pigmentación lumbosacra que desaparece con la edad","Un nevus azul en el dorso de las manos","Una melanocitosis acromioclavicular"],c:0,
+ e:"Correcta: el nevus de Ota es una melanocitosis dérmica con pigmentación gris-pizarra unilateral en piel y mucosas inervadas por las ramas 1ª y 2ª del trigémino (sien, mejilla, esclera, conjuntiva), frecuente en japoneses."},
+{q:"El nevus de Ito se diferencia del de Ota en que:",
+ o:["Se localiza en la región acromioclavicular","Afecta el territorio del trigémino","Es lumbosacro","Es totalmente intradérmico en el dorso de las manos"],c:0,
+ e:"Correcta: el nevus de Ito es similar al de Ota pero localizado en la región acromioclavicular (también frecuente en japoneses)."},
+{q:"La mancha mongólica, según los apuntes:",
+ o:["Es una melanocitosis dérmica lumbosacra/glútea, frecuente en mongoles/japoneses/chinos, que tiende a desaparecer hacia los 3-4 años","Es una mácula del trigémino permanente","Es un factor de riesgo de melanoma","Aparece en la edad adulta"],c:0,
+ e:"Correcta: la mancha mongólica es una melanocitosis dérmica lumbosacra/glútea, frecuente en asiáticos, que tiende a desaparecer con la edad (3-4 años)."},
+
+/* ====== Melanoma: concepto y epidemiología ====== */
+{q:"El melanoma, según los apuntes, se origina de:",
+ o:["Los melanocitos, células con origen en la cresta neural","Los queratinocitos basales","Las células de Langerhans","Los fibroblastos dérmicos"],c:0,
+ e:"Correcta: el melanoma se origina de los melanocitos (procedentes de la cresta neural); aparece sobre todo en piel (>95%), pero también en ojo (coroides), mucosas y leptomeninges."},
+{q:"¿Cuál es la neoplasia maligna del ojo más común en adultos según los apuntes?",
+ o:["El melanoma del tracto uveal","El retinoblastoma","El carcinoma basocelular palpebral","El linfoma orbitario"],c:0,
+ e:"Correcta: el melanoma del tracto uveal es la neoplasia maligna ocular más común en adultos."},
+{q:"Sobre la epidemiología del melanoma, señale lo CORRECTO:",
+ o:["Supone el 5% de los cánceres cutáneos pero es la mayor causa de muerte por cáncer de piel (80%)","Es el cáncer cutáneo más frecuente y el menos mortal","Tiene la misma incidencia en raza blanca y negra","Su incidencia está disminuyendo"],c:0,
+ e:"Correcta: el melanoma es el 5% de los cánceres cutáneos pero la mayor causa de muerte por cáncer de piel (80%); más frecuente en raza blanca (10:1) y con incidencia en aumento (3-8% anual). La detección precoz (Breslow <1 mm) cura >90%."},
+
+/* ====== Factores de riesgo ====== */
+{q:"¿Cuál es un factor de riesgo INTRÍNSECO de melanoma según los apuntes?",
+ o:["El fototipo I-II (facilidad para quemaduras), ojos azules/verdes y pelo rubio/pelirrojo","El uso de cabinas de bronceado","La exposición solar intermitente","La latitud próxima al Ecuador"],c:0,
+ e:"Correcta: entre los factores intrínsecos están el fototipo I-II, los ojos claros y el pelo rubio/pelirrojo, los nevus múltiples o atípicos, los antecedentes de melanoma, la inmunosupresión y los déficits de reparación del ADN (xeroderma pigmentoso)."},
+{q:"¿Qué patrón de exposición solar se asocia especialmente al melanoma (a diferencia del CCNM)?",
+ o:["La exposición intermitente e intensa (quemaduras), sobre todo en la infancia y adolescencia","La exposición crónica acumulada continua","La ausencia total de exposición","Solo la exposición laboral diaria"],c:0,
+ e:"Correcta: el melanoma se asocia a exposición intermitente e intensa con quemaduras (sobre todo en infancia/adolescencia) y a las cabinas de bronceado, a diferencia del CCNM (exposición crónica acumulada)."},
+{q:"¿Qué gen supresor de tumores es responsable de hasta el 40% de los melanomas familiares?",
+ o:["CDKN2A (p16)","BRAF","C-Kit","MC1R"],c:0,
+ e:"Correcta: las mutaciones del gen supresor CDKN2A (p16) son responsables del 40% de los melanomas familiares (≥3 melanomas en un linaje) y también del cáncer de páncreas."},
+{q:"¿Qué mutación somática se encuentra en aproximadamente el 60% de los melanomas (y en nevus)?",
+ o:["BRAF","CDKN2A","BAP1","BRCA2"],c:0,
+ e:"Correcta: la mutación somática del gen BRAF aparece en el 60% de los melanomas (y en nevus); las mutaciones de C-Kit son típicas de melanomas mucosos y acrales, y BAP1 del melanoma uveal y cutáneo."},
+{q:"Las mutaciones de C-Kit son características de qué tipo de melanoma según los apuntes?",
+ o:["Melanomas de mucosas y acrales","Melanoma de extensión superficial","Lentigo maligno melanoma","Melanoma nodular del tronco"],c:0,
+ e:"Correcta: las mutaciones de C-Kit se asocian a los melanomas de mucosas y acrales (de ahí el uso de imatinib en estos)."},
+{q:"¿Qué proporción de melanomas se asocia histológicamente a un nevus preexistente?",
+ o:["Alrededor del 30% (la mayoría aparece sobre piel sana)","El 100%","Ninguno","El 80%"],c:0,
+ e:"Correcta: la mayoría de los melanomas aparecen sobre piel sana; solo el 30% se asocia histológicamente a un nevus (común, congénito o displásico)."},
+
+/* ====== Progresión / fases de crecimiento ====== */
+{q:"En la progresión del melanoma (Clark), la fase de crecimiento RADIAL corresponde a:",
+ o:["Melanoma intraepidérmico, con células aisladas en la epidermis y sin mitosis","Agregado de células malignas invadiendo la dermis con mitosis","La aparición de metástasis a distancia","La invasión del tejido subcutáneo"],c:0,
+ e:"Correcta: la fase radial es intraepidérmica (células tumorales aisladas en la epidermis, sin mitosis); la fase vertical es el agregado de células malignas que invade la dermis con mitosis frecuentes."},
+
+/* ====== Tipos clínico-patológicos ====== */
+{q:"¿Cuál es la forma clínico-patológica de melanoma MÁS frecuente?",
+ o:["El melanoma de extensión superficial (70%)","El melanoma nodular","El lentigo maligno melanoma","El melanoma lentiginoso acral"],c:0,
+ e:"Correcta: el melanoma de extensión superficial es el más frecuente (70%), en la 4ª-5ª décadas; puede derivar de un nevus preexistente (25%) y se localiza en piernas (mujeres) y espalda (hombres)."},
+{q:"El melanoma nodular, según los apuntes:",
+ o:["Es de evolución rápida y agresiva, surge 'de novo' y NO tiene fase de crecimiento radial","Tiene una fase de crecimiento radial muy prolongada","Es el de mejor pronóstico","Solo aparece en plantas y palmas"],c:0,
+ e:"Correcta: el melanoma nodular (15-20%) es agresivo y de mal pronóstico, surge 'de novo' (lesión papulosa/nodular violácea-negruzca) y no tiene fase de crecimiento radial."},
+{q:"El melanoma amelanótico, según los apuntes:",
+ o:["Supone el 5%, no tiene pigmento, suele ser nodular o acral, y es muy agresivo","Es el más frecuente y de buen pronóstico","Siempre es muy pigmentado","Nunca se confunde con otras lesiones"],c:0,
+ e:"Correcta: el melanoma amelanótico (5%) carece de pigmento (lesión rosada-rojiza erosiva), suele ser nodular o acral y es muy agresivo; entra en el DD con el granuloma piógeno."},
+{q:"El lentigo maligno melanoma (LMM), según los apuntes:",
+ o:["Es un melanoma in situ (lentigo maligno) con fase de crecimiento radial prolongada (años) en zonas fotoexpuestas de cabeza y cuello de personas mayores","Surge de novo sin fase radial","Es típico de plantas y palmas","No se relaciona con el sol"],c:0,
+ e:"Correcta: el lentigo maligno es un melanoma in situ con fase radial prolongada que, tras años, se transforma en LMM invasivo; aparece en zonas fotoexpuestas de cabeza/cuello de mayores con piel dañada por el sol."},
+{q:"El melanoma lentiginoso acral, según los apuntes:",
+ o:["Es el más frecuente en raza negra (50%) y asiática, NO se relaciona con el sol, y afecta plantas, palmas y región subungueal","Es el más frecuente en caucásicos","Se relaciona directamente con el sol","Nunca afecta las uñas"],c:0,
+ e:"Correcta: el melanoma lentiginoso acral (2-8% en caucásicos) es el más frecuente en raza negra (50%) y asiática, no relacionado con el sol, en plantas, palmas y subungueal."},
+{q:"En el melanoma subungueal, el signo de Hutchinson consiste en:",
+ o:["La afectación del pliegue ungueal por la pigmentación","Una pústula necrótica en la matriz","Un halo hipocrómico alrededor de la uña","La ausencia total de pigmento"],c:0,
+ e:"Correcta: el melanoma subungueal afecta la matriz (melanoniquia estriada) y puede extenderse al pliegue ungueal (signo de Hutchinson); se confunde con lesiones benignas o hematoma subungueal."},
+{q:"El melanoma mucoso, según los apuntes:",
+ o:["Es agresivo, con tendencia a metástasis y baja supervivencia (20% a los 5 años)","Tiene excelente pronóstico","Es el más frecuente de todos los melanomas","Se cura siempre con cirugía simple"],c:0,
+ e:"Correcta: el melanoma mucoso (cabeza/cuello, vulvar, anorrectal, uretral) da hiperpigmentación macular extensa, es agresivo y tiene baja supervivencia (20% a los 5 años)."},
+
+/* ====== Diagnóstico ====== */
+{q:"En la regla ABCDE del melanoma, ¿qué significan las letras?",
+ o:["Asimetría, Bordes irregulares, Color irregular, Diámetro >6 mm y Evolución","Ampolla, Borde liso, Costra, Dolor y Edema","Atrofia, Bilateralidad, Cicatriz, Descamación y Eritema","Adenopatía, Bacteria, Cándida, Demodex y Eccema"],c:0,
+ e:"Correcta: la regla ABCDE es Asimetría, Bordes irregulares, Color irregular, Diámetro >6 mm y Evolución; también se valora el signo del 'patito feo'."},
+{q:"La dermatoscopia (microscopía de epiluminiscencia), según los apuntes:",
+ o:["Es una técnica no invasiva que aumenta la precisión diagnóstica de las lesiones pigmentadas; valora asimetría, retículo atípico y estructuras azul-blanquecinas","Es una técnica invasiva con biopsia","Solo sirve para lesiones no pigmentadas","Sustituye al estudio histológico"],c:0,
+ e:"Correcta: la dermatoscopia es no invasiva (aceite de inmersión o luz polarizada), aumenta la precisión diagnóstica de las lesiones pigmentadas y valora asimetría, retículo atípico y estructuras azul-blanquecinas."},
+{q:"En la histopatología del melanoma, ¿qué dato lo diferencia del nevus al descender a la dermis?",
+ o:["La FALTA de maduración (en el nevus sí madura), junto a melanocitos pagetoides en estratos altos","La maduración progresiva como el nevus","La ausencia total de mitosis","La simetría arquitectural"],c:0,
+ e:"Correcta: el melanoma muestra falta de maduración al descender a la dermis (el nevus sí madura), con melanocitos pagetoides en estratos altos, asimetría, atipia citológica, mitosis y márgenes poco definidos."},
+
+/* ====== Breslow / Clark ====== */
+{q:"¿Cuál es el factor pronóstico MÁS importante de supervivencia del melanoma en estadios I-II?",
+ o:["El espesor de Breslow","El nivel de Clark","La localización anatómica","La edad del paciente"],c:0,
+ e:"Correcta: el espesor de Breslow es el factor pronóstico más importante de supervivencia en los estadios I y II del melanoma."},
+{q:"En los niveles de Clark, ¿qué corresponde al nivel I?",
+ o:["Melanoma intraepidérmico (in situ)","Invasión de la dermis papilar","Invasión de la dermis reticular","Invasión del tejido subcutáneo"],c:0,
+ e:"Correcta: el nivel I de Clark es intraepidérmico (in situ); II llega a dermis papilar, III la llena, IV invade dermis reticular y V el tejido subcutáneo."},
+
+/* ====== Inmunohistoquímica ====== */
+{q:"¿Qué marcador inmunohistoquímico expresan casi todos los melanomas?",
+ o:["La proteína S100","La citoqueratina 20","El CD20","El antígeno carcinoembrionario"],c:0,
+ e:"Correcta: casi todos los melanomas expresan la proteína S100; el HMB45 es muy específico, Melan-A/MART-1 se expresa ampliamente y PRAME es un biomarcador de melanoma cutáneo y ocular."},
+{q:"El anticuerpo monoclonal HMB45, según los apuntes:",
+ o:["Tiene alta especificidad contra las células del melanoma","Es totalmente inespecífico","Marca solo los queratinocitos","Es negativo en el melanoma"],c:0,
+ e:"Correcta: el HMB45 es un anticuerpo monoclonal de alta especificidad contra las células del melanoma."},
+
+/* ====== Estadificación / pronóstico ====== */
+{q:"En la estadificación TNM del melanoma, la 'T' se refiere a:",
+ o:["El espesor del tumor (y la ulceración)","El grado de metástasis ganglionares","Las metástasis a distancia","El número de mitosis"],c:0,
+ e:"Correcta: la T es el espesor del tumor (con la ulceración a/b), la N las metástasis ganglionares (más satelitosis y en tránsito) y la M las metástasis a distancia; los estadios van de 0 (in situ) a IV."},
+{q:"En la enfermedad metastásica (estadio IV), ¿qué localizaciones tienen peor pronóstico?",
+ o:["El hígado y el cerebro (peor que ganglios y piel)","La piel y los ganglios","El pulmón exclusivamente","Ninguna influye en el pronóstico"],c:0,
+ e:"Correcta: en el estadio IV, las metástasis hepáticas y cerebrales tienen peor pronóstico que las ganglionares y cutáneas (la piel es la localización más frecuente); influyen también el número de localizaciones y la LDH (supervivencia a 5 años <5%)."},
+{q:"Respecto al sexo y la localización como factores pronósticos del melanoma, según los apuntes:",
+ o:["El pronóstico es peor en varones y se valora la localización BANS","El pronóstico es peor en mujeres","El sexo no influye","La localización es irrelevante"],c:0,
+ e:"Correcta: el pronóstico es peor en varones (mejor en mujeres) y peor en ancianos; se valora la localización anatómica (BANS) junto con Breslow, ulceración e índice mitótico."},
+
+/* ====== Ganglio centinela ====== */
+{q:"La biopsia del ganglio centinela en el melanoma está indicada en:",
+ o:["Melanomas >0,8 mm, o ≤0,8 mm con ulceración (T1b)","Todos los melanomas in situ","Solo en el estadio IV","Nunca está indicada"],c:0,
+ e:"Correcta: el ganglio centinela (primer ganglio de drenaje) se indica en melanomas >0,8 mm o ≤0,8 mm con ulceración (T1b); si es positivo, se valora linfadenectomía. Sirve para estadiaje y pronóstico."},
+{q:"Sobre el ganglio centinela en el melanoma, ¿qué es CORRECTO según los apuntes?",
+ o:["No se ha demostrado claramente un papel terapéutico ni un aumento de la supervivencia global, pero sí valor pronóstico","Aumenta claramente la supervivencia global","Sustituye a la cirugía del tumor primario","Solo tiene valor terapéutico, no pronóstico"],c:0,
+ e:"Correcta: el ganglio centinela tiene valor pronóstico (GC negativo: supervivencia a 4 años del 85% vs 45% si positivo), pero no se ha demostrado claramente papel terapéutico ni aumento de supervivencia global."},
+
+/* ====== Tratamiento ====== */
+{q:"En el tratamiento quirúrgico del melanoma localizado, según los apuntes, se debe:",
+ o:["Hacer escisión simple con márgenes según el grosor (hasta fascia) y evitar afeitados, electrocoagulación o láser","Usar siempre electrocoagulación","Tratar con láser de primera línea","Realizar solo crioterapia"],c:0,
+ e:"Correcta: el melanoma localizado se trata con escisión simple y márgenes según el grosor (hasta la fascia), evitando afeitados, electrocoagulaciones y láser."},
+{q:"En el tratamiento adyuvante del melanoma avanzado (estadios III-IV), el ipilimumab es:",
+ o:["Un anticuerpo contra el receptor CTLA-4 del linfocito T","Un inhibidor de BRAF","Un inhibidor de tirosinkinasa","Un quimioterápico convencional"],c:0,
+ e:"Correcta: ipilimumab es un anti-CTLA-4 (inmunoterapia de checkpoint); nivolumab y pembrolizumab son anti-PD-1; la terapia dirigida incluye inhibidores BRAF/MEK (dabrafenib, trametinib, vemurafenib)."},
+{q:"¿Qué fármacos son inhibidores de BRAF/MEK usados en la terapia dirigida del melanoma?",
+ o:["Dabrafenib, trametinib, vemurafenib y encorafenib","Ipilimumab y nivolumab","Imatinib exclusivamente","Melfalán y actinomicina D"],c:0,
+ e:"Correcta: la terapia dirigida del melanoma incluye inhibidores BRAF/MEK (dabrafenib, trametinib, vemurafenib, encorafenib); imatinib (inhibidor de tirosinkinasa) se usa en melanomas con mutación C-Kit (acrales y mucosos)."},
+{q:"La perfusión hipertérmica de la extremidad aislada, según los apuntes, se usa en:",
+ o:["Melanoma de extremidades con metástasis en tránsito o satelitosis (IIIB/IIIC), con melfalán","Melanoma in situ","Cualquier melanoma del tronco","Melanoma uveal"],c:0,
+ e:"Correcta: la perfusión hipertérmica de la extremidad aislada (quimioterapia regional con melfalán, actinomicina D, talimogén) trata el melanoma de extremidades con metástasis en tránsito o satelitosis (IIIB/IIIC)."},
+{q:"La radioterapia en el melanoma, según los apuntes:",
+ o:["No es tratamiento de primera línea; se usa en lentigo maligno melanoma, melanoma uveal/mucoso y como paliativo de metástasis óseas y cerebrales","Es el tratamiento de primera elección","Cura el melanoma localizado","No tiene ninguna indicación"],c:0,
+ e:"Correcta: la radioterapia no es de primera línea; se reserva para el lentigo maligno melanoma, el melanoma uveal/mucoso y la paliación de metástasis óseas y cerebrales."},
+
+/* ====== Prevención ====== */
+{q:"En la prevención del melanoma, ¿qué corresponde a la prevención SECUNDARIA?",
+ o:["La detección precoz mediante cribado, autoexploración y monitorización en grupos de alto riesgo","Evitar la exposición solar","La fotoprotección física y tópica","La vacunación"],c:0,
+ e:"Correcta: la prevención primaria es evitar el sol y la fotoprotección; la secundaria es la detección precoz (cribado, autoexploración, monitorización dermatológica) en grupos de alto riesgo (fototipo bajo, quemaduras, nevus múltiples)."},
+
+/* ====== Matices añadidos ====== */
+{q:"El nevus spilus, según los apuntes:",
+ o:["Es un subtipo de nevus melanocítico congénito, presente al nacer o poco después, con clínica característica","Es una melanocitosis dérmica del trigémino","Es siempre un melanoma in situ","Aparece de novo en la edad adulta"],c:0,
+ e:"Correcta: el nevus spilus es un subtipo de nevus melanocítico congénito (RN o poco después), de clínica característica, que puede ser localizado, segmentario o gigante."},
+{q:"El síndrome del nevus displásico (SND), respecto al riesgo de melanoma, conlleva:",
+ o:["Un 10% de riesgo, que asciende a casi el 100% si hay antecedentes de melanoma","Un riesgo nulo","Un riesgo igual al de la población general","Un riesgo solo si los nevus son congénitos"],c:0,
+ e:"Correcta: el nevus displásico supone un 10% de riesgo de melanoma, que llega a casi el 100% si además hay antecedentes de melanoma."},
+{q:"¿Qué mutación del receptor contribuye al fenotipo pelirrojo/piel clara y aparece en el melanoma esporádico?",
+ o:["MC1R (receptor de melanocortina-1)","CDKN2A","NRAS","BAP1"],c:0,
+ e:"Correcta: las mutaciones del receptor de melanocortina-1 (MC1R) contribuyen mucho al fenotipo pelirrojo/piel clara y aparecen en el melanoma esporádico; BAP1 se asocia al melanoma uveal y cutáneo."},
+{q:"Según los apuntes, los portadores del gen BRCA2 (susceptibilidad al cáncer de mama):",
+ o:["Presentan mayor riesgo de melanoma","No tienen relación con el melanoma","Están protegidos frente al melanoma","Solo desarrollan melanoma uveal"],c:0,
+ e:"Correcta: los portadores del gen BRCA2 presentan mayor riesgo de melanoma; además, los antecedentes familiares de cáncer de páncreas, mama, astrocitoma y mesotelioma son factores de riesgo."},
+{q:"En las diferencias anatómicas por sexo de la exposición solar y el melanoma, según los apuntes:",
+ o:["Predominan las piernas en las mujeres y la espalda en los hombres","Predomina la cara en ambos sexos","Predominan las plantas de los pies","No hay diferencias por sexo"],c:0,
+ e:"Correcta: por las diferencias de exposición, el melanoma predomina en las piernas de las mujeres y en la espalda de los hombres (y el brazo expuesto en conductores); se correlaciona con la latitud (próxima al Ecuador) y las horas de sol."},
+{q:"En los criterios diagnósticos clínicos del melanoma, ¿cuáles son los criterios MAYORES (2 puntos)?",
+ o:["Cambio en tamaño, en forma y en color","Diámetro >6 mm, inflamación y picor","Exudación, sangrado e inflamación","Asimetría, bordes y diámetro"],c:0,
+ e:"Correcta: los criterios mayores (2 puntos) son el cambio en tamaño, forma y color; los menores (1 punto) son diámetro >6 mm, inflamación, exudación/sangrado y picor."},
+{q:"¿Qué es la satelitosis en la estadificación del melanoma?",
+ o:["Focos tumorales separados del tumor primario a menos de 2 cm","Metástasis hepáticas","La invasión de la dermis papilar","Un infiltrado linfocitario peritumoral"],c:0,
+ e:"Correcta: la satelitosis son focos separados del tumor a <2 cm, y las metástasis en tránsito están entre 2 cm y la zona de drenaje linfático; ambas se valoran en la enfermedad regional (estadio III)."},
+{q:"Respecto a la supervivencia del melanoma por estadios, según los apuntes:",
+ o:["A 10 años en enfermedad localizada (I-II) es del 93-96%, en la regional (III) a 5 años del 46% y en la metastásica (IV) a 5 años menor del 5%","Es similar en todos los estadios","Es peor en la enfermedad localizada","La metastásica supera el 50% a 5 años"],c:0,
+ e:"Correcta: la supervivencia es del 93-96% a 10 años en la enfermedad localizada (I-II), del 46% a 5 años en la regional ganglionar (III) y menor del 5% a 5 años en la metastásica (IV)."},
+{q:"El melanoma desmoplásico, según los apuntes, es:",
+ o:["Una de las formas clínico-patológicas de melanoma","Un tipo de nevus benigno","Una melanocitosis dérmica","Un sinónimo de mancha mongólica"],c:0,
+ e:"Correcta: el melanoma desmoplásico figura entre las formas clínico-patológicas del melanoma, junto al de extensión superficial, nodular, lentigo maligno, lentiginoso acral, amelanótico, de matriz ungueal y mucoso."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
