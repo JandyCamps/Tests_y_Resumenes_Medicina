@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 5 · Dermatosis eritematodescamativas y Psoriasis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 5</p>
+  <h1>Test · Dermatosis eritematodescamativas y Psoriasis</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 5 (dermatosis eritematodescamativas: liquen plano, pitiriasis, parapsoriasis, eritrodermia y psoriasis) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 5 — Dermatosis eritematodescamativas y Psoriasis (UFV)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ============ LIQUEN PLANO ============ */
+{q:"El liquen plano, según los apuntes, se define como:",
+ o:["Una enfermedad inflamatoria de etiología desconocida con lesiones papulosas pruriginosas en piel, mucosas, uñas y pelo","Una infección viral autolimitada","Un tumor epidérmico benigno","Una dermatosis ampollosa autoinmune por anticuerpos antidesmosoma"],c:0,
+ e:"Correcta: el liquen plano es una enfermedad inflamatoria de etiología desconocida, con pápulas pruriginosas que afectan piel y/o mucosas, uñas y pelo; afecta al 1% de la población, sobre todo a los 30-60 años."},
+{q:"La patogenia del liquen plano consiste en:",
+ o:["Un daño autoinmunitario mediado por linfocitos T frente a los queratinocitos basales que expresan autoantígenos alterados","Un depósito de IgA en las papilas dérmicas","Una proliferación clonal de mastocitos","Una reacción mediada por IgE"],c:0,
+ e:"Correcta: el liquen plano es un daño autoinmunitario mediado por linfocitos T contra los queratinocitos basales que expresan autoantígenos alterados, posiblemente inducidos por virus, fármacos o alérgenos de contacto."},
+{q:"¿Qué virus se asocia especialmente a la forma BUCAL del liquen plano?",
+ o:["El virus de la hepatitis C","El virus de la hepatitis A","El citomegalovirus","El parvovirus B19"],c:0,
+ e:"Correcta: el VHC se asocia a la forma bucal del liquen plano; también se relacionan vacunas (VHB, COVID-19), alérgenos de contacto (amalgamas de mercurio, cobre, oro), fármacos y la EICH crónica."},
+{q:"Las estrías de Wickham del liquen plano corresponden a:",
+ o:["Un retículo blanquecino en la superficie de las pápulas","Surcos acarinos en los espacios interdigitales","Telangiectasias en máculas del tronco","Collaretes descamativos periféricos"],c:0,
+ e:"Correcta: la pápula del liquen plano es poligonal, rosado-violácea, de superficie lisa y brillante con un retículo blanquecino (estrías de Wickham); confluyen en placas y dejan hiperpigmentación residual."},
+{q:"Aunque el prurito del liquen plano suele ser intenso, según los apuntes:",
+ o:["No hay erosiones (a pesar del rascado)","Siempre deja cicatrices atróficas","Provoca ampollas tensas","Cursa sin pigmentación residual"],c:0,
+ e:"Correcta: el prurito del liquen plano es frecuentemente intenso, pero a pesar de ello no hay erosiones; queda hiperpigmentación residual tras la resolución."},
+{q:"La aparición de lesiones de liquen plano en zonas de traumatismo/rascado se denomina:",
+ o:["Fenómeno de Koebner (respuesta isomorfa)","Signo de Auspitz","Signo de Darier","Signo de Nikolsky"],c:0,
+ e:"Correcta: el fenómeno de Koebner (respuesta isomorfa) es la aparición de lesiones en zonas de traumatismo; las lesiones del LP también se agrupan de forma anular, lineal, serpiginosa o zosteriforme."},
+{q:"¿Cuáles son localizaciones cutáneas típicas del liquen plano?",
+ o:["Cara de flexión de muñecas y antebrazos, región lumbar y tobillos","Superficie de extensión de codos y rodillas","Cuero cabelludo y áreas seborreicas","Palmas y plantas exclusivamente"],c:0,
+ e:"Correcta: el liquen plano afecta típicamente la cara de flexión de muñecas y antebrazos, la región lumbar y los miembros inferiores (tobillos)."},
+{q:"El síndrome de Graham-Little, variante de liquen plano folicular, cursa con:",
+ o:["Alopecia cicatricial de cuero cabelludo, axilas y pubis","Hipertrofia verrugosa en regiones tibiales","Lesiones ampollosas con anticuerpos anti-BP180","Máculas pigmentadas en fototipos altos"],c:0,
+ e:"Correcta: el liquen plano folicular produce alopecia cicatricial; el síndrome de Graham-Little asocia alopecia de cuero cabelludo, axilas y pubis."},
+{q:"La alopecia frontal fibrosante, según los apuntes:",
+ o:["Es un tipo de liquen plano pilar de mujeres mayores, con pérdida de pelo 'en diadema' y de cejas, tratada con finasteride/dutasteride","Es una alopecia areata reversible de varones jóvenes","Se trata con minoxidil exclusivamente","No se relaciona con el liquen plano"],c:0,
+ e:"Correcta: la alopecia frontal fibrosante es un tipo de liquen plano pilar (LPP), con histopatología similar, en mujeres mayores, con pérdida de pelo 'en diadema' y de cejas; se trata con finasteride/dutasteride."},
+{q:"¿Cuál es la forma clínica MÁS frecuente del liquen plano oral?",
+ o:["La reticular","La erosiva","La atrófica","La ampollosa"],c:0,
+ e:"Correcta: el liquen plano oral (presente en el 75%, o única manifestación en el 25%) es más frecuente en su forma reticular; la forma erosiva tiene capacidad degenerativa y se asocia a hepatitis C o B."},
+{q:"En la afectación ungueal del liquen plano, el pterygium unguis consiste en:",
+ o:["El crecimiento de la cutícula sobre un lecho vacío (uñas incompletas)","El engrosamiento de la lámina con manchas amarillas","La onicolisis distal en 'mancha de aceite'","La presencia de pits o piqueteado"],c:0,
+ e:"Correcta: en el LP ungueal (10%) hay adelgazamiento de la lámina, onicorrexis, onicosquisis y pterygium unguis (crecimiento de la cutícula sobre el lecho vacío); puede dar distrofia de las 20 uñas."},
+{q:"¿Cuál es el hallazgo histopatológico característico del liquen plano en la epidermis y la unión dermoepidérmica?",
+ o:["Hiperqueratosis, hipergranulosis, acantosis irregular con crestas en dientes de sierra y degeneración vacuolar de la basal","Espongiosis con vesículas intraepidérmicas","Acantólisis suprabasal","Microabscesos de neutrófilos en la córnea"],c:0,
+ e:"Correcta: el LP muestra hiperqueratosis, hipergranulosis, acantosis irregular con crestas en 'dientes de sierra' y degeneración vacuolar de la capa basal; en dermis, infiltrado linfohistiocitario en banda (CD8+) y cuerpos de Civatte."},
+{q:"Los cuerpos hialinos-coloides de Civatte del liquen plano son:",
+ o:["Queratinocitos apoptóticos o disqueratósicos","Acúmulos de neutrófilos","Mastocitos degranulados","Depósitos de mucina"],c:0,
+ e:"Correcta: los cuerpos de Civatte (hialinos-coloides) son queratinocitos apoptóticos/disqueratósicos; el infiltrado dérmico en banda está formado por linfocitos T CD8+."},
+{q:"¿Cuál es un tratamiento del liquen plano según los apuntes?",
+ o:["Corticoides (locales, intralesionales y orales), retinoides, tacrolimus tópico, metotrexato, ciclosporina o PUVA","Penicilina benzatina","Permetrina al 5%","Vismodegib"],c:0,
+ e:"Correcta: el LP se trata con corticoides (locales/intralesionales/orales), retinoides (acitretina), tacrolimus tópico, metotrexato, ciclosporina, azatioprina, antipalúdicos y PUVA; las formas mucosas son difíciles."},
+
+/* ============ ERUPCIONES LIQUENOIDES Y OTROS LÍQUENES ============ */
+{q:"Las erupciones liquenoides, frente al liquen plano clásico, se caracterizan por:",
+ o:["Lesiones diseminadas en tronco, menor afectación mucosa y eosinófilos en la histología","Mayor afectación mucosa que el LP","Ausencia total de relación con fármacos","No parecerse clínicamente al LP"],c:0,
+ e:"Correcta: las erupciones liquenoides se parecen al LP pero con lesiones diseminadas en tronco, menor afectación mucosa y eosinófilos en la histología; la causa más frecuente son los medicamentos."},
+{q:"¿Cuál de estos grupos farmacológicos puede producir erupciones liquenoides?",
+ o:["Sales de oro, antipalúdicos, IECA, tiazidas, betabloqueantes, penicilamina, anti-TNF e inhibidores del punto de control","Solo los antihistamínicos","Solo los corticoides","Únicamente los antibióticos betalactámicos"],c:0,
+ e:"Correcta: las erupciones liquenoides pueden deberse a sales de oro, antipalúdicos, IECA, tiazidas, betabloqueantes, penicilamina, anti-TNF alfa e inhibidores del punto de control inmunitario (anti-CTLA-4, anti-PD-1, anti-PD-L1)."},
+{q:"El liquen estriado, según los apuntes:",
+ o:["Se debe a un mosaicismo somático y sigue las líneas de Blaschko","Es una dermatosis ampollosa autoinmune","Afecta exclusivamente las mucosas","Es un tumor de células T"],c:0,
+ e:"Correcta: el liquen estriado se debe a un mosaicismo somático y sigue las líneas de Blaschko."},
+{q:"El liquen nitidus, según los apuntes:",
+ o:["Aparece en niños y jóvenes, con pápulas pequeñas agrupadas en abdomen, nalgas y pene, fenómeno de Koebner y SIN prurito","Es muy pruriginoso","Afecta sobre todo a ancianos","Cursa con ampollas"],c:0,
+ e:"Correcta: el liquen nitidus afecta a niños y jóvenes, con pápulas pequeñas agrupadas (abdomen, nalgas, pene), fenómeno de Koebner y ausencia de prurito."},
+{q:"El liquen escleroatrófico, según los apuntes:",
+ o:["Es una dermopatía inflamatoria con evolución a esclerosis, pápulas/placas color blanco marfil, de localización preferentemente genital (85%)","Afecta sobre todo la cara y el cuero cabelludo","No produce alteración funcional","Nunca se maligniza"],c:0,
+ e:"Correcta: el liquen escleroatrófico evoluciona a esclerosis cutánea, con placas blanco marfil y atrofia epidérmica, preferentemente genital (85%): craurosis vulvar/balanitis xerótica obliterante; puede malignizarse (sobre todo con HPV-16/18)."},
+
+/* ============ PITIRIASIS ROSADA ============ */
+{q:"La pitiriasis rosada, según los apuntes:",
+ o:["Es muy frecuente, afecta a adultos jóvenes en primavera y otoño, y se relaciona con un exantema viral (herpesvirus 6 y 7)","Es una infección bacteriana","Afecta sobre todo a ancianos","Recidiva con frecuencia"],c:0,
+ e:"Correcta: la pitiriasis rosada es frecuente (1-2% de consultas), en adultos jóvenes, en primavera y otoño, de etiología desconocida (probable exantema viral por herpesvirus 6 y 7), con recidivas infrecuentes."},
+{q:"El 'medallón heráldico' o placa heráldica de la pitiriasis rosada:",
+ o:["Es la lesión inicial, redondeada u oval, habitualmente en el tronco, que precede al exantema","Es la lesión final tras la curación","Aparece en palmas y plantas","Es un nódulo ulcerado"],c:0,
+ e:"Correcta: el medallón o placa heráldica es la lesión inicial (redondeada/oval, en tronco); tras 3-15 días aparece el exantema típico, simétrico, con lesiones similares más pequeñas (collarete periférico, centro claro)."},
+{q:"¿Cuál es el manejo de la pitiriasis rosada según los apuntes?",
+ o:["Diagnóstico clínico y tratamiento sintomático","Penicilina benzatina","Antifúngicos sistémicos","Corticoides intralesionales obligatorios"],c:0,
+ e:"Correcta: el diagnóstico de la pitiriasis rosada es clínico (analítica inespecífica) y el tratamiento es sintomático; el DD incluye sífilis, psoriasis gutata, toxicodermia y tiña corporis."},
+
+/* ============ PITIRIASIS RUBRA PILARIS ============ */
+{q:"La pitiriasis rubra pilaris, según los apuntes, es:",
+ o:["Una dermatosis infrecuente de pápulas hiperqueratósicas foliculares, placas eritematoescamosas y queratodermia palmoplantar","Una infección por dermatofitos","Un linfoma cutáneo de células B","Una dermatosis ampollosa autoinmune"],c:0,
+ e:"Correcta: la pitiriasis rubra pilaris es una dermatosis infrecuente con pápulas hiperqueratósicas foliculares, placas eritematoescamosas y queratodermia palmoplantar; hay formas familiares (AD) y adquiridas, y se asocia al VIH."},
+{q:"¿Qué dato clínico es característico de la pitiriasis rubra pilaris?",
+ o:["Placas rojo-anaranjadas con islotes de piel sana ('islotes claros')","Estrías de Wickham","Signo de Darier","Collarete heráldico"],c:0,
+ e:"Correcta: la PRP da placas rojo-anaranjadas con islotes claros de piel respetada, hiperqueratosis folicular, queratodermia palmoplantar amarillenta y puede llegar a eritrodermia; su principal DD es la psoriasis."},
+{q:"Sobre los tipos de pitiriasis rubra pilaris, señale lo CORRECTO:",
+ o:["El tipo I es la clásica del adulto (50%), el tipo V juvenil atípico tiene mutaciones en CARD14 y el tipo VI se asocia al VIH (grave)","Solo existe un tipo","El tipo I se asocia al VIH","Ninguno se relaciona con mutaciones genéticas"],c:0,
+ e:"Correcta: hay 5-6 tipos; el tipo I es la clásica del adulto (50%), el tipo V juvenil atípico tiene mutaciones en CARD14 y el tipo VI se asocia a infección VIH y es grave."},
+
+/* ============ PARAPSORIASIS ============ */
+{q:"Las parapsoriasis, según los apuntes, son:",
+ o:["Dermatosis inflamatorias eritematodescamativas de etiología desconocida, asintomáticas y de curso prolongado, con trastornos proliferativos de linfocitos T","Infecciones por hongos","Tumores melanocíticos","Dermatosis ampollosas"],c:0,
+ e:"Correcta: las parapsoriasis son dermatosis inflamatorias eritematodescamativas de etiología desconocida, asintomáticas y de curso prolongado, consideradas trastornos proliferativos de linfocitos T cutáneos (pitiriasis liquenoide, parapsoriasis en pequeñas/grandes placas)."},
+{q:"La PLEVA (pitiriasis liquenoide y varioliforme aguda) también se conoce como:",
+ o:["Enfermedad de Mucha-Habermann","Enfermedad de Leiner","Síndrome de Graham-Little","Enfermedad de Rosai-Dorfman"],c:0,
+ e:"Correcta: la PLEVA es la enfermedad de Mucha-Habermann; la pitiriasis liquenoide tiene una forma aguda (PLEVA) y otra crónica, los dos extremos de una misma enfermedad, con descamación 'en oblea'."},
+{q:"La parapsoriasis en grandes placas, según los apuntes:",
+ o:["Forma parte del espectro de la micosis fungoide en fase de placa y progresa a MF en ~10% por década","Nunca evoluciona a linfoma","Es una infección autolimitada","Se cura con antibióticos"],c:0,
+ e:"Correcta: la parapsoriasis en grandes placas (lesiones en zonas no fotoexpuestas, a veces con poiquilodermia) forma un espectro continuo con la MF en fase de placa y progresa a MF en ~10% por década; requiere biopsias repetidas."},
+
+/* ============ ERITRODERMIA ============ */
+{q:"La eritrodermia (dermatitis exfoliativa) se define como:",
+ o:["Eritema y descamación difusas que comprometen más del 90% de la superficie cutánea","Una placa eritematodescamativa localizada","Una pústula intraepidérmica","Una lesión ampollosa de las mucosas"],c:0,
+ e:"Correcta: la eritrodermia es eritema y descamación difusas que afectan a más del 90% de la superficie corporal, más frecuente en varones adultos; un 20% es idiopática."},
+{q:"¿Cuál es la causa más frecuente de eritrodermia secundaria a procesos cutáneos según los apuntes?",
+ o:["La psoriasis (25%), junto con la dermatitis atópica/de contacto","La sífilis","La tiña corporis","El liquen nitidus"],c:0,
+ e:"Correcta: el 50% de las eritrodermias son evolución de procesos cutáneos: dermatitis atópica/de contacto, psoriasis (25%), pitiriasis rubra pilaris, linfoma cutáneo T/síndrome de Sézary y dermatosis ampollosas; también las hay paraneoplásicas y por fármacos."},
+{q:"¿Cuáles son posibles complicaciones SISTÉMICAS de la eritrodermia?",
+ o:["Alteración de la termorregulación e hidroelectrolítica, fiebre, insuficiencia cardiaca, linfadenopatías e infección secundaria","Solo prurito leve","Ninguna, es un proceso banal","Exclusivamente alopecia"],c:0,
+ e:"Correcta: la eritrodermia puede dar complicaciones sistémicas: alteración de la termorregulación e hidroelectrolítica, fiebre, insuficiencia cardiaca, linfadenopatías, visceromegalias e infección secundaria; también efluvio telógeno y alteraciones ungueales."},
+
+/* ============ PSORIASIS: concepto y epidemiología ============ */
+{q:"La psoriasis, según los apuntes, se define como:",
+ o:["Una enfermedad sistémica, crónica e inflamatoria de mecanismo inmunológico, que afecta piel y articulaciones y se asocia a factores de riesgo cardiovascular","Una infección crónica por estreptococos","Una dermatosis ampollosa autoinmune","Un tumor epidérmico maligno"],c:0,
+ e:"Correcta: la psoriasis es una enfermedad sistémica, crónica e inflamatoria, relacionada con mecanismos inmunológicos, que afecta principalmente piel y articulaciones y se asocia a múltiples factores de riesgo cardiovascular y patologías crónicas."},
+{q:"Sobre la epidemiología de la psoriasis, señale lo CORRECTO:",
+ o:["Tiene una prevalencia mundial del 2%, con dos picos de incidencia (20-30 y 50-60 años) y similar en ambos sexos","Afecta solo a ancianos","Es exclusiva de mujeres","Tiene una prevalencia del 20%"],c:0,
+ e:"Correcta: la psoriasis tiene una prevalencia mundial del 2%, similar en ambos sexos (más precoz en mujeres), con dos picos de incidencia (20-30 y 50-60 años) y aumento de la mortalidad por todas las causas relacionado con la gravedad."},
+{q:"Según los tipos de psoriasis por edad de comienzo, el tipo I se caracteriza por:",
+ o:["Comienzo precoz, antecedentes familiares y expresión de HLA-Cw6","Comienzo tardío sin antecedentes familiares","Ausencia de relación con el HLA","Aparecer solo tras los 60 años"],c:0,
+ e:"Correcta: el tipo I es de comienzo precoz, con antecedentes familiares y expresión de HLA-Cw6; el tipo II es de comienzo tardío y sin antecedentes familiares."},
+{q:"Respecto a los antecedentes familiares de psoriasis, según los apuntes:",
+ o:["Con un padre afecto el riesgo es del 14% y con dos padres afectos del 41%","El riesgo es igual al de la población general","No hay agregación familiar","Con un padre afecto el riesgo es del 90%"],c:0,
+ e:"Correcta: un tercio de los pacientes tiene antecedentes familiares; con un padre afecto el riesgo es del 14% y con dos padres afectos del 41%."},
+{q:"El principal locus de susceptibilidad genética de la psoriasis es:",
+ o:["PSORS1, en el cromosoma 6","El gen PTCH, en el cromosoma 9","El gen de la filagrina","El gen CDKN2A"],c:0,
+ e:"Correcta: PSORS1 (cromosoma 6) es el principal locus de susceptibilidad; el HLA-Cw6 confiere riesgo relativo de 13 en caucásicos y 25 en japoneses; HLA-B27 se asocia a la forma pustulosa."},
+
+/* ============ PSORIASIS: desencadenantes e histología ============ */
+{q:"¿Cuál es un factor desencadenante de la psoriasis según los apuntes?",
+ o:["Traumatismos (fenómeno de Koebner), infecciones estreptocócicas, fármacos (litio, betabloqueantes, antimaláricos, AINE) y el alcohol","La exposición solar moderada","La buena hidratación","El ejercicio físico"],c:0,
+ e:"Correcta: desencadenan la psoriasis los traumatismos (Koebner), las infecciones (estreptococos, VIH), fármacos (litio, betabloqueantes, antimaláricos, AINE, interferón), factores psicógenos, climáticos, metabólicos (hipocalcemia, alcohol) y endocrinos."},
+{q:"En la histopatología de la psoriasis, los microabscesos de Munro son:",
+ o:["Acúmulos de neutrófilos en la capa córnea","Acúmulos de linfocitos en la dermis","Vesículas intraepidérmicas","Depósitos de IgA en las papilas"],c:0,
+ e:"Correcta: la psoriasis muestra hiperqueratosis paraqueratósica, acantosis regular, acúmulos de neutrófilos en la córnea (microabscesos de Munro), papilomatosis con atrofia suprapapilar y capilares dilatados en las papilas."},
+{q:"La pústula espongiforme de Kogoj es característica de:",
+ o:["La psoriasis pustulosa (pústula intraepidérmica de polimorfonucleares)","El liquen plano","La pitiriasis rosada","El liquen escleroatrófico"],c:0,
+ e:"Correcta: la psoriasis pustulosa muestra una pústula intraepidérmica de polimorfonucleares (pústula espongiforme de Kogoj)."},
+
+/* ============ PSORIASIS: formas clínicas ============ */
+{q:"¿Cuál es la forma clínica MÁS frecuente de psoriasis?",
+ o:["La psoriasis crónica en placas","La psoriasis en gotas","La eritrodermia psoriásica","La psoriasis pustulosa generalizada"],c:0,
+ e:"Correcta: la psoriasis crónica en placas es la más frecuente: placas eritemato-escamosas bien delimitadas, simétricas, en superficies de extensión, región lumbosacra y cuero cabelludo."},
+{q:"El signo de Auspitz (rocío hemorrágico) de la psoriasis consiste en:",
+ o:["La aparición de puntos hemorrágicos al desprender las escamas","La urticación al frotar la lesión","Un retículo blanquecino sobre las pápulas","El despegamiento epidérmico al frotar piel sana"],c:0,
+ e:"Correcta: el signo de Auspitz o rocío hemorrágico es la aparición de puntos hemorrágicos al desprender las escamas en la psoriasis en placas; la psoriasis inversa afecta los pliegues."},
+{q:"La psoriasis en gotas (guttata), según los apuntes:",
+ o:["Da lesiones puntiformes lenticulares en tronco y raíz de miembros, en niños/jóvenes, relacionada con infecciones faríngeas estreptocócicas y HLA-Cw6","Es la forma más grave del adulto","Cursa con pústulas generalizadas","Afecta solo palmas y plantas"],c:0,
+ e:"Correcta: la psoriasis en gotas da numerosas lesiones puntiformes salpicadas en tronco y raíz de miembros, en brotes agudos, más frecuente en niños/jóvenes, relacionada con infecciones faríngeas estreptocócicas y con fuerte asociación a HLA-Cw6."},
+{q:"La psoriasis eritrodérmica, según los apuntes:",
+ o:["Es una forma grave, con dermatitis exfoliativa de escamas finas que afecta >90% de la superficie (incluidas palmas, plantas, uñas y cara), con fiebre y malestar","Es la forma más leve","Respeta siempre la cara","No produce síntomas sistémicos"],c:0,
+ e:"Correcta: la psoriasis eritrodérmica es una forma grave (sobre psoriasis crónica grave o de forma brusca), con dermatitis exfoliativa de escamas finas que afecta >90% de la superficie, palmas, plantas, uñas y cara, con malestar, fiebre y leucocitosis."},
+{q:"La psoriasis pustulosa, según los apuntes, es un proceso autoinflamatorio con activación de:",
+ o:["La IL-36","La IL-4","La IgE","El complemento C5"],c:0,
+ e:"Correcta: la psoriasis pustulosa es un proceso autoinflamatorio con activación de IL-36 (mutaciones con pérdida de función del antagonista del receptor de IL-36); la generalizada es la de Von Zumbusch."},
+{q:"La psoriasis pustulosa palmoplantar se asocia al síndrome SAPHO, que incluye:",
+ o:["Sinovitis, acné, pustulosis, hiperostosis y osteítis","Sífilis, artritis, paniculitis, hipertensión y osteoporosis","Solo afectación cutánea","Sarcoidosis, asma y poliposis"],c:0,
+ e:"Correcta: la psoriasis pustulosa palmoplantar se asocia al síndrome SAPHO (sinovitis, acné, pustulosis, hiperostosis, osteítis), predomina en mujeres y se relaciona con el tabaco; la acrodermatitis continua de Hallopeau es otra forma localizada."},
+{q:"La psoriasis pustulosa generalizada de Von Zumbusch corresponde a:",
+ o:["La forma generalizada de psoriasis pustulosa","Una psoriasis en gotas leve","La psoriasis del cuero cabelludo","La psoriasis inversa de los pliegues"],c:0,
+ e:"Correcta: la psoriasis pustulosa generalizada es la de Von Zumbusch; las formas localizadas son la palmoplantar (SAPHO) y la acrodermatitis continua de Hallopeau."},
+{q:"¿Cuál es la zona del cuerpo MÁS afectada en la psoriasis y una de las primeras localizaciones?",
+ o:["El cuero cabelludo (79%)","Las plantas de los pies","Las mucosas","La cara"],c:0,
+ e:"Correcta: el cuero cabelludo es la zona más afectada (79%) y una de las primeras localizaciones; el DD principal es la dermatitis seborreica (sebopsoriasis) y puede dar efluvio telógeno."},
+
+/* ============ PSORIASIS: comorbilidades y artritis ============ */
+{q:"Respecto a las comorbilidades de la psoriasis, según los apuntes:",
+ o:["Tiene alta prevalencia de síndrome metabólico y supone un factor de riesgo cardiovascular independiente","No se asocia a ninguna comorbilidad","Disminuye el riesgo cardiovascular","Solo afecta la piel"],c:0,
+ e:"Correcta: la psoriasis tiene alta prevalencia de síndrome metabólico y es un factor de riesgo cardiovascular independiente; la inflamación crónica (TNF alfa) tiene papel patogénico en las comorbilidades, con mayor riesgo de complicaciones cardiovasculares."},
+{q:"¿Cuáles son comorbilidades asociadas a la psoriasis según los apuntes?",
+ o:["Obesidad, HTA, diabetes tipo II, dislipemia, artritis psoriásica, EII, hígado graso (50%) y problemas psiquiátricos","Solo la alopecia","Únicamente infecciones cutáneas","Ninguna enfermedad sistémica"],c:0,
+ e:"Correcta: las comorbilidades incluyen obesidad, HTA, diabetes II, dislipemia, artritis psoriásica, enfermedad inflamatoria intestinal, hígado graso (50%), cáncer (CCNM, LCCT, pulmón), ansiedad/depresión, consumo de alcohol/tabaco, ERC, EPOC y apnea del sueño."},
+{q:"La artritis psoriásica, según los apuntes:",
+ o:["Afecta al 5-30% de los pacientes, con factor reumatoide negativo y afectación característica de las interfalángicas distales","Tiene factor reumatoide positivo","Nunca precede a la afectación cutánea","Solo afecta la columna"],c:0,
+ e:"Correcta: la artritis psoriásica afecta al 5-30%, con factor reumatoide negativo; la afectación de las interfalángicas distales es característica (aunque infrecuente). Hay formas oligoarticular, poliarticular simétrica, axial y mutilante, con dactilitis y entesitis."},
+{q:"¿Qué factores son predictivos de artritis psoriásica según los apuntes?",
+ o:["La gravedad, la afectación ungueal y la del cuero cabelludo","La edad avanzada exclusivamente","El sexo femenino","La ausencia de lesiones cutáneas"],c:0,
+ e:"Correcta: son factores predictivos de artritis psoriásica la gravedad, la afectación ungueal y la del cuero cabelludo; la artritis precede a la afectación cutánea en el 10-15%."},
+
+/* ============ PSORIASIS: tratamiento ============ */
+{q:"¿Cuál de estos es un tratamiento TÓPICO de la psoriasis según los apuntes?",
+ o:["Análogos de la vitamina D (calcipotriol, tacalcitol, calcitriol), corticoides, alquitranes, antralina y tazaroteno","Metotrexato oral","Adalimumab subcutáneo","Acitretina oral"],c:0,
+ e:"Correcta: los tratamientos tópicos incluyen corticoides (con taquifilaxia y rebote), alquitranes, antralina/ditranol, tazaroteno, análogos de la vitamina D (calcipotriol, tacalcitol, calcitriol) e inmunomoduladores (tacrolimus, pimecrolimus)."},
+{q:"En la fototerapia de la psoriasis, ¿qué modalidades se emplean?",
+ o:["UVB de banda estrecha (311 nm) y PUVA (fotoquimioterapia, 320-400 nm)","Solo radioterapia ionizante","Luz de Wood","Crioterapia"],c:0,
+ e:"Correcta: la fototerapia de la psoriasis usa UVB de banda estrecha (311 nm) y PUVA (320-400 nm), además de terapia fotodinámica y láser."},
+{q:"El acitretino, retinoide sistémico usado en la psoriasis, según los apuntes:",
+ o:["Es teratogénico hasta 2 años después de su uso","Es seguro en el embarazo","No tiene efectos sobre la fertilidad","Se usa solo de forma tópica"],c:0,
+ e:"Correcta: el acitretino es un retinoide sistémico teratogénico hasta 2 años después de su uso; otros tratamientos sistémicos son metotrexato, ciclosporina, apremilast (inhibidor de la fosfodiesterasa 4) y fumaratos."},
+{q:"El apremilast, empleado en la psoriasis, actúa como:",
+ o:["Inhibidor de la fosfodiesterasa 4","Inhibidor de la calcineurina","Anti-TNF alfa","Análogo de la vitamina D"],c:0,
+ e:"Correcta: el apremilast es un inhibidor de la fosfodiesterasa 4 (tratamiento sistémico oral); los fumaratos y los inmunosupresores (metotrexato, ciclosporina) son otras opciones sistémicas."},
+{q:"Entre los fármacos biológicos anti-TNF para la psoriasis se encuentran:",
+ o:["Adalimumab, etanercept e infliximab","Secukinumab e ixekizumab","Ustekinumab","Guselkumab y risankizumab"],c:0,
+ e:"Correcta: los anti-TNF son adalimumab (Ac monoclonal IgG1 humano), etanercept (proteína de fusión) e infliximab (Ac monoclonal quimérico)."},
+{q:"El secukinumab, el ixekizumab y el brodalumab son fármacos biológicos:",
+ o:["Anti-IL-17","Anti-TNF","Anti-IL-12/IL-23","Inhibidores de la fosfodiesterasa"],c:0,
+ e:"Correcta: secukinumab, ixekizumab y brodalumab son anti-IL-17; ustekinumab es anti-IL-12/IL-23 y guselkumab, risankizumab y tildrakizumab son anti-IL-23."},
+{q:"El ustekinumab, biológico usado en la psoriasis, es un anticuerpo:",
+ o:["Anti-IL-12/IL-23","Anti-IL-17","Anti-TNF alfa","Anti-IL-36"],c:0,
+ e:"Correcta: ustekinumab es anti-IL-12/IL-23; los anti-IL-23 más selectivos son guselkumab, risankizumab y tildrakizumab."},
+{q:"El guselkumab, risankizumab y tildrakizumab pertenecen al grupo de biológicos:",
+ o:["Anti-IL-23","Anti-IL-17","Anti-TNF","Inhibidores de JAK"],c:0,
+ e:"Correcta: guselkumab, risankizumab y tildrakizumab son anti-IL-23; secukinumab/ixekizumab/brodalumab son anti-IL-17 y ustekinumab es anti-IL-12/IL-23."},
+
+/* ====== Matices añadidos ====== */
+{q:"El liquen plano penfigoide se caracteriza por presentar:",
+ o:["Autoanticuerpos IgG contra el antígeno del penfigoide ampolloso de 180 kDa","Anticuerpos antidesmogleína 3","Depósitos de IgA en las papilas","Ausencia de ampollas"],c:0,
+ e:"Correcta: el LP penfigoide presenta autoanticuerpos IgG contra el antígeno del penfigoide ampolloso de 180 kDa (BP180); el LP ampolloso es otra variante con ampollas sobre las lesiones."},
+{q:"El liquen plano lineal sigue característicamente:",
+ o:["Las líneas de Blaschko","Los dermatomos","Las líneas de tensión de Langer","Los pliegues de flexión"],c:0,
+ e:"Correcta: el LP lineal se distribuye según las líneas de Blaschko; existen también el LP hipertrófico/verrugoso (regiones tibiales), el pigmentoso (fototipos altos) y el palmoplantar ulceroso."},
+{q:"En cuanto a la evolución del liquen plano, según los apuntes:",
+ o:["Las formas cutáneas agudas/subagudas suelen ser autolimitadas, mientras las formas erosivas de la boca pueden persistir años","Todas las formas curan en días","Las formas mucosas son las más fáciles de tratar","Siempre evoluciona a eritrodermia"],c:0,
+ e:"Correcta: la evolución del LP es variable: las formas cutáneas agudas/subagudas suelen ser autolimitadas, pero las formas erosivas de la boca y la afectación mucosa en general pueden persistir años."},
+{q:"El fenómeno de Koebner (respuesta isomorfa) es común a varias dermatosis del tema; ¿en cuáles de las siguientes aparece?",
+ o:["Liquen plano, liquen nitidus y psoriasis","Solo en la pitiriasis rosada","Solo en la eritrodermia","En ninguna dermatosis de este tema"],c:0,
+ e:"Correcta: el fenómeno de Koebner aparece en el liquen plano, el liquen nitidus y la psoriasis (en esta como factor desencadenante por traumatismos)."},
+{q:"La psoriasis inversa, según los apuntes, afecta:",
+ o:["Las flexuras y los pliegues","Las superficies de extensión","El cuero cabelludo exclusivamente","Las palmas y plantas con pústulas"],c:0,
+ e:"Correcta: la psoriasis inversa afecta las flexuras y los pliegues (en contraste con la localización habitual en superficies de extensión); las flexuras son una de las localizaciones especiales junto a cuero cabelludo, mucosas, uñas y palmas/plantas."},
+{q:"Respecto al riesgo cardiovascular en la psoriasis, según los apuntes:",
+ o:["Hay riesgo aumentado de infarto de miocardio a edades más jóvenes y la psoriasis grave aumenta el riesgo de muerte cardiovascular","No influye en la mortalidad","Solo afecta a la piel","Disminuye el riesgo de infarto"],c:0,
+ e:"Correcta: la psoriasis se asocia a un riesgo aumentado de infarto de miocardio a edades más jóvenes que la población general, y la psoriasis grave aumenta el riesgo de muerte por enfermedad cardiovascular."},
+{q:"La queratodermia palmoplantar de la pitiriasis rubra pilaris se describe como:",
+ o:["Amarillenta y difusa","Blanca nacarada y localizada","Hemorrágica y puntiforme","Pustulosa"],c:0,
+ e:"Correcta: la PRP da una queratodermia palmoplantar amarillenta difusa, con afectación ungueal semejante a la psoriasis, y a veces erupción variceliforme de Kaposi (menos frecuente que en la DA o la enfermedad de Darier)."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
