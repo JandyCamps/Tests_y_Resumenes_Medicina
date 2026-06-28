@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test · Tema 14 · Linfomas, Histiocitosis y Mastocitosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:34px 0 28px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:760px;margin:0 auto;padding:0 18px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(23px,5vw,36px);line-height:1.05;margin:0 0 6px}
+  .hero p{max-width:560px;margin:0;color:#E2EEF0;font-size:14.5px}
+
+  .bar-wrap{position:sticky;top:0;z-index:10;background:var(--paper);padding:14px 0 10px}
+  .meta-line{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);margin-bottom:7px}
+  .meta-line .score b{color:var(--green)} .meta-line .score .x{color:var(--red)}
+  .progress{height:7px;background:var(--line-soft);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#46588C);transition:width .3s}
+
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .qhead{display:flex;align-items:flex-end;gap:10px;margin-bottom:14px;min-height:30px}
+  .wart{display:inline-flex;align-items:flex-end;transition:.25s ease}
+  .wart svg{display:block;transition:.25s ease}
+  .qtag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#fff;background:var(--acc);padding:3px 9px;border-radius:6px}
+  .qtext{font-family:"Fraunces",serif;font-weight:600;font-size:18.5px;line-height:1.4;margin:0 0 18px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);cursor:pointer;font-size:14.8px;transition:.12s;width:100%;font-family:inherit;color:inherit}
+  .opt:hover:not(.done){border-color:var(--acc);background:var(--acc-bg)}
+  .opt .key{flex:none;width:24px;height:24px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .opt.correct{border-color:var(--green-line);background:var(--green-bg)}
+  .opt.correct .key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+  .opt.wrong .key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.done{cursor:default} .opt.dim{opacity:.55}
+
+  .explain{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14px;display:none;animation:fade .25s ease}
+  .explain.show{display:block}
+  .explain.ok{background:var(--green-bg);border:1px solid var(--green-line)}
+  .explain.no{background:var(--red-bg);border:1px solid var(--red-line)}
+  .explain .verdict{font-family:"Fraunces",serif;font-weight:700;font-size:15.5px;margin:0 0 4px}
+  .explain.ok .verdict{color:var(--green)} .explain.no .verdict{color:var(--red)}
+  .explain p{margin:0;color:var(--ink-soft)}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+  .nav-left{display:flex;gap:8px;align-items:center}
+  .small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .btn{font-family:"Inter",sans-serif;font-weight:600;font-size:15px;border:none;border-radius:11px;padding:12px 22px;cursor:pointer;transition:.12s}
+  .btn.mini{padding:9px 16px;font-size:14px}
+  .btn.primary{background:var(--acc);color:#fff;box-shadow:0 6px 18px -8px rgba(14,91,97,.7)}
+  .btn.primary:hover{background:var(--acc-deep)}
+  .btn.ghost{background:var(--paper);color:var(--acc);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--acc)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---- Navegador de preguntas (siempre visible abajo) ---- */
+  .navpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;box-shadow:var(--shadow)}
+  .navpanel .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;font-weight:500}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:7px}
+  .navcell{aspect-ratio:1;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.1s;padding:0}
+  .navcell:hover{border-color:var(--acc)}
+  .navcell.ok{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+  .navcell.no{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .navcell.current{outline:3px solid var(--acc);outline-offset:1px}
+  .navlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+  .navlegend span{display:flex;align-items:center;gap:5px}
+  .navlegend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .navactions{margin-top:14px;display:flex;justify-content:flex-end}
+
+  /* ---- Resultados ---- */
+  #results{display:none}
+  .result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 24px;box-shadow:var(--shadow);text-align:center}
+  .ring{width:150px;height:150px;margin:0 auto 14px}
+  .big-score{font-family:"Fraunces",serif;font-weight:700;font-size:50px;line-height:1;margin:6px 0}
+  .pct{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink-soft)}
+  .netas{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .netas b{font-family:"Fraunces",serif;font-size:20px;color:var(--acc-deep)}
+  .verdict-msg{font-size:15px;color:var(--ink-soft);margin:12px auto 0;max-width:440px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px}
+  @media(max-width:520px){.qtext{font-size:17px}.big-score{font-size:42px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Dermatología · Tema 14</p>
+  <h1>Test · Linfomas cutáneos, Histiocitosis y Mastocitosis</h1>
+</div></header>
+
+<div class="wrap">
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="bar-wrap">
+      <div class="meta-line">
+        <span id="counter">Pregunta 1</span>
+        <span class="score">Aciertos: <b id="okCount">0</b> · <span class="x">Fallos: <span id="noCount">0</span></span></span>
+      </div>
+      <div class="progress"><i id="progBar"></i></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qhead"><span class="wart" id="wart" title="Verruga del examen"></span><span class="qtag" id="qtag">Pregunta</span></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="opts" id="opts"></div>
+      <div class="nav-row">
+        <div class="nav-left">
+          <button class="btn ghost mini" id="prevBtn" disabled>Anterior</button>
+          <span class="small" id="navHint">Selecciona una opción</span>
+        </div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente</button>
+      </div>
+      <div class="explain" id="explain"><p class="verdict" id="verdict"></p><p id="expText"></p></div>
+    </div>
+
+    <div class="navpanel">
+      <div class="lbl">Ir a una pregunta</div>
+      <div class="navgrid" id="navGrid"></div>
+      <div class="navlegend">
+        <span><i style="background:var(--green)"></i>Acertada</span>
+        <span><i style="background:var(--red)"></i>Fallada</span>
+        <span><i style="background:var(--paper);border:1px solid var(--line)"></i>Sin contestar</span>
+      </div>
+      <div class="navactions"><button class="btn ghost mini" id="finishBtn">Finalizar y ver resultados</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-card">
+      <div class="ring" id="ring"></div>
+      <div class="big-score" id="finalScore">0/0</div>
+      <div class="pct" id="finalPct">0%</div>
+      <div class="netas" id="finalNetas"></div>
+      <p class="verdict-msg" id="verdictMsg"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="repeatAllBtn">Repetir examen entero</button>
+        <button class="btn ghost" id="repeatWrongBtn">Repetir solo los fallos</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Test de autoevaluación del Tema 14 (linfomas cutáneos, histiocitosis y mastocitosis) · Universidad Francisco de Vitoria. Preguntas elaboradas a partir de los apuntes del tema. Uso personal para estudio.</footer>
+</div>
+
+<script>
+// Test del Tema 14 — Linfomas cutáneos, Histiocitosis y Mastocitosis (UFV, Dr. Domínguez Auñón)
+// Basado EXCLUSIVAMENTE en los apuntes del tema. o[0]=correcta; o[1..3]=distractores. c=0 (se baraja en runtime).
+var PREGUNTAS = [
+/* ====== Linfomas cutáneos: concepto y clasificación ====== */
+{q:"Los linfomas cutáneos, según los apuntes, son:",
+ o:["Proliferaciones clonales de linfocitos T o B neoplásicos (raramente NK o dendríticas plasmocitoides)","Proliferaciones benignas de melanocitos","Acúmulos de histiocitos reactivos","Tumores derivados de los queratinocitos"],c:0,
+ e:"Correcta: los linfomas cutáneos son proliferaciones clonales de linfocitos T o B neoplásicos (raramente NK o células dendríticas plasmocitoides); son el 2º grupo más frecuente de linfomas extranodales."},
+{q:"¿Qué define a un linfoma cutáneo PRIMARIO?",
+ o:["La ausencia de afectación extracutánea en el momento del diagnóstico","La presencia de metástasis viscerales al diagnóstico","El origen exclusivamente en células B","La afectación ganglionar obligada"],c:0,
+ e:"Correcta: el linfoma cutáneo primario se define por la ausencia de afectación extracutánea en el momento del diagnóstico; tiene comportamiento y pronóstico distintos de los linfomas sistémicos de histología similar."},
+{q:"En la clasificación de los linfomas cutáneos, ¿qué proporción corresponde a los de células T?",
+ o:["El 70% (frente al 30% de células B)","El 30% (frente al 70% de células B)","El 50% y 50%","El 95% de células T"],c:0,
+ e:"Correcta: los linfomas cutáneos de células T son el 70% (micosis fungoide, Sézary, CD30+) y los de células B el 30%."},
+{q:"¿Qué cuatro pilares se usan para el diagnóstico de un linfoma cutáneo primario?",
+ o:["Clínica, histopatología, inmunofenotipo y genotipo","Solo la clínica","Cultivo y serología","Dermatoscopia y luz de Wood"],c:0,
+ e:"Correcta: el diagnóstico se basa en la clínica, la histología, la inmunohistoquímica (inmunofenotipo) y el estudio inmunogenotípico (genotipo)."},
+
+/* ====== Micosis fungoide ====== */
+{q:"La micosis fungoide, según los apuntes:",
+ o:["Es el tipo más frecuente de linfoma cutáneo de células T (50% de los linfomas cutáneos primarios), típica de adultos (55-60 años)","Es un linfoma B de la infancia","Es la forma más agresiva de linfoma cutáneo","Es una histiocitosis"],c:0,
+ e:"Correcta: la micosis fungoide es el LCCT más frecuente (50% de los linfomas cutáneos primarios), típica de adultos (edad media 55-60 años), con predominio en varones y supervivencia del 88% a 5 años."},
+{q:"¿Cuáles son las tres fases clínicas típicas de la micosis fungoide?",
+ o:["Mancha (parche) → placa → tumor","Mácula → vesícula → costra","Pápula → pústula → cicatriz","Eritema → ampolla → ulceración"],c:0,
+ e:"Correcta: la micosis fungoide evoluciona en tres fases: mancha (parche/'patch'), placa y tumor; es un linfoma de células T cerebriformes epidermotropas, indolente y de bajo grado."},
+{q:"En la fase de mancha de la micosis fungoide, ¿qué localización es típicamente la primera afectada?",
+ o:["El área del bañador (zonas no fotoexpuestas)","La cara y el cuero cabelludo","Las palmas y plantas","Las mucosas"],c:0,
+ e:"Correcta: la fase de mancha afecta de forma característica el 'área del bañador' (zonas no fotoexpuestas), con lesiones eritematosas finamente descamativas y prurito; suele referirse como 'dermatitis crónica' durante años, y mejora con el sol."},
+{q:"En la fase TUMORAL de la micosis fungoide (10% de pacientes), ¿qué es característico?",
+ o:["La combinación de lesiones de las 3 fases (manchas, placas y tumores), con predilección por cara y pliegues","Solo tumores aislados sin otras lesiones","La ausencia total de prurito","La curación espontánea"],c:0,
+ e:"Correcta: en la fase tumoral (10%) coexisten manchas, placas y tumores (rojo-violáceos, que se ulceran e infectan), con predilección por cara y pliegues; puede haber diseminación ganglionar y visceral."},
+{q:"¿Cuál es el hallazgo histológico característico de la micosis fungoide?",
+ o:["Linfocitos cerebriformes con epidermotropismo y microabscesos de Pautrier intraepidérmicos","Patrón en empalizada de células basaloides","Células gigantes de Touton","Mastocitos en 'huevo frito'"],c:0,
+ e:"Correcta: la micosis fungoide muestra linfocitos cerebriformes en banda en la dermis superior con epidermotropismo y formación de microabscesos intraepidérmicos de Pautrier; los linfocitos se disponen 'en fila india' en la unión dermoepidérmica."},
+{q:"¿Cuál es el inmunofenotipo típico de la micosis fungoide?",
+ o:["CD3+, CD4+, CD45RO+, CD8− (fenotipo T memoria)","CD20+, CD79a+","CD30+ exclusivamente","CD1a+, S100+"],c:0,
+ e:"Correcta: la micosis fungoide tiene fenotipo T memoria: CD3+, CD4+, CD45RO+, CD8−."},
+{q:"En la micosis fungoide, la transformación a célula grande (>25% de células grandes o nódulos microscópicos) implica:",
+ o:["Mal pronóstico","Mejor pronóstico","Curación espontánea","Conversión a linfoma B"],c:0,
+ e:"Correcta: la transformación a célula grande (>25% de células grandes en el infiltrado o formando nódulos) implica mal pronóstico; en la fase tumoral el infiltrado se hace nodular en dermis y desaparece el epidermotropismo. La mucinosis folicular deja alopecia."},
+{q:"¿Cuál de estas es una variante reconocida de micosis fungoide según los apuntes?",
+ o:["La MF foliculotropa (asociada a mucinosis folicular), la reticulosis pagetoide y la piel laxa granulomatosa","El síndrome de Sézary","El linfoma anaplásico CD30+","La enfermedad de Rosai-Dorfman"],c:0,
+ e:"Correcta: las variantes de MF son la foliculotropa (con mucinosis folicular), la reticulosis pagetoide (zonas acras, proliferación intraepidérmica pura) y la piel laxa granulomatosa; la MF es 'la gran simuladora'."},
+{q:"El análisis genotípico en el diagnóstico de la micosis fungoide consiste en:",
+ o:["El estudio del reordenamiento del receptor de linfocitos T (TCR) por PCR, cuya positividad debe correlacionarse con clínica e histología","Un cultivo en medio de Sabouraud","La detección de la mutación c-KIT","La serología treponémica"],c:0,
+ e:"Correcta: el análisis genotípico estudia el reordenamiento del TCR (por PCR) para demostrar una población clonal; su positividad no es criterio absoluto de malignidad y debe correlacionarse con la clínica y la histología."},
+
+/* ====== Síndrome de Sézary ====== */
+{q:"La tríada diagnóstica del síndrome de Sézary, según los apuntes, incluye:",
+ o:["Eritrodermia + linfadenopatía generalizada + células de Sézary en sangre (>1000/μL o alteraciones inmunofenotípicas)","Mancha + placa + tumor","Xantomas + diabetes insípida + gammapatía","Fiebre + adenopatía cervical + emperipolesis"],c:0,
+ e:"Correcta: el síndrome de Sézary se define por eritrodermia, linfadenopatía generalizada y células de Sézary en sangre (>1000/μL o con alteraciones como CD4/CD8>10 o expresión aberrante pan-T)."},
+{q:"Sobre el pronóstico del síndrome de Sézary, según los apuntes:",
+ o:["Es raro (<5% de los LCCT), de evolución rápida y agresiva, con mal pronóstico (supervivencia a 5 años del 25%)","Es el linfoma cutáneo más frecuente y benigno","Tiene supervivencia a 5 años del 88%","Nunca afecta los ganglios"],c:0,
+ e:"Correcta: el síndrome de Sézary es raro (<5% de LCCT), en varones adultos/ancianos, con prurito intensísimo, hiperqueratosis palmoplantar, pérdida de pelo/uñas, evolución agresiva y supervivencia a 5 años del 25%."},
+
+/* ====== CD30+ ====== */
+{q:"Los trastornos linfoproliferativos CD30+ cutáneos primarios, según los apuntes:",
+ o:["Suponen el 25-30% de los linfomas cutáneos T, con linfocitos grandes 'anaplásicos' CD30+ y buen pronóstico","Son el grupo más agresivo de linfomas cutáneos","Son linfomas B","Tienen pésimo pronóstico"],c:0,
+ e:"Correcta: los trastornos CD30+ (linfoma anaplásico y papulosis linfomatoide) son el 25-30% de los linfomas cutáneos T, con linfocitos grandes anaplásicos CD30+ y buen pronóstico."},
+{q:"El linfoma anaplásico CD30+ primario cutáneo se caracteriza por:",
+ o:["Nódulos o tumores únicos que se ulceran, sin afectación sistémica, con buen pronóstico (supervivencia a 10 años >85%)","Eritrodermia con células de Sézary","Brotes de pápulas que curan solas en semanas","Múltiples linfomas B agresivos"],c:0,
+ e:"Correcta: el linfoma anaplásico CD30+ cutáneo da nódulos/tumores únicos o localizados que se ulceran (20% multifocales), puede regresar y recidivar, sin afectación sistémica, con buen pronóstico (Sv 10 años >85%). Se trata con radioterapia o cirugía."},
+{q:"La papulosis linfomatoide, según los apuntes:",
+ o:["Cursa con brotes recurrentes de pápulas/papulonódulos que curan en 3-8 semanas, con histología maligna pero excelente pronóstico (Sv 5 años ~100%)","Es un linfoma B agresivo","Cursa con eritrodermia","Tiene supervivencia a 5 años del 25%"],c:0,
+ e:"Correcta: la papulosis linfomatoide da brotes recurrentes de pápulas que curan solas en 3-8 semanas, con histología maligna (tipos A, B, C...) pero supervivencia a 5 años cercana al 100%; el 10-20% se asocia a MF, ALCL o Hodgkin. Se trata con PUVA o metotrexato."},
+{q:"En la papulosis linfomatoide, el tipo histológico A se caracteriza por:",
+ o:["Células tipo Reed-Sternberg CD30+ junto a un infiltrado inflamatorio polimorfo en cuña","Un patrón idéntico a la micosis fungoide","Un infiltrado difuso CD30+ con escaso componente inflamatorio","Predominio de células B CD20+"],c:0,
+ e:"Correcta: el tipo A muestra células tipo Reed-Sternberg CD30+ con infiltrado inflamatorio polimorfo en cuña; el tipo B es MF-like y el tipo C similar al linfoma anaplásico (infiltrado difuso CD30+)."},
+
+/* ====== Linfomas B ====== */
+{q:"Los linfomas cutáneos de células B, según los apuntes, suelen ser:",
+ o:["De bajo grado y buen pronóstico, con lesiones agrupadas en un área, sin afectación sistémica y LDH normal","Siempre agresivos y diseminados","Eritrodérmicos","De peor pronóstico que el Sézary"],c:0,
+ e:"Correcta: la mayoría de los linfomas B cutáneos son de bajo grado y buen pronóstico, con una o varias lesiones agrupadas (pápulas/placas/tumores rojo-violáceos), sin afectación sistémica y LDH normal; recidivan en el 50%. Se tratan con radioterapia, cirugía o rituximab (anti-CD20)."},
+{q:"El linfoma B cutáneo del centro folicular tiene como inmunofenotipo característico:",
+ o:["CD20+, CD79a+, Bcl2−, Bcl6+","CD20+, CD79a+, Bcl2+, Bcl6−","CD3+, CD4+, CD8−","CD1a+, S100+"],c:0,
+ e:"Correcta: el linfoma B centrofolicular es CD20+, CD79a+, Bcl2− y Bcl6+ (localizado en cuero cabelludo/frente y tronco); el de la zona marginal es Bcl2+ y Bcl6−."},
+{q:"El linfoma cutáneo de células B grandes difuso 'tipo pierna', según los apuntes:",
+ o:["Es uno de los tipos de linfoma B más agresivos, con tumores pardo-rojizos en la pierna","Es el de mejor pronóstico","Es un linfoma T","Cursa con eritrodermia"],c:0,
+ e:"Correcta: el linfoma B grande difuso 'tipo pierna' es uno de los linfomas B cutáneos más raros y agresivos, con múltiples tumores pardo-rojizos en la pierna."},
+
+/* ====== Pseudolinfomas ====== */
+{q:"Los pseudolinfomas cutáneos (hiperplasias linfoides) se definen como:",
+ o:["Proliferaciones linfoides BENIGNAS que simulan linfomas cutáneos clínica y/o histológicamente","Linfomas B de alto grado","Histiocitosis malignas","Metástasis cutáneas de leucemia"],c:0,
+ e:"Correcta: los pseudolinfomas son proliferaciones linfoides benignas que simulan linfomas cutáneos clínica y/o histopatológicamente (p. ej. reticuloide actínico, linfocitoma cutis, reacciones a picaduras o tatuajes)."},
+{q:"En el diagnóstico diferencial histopatológico entre linfoma y pseudolinfoma, ¿qué patrón arquitectural y reordenamiento sugieren LINFOMA?",
+ o:["Patrón 'top heavy', infiltrado monomorfo y reordenamiento monoclonal","Patrón 'bottom heavy' e infiltrado mixto","Reordenamiento policlonal","Centros germinales reactivos con zona del manto"],c:0,
+ e:"Correcta: el linfoma tiende a un patrón 'top heavy', infiltrado monomorfo y reordenamiento monoclonal, mientras el pseudolinfoma es 'bottom heavy', mixto y policlonal; ningún criterio es absoluto y a veces el diagnóstico requiere seguimiento."},
+
+/* ====== Leucemia cutis ====== */
+{q:"La leucemia cutis, según los apuntes:",
+ o:["Es la diseminación cutánea de una leucemia sistémica, de mal pronóstico, más frecuente en las leucemias monocíticas","Es un linfoma B de buen pronóstico","Es una histiocitosis benigna","Es una mastocitosis"],c:0,
+ e:"Correcta: la leucemia cutis es la diseminación cutánea de una leucemia sistémica, con pápulas y nódulos (cabeza y tronco), de mal pronóstico, más frecuente en las leucemias monocíticas (20-33%); existe la forma aleucémica."},
+
+/* ====== Histiocitosis: generalidades ====== */
+{q:"Las histiocitosis, según los apuntes, son:",
+ o:["Un grupo heterogéneo de enfermedades por acúmulo de histiocitos (reactivos o neoplásicos), provenientes de un progenitor CD34+ de la médula ósea","Proliferaciones de melanocitos","Linfomas de células B","Tumores vasculares"],c:0,
+ e:"Correcta: las histiocitosis son un grupo heterogéneo por acúmulo de histiocitos (reactivos o neoplásicos) provenientes de un progenitor CD34+ medular; se dividen en de células de Langerhans (I), no-Langerhans (II) y malignas (III)."},
+{q:"¿Qué marcadores caracterizan a las células de Langerhans?",
+ o:["CD1a+ y S100+ (y langerina/CD207)","CD68+ exclusivamente","CD20+, CD79a+","Triptasa y CD117"],c:0,
+ e:"Correcta: las células de Langerhans son CD1a+ y S100+ (y langerina/CD207); los monocitos/macrófagos son CD68+."},
+
+/* ====== Histiocitosis de células de Langerhans ====== */
+{q:"La histiocitosis de células de Langerhans (HCL), según los apuntes:",
+ o:["Es un trastorno proliferativo clonal de células de Langerhans que aparece sobre todo en niños de 1-3 años, con mutación BRAF V600E en el 57%","Es un proceso benigno exclusivo de adultos","Es siempre maligno y metastatizante","Es una proliferación de células B"],c:0,
+ e:"Correcta: la HCL es un trastorno proliferativo clonal de células de Langerhans que se acumulan y dañan tejidos; aparece sobre todo en niños de 1-3 años (varones 2:1), con mutación BRAF V600E en el 57% (2010)."},
+{q:"En la histología de la HCL, ¿qué hallazgo es característico?",
+ o:["Células histiocíticas grandes con núcleo en forma de judía, infiltrado eosinofílico, y gránulos de Birbeck en microscopía electrónica","Mastocitos en 'huevo frito'","Células gigantes de Touton","Patrón en empalizada"],c:0,
+ e:"Correcta: la HCL muestra cúmulos de células de Langerhans (citoplasma rosa, núcleo lobulado 'en judía') con infiltrado linfocítico/eosinofílico; la inmunohistoquímica (CD1a, S100, langerina) es clave y se ven gránulos de Birbeck al microscopio electrónico."},
+{q:"En la afectación cutánea de la HCL, ¿qué presentación es típica?",
+ o:["Lesiones tipo dermatitis seborreica en cuero cabelludo y pápulas purpúricas descamativas, con ulceración de flexuras","Vesículas agrupadas en un dermatomo","Placas perladas con telangiectasias","Máculas hipopigmentadas del bañador"],c:0,
+ e:"Correcta: la HCL cutánea da lesiones tipo dermatitis seborreica en cuero cabelludo, pápulas rojo-amarillo-marrones descamativas y a menudo purpúricas, y ulceración de flexuras/ingles/perianal (frecuente como presentación en adultos); las petequias/pápulas purpúricas son una clave diagnóstica."},
+{q:"En la HCL, ¿cuál es la afectación ENDOCRINA más frecuente?",
+ o:["La diabetes insípida (por afectación de hipófisis/hipotálamo)","El hipertiroidismo","La diabetes mellitus","El hiperparatiroidismo"],c:0,
+ e:"Correcta: la afectación endocrina más frecuente de la HCL es la diabetes insípida (22-50% de los niños con enfermedad multisistémica), por afectación hipofisaria/hipotalámica; el hueso (cráneo) muestra lesiones osteolíticas bien delimitadas."},
+{q:"¿Qué tratamiento dirigido se cita para la HCL según los apuntes?",
+ o:["Inhibidores de BRAF (vemurafenib, dabrafenib)","Rituximab","Vismodegib","Permetrina"],c:0,
+ e:"Correcta: entre los tratamientos de la HCL se citan los inhibidores de BRAF (vemurafenib, dabrafenib), en relación con la mutación BRAF V600E."},
+
+/* ====== Histiocitosis no-Langerhans ====== */
+{q:"Las histiocitosis de células NO-Langerhans, según los apuntes:",
+ o:["Proliferan histiocitos CD68+, CD1a−, S100−, en general procesos reactivos no malignos, autorresolutivos en la infancia","Son siempre malignas","Expresan CD1a y S100","Son linfomas T"],c:0,
+ e:"Correcta: las histiocitosis no-Langerhans proliferan histiocitos CD68+, CD1a−, S100−, son en general reactivas (no malignas) y la mayoría aparece en la infancia con curso benigno autorresolutivo; dan pápulas/nódulos amarillentos con xantomización."},
+{q:"¿Cuál es la histiocitosis no-Langerhans MÁS frecuente?",
+ o:["El xantogranuloma juvenil","El xantoma diseminado","La enfermedad de Rosai-Dorfman","El xantogranuloma necrobiótico"],c:0,
+ e:"Correcta: el xantogranuloma juvenil es la histiocitosis más frecuente; aparece en bebés/niños con lesiones en cabeza, cuello y tronco superior (pápulas/nódulos que se vuelven amarillos)."},
+{q:"¿Qué célula gigante es característica del xantogranuloma juvenil?",
+ o:["La célula gigante de Touton","La célula de Reed-Sternberg","La célula de Sézary","El mastocito en 'huevo frito'"],c:0,
+ e:"Correcta: el xantogranuloma juvenil muestra en la histología células gigantes tipo Touton; se asocia raramente a NF1 y a leucemia mielomonocítica juvenil, y las lesiones oculares (<0,5%) pueden producir ceguera."},
+{q:"El xantoma diseminado, según los apuntes, cursa con la tríada:",
+ o:["Xantomas cutáneos + xantomas mucosos + diabetes insípida","Eritrodermia + adenopatía + células de Sézary","Fiebre + adenopatía cervical + emperipolesis","Xantomas + gammapatía IgG + necrobiosis"],c:0,
+ e:"Correcta: el xantoma diseminado cursa con la tríada de xantomas cutáneos, xantomas mucosos y diabetes insípida, con distribución simétrica (párpados, flexuras), generalmente normolipémico."},
+{q:"El xantogranuloma necrobiótico se asocia característicamente a:",
+ o:["Gammapatía monoclonal IgG (>70%), con placas/nódulos amarillentos periorbitarios y enfermedad multisistémica","Mutación c-KIT","Mucinosis folicular","Reordenamiento del TCR"],c:0,
+ e:"Correcta: el xantogranuloma necrobiótico (adultos >50 años) da placas/nódulos amarillentos periorbitarios que pueden ulcerarse, es multisistémico (hepatosplenomegalia, afectación ocular) y asocia gammapatía monoclonal IgG en >70%; histología con necrobiosis y agujas de colesterol."},
+{q:"La enfermedad de Rosai-Dorfman (histiocitosis sinusal con linfadenopatía masiva) se caracteriza por:",
+ o:["Histiocitos grandes S-100+ con linfocitos en su interior (emperipolesis), fiebre y linfadenopatía cervical bilateral","Células gigantes de Touton","Mastocitos en 'huevo frito'","Microabscesos de Pautrier"],c:0,
+ e:"Correcta: la enfermedad de Rosai-Dorfman muestra histiocitos grandes S-100+ con emperipolesis (linfocitos en su interior), con fiebre, linfadenopatía cervical bilateral, anemia y VSG elevada; el 10% tiene lesiones cutáneas (hay formas exclusivamente cutáneas)."},
+{q:"La reticulohistiocitosis se caracteriza histológicamente por:",
+ o:["Histiocitos con citoplasma eosinófilo granular, aspecto en 'vidrio esmerilado'","Mastocitos en 'huevo frito'","Linfocitos cerebriformes epidermotropos","Patrón en empalizada"],c:0,
+ e:"Correcta: la reticulohistiocitosis muestra histiocitos con citoplasma eosinófilo granular ('vidrio esmerilado'); va desde lesión única hasta la reticulohistiocitosis multicéntrica con afectación sistémica (artropatía destructiva)."},
+
+/* ====== Mastocitosis ====== */
+{q:"Los mastocitos, según los apuntes, derivan de:",
+ o:["Las células pluripotenciales CD34+ de la médula ósea","Los melanocitos de la cresta neural","Las células de Langerhans","Los queratinocitos basales"],c:0,
+ e:"Correcta: los mastocitos derivan de las células pluripotenciales CD34+ de la médula ósea y, al activarse, secretan mediadores preformados y de nueva síntesis en la inmunidad innata y adquirida."},
+{q:"¿Qué mutación está presente en casi todos los ADULTOS con mastocitosis?",
+ o:["La del receptor de tirosina cinasa c-KIT (CD117), mutación activadora","La mutación BRAF V600E","La mutación CDKN2A","El reordenamiento del TCR"],c:0,
+ e:"Correcta: las mutaciones activadoras del receptor c-KIT (CD117) están en casi todos los adultos con mastocitosis (raras en niños) y favorecen la supervivencia y migración de los mastocitos."},
+{q:"El signo de Darier en la mastocitosis consiste en:",
+ o:["La urticación (y a veces vesiculación) tras el roce o frotamiento de las lesiones","La pigmentación del pliegue ungueal","Un halo hipocrómico alrededor de la lesión","El despegamiento de la epidermis al frotar piel sana"],c:0,
+ e:"Correcta: el signo de Darier es la urticación (y a veces formación de vesicoampollas) tras frotar las lesiones de mastocitosis; es más intenso en niños por su mayor densidad de mastocitos."},
+{q:"¿Cuál es el tipo MÁS frecuente de mastocitosis cutánea en niños y adultos?",
+ o:["La urticaria pigmentosa","El mastocitoma solitario","La telangiectasia macular eruptiva perstans","La mastocitosis cutánea difusa"],c:0,
+ e:"Correcta: la urticaria pigmentosa (mastocitosis cutánea maculopapulosa) es la más frecuente; suele aparecer en la primera infancia, predomina en el tronco (respeta cara, cuero cabelludo y palmas/plantas), con múltiples pápulas marrón-amarillentas monomorfas."},
+{q:"El mastocitoma solitario, según los apuntes:",
+ o:["Aparece ya al nacer o en los primeros meses, como pápula/nódulo pardo-amarillento que se resuelve en unos años","Es exclusivo de adultos","Es una forma agresiva con afectación sistémica","Son máculas telangiectásicas del tronco"],c:0,
+ e:"Correcta: el mastocitoma solitario aparece al nacer o en los primeros meses (pápula/nódulo infiltrado pardo-amarillento, más frecuente en extremidades distales) y se resuelve en unos años."},
+{q:"La telangiectasia macular eruptiva perstans (TMEP), según los apuntes:",
+ o:["Aparece en adultos, con máculas rojas telangiectásicas persistentes en el tronco que enrojecen pero NO urtican al roce","Es típica de neonatos","Cursa con signo de Darier muy intenso","Es la mastocitosis más frecuente en niños"],c:0,
+ e:"Correcta: la TMEP afecta a adultos, con máculas rojas fijas telangiectásicas en el tronco que enrojecen (flushing) pero no urtican al roce."},
+{q:"La mastocitosis cutánea difusa, según los apuntes:",
+ o:["Es muy rara, propia de neonatos, con infiltración difusa de toda la piel, ampollas, prurito intenso y mayor riesgo de enfermedad sistémica","Es la forma más frecuente en adultos","No produce síntomas","Cursa solo con máculas telangiectásicas"],c:0,
+ e:"Correcta: la mastocitosis cutánea difusa es muy rara (neonatos), con infiltración difusa de la piel, ampollas, prurito intenso y mayor riesgo de enfermedad sistémica (anafilaxia, diarrea), aunque suele resolverse espontáneamente."},
+{q:"¿Cuáles son síntomas típicos de la liberación de mediadores mastocitarios según los apuntes?",
+ o:["Prurito, flushing (enrojecimiento), cefalea, dolor abdominal, diarrea y síncope","Fiebre con adenopatía cervical","Eritrodermia con células de Sézary","Diabetes insípida"],c:0,
+ e:"Correcta: los síntomas de liberación de mediadores incluyen prurito, flushing, cefalea, dolor abdominal, diarrea y síncope (anafilaxia); pueden aparecer ante liberación masiva en la urticaria pigmentosa."},
+{q:"En el diagnóstico de mastocitosis, ¿qué nivel de triptasa plantea hacer biopsia de médula ósea?",
+ o:["Triptasa > 20 ng/mL","Triptasa > 2 ng/mL","Cualquier valor de triptasa","La triptasa no se usa en mastocitosis"],c:0,
+ e:"Correcta: ante sospecha de enfermedad sistémica se solicita hemograma, función hepática y triptasa; un valor >20 ng/mL plantea biopsia de médula ósea."},
+{q:"¿Cuál es el aspecto histológico característico de los mastocitos en la mastocitosis?",
+ o:["Aspecto de 'huevo frito', con gránulos en el citoplasma, KIT/CD117 positivos","Núcleo cerebriforme epidermotropo","Células gigantes de Touton","Patrón en empalizada"],c:0,
+ e:"Correcta: los mastocitos en la dermis tienen aspecto de 'huevo frito' (gránulos en citoplasma anfofílico) y son KIT/CD117 positivos en la inmunohistoquímica."},
+{q:"En el esquema diagnóstico de mastocitosis cutánea, ¿qué se requiere?",
+ o:["Un criterio mayor (lesiones cutáneas características) más uno o dos criterios menores (infiltrado mastocitario o mutación KIT activadora)","Solo la clínica","Dos criterios mayores obligatorios","La detección del reordenamiento del TCR"],c:0,
+ e:"Correcta: el diagnóstico requiere el criterio mayor (lesiones cutáneas características) más uno o dos criterios menores: infiltrado monomorfo de mastocitos triptasa-positivos (>15/grupo o >20/campo de gran aumento) y/o detección de una mutación KIT activadora en la piel."},
+
+/* ====== Matices añadidos ====== */
+{q:"¿Qué es el epidermotropismo en la micosis fungoide?",
+ o:["La tendencia de los linfocitos atípicos a infiltrar la epidermis (con microabscesos de Pautrier)","La proliferación de mastocitos en la dermis","La afectación exclusiva del folículo piloso","La diseminación a los ganglios"],c:0,
+ e:"Correcta: el epidermotropismo es la tendencia de los linfocitos cerebriformes a infiltrar la epidermis, formando microabscesos intraepidérmicos de Pautrier; en la fase tumoral el infiltrado se hace nodular y desaparece el epidermotropismo."},
+{q:"La reticulosis pagetoide, variante de micosis fungoide, se caracteriza por:",
+ o:["Afectar zonas acras (palmas y plantas) con una proliferación intraepidérmica pura de linfocitos T atípicos","Eritrodermia generalizada","Pliegues de piel laxa atrófica","Mucinosis folicular con alopecia"],c:0,
+ e:"Correcta: la reticulosis pagetoide afecta zonas acras (palmas y plantas), con una placa solitaria y proliferación intraepidérmica pura de linfocitos T atípicos que casi sustituyen la epidermis; la piel laxa granulomatosa da pliegues péndulos de piel laxa atrófica."},
+{q:"La MF foliculotropa, según los apuntes, se asocia a:",
+ o:["Mucinosis folicular, con placas infiltradas en cara/cejas y pérdida de pelo, sin epidermotropismo","Microabscesos de Pautrier muy marcados","Eritrodermia con células de Sézary","Afectación palmoplantar pura"],c:0,
+ e:"Correcta: la MF foliculotropa se asocia a mucinosis folicular, con infiltrados perifoliculares y placas en frente/ceja con pérdida de pelo simultánea, y ausencia de epidermotropismo."},
+{q:"En la papulosis linfomatoide, el tipo histológico C es:",
+ o:["Similar al linfoma anaplásico (infiltrado difuso de linfocitos T CD30+ con escaso componente inflamatorio)","Idéntico a la micosis fungoide","Predominantemente de células B","Un infiltrado polimorfo en cuña con células de Reed-Sternberg"],c:0,
+ e:"Correcta: el tipo C de la papulosis linfomatoide es similar al linfoma anaplásico (C-ALCL): infiltrado difuso de linfocitos T CD30+ con escaso componente inflamatorio; el tipo B es MF-like."},
+{q:"El linfoma B cutáneo de la zona marginal se localiza preferentemente en:",
+ o:["Las extremidades (superiores más que inferiores) y el tronco","La pierna exclusivamente","El cuero cabelludo y la frente","Las mucosas"],c:0,
+ e:"Correcta: el linfoma B de la zona marginal afecta extremidades (superiores > inferiores) y tronco, como nódulo eritematoso de superficie brillante; es CD20+, CD79a+, Bcl2+ y Bcl6−."},
+{q:"¿Qué hallazgo ultraestructural es típico de la histiocitosis de células de Langerhans?",
+ o:["Los gránulos de Birbeck","Los cuerpos de Kamino","Las agujas de colesterol","Los gránulos metacromáticos del mastocito"],c:0,
+ e:"Correcta: en la HCL se observan gránulos de Birbeck al microscopio electrónico; la inmunohistoquímica (CD1a, S100, langerina/CD207) es clave para el diagnóstico."},
+{q:"En la afectación ÓSEA de la histiocitosis de células de Langerhans, ¿qué se ve en la radiografía?",
+ o:["Lesiones osteolíticas bien delimitadas (frecuentes en el cráneo)","Lesiones escleróticas difusas","Reacción perióstica en sol naciente","Calcificaciones en palomitas de maíz"],c:0,
+ e:"Correcta: la afectación ósea de la HCL (frecuente en cráneo, también fémur, costillas, vértebras) da lesiones osteolíticas bien delimitadas, asintomáticas o dolorosas, con riesgo de fracturas patológicas."},
+{q:"La histiocitosis cefálica benigna, según los apuntes:",
+ o:["Aparece en niños menores de 1 año, es benigna (sin afectación visceral) y autolimitada","Aparece en ancianos con afectación sistémica","Es una histiocitosis maligna","Cursa con diabetes insípida"],c:0,
+ e:"Correcta: la histiocitosis cefálica benigna aparece en niños <1 año, sin afectación visceral y autolimitada; la histiocitosis eruptiva generalizada es similar pero en adultos jóvenes, con brotes recurrentes, benigna y autolimitada."},
+{q:"La histiocitosis nodular progresiva, frente al xantoma diseminado, según los apuntes:",
+ o:["Da lesiones más grandes y nodulares y RESPETA las flexuras (a diferencia del xantoma diseminado)","Afecta selectivamente las flexuras","Cursa siempre con diabetes insípida","Es una histiocitosis de células de Langerhans"],c:0,
+ e:"Correcta: la histiocitosis nodular progresiva da lesiones más grandes y nodulares y respeta las flexuras, a diferencia del xantoma diseminado (que afecta párpados, flexuras y áreas intertriginosas)."},
+{q:"En la urticaria pigmentosa, la liberación masiva de mediadores puede producir:",
+ o:["Flushing (50%), prurito, angioedema, síntomas tipo asma y síncope por anafilaxia","Diabetes insípida","Eritrodermia con adenopatías","Lesiones osteolíticas craneales"],c:0,
+ e:"Correcta: en la urticaria pigmentosa, aunque lo habitual es estar asintomático, la liberación masiva de mediadores da flushing (50%), prurito, urticaria/angioedema, cefalea, síntomas digestivos, 'tipo asma', intolerancia térmica y síncope (anafilaxia)."},
+{q:"En la mastocitosis, ¿qué pacientes pueden NO presentar lesiones cutáneas?",
+ o:["Los que tienen mastocitosis sistémica agresiva, leucemia de mastocitos o enfermedad hematológica clonal asociada","Los niños con urticaria pigmentosa","Los que tienen mastocitoma solitario","Todos los pacientes tienen siempre lesiones cutáneas"],c:0,
+ e:"Correcta: la mayoría de niños y algunos adultos (sistémica indolente/latente) tienen lesiones cutáneas, pero los pacientes con mastocitosis sistémica agresiva, leucemia de mastocitos o enfermedad hematológica clonal asociada pueden no presentarlas."}
+];
+
+</script>
+<script>
+/* ====== MOTOR DEL EXAMEN ====== */
+let deck = [];   // [{ref, order, correctPos, chosen}]
+let idx = 0;
+let wartLevel = 0;   // crece al fallar, mengua al acertar
+const $ = id => document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function countOK(){return deck.filter(it=>it.chosen!=null && it.chosen===it.correctPos).length;}
+function countNO(){return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).length;}
+function countDone(){return deck.filter(it=>it.chosen!=null).length;}
+
+function buildDeck(list){
+  // Orden de preguntas FIJO (como en el examen). Solo se barajan las opciones.
+  return list.map(p=>{
+    let order=[0,1,2,3]; shuffle(order);
+    return { ref:p, order, correctPos: order.indexOf(p.c), chosen:null };
+  });
+}
+
+function startExam(list){
+  deck = buildDeck(list);
+  idx=0; wartLevel=0;
+  $('results').style.display='none';
+  $('quiz').style.display='block';
+  buildNav(); updateCounters(); renderWart(); renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav(){
+  const g=$('navGrid'); g.innerHTML='';
+  deck.forEach((it,i)=>{
+    const c=document.createElement('button');
+    c.className='navcell'; c.textContent=i+1; c.onclick=()=>{ idx=i; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); };
+    g.appendChild(c);
+  });
+  updateNav();
+}
+function updateNav(){
+  [...$('navGrid').children].forEach((c,i)=>{
+    const it=deck[i];
+    c.className='navcell'+(it.chosen!=null ? (it.chosen===it.correctPos?' ok':' no'):'')+(i===idx?' current':'');
+  });
+}
+function updateCounters(){ $('okCount').textContent=countOK(); $('noCount').textContent=countNO(); }
+
+function renderWart(){
+  const lvl = Math.max(0, Math.min(12, wartLevel));   // tope visual
+  const cont = $('wart');
+  if(lvl===0){
+    // Piel sana / mácula casi plana
+    cont.innerHTML='<svg width="30" height="16" viewBox="0 0 30 16" aria-label="piel sana">'
+      +'<ellipse cx="15" cy="11" rx="11" ry="3" fill="#E9CDA8" stroke="#D9B488" stroke-width="0.7"/></svg>';
+    cont.title='Sin fallos · lesión plana';
+    return;
+  }
+  // Crece: más ancho y, sobre todo, más alto (de plano a nódulo "en globo")
+  const rx = 12 + lvl*2.4;
+  const ry = 4 + lvl*2.9;
+  const irr = Math.min(0.55, 0.06 + lvl*0.045);   // borde cada vez más irregular
+  const skew = irr*0.5;                             // asimetría
+  const pad = 7;
+  const w = Math.ceil(rx*2*(1+skew) + pad*2);
+  const h = Math.ceil(ry*2 + pad*2 + 4);
+  const cx = w/2 + lvl*0.6, cy = h - ry - pad;       // centro desplazado (asimétrico)
+  // color: de carnoso a rojo-pardo "enfadado"
+  const t = lvl/12;
+  const top = lerpCol([235,205,160],[210,120,86],t);
+  const bot = lerpCol([201,154,106],[150,50,40],t);
+  // borde irregular (blob suave)
+  const n = 16;
+  let pts=[];
+  for(let i=0;i<n;i++){
+    const a=(i/n)*Math.PI*2;
+    const jit = 1 + irr*(Math.sin(a*3+lvl)*0.55 + Math.sin(a*5+lvl*1.7)*0.35 + Math.sin(a*2+1)*0.25);
+    let x = cx + Math.cos(a)*rx*jit;
+    let y = cy + Math.sin(a)*ry*jit;
+    x += (y-cy)*skew;                                // sesga = asimetría
+    pts.push([x,y]);
+  }
+  const path = smoothClosed(pts);
+  // erosión/costra central a partir de nivel medio
+  let centre='';
+  if(lvl>=4){
+    const er = Math.min(rx,ry)*0.42;
+    centre='<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="'+er.toFixed(1)+'" ry="'+(er*0.8).toFixed(1)+'" fill="#7A2A1E" opacity="0.55"/>';
+  }
+  // telangiectasias (vasos) a nivel alto
+  let vessels='';
+  if(lvl>=7){
+    vessels='<path d="M'+(cx-rx*0.4).toFixed(1)+','+(cy).toFixed(1)+' q'+(rx*0.2)+',-3 '+(rx*0.45)+',1" stroke="#8E2B22" stroke-width="0.8" fill="none" opacity="0.6"/>';
+  }
+  // puntitos = nº de fallos (uno por fallo)
+  let dots='';
+  const nd = Math.min(lvl, 12);
+  for(let i=0;i<nd;i++){
+    const a=i*2.399963;                              // distribución áurea
+    const rr=Math.sqrt((i+0.6)/(nd+0.6))*Math.min(rx,ry)*0.62;
+    const dx=cx+Math.cos(a)*rr, dy=cy+Math.sin(a)*rr*0.85;
+    dots+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#5A2317" opacity="0.8"/>';
+  }
+  cont.innerHTML=
+    '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" aria-label="carcinoma">'
+    +'<defs><radialGradient id="wg" cx="40%" cy="32%" r="80%">'
+    +'<stop offset="0" stop-color="rgb('+top+')"/><stop offset="1" stop-color="rgb('+bot+')"/></radialGradient></defs>'
+    +'<ellipse cx="'+cx.toFixed(1)+'" cy="'+(h-3)+'" rx="'+(rx*(1+skew)).toFixed(1)+'" ry="3" fill="#000" opacity="0.08"/>'
+    +'<path d="'+path+'" fill="url(#wg)" stroke="#7A3A22" stroke-width="0.9"/>'
+    +centre+vessels+dots+'</svg>';
+  cont.title='Fallos seguidos: '+wartLevel+(wartLevel>=10?' — ¡biopsia ya!':'');
+}
+function lerpCol(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',');}
+function smoothClosed(pts){
+  const n=pts.length, mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let m0=mid(pts[n-1],pts[0]);
+  let d='M'+m0[0].toFixed(1)+','+m0[1].toFixed(1);
+  for(let i=0;i<n;i++){ const c=pts[i], nx=pts[(i+1)%n], m=mid(c,nx);
+    d+=' Q'+c[0].toFixed(1)+','+c[1].toFixed(1)+' '+m[0].toFixed(1)+','+m[1].toFixed(1); }
+  return d+' Z';
+}
+
+function renderQ(){
+  const item=deck[idx]; const p=item.ref;
+  $('qtag').textContent = 'Pregunta '+(idx+1);
+  $('counter').textContent = 'Pregunta '+(idx+1)+' / '+deck.length;
+  $('qtext').textContent = p.q;
+  $('progBar').style.width = (countDone()/deck.length*100)+'%';
+  const opts=$('opts'); opts.innerHTML='';
+  const keys=['A','B','C','D'];
+  const isDone = item.chosen!=null;
+  item.order.forEach((origIdx,pos)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.dataset.pos=pos;
+    b.innerHTML='<span class="key">'+keys[pos]+'</span><span>'+p.o[origIdx]+'</span>';
+    if(isDone){
+      b.classList.add('done');
+      if(pos===item.correctPos) b.classList.add('correct');
+      else if(pos===item.chosen) b.classList.add('wrong');
+      else b.classList.add('dim');
+    } else { b.onclick=()=>choose(pos); }
+    opts.appendChild(b);
+  });
+  const ex=$('explain'); const v=$('verdict');
+  if(isDone){
+    const correct=item.chosen===item.correctPos;
+    ex.className='explain show '+(correct?'ok':'no');
+    v.textContent=correct?'✓ Correcto':'✗ Incorrecto';
+    $('expText').textContent=p.e;
+    $('navHint').textContent = correct?'¡Bien!':'Respuesta correcta en verde';
+  } else { ex.className='explain'; $('navHint').textContent='Selecciona una opción'; }
+  $('prevBtn').disabled = idx===0;
+  $('nextBtn').disabled = false;
+  $('nextBtn').textContent = (idx===deck.length-1)?'Ver resultados':'Siguiente';
+  updateNav();
+}
+
+function choose(pos){
+  const item=deck[idx];
+  if(item.chosen!=null) return;
+  item.chosen=pos;
+  if(pos===item.correctPos){ wartLevel=0; } else { wartLevel=wartLevel+1; }
+  renderWart();
+  updateCounters(); renderQ();
+}
+
+function showResults(){
+  $('quiz').style.display='none';
+  $('results').style.display='block';
+  const total=deck.length, ok=countOK(), pct=Math.round(ok/total*100);
+  $('finalScore').textContent=ok+'/'+total;
+  $('finalPct').textContent=pct+'% de aciertos';
+  const netas=Math.max(0, ok - countNO()/3);
+  const netasTxt=Number.isInteger(netas)? netas.toString() : netas.toFixed(2);
+  $('finalNetas').innerHTML='Netas: <b>'+netasTxt+'/'+total+'</b> <span style="font-size:12px">(cada fallo resta 1/3; las no respondidas no restan)</span>';
+  const color = pct>=70? '#2F8F57' : pct>=50? '#B6800C' : '#C0392B';
+  $('ring').innerHTML='<svg viewBox="0 0 120 120" width="150" height="150">'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="#EDE8DC" stroke-width="12"/>'
+    +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+color+'" stroke-width="12" stroke-linecap="round" '
+    +'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-pct/100))+'" transform="rotate(-90 60 60)"/>'
+    +'<text x="60" y="68" text-anchor="middle" font-family="Fraunces,serif" font-size="26" font-weight="700" fill="'+color+'">'+pct+'%</text></svg>';
+  const sin=total-countDone();
+  let msg = pct>=80? '¡Muy bien! Llevas el examen dominado.' : pct>=60? 'Buen nivel; repasa los fallos.' : 'A seguir estudiando: repite los fallos y refuerza.';
+  if(sin>0) msg+=' (Dejaste '+sin+' sin contestar.)';
+  $('verdictMsg').textContent=msg;
+  $('repeatWrongBtn').disabled = countNO()===0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function wrongRefs(){ return deck.filter(it=>it.chosen!=null && it.chosen!==it.correctPos).map(it=>it.ref); }
+
+/* --- Eventos --- */
+$('nextBtn').onclick=()=>{ if(idx<deck.length-1){ idx++; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else showResults(); };
+$('prevBtn').onclick=()=>{ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } };
+$('finishBtn').onclick=showResults;
+$('repeatAllBtn').onclick=()=>startExam(PREGUNTAS.slice());
+$('repeatWrongBtn').onclick=()=>{ const w=wrongRefs(); if(w.length===0) return; startExam(w); };
+
+/* --- Inicio directo --- */
+startExam(PREGUNTAS.slice());
+</script>
+</body>
+</html>
