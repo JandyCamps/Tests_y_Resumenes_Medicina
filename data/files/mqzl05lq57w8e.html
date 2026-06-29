@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luz de Wood · Diagnóstico diferencial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3; --card:#FFFFFF; --ink:#20303A; --ink-soft:#4A5B64; --ink-faint:#7E8A8E;
+    --acc:#0E5B61; --acc-deep:#0A4448; --acc-bg:#E3F0F0;
+    --green:#2F8F57; --green-bg:#E7F4EC; --green-line:#9BD3B0;
+    --red:#C0392B; --red-bg:#FBEAE7; --red-line:#E6B0A8;
+    --amber:#B6800C; --amber-bg:#FBF2DA;
+    --line:#E2DCCD; --line-soft:#EDE8DC;
+    --shadow:0 1px 2px rgba(32,48,58,.05),0 10px 30px -16px rgba(32,48,58,.25);
+    --f-coral:#E8553C; --f-orange:#D9772A; --f-pink:#D6478A;
+    --f-gold:#C9A21B; --f-green:#2F8F57; --f-greenpale:#69A98A; --f-teal:#1F9C8E;
+    --f-white:#8FA3B0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 48px}
+  header.hero{background:linear-gradient(150deg,#0A4448,#0E5B61 55%,#46588C);color:#F5F2EA;padding:38px 0 30px;border-bottom:3px solid var(--amber)}
+  .hero-inner{max-width:880px;margin:0 auto;padding:0 20px}
+  .hero .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#BFE0DC;margin:0 0 9px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(24px,5vw,38px);line-height:1.05;margin:0 0 8px}
+  .hero p{max-width:600px;margin:0;color:#E2EEF0;font-size:14.5px}
+  .hero p b{color:#fff;font-weight:600}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 4px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:5px 11px;border-radius:999px}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none;box-shadow:0 0 0 3px color-mix(in srgb,currentColor 16%,transparent)}
+  section.group{margin-top:30px}
+  .group-h{display:flex;align-items:baseline;gap:12px;margin:0 0 14px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .group-h h2{font-family:"Fraunces",serif;font-weight:600;font-size:20px;margin:0;letter-spacing:-.01em}
+  .group-h span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
+  .cards{display:grid;gap:12px}
+  .card{--c:var(--ink-faint);display:grid;grid-template-columns:172px 1fr;gap:18px;align-items:start;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:14px;padding:16px 20px;box-shadow:var(--shadow);transition:.14s}
+  .card:hover{transform:translateX(2px);border-color:var(--c)}
+  .glow{display:inline-flex;align-items:center;gap:9px;font-family:"Fraunces",serif;font-weight:700;font-size:15px;color:var(--c)}
+  .glow .dot{width:14px;height:14px;color:var(--c)}
+  .glow.none{color:var(--ink-faint)}
+  .glow.none .dot{box-shadow:none;border:2px dashed var(--ink-faint);background:transparent;width:13px;height:13px}
+  .colname{display:block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-faint);margin-top:4px;letter-spacing:.04em}
+  .entity{font-family:"Fraunces",serif;font-weight:600;font-size:16.5px;line-height:1.3;margin:0 0 3px}
+  .entity i{font-style:italic}
+  .agent{color:var(--acc);font-size:13px;font-weight:500;margin:0 0 7px}
+  .note{color:var(--ink-soft);font-size:13.6px;margin:0}
+  .note b{color:var(--ink);font-weight:600}
+  .note .src{color:var(--acc-deep);font-weight:600;font-style:italic}
+  .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-bg);border:1px solid #E7CF8E;padding:2px 7px;border-radius:6px;margin-left:7px;vertical-align:middle}
+  .keys{margin-top:34px;background:var(--acc-bg);border:1px solid #BBD9D9;border-radius:16px;padding:24px 26px}
+  .keys h2{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 15px;display:flex;align-items:center;gap:10px;color:var(--acc-deep)}
+  .keys h2::before{content:"";width:7px;height:18px;border-radius:3px;background:var(--acc)}
+  .keys ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .keys li{padding-left:22px;position:relative;color:var(--ink-soft);font-size:13.8px}
+  .keys li::before{content:"";position:absolute;left:3px;top:8px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
+  .keys li b{color:var(--ink)}
+  .keys .trap{margin-top:13px}
+  .keys .trap li::before{background:var(--red)}
+  footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px;font-family:"IBM Plex Mono",monospace}
+  @media(max-width:560px){.card{grid-template-columns:1fr;gap:9px}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Dermatología · Tabla de repaso</p>
+      <h1>Luz de Wood</h1>
+      <p>Diagnóstico diferencial por el <b>color de fluorescencia</b> bajo luz ultravioleta (UVA, ~365&nbsp;nm). El borde y el punto de cada tarjeta indican el color que verías en la exploración.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="legend">
+      <span class="chip"><span class="dot" style="color:var(--f-coral)"></span>Rojo coral</span>
+      <span class="chip"><span class="dot" style="color:var(--f-orange)"></span>Rojo-naranja</span>
+      <span class="chip"><span class="dot" style="color:var(--f-pink)"></span>Rojo-rosado</span>
+      <span class="chip"><span class="dot" style="color:var(--f-gold)"></span>Amarillo</span>
+      <span class="chip"><span class="dot" style="color:var(--f-green)"></span>Verde</span>
+      <span class="chip"><span class="dot" style="color:var(--f-teal)"></span>Verde-azulado</span>
+      <span class="chip"><span class="dot" style="color:var(--f-white)"></span>Blanco-azulado</span>
+      <span class="chip"><span class="dot" style="border:2px dashed var(--ink-faint);box-shadow:none"></span>Sin fluorescencia</span>
+    </div>
+    <section class="group">
+      <div class="group-h"><h2>Infecciones</h2><span>bacterias y hongos con porfirinas o pigmentos</span></div>
+      <div class="cards">
+        <div class="card" style="--c:var(--f-coral)">
+          <div><span class="glow"><span class="dot"></span>Rojo coral</span><span class="colname">por porfirinas</span></div>
+          <div><div class="entity">Eritrasma</div><div class="agent">Corynebacterium minutissimum</div><p class="note">Pliegues (ingles, axilas). La fluorescencia <b>desaparece si el paciente se ha lavado</b> la zona.</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-orange)">
+          <div><span class="glow"><span class="dot"></span>Rojo-naranja</span><span class="colname">folicular</span></div>
+          <div><div class="entity">Acné</div><div class="agent">Cutibacterium acnes</div><p class="note">Puntos foliculares anaranjados; orienta sobre la carga de <i>C.&nbsp;acnes</i>.</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-gold)">
+          <div><span class="glow"><span class="dot"></span>Amarillo-dorado</span><span class="colname">amarillo-verdoso</span></div>
+          <div><div class="entity">Pitiriasis versicolor</div><div class="agent">Malassezia</div><p class="note">Máculas en el tronco; útil para valorar la <b>extensión real</b> de las lesiones.</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-green)">
+          <div><span class="glow"><span class="dot"></span>Verde brillante</span></div>
+          <div><div class="entity">Tiña de cuero cabelludo por <i>Microsporum</i></div><div class="agent">M. canis, M. audouinii · (ectothrix)</div><p class="note">Clásicamente útil para el <b>cribado</b> de tiñas en niños.</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-greenpale)">
+          <div><span class="glow"><span class="dot"></span>Verde pálido-azulado</span></div>
+          <div><div class="entity">Favus</div><div class="agent">Trichophyton schoenleinii</div><p class="note">Forma de tiña con cazoletas fávicas (escútulas).</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-teal)">
+          <div><span class="glow"><span class="dot"></span>Verde</span><span class="colname">piocianina</span></div>
+          <div><div class="entity">Infección por <i>Pseudomonas</i></div><div class="agent">Pigmento piocianina</div><p class="note">Otitis externa, intertrigo, uñas y quemaduras colonizadas.</p></div>
+        </div>
+        <div class="card" style="--c:var(--ink-faint)">
+          <div><span class="glow none"><span class="dot"></span>Sin fluorescencia</span></div>
+          <div><div class="entity">Tiña por <i>Trichophyton</i> (endothrix)<span class="tag">trampa de examen</span></div><div class="agent">T. tonsurans, T. rubrum…</div><p class="note">La <b>mayoría de las tiñas no fluorescen</b>: una luz de Wood negativa <b>no descarta</b> tiña de cuero cabelludo.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="group">
+      <div class="group-h"><h2>Porfirias</h2><span>fluorescencia de las porfirinas acumuladas</span></div>
+      <div class="cards">
+        <div class="card" style="--c:var(--f-pink)">
+          <div><span class="glow"><span class="dot"></span>Rojo-rosado</span><span class="colname">en la orina</span></div>
+          <div><div class="entity">Porfiria cutánea tarda</div><div class="agent">Uroporfirinas en orina</div><p class="note"><span class="src">De tus apuntes:</span> orina color "té", fluorescencia roja por uroporfirinas. Las muestras deben <b>protegerse de la luz</b>.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="group">
+      <div class="group-h"><h2>Trastornos de la pigmentación</h2><span>la luz de Wood acentúa los contrastes de melanina</span></div>
+      <div class="cards">
+        <div class="card" style="--c:var(--f-white)">
+          <div><span class="glow"><span class="dot"></span>Blanco-azulado</span><span class="colname">brillante, se acentúa</span></div>
+          <div><div class="entity">Vitíligo</div><div class="agent">Acromía: ausencia de melanocitos</div><p class="note"><span class="src">De tus apuntes:</span> manchas acrómicas, <b>Wood +</b>. Realza lesiones poco visibles en piel clara.</p></div>
+        </div>
+        <div class="card" style="--c:var(--f-white)">
+          <div><span class="glow"><span class="dot"></span>Se acentúa</span><span class="colname">hipopigmentación</span></div>
+          <div><div class="entity">Máculas de la esclerosis tuberosa</div><div class="agent">Mácula "en hoja de fresno"</div><p class="note">Ayuda a detectarlas en <b>neonatos y piel clara</b>, donde apenas se ven con luz normal.</p></div>
+        </div>
+        <div class="card" style="--c:var(--acc)">
+          <div><span class="glow" style="color:var(--acc)"><span class="dot"></span>Realce variable</span></div>
+          <div><div class="entity">Melasma</div><div class="agent">Hipermelanosis</div><p class="note">El <b>epidérmico se acentúa</b> (mejor respuesta al tratamiento); el <b>dérmico no se acentúa</b>.</p></div>
+        </div>
+        <div class="card" style="--c:var(--ink-faint)">
+          <div><span class="glow" style="color:var(--ink-faint)"><span class="dot" style="color:var(--ink-faint)"></span>Realce leve</span></div>
+          <div><div class="entity">Pitiriasis alba · hipopigmentación postinflamatoria</div><div class="agent">Hipomelanosis parcial</div><p class="note">Acentuación <b>menor que en el vitíligo</b>, que es acromía total.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="keys">
+      <h2>Claves para el examen</h2>
+      <ul>
+        <li><b>Colores "rojos" → bacterias con porfirinas:</b> eritrasma (rojo coral) y <i>C. acnes</i> (rojo-naranja); más la orina de la porfiria cutánea tarda (rojo-rosado).</li>
+        <li><b>Verdes → hongos <i>Microsporum</i></b> (verde brillante) y <b><i>Pseudomonas</i></b> (verde piocianina).</li>
+        <li><b>Amarillo →</b> pitiriasis versicolor.</li>
+        <li><b>Pigmentarias:</b> el vitíligo se ilumina en blanco-azulado intenso; en el melasma diferencia el epidérmico (se realza) del dérmico (no).</li>
+      </ul>
+      <ul class="trap">
+        <li><b>Trampa frecuente:</b> las tiñas por <i>Trichophyton</i> <b>no fluorescen</b> → un Wood negativo no descarta tiña.</li>
+        <li><b>Técnica:</b> explorar en <b>oscuridad</b> y sobre piel <b>sin lavar</b>; jabones, cremas y restos de pomada dan <b>falsos positivos/negativos</b>.</li>
+      </ul>
+    </section>
+    <footer>
+      Tabla de repaso · Luz de Wood · Universidad Francisco de Vitoria. Elaborada a partir de tus apuntes (porfiria cutánea tarda, vitíligo) y de las entidades clásicas del diferencial. Uso personal para estudio.
+    </footer>
+  </div>
+</body>
+</html>
